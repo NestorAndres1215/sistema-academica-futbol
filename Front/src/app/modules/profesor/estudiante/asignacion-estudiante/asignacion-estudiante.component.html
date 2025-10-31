@@ -1,0 +1,109 @@
+<div class="separator">
+    <h1 style="font-family: monospace;">Asignacion de Estudiante</h1>
+    <div class="card-header position-sticky sticky-top">
+        <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
+            tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
+    </div>
+</div>
+<div class="container">
+
+    <div class="d-flex align-items-center gap-3 mb-3">
+        <!-- Selección de equipo -->
+        <mat-form-field class="custom-field flex-grow-1" appearance="fill">
+            <mat-label>Equipo</mat-label>
+            <mat-select [(ngModel)]="equipoSeleccionada" (selectionChange)="filtrarUsuarios()">
+                <mat-option value="">Seleccionar equipo</mat-option>
+                <mat-option *ngFor="let sede of equipo" [value]="sede.nombre">
+                    {{ sede.nombre }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <br>
+    <div class="row">
+        <!-- Estudiantes -->
+
+
+        <!-- Mostrar el botón solo si hay datos -->
+        <div style="display: flex; justify-content: flex-end; margin-bottom: 15px;">
+            <button *ngIf="estudiantesFiltrados.length > 0" mat-raised-button class="btn-save"
+                (click)="toggleEdicion()">
+                <mat-icon style="margin-right: 5px;">edit</mat-icon>
+                {{ modoEdicion ? 'Guardar' : 'Editar' }}
+            </button>
+        </div>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre Completo</th>
+                    <th>Rol</th>
+                    <th>Posición</th>
+                    <th>Número</th>
+                    <th>Activo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="estudiantesFiltrados.length === 0">
+                    <td colspan="5" style="text-align: center; color: grey;">
+                        No hay datos disponibles.
+                    </td>
+                </tr>
+                <tr *ngFor="let estudiante of estudiantesFiltrados">
+                    <td>
+                        {{ estudiante.estudiante.primerNombre + " " + estudiante.estudiante.apellidoPaterno + " " +
+                        estudiante.estudiante.apellidoMaterno }}
+                    </td>
+                    <td class="text-center">
+                        <!-- Mostrar solo el capitán actual en modo lectura -->
+                        <span *ngIf="!modoEdicion">
+                            {{ estudiante.esCapitan ? 'Capitán' : '-' }}
+                        </span>
+
+                        <!-- Modo edición -->
+                        <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                            <mat-select [(ngModel)]="estudiante.esCapitan"
+                                (selectionChange)="verificarCapitan(estudiante)">
+                                <mat-option [value]="true" [disabled]="capitanSeleccionado && !estudiante.esCapitan">
+                                    Capitán
+                                </mat-option>
+                                <mat-option [value]="false">-</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+
+
+                    <td class="text-center">
+                        <span *ngIf="!modoEdicion">{{ estudiante.posicion }}</span>
+                        <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                            <mat-select [(ngModel)]="estudiante.posicion">
+                                <mat-option *ngFor="let pos of posiciones" [value]="pos">{{ pos }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                    <td class="text-center">
+                        <span *ngIf="!modoEdicion">{{ estudiante.numeroCamiseta }}</span>
+
+                        <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                            <mat-select [(ngModel)]="estudiante.numeroCamiseta"
+                                (selectionChange)="verificarNumeroCamiseta(estudiante)">
+                                <mat-option *ngFor="let num of numerosDisponibles(estudiante)" [value]="num">
+                                    {{ num }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+
+
+
+                    <td class="text-center">
+                        <span>{{ estudiante.estado ? 'Habilitado' : 'Deshabilitado' }}</span>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <br><br><br>

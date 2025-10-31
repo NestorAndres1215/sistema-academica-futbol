@@ -1,0 +1,170 @@
+/* Estilos para la tabla */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+}
+
+.titulo-mantenimiento {
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 22px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  letter-spacing: 1.5px;
+}
+
+/* Aplicar animación a cada fila */
+.table tbody tr {
+  animation: fadeInUp 0.5s ease-in-out;
+}
+
+/* Estilo general de la tabla */
+.table {
+  border-radius: 8px;
+  overflow: hidden;
+  border-collapse: separate;
+  border-spacing: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Encabezado con fondo degradado */
+.table thead {
+  background-color: #022f5c; 
+  color: white;
+  text-transform: uppercase;
+}
+
+.table th, .table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+
+
+.btn-editar {
+  color: black;
+  margin-right: 8px;
+
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 20px;
+  padding: 10px;
+}
+
+
+
+.button mat-icon {
+  height: 10px;
+  background: transparent;
+  border: none;
+  position: relative;
+}
+.btn-editar:hover {
+  color: #333;
+  transform: scale(1.2); 
+}
+
+.volver-btn {
+  margin-left: 10px;
+  color: white;
+  background-color: red;
+  width: 40px;
+  height: 40px;
+  border-radius: 20%;
+}
+
+.card-body {
+  margin: 0 auto;
+  margin-top: 40px;
+  width: 95%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  table-layout: auto;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+
+  .table th,
+  .table td {
+    font-size: 12px;
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .table {
+    font-size: 10px;
+  }
+
+  .table th,
+  .table td {
+    padding: 0.25rem;
+  }
+
+  .btn-editar,
+  .btn-vista,
+  .btn-eliminar {
+    font-size: 14px;
+  }
+}
+
+
+.button-container {
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+.btn i {
+  margin-right: 8px;
+}
+
+@media print {
+
+  .btn-print {
+    display: none;
+  }
+
+  #tablaAImprimir {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  #tablaAImprimir th,
+  #tablaAImprimir td {
+    border: 1px solid black;
+    padding: 8px;
+    text-align: center;
+  }
+
+  #tablaAImprimir th {
+    background-color: #f2f2f2;
+  }
+}

@@ -1,0 +1,27 @@
+<div class="separator">
+    <h1 style="font-family: monospace;">Modulos Usuarios</h1>
+    <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
+        tabindex="0">
+        <i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i>
+    </button>
+</div>
+<div class="container">
+    <mat-tab-group [(selectedIndex)]="activeTab1">
+        <mat-tab label="Administrador">
+            <div *ngIf="activeTab1 === 0">
+          <app-admin-contrasena></app-admin-contrasena>
+            </div>
+        </mat-tab>
+        <mat-tab label="Profesor">
+            <div *ngIf="activeTab1 === 1">
+             <app-profesor-contrasena></app-profesor-contrasena>
+            </div>
+        </mat-tab>
+        <mat-tab label="Alumno">
+            <div *ngIf="activeTab1 === 2">
+                <app-estudiante-contrasena></app-estudiante-contrasena>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+
+</div>

@@ -1,0 +1,116 @@
+.button-container {
+    display: flex;
+    justify-content: flex-start;
+    /* Alinea los botones al principio */
+    gap: 15px;
+    /* Ajusta el espacio entre los botones */
+}
+
+.btn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    /* Alinea el icono y texto */
+    align-items: center;
+    /* Centra el texto y el icono */
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #444;
+    /* Color de fondo al hacer hover */
+}
+
+.btn i {
+    margin-right: 8px;
+    /* Espacio entre el icono y el texto */
+}
+
+.btn-excel {
+    background-color: #4CAF50;
+    /* Color de fondo de Excel */
+    color: white;
+}
+
+.btn-pdf {
+    background-color: #f44336;
+    /* Color de fondo de PDF */
+    color: white;
+}
+
+.btn-print {
+    background-color: #008CBA;
+    /* Color de fondo de Print */
+    color: white;
+}
+
+.btn-save {
+    margin-left: auto;
+    /* Esto mueve este botón hacia la derecha */
+    background-color: #0c8a55;
+    /* Amarillo */
+    color: white;
+    /* Texto blanco para buen contraste */
+}
+
+.card {
+    border-radius: 10px;
+
+}
+
+
+
+
+.card-body {
+    font-family: 'Arial', sans-serif;
+    /* Fuente moderna y legible */
+
+}
+
+.card-title {
+    font-size: 1.5rem;
+    /* Tamaño grande para destacar */
+    font-weight: bold;
+    /* Negrita */
+
+}
+
+.card-text {
+    font-size: 1rem;
+    /* Tamaño normal */
+
+}
+
+.card {
+    height: 400px;
+    /* Ajusta este valor según tus necesidades */
+    overflow: hidden;
+    /* Opcional: para ocultar contenido que sobrepase la altura */
+}
+
+
+p {
+    font-size: 1rem;
+    /* Tamaño base */
+    margin-bottom: 5px;
+    /* Espaciado más compacto */
+}
+.alert {
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+}
+
+.alert-info {
+    background-color: #e7f5ff;
+    border-left: 4px solid #4dabf7;
+}

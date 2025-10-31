@@ -1,0 +1,62 @@
+<div class="card">
+    <div class="card-header position-sticky sticky-top">
+        <button _ngcontent-yfb-c88="" (click)="volver()" class="btn btn-danger button_close" tabindex="0"><i
+                _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
+        <button _ngcontent-yfb-c69="" class="btn btn-success ng-star-inserted" (click)="operar()"
+            style="margin-right: 10px; align-items: flex-end;"><i _ngcontent-yfb-c69=""
+                class="fas fa-save"></i></button>
+        <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700px;font-family: monospace;">
+            {{"Mantenimiento Tabla General - " + codigo +" - "+ descripcion}}</h3>
+    </div>
+    <div class="card-body">
+
+        <div class="search-container">
+            <mat-form-field appearance="outline" class="custom-search">
+                <mat-icon matPrefix>search</mat-icon>
+                <input matInput type="text" placeholder="Buscar por nombre o apellidos" [(ngModel)]="filtro"
+                    (input)="filtrarUsuarios()">
+            </mat-form-field>
+        </div>
+        <button class="btn btn-view-deactivated" (click)="Ver()">
+            <i class="fas fa-eye-slash"></i> Ver Tabla Generales Desactivados
+        </button>
+        <div class="table-responsive" style="margin: 0 auto; margin-top: 10px; width: 100%;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Clave</th>
+                        <th>Descripcion</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Condicional para verificar si hay datos en usuariosFiltrados -->
+                    <tr *ngIf="usuariosFiltrados.length === 0">
+                        <td colspan="3" style="text-align: center; color: grey;">
+                            No hay datos disponibles.
+                        </td>
+                    </tr>
+                    <tr *ngFor="let row of usuariosFiltrados">
+                        <td>{{ row.clave }}</td>
+                        <td>{{ row.descripcion1 }}</td>
+                        <td>
+                            <button mat-icon-button class="btn-editar" (click)="editar(row)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                            <button mat-icon-button class="btn-vista" (click)="visor(row)">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            <button mat-icon-button class="btn-eliminar" (click)="eliminar(row)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+                (page)="pageChanged($event)">
+            </mat-paginator>
+        </div>
+    </div>
+
+</div>

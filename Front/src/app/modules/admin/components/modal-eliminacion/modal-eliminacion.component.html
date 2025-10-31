@@ -1,0 +1,25 @@
+<div class="card">
+  <div class="card-header ">
+    <h2 style="font-family:monospace ;"> {{titulo}}</h2>
+  </div>
+  <div class="card-body">
+
+
+    <p style="text-align: center;
+        margin-bottom: 0;" [innerHTML]="getHTML()"></p>
+
+
+
+
+    <mat-form-field style="font-family:monospace;" class="ancho-completo"
+      *ngIf="razon != undefined && razon.trim() != ''">
+      <div style="font-family:monospace;">
+        <input #input [placeholder]="razon" />
+      </div>
+    </mat-form-field>
+    <div class="dos">
+      <button type="button" class=" btn btn-success" (click)="close('CONFIRMAR')"><i class="fas fa-check"></i></button>
+      <button type="button" class=" btn btn-danger" (click)="close('CANCELAR')"><i class="fas fa-times"></i></button>
+    </div>
+  </div>
+</div>

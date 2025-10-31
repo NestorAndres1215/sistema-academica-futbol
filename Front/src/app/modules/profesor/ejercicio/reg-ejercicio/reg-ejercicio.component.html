@@ -1,0 +1,67 @@
+<div class="card">
+    <div class="card-header position-sticky sticky-top">
+        <button _ngcontent-yfb-c88="" (click)="cerrar()" class="btn btn-danger button_close" tabindex="0"><i
+                _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
+        <button _ngcontent-yfb-c69="" class="btn btn-success ng-star-inserted" (click)="operar()"
+            style="margin-right: 10px; align-items: flex-end;"><i _ngcontent-yfb-c69=""
+                class="fas fa-save"></i></button>
+        <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700px;font-family: monospace;">
+            Registrar</h3>
+    </div>
+
+    <div class="container">
+        <form [formGroup]="formulario">
+            <!-- Nombre -->
+            <div class="row">
+                <!-- Nombre -->
+                <div class="col-md-6 mb-3">
+                    <mat-form-field class="full-width custom-field" appearance="fill">
+                        <mat-label>Nombre</mat-label>
+                        <input formControlName="nombre" matInput placeholder="Digite el nombre del ejercicio">
+                    </mat-form-field>
+                </div>
+
+                <!-- Duración -->
+                <div class="col-md-6 mb-3">
+                    <mat-form-field class="full-width custom-field" appearance="fill">
+                        <mat-label>Duración</mat-label>
+                        <input formControlName="duracion" matInput placeholder="Duración en minutos">
+                    </mat-form-field>
+                </div>
+
+                <!-- Descripción -->
+
+
+                <!-- Tipo -->
+                <div class="col-md-6 mb-3">
+                    <mat-form-field class="full-width custom-field" appearance="fill">
+                        <mat-label>Tipo</mat-label>
+                        <input formControlName="tipo" matInput placeholder="Digite el tipo del ejercicio">
+                    </mat-form-field>
+                </div>
+
+                <!-- Intensidad -->
+                <div class="col-md-6 mb-3">
+                    <mat-form-field class="full-width custom-field" appearance="fill">
+                        <mat-label>Intensidad</mat-label>
+                        <mat-select formControlName="intensidad">
+                            <mat-option value="baja">Baja</mat-option>
+                            <mat-option value="media">Media</mat-option>
+                            <mat-option value="alta">Alta</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-12 mb-3">
+                    <mat-form-field class="full-width custom-field" appearance="fill">
+                        <mat-label>Descripción</mat-label>
+                        <textarea formControlName="descripcion" matInput
+                            placeholder="Digite la descripción del ejercicio"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+
+
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,100 @@
+.separator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.title {
+    margin: 0;
+    flex-grow: 1;
+    margin-right: 70px;
+}
+
+.button mat-icon {
+    height: 10px;
+    background: transparent;
+    border: none;
+    position: relative;
+}
+
+.volver-btn {
+    margin-left: 10px;
+    color: white;
+    background-color: red;
+    width: 40px;
+    height: 40px;
+    border-radius: 20%;
+}
+
+.col-md-4 {
+    /* Ajusta el ancho de la columna según tus necesidades */
+    width: 33.33%;
+}
+
+.img-marca {
+    width: 160px;
+    height: 140px;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+mat-icon {
+    color: #757575;
+    /* Cambia según el tema */
+}
+
+/* Asegura que el contenedor ocupe el espacio adecuado */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+/* Personalización del campo de búsqueda */
+.custom-search {
+    width: 100%;
+    height: 76px;
+    max-width: 600px;
+    /* Limita el ancho del campo */
+    background: #fff;
+    /* Fondo blanco */
+    border-radius: 8px;
+    /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Sombra suave */
+}
+
+/* Ícono de búsqueda */
+.custom-search mat-icon {
+    color: #757575;
+    /* Color gris */
+    font-size: 24px;
+    /* Tamaño del ícono */
+}
+
+/* Personalización del input */
+.custom-search input {
+    font-size: 16px;
+    /* Tamaño de fuente */
+    padding: 10px;
+    /* Espaciado interno */
+}
+
+/* Efecto de enfoque en el campo */
+.custom-search.mat-form-field-appearance-outline .mat-form-field-outline {
+    border-color: #3f51b5;
+    /* Color del borde al enfocarse */
+    transition: all 0.3s ease-in-out;
+    /* Transición suave */
+}
+
+.custom-search.mat-form-field-appearance-outline:hover .mat-form-field-outline {
+    border-color: #5c6bc0;
+    /* Color al pasar el mouse */
+}

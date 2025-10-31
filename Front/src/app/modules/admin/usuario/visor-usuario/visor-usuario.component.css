@@ -1,0 +1,113 @@
+.card {
+  overflow: auto;
+  height: 100%;
+}
+
+.btn-success {
+  float: right;
+  height: max-content;
+  margin-top: 5px;
+  margin-left: 3px;
+  margin-right: 5px;
+}
+input{
+  font-family: monospace;
+}
+mat-label{
+  font-family: monospace;
+}
+.btn-danger {
+  float: right;
+  height: max-content;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+.container {
+  margin-top: 20px;
+  /* Puedes ajustar este valor según tu preferencia */
+}
+
+.card-header {
+  background-color: lightsteelblue;
+  color: black;
+  width: 100%;
+  padding: 16px 0;
+  right: 0;
+  justify-content: center;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.campo {
+  display: grid;
+
+
+  margin-top: 10px;
+}
+
+.col-dos {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  /* Agregado para crear espacio entre columnas */
+  margin-top: 10px;
+  width: 100%;
+}
+
+.col-dos>div {
+  flex: 1;
+  /* Distribuir el espacio de manera uniforme entre las dos columnas */
+  margin-right: 0;
+  /* Eliminar el margen derecho para que las columnas estén juntas */
+}
+
+
+.dos {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 20px;
+  /* background-color: blueviolet;
+ color: brown; */
+}
+
+.dos .mat-form-field {
+  width: 100%;
+}
+
+.dos li {
+  list-style: none;
+  all: none;
+}
+
+.form-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual tamaño */
+  gap: 16px; /* Espacio entre los campos */
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-width {
+  width: 100%;
+}
+@media (max-width: 768px) {
+  .form-container {
+    grid-template-columns: 1fr 1fr; /* 2 columnas en pantallas pequeñas */
+  }
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    grid-template-columns: 1fr; /* 1 columna en pantallas muy pequeñas */
+  }
+}

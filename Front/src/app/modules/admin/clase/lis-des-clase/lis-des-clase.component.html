@@ -1,0 +1,59 @@
+<div class="card">
+    <div class="card-header position-sticky sticky-top">
+        <button _ngcontent-yfb-c88="" (click)="volver()" class="btn btn-danger button_close" tabindex="0">
+            <i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i>
+        </button>
+        <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700; font-family: monospace;">
+            Equipo Desactivados
+        </h3>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive" style="margin: 0 auto; margin-top: 10px; width: 100%;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Clase</th>
+                        <th>Equipo</th>
+                        <th>Genero</th>
+                        <th>Hora</th>
+                        <th>Fecha Inicial</th>
+                        <th>Fecha Final</th>
+                        <th>Dias</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Condicional para verificar si hay datos en usuariosFiltrados -->
+                    <tr *ngIf="usuariosFiltrados.length === 0">
+                        <td colspan="9" style="text-align: center; color: grey;">
+                            No hay datos disponibles.
+                        </td>
+                    </tr>
+                    <tr *ngFor="let row of usuariosFiltrados">
+                        <td>{{ row.codigo }}</td>
+                        <td>{{ row.nombre }}</td>
+                        <td>{{ row.equipo.nombre }}</td>
+                        <td>{{ row.equipo.genero }}</td>
+                        <td>{{row.horario.inicioHora +" - "+row.horario.finHora}}</td>
+                        <td>{{row.inicio}}</td>
+                        <td>{{row.fin}}</td>
+                        <td>{{row.dia}}</td>
+                        <td>
+                            <button mat-icon-button class="btn-vista" (click)="visor(row)">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            <button mat-icon-button class="btn-eliminar" (click)="eliminar(row)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+                (page)="pageChanged($event)">
+            </mat-paginator>
+        </div>
+    </div>
+
+</div>

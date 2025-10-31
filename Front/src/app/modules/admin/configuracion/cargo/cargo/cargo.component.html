@@ -1,0 +1,70 @@
+<div class="separator">
+    <h1 style="font-family: monospace;">Mantenimiento de Cargo</h1>
+    <div class="card-header position-sticky sticky-top">
+        <button _ngcontent-yfb-c69="" class="btn btn-success ng-star-inserted" (click)="operar()"
+            style="margin-right: 10px; align-items: flex-end;"><i _ngcontent-yfb-c69=""
+                class="fas fa-save"></i> Registrar Cargo
+            </button>
+
+        <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
+            tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
+    </div>
+</div>
+
+<div class="card-body">
+    <div class="button-container">
+      <!-- Botón Excel -->
+      <button class="btn btn-excel" (click)="exportarExcel()">
+        <i class="fas fa-file-excel"></i> Exportar a Excel
+      </button>
+  
+      <!-- Botón PDF -->
+      <button class="btn btn-pdf" (click)="exportarPDF()">
+        <i class="fas fa-file-pdf"></i> Exportar a PDF
+      </button>
+  
+      <!-- Botón Imprimir -->
+      <button class="btn btn-print" (click)="exportarPrint()">
+        <i class="fas fa-print"></i> Imprimir
+      </button>
+      <button class="btn btn-view-deactivated" (click)="verSedeDesactivados()">
+        <i class="fas fa-eye-slash"></i> Ver Sede Desactivados
+      </button>
+    </div>
+  <br>
+  <table class="table table-striped" style="width: 100%; table-layout: fixed;">
+    <thead>
+      <tr>
+        <th style="min-width: 80px; padding: 8px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Código</th>
+        <th style="min-width: 120px; padding: 8px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Nombre</th>
+        <th style="min-width: 150px; padding: 8px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Descripción</th>
+        <th style="min-width: 100px; padding: 8px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="pagedData.length === 0">
+        <td colspan="4" style="text-align: center; color: grey;">
+          No hay datos disponibles.
+        </td>
+      </tr>
+      <tr *ngFor="let row of pagedData">
+        <td style="min-width: 80px; padding: 8px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ row.codigo }}</td>
+        <td style="min-width: 120px; padding: 8px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ row.nombre }}</td>
+        <td style="min-width: 150px; padding: 8px; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ row.descripcion }}</td>
+        <td style="min-width: 100px; padding: 8px; text-align: left;">
+          <button mat-icon-button class="btn-editar" (click)="editar(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="btn-vista" (click)="visor(row)">
+            <mat-icon>visibility</mat-icon>
+          </button>
+    
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
+    <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+      (page)="pageChanged($event)">
+    </mat-paginator>
+  </div>

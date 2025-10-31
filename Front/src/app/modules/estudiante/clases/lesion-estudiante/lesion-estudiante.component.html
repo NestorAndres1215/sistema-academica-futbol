@@ -1,0 +1,41 @@
+<div class="separator">
+    <h1 style="font-family: monospace;">Historial de Lesiones</h1>
+    <hr>
+</div>
+<div class="container">
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Lesión</th>
+                    <th>Fecha de la Lesión</th>
+                    <th>Gravedad</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngIf="estudiantesFiltrados.length === 0">
+                    <td colspan="6" style="text-align: center; color: grey;">
+                        No hay datos disponibles.
+                    </td>
+                </tr>
+                <tr *ngFor="let row of estudiantesFiltrados">
+                    <td>{{ row.estudiante.codigo }}</td>
+                    <td>{{row.estudiante.estudiante.primerNombre+" "+row.estudiante.estudiante.apellidoPaterno+"
+                        "+row.estudiante.estudiante.apellidoMaterno}}</td>
+                    <td>{{row.lesionado.tipoLesion}}</td>
+                    <td>{{row.lesionado.fechaLesion}}</td>
+                    <td>{{row.lesionado.gravedad}}</td>
+                    <td>
+                        <button mat-icon-button class="btn-vista" (click)="virsor(row)">
+                            <mat-icon>visibility</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+
+
+.separator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px;
+    /* Espacio uniforme alrededor del contenido */
+}
+
+.title {
+    margin: 0;
+    flex-grow: 1;
+    margin-right: 70px;
+    /* Agrega espacio a la derecha del título */
+}
+
+.empty-state {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+}
+
+.empty-icon {
+    font-size: 60px;
+    width: 60px;
+    height: 60px;
+    color: #6c757d;
+}
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+
+
+.team-name {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.score {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #343a40;
+    min-width: 30px;
+    text-align: center;
+}
+
+
+.container {
+    margin-bottom: 2rem; /* 32px */
+    padding-bottom: 1rem; /* Espacio interno adicional */
+}

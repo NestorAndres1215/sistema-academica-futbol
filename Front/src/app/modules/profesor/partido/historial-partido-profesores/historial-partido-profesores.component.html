@@ -1,0 +1,64 @@
+<div class="separator">
+
+    <h1 style="font-family: monospace;">Historial de Partido</h1>
+    <div class="card-header position-sticky sticky-top">
+        <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
+            tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
+    </div>
+</div>
+<div class="container">
+    <div class="d-flex align-items-center gap-3 mb-3">
+        <!-- Selección de equipo -->
+        <mat-form-field class="custom-field flex-grow-1" appearance="fill">
+            <mat-label>Equipo</mat-label>
+            <mat-select [(ngModel)]="equipoSeleccionada" (selectionChange)="filtrarUsuarios()">
+                <mat-option value="">Seleccionar equipo</mat-option>
+                <mat-option *ngFor="let sede of equipo" [value]="sede.nombre">
+                    {{ sede.nombre }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <!-- Mensaje cuando no se ha seleccionado equipo -->
+    <div *ngIf="!equipoSeleccionada" class="empty-state text-center py-5">
+        <mat-icon class="empty-icon">info</mat-icon>
+        <h3 class="mt-3">No has seleccionado un equipo</h3>
+        <p class="text-muted">Por favor, selecciona un equipo para ver sus partidos programados.</p>
+    </div>
+
+    <!-- Mensaje cuando no hay partidos para el equipo seleccionado -->
+    <div *ngIf="equipoSeleccionada && !pagedData?.length" class="empty-state text-center py-5">
+        <mat-icon class="empty-icon">sports_soccer</mat-icon>
+        <h3 class="mt-3">No hay partidos programados</h3>
+        <p class="text-muted">No se han asignado partidos para este equipo.</p>
+    </div>
+
+    <!-- Lista de partidos -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" *ngIf="equipoSeleccionada && pagedData?.length">
+        <div class="col" *ngFor="let ejercicio of estudiantesFiltrados">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">{{ ejercicio.tipoPartido }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="match-team">
+                        <span class="team-name">{{ ejercicio.equipo.nombre }}</span>
+                        <span class="team-score">{{ ejercicio.marcadorLocal ?? '-' }}</span>
+                    </div>
+                    
+                    <div class="match-team">
+                        <span class="team-name">{{ ejercicio.equipoRival }}</span>
+                        <span class="team-score">{{ ejercicio.marcadorVisita ?? '-' }}</span>
+                    </div>
+                    
+                    <hr class="my-3">
+                    
+                    <div class="match-info">
+                        <p><strong>Lugar:</strong> {{ ejercicio.lugar }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

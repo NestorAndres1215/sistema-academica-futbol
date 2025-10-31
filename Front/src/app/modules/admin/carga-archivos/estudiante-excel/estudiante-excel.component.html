@@ -1,0 +1,65 @@
+<div class="separator">
+    <h1 style="font-family: monospace;">Carga de estudiante en Excel</h1>
+    <div class="card-header position-sticky sticky-top">
+        <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
+            tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
+    </div>
+</div>
+<div class="card-body">
+    <div class="button-container">
+        <button class="btn btn-excel" (click)="generarFormato()">
+            Generar Formato
+        </button>
+        <button class="btn btn-excel" (click)="seleccionarArchivo()">
+            Importar Excel
+        </button>
+        <button class="btn btn-excel" (click)="cargarExcel()">
+           Cargar Datos
+        </button>
+        <input id="fileInput" type="file" (change)="importExcel($event)" style="display: none;" />
+
+
+
+    </div>
+    <br>
+    <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Primer Nombre</th>
+            <th>Segundo Nombre</th>
+            <th>Apellido Paterno</th>
+            <th>Apellido Materno</th>
+            <th>Correo</th>
+            <th>Teléfono</th>
+            <th>DNI</th>
+            <th>Dirección</th>
+            <th>Edad</th>
+            <th>Fecha de Nacimiento</th>
+            <th>Nacionalidad</th>
+            <th>Estado</th>
+           
+            <th>Sede</th>
+            <th>Género</th>
+            <th>Tipo de Documento</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let rowData of data">
+                <td *ngFor="let cell of rowData.row; let i = index" 
+                    [ngClass]="{
+                        'celda-roja': (rowData.isCorreoValido && i === 4), 
+                        'celda-azul': (rowData.isTelefonoValido && i === 5),
+                        'celda-numero': (rowData.isNumeroValido && i === 6),
+                      
+                        'celda-sede': (rowData.sedeNoExiste && i === 14)
+                    }">
+                  {{ cell }}
+                </td>
+              </tr>
+              
+              
+        </tbody>
+      </table>
+      
+
+</div>

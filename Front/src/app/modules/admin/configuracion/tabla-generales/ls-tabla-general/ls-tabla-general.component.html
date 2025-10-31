@@ -1,0 +1,59 @@
+<div class="separator">
+    <h1 style="font-family: monospace;">Mantenimiento de Tabla Generales</h1>
+    <div class="card-header position-sticky sticky-top">
+
+
+        <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
+            tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
+    </div>
+</div>
+
+<div class="card-body">
+    <div class="button-container">
+        <button class="btn btn-save btn-success" (click)="operar()">
+            <i class="fas fa-save"></i> Registrar
+          </button>
+          
+
+        <button class="btn btn-view-deactivated" (click)="verUsuariosDesactivados()">
+            <i class="fas fa-eye-slash"></i> Ver Tabla Generales Desactivados
+        </button>
+    </div>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Clave</th>
+                <th>Descripcion</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of pagedData">
+                <td>{{ row.codigo }}</td>
+                <td>{{ row.clave }}</td>
+                <td>{{ row.descripcion1 }}</td>
+
+                <td>
+
+                    <button mat-icon-button class="btn-editar" (click)="editar(row)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button class="btn-vista" (click)="visor(row)">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button mat-icon-button class="btn-listar" (click)="listado(row)">
+                        <mat-icon>dashboard</mat-icon>
+                    </button>
+                    <button mat-icon-button class="btn-eliminar" (click)="eliminar(row)">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        (page)="pageChanged($event)">
+    </mat-paginator>
+</div>

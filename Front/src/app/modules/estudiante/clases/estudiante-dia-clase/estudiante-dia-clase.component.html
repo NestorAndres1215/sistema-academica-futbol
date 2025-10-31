@@ -1,0 +1,46 @@
+<div class="container">
+    <br>
+    <!-- Si hay clases, muestra la lista -->
+    <div *ngIf="claseListar?.length > 0; else noClases">
+        <div *ngFor="let clase of claseListar" class="mb-6 p-4 border rounded-lg shadow-sm bg-gray-50">
+            <h1 class="text-2xl font-semibold text-gray-800">{{ clase.titulo }}</h1>
+            <hr class="my-2 border-gray-300">
+            <h2>📌 Descripción:</h2>
+            <p class="text-gray-600" [innerHTML]="formatTexto(clase.descripcion)"></p>
+            <h2>🎯 Objetivo:</h2>
+            <p class="text-gray-600 italic" [innerHTML]="formatTexto(clase.objetivo)"></p>
+            
+            <!-- Si hay ejercicios, muéstralos -->
+            <div *ngIf="ejerciciosListar?.length > 0; else noEjercicios" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col" *ngFor="let ejercicio of ejerciciosListar">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ ejercicio.nombre }}</h3>
+                            <p><strong>Descripción:</strong></p>
+                            <p class="card-text" [innerHTML]="formatTexto(ejercicio.descripcion)"></p>
+                            <p><strong>Duración:</strong> {{ ejercicio.duracion }}</p>
+                            <p><strong>Tipo:</strong> {{ ejercicio.tipo }}</p>
+                            <p><strong>Intensidad:</strong> {{ ejercicio.intensidad }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mensaje si no hay ejercicios -->
+            <ng-template #noEjercicios>
+                <div class="alert alert-info mt-3">
+                    <i class="fas fa-info-circle me-2"></i> No hay ejercicios disponibles para esta clase.
+                </div>
+            </ng-template>
+        </div>
+    </div>
+    
+    <!-- Mensaje si no hay clases -->
+    <ng-template #noClases>
+        <div class=" text-center p-4">
+            <i class="fas fa-exclamation-triangle fa-2x mb-3"></i>
+            <h3 class="text-lg font-semibold">No hay clases disponibles</h3>
+            <p class="text-gray-600">Por el momento, no se han registrado clases.</p>
+        </div>
+    </ng-template>
+</div>

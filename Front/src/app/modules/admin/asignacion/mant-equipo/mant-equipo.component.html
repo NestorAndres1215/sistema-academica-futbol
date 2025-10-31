@@ -1,0 +1,97 @@
+<div class="separator">
+    <h1 style="font-family: monospace;">Mantenimiento de Equipo</h1>
+    <div class="card-header position-sticky sticky-top">
+        <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
+            tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
+    </div>
+</div>
+
+<div class="card-body">
+    <div class="button-container">
+        <!-- Botón Excel -->
+        <button class="btn btn-excel" (click)="exportarExcel()">
+            <i class="fas fa-file-excel"></i> Exportar a Excel
+        </button>
+
+        <!-- Botón PDF -->
+        <button class="btn btn-pdf" (click)="exportarPDF()">
+            <i class="fas fa-file-pdf"></i> Exportar a PDF
+        </button>
+
+        <!-- Botón Imprimir -->
+        <button class="btn btn-print" (click)="exportarPrint()">
+            <i class="fas fa-print"></i> Imprimir
+        </button>
+
+        <button class="btn btn-view-deactivated" (click)="verUsuariosDesactivados()">
+            <i class="fas fa-eye-slash"></i> Ver Desactivados
+        </button>
+        <button class="btn btn-save btn-success" (click)="operar()">
+            <i class="fas fa-plus-circle"></i> Registro
+        </button>
+    </div>
+    <br><br>
+    <div class="d-flex align-items-center gap-3 mb-3">
+        <!-- Selección de sede -->
+        <mat-form-field class="custom-field flex-grow-1" appearance="fill">
+            <mat-label>Sedes</mat-label>
+            <mat-select [(ngModel)]="sedeSeleccionada" (selectionChange)="filtrarUsuarios()">
+                <mat-option value="">Todas las sedes</mat-option>
+                <mat-option *ngFor="let sede of sedes" [value]="sede.nombre">
+                    {{ sede.nombre }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Selección de cargo -->
+        <mat-form-field class="custom-field flex-grow-1" appearance="fill">
+            <mat-label>Cargo</mat-label>
+            <mat-select [(ngModel)]="generoSeleccionado" (selectionChange)="filtrarUsuarios()">
+                <mat-option value="">Todos los genero</mat-option>
+                <mat-option *ngFor="let cargo of generos" [value]="cargo.clave">
+                    {{ cargo.descripcion1 }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Categoria</th>
+                <th>Sede</th>
+                <th>Genero</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="usuariosFiltrados.length === 0">
+                <td colspan="8" style="text-align: center; color: grey;">
+                    No hay datos disponibles.
+                </td>
+            </tr>
+            <tr *ngFor="let row of usuariosFiltrados">
+                <td>{{ row.codigo }}</td>
+                <td>{{ row.nombre}}</td>
+                <td>{{ row.categoria }}</td>
+                <td>{{ row.sede }}</td>
+                <td>{{ row.genero }}</td>
+                <td>
+                    <button mat-icon-button class="btn-editar" (click)="editar(row)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button class="btn-vista" (click)="visor(row)">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        (page)="pageChanged($event)">
+    </mat-paginator>
+
+
+</div>

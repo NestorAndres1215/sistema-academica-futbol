@@ -1,0 +1,204 @@
+.separator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+/* Título centrado */
+.title {
+    margin: 0;
+    flex-grow: 1;
+    margin-right: 70px;
+}
+img{
+    object-fit: cover; width: 400px; height: 100%; border-radius: 8px;
+}
+/* Estilo para el icono del botón */
+.button mat-icon {
+    height: 10px;
+    background: transparent;
+    border: none;
+    position: relative;
+}
+
+/* Botón de volver */
+.volver-btn {
+    margin-left: 10px;
+    color: white;
+    background-color: red;
+    width: 40px;
+    height: 40px;
+    border-radius: 20%;
+}
+
+.imagen-ajustada {
+    width: 200px; /* Ancho fijo */
+    height: 300px; /* Alto fijo */
+    object-fit: cover; /* Recorta la imagen para ajustarse al contenedor */
+    border-radius: 8px; /* Esquinas redondeadas */
+  }
+  
+/* Contenedor del usuario */
+.usuario-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+    flex-wrap: wrap; /* Asegura que los elementos se ajusten en pantallas pequeñas */
+}
+
+/* Estilo de la foto de perfil */
+
+
+/* Detalles del usuario */
+.detalles {
+    flex: 1;
+}
+
+.detalles p {
+    margin: 5px 0;
+}
+
+strong {
+    font-weight: bold;
+}
+
+/* Contenedor general */
+.container {
+    margin-top: 50px;
+    padding: 0 15px;
+}
+
+/* Centrar el título */
+.title {
+    margin-bottom: 60px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+/* Estilo para las imágenes */
+.image-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.image {
+    object-fit: cover;
+    max-height: 300px;
+    width: 100%;
+    border-radius: 8px;
+}
+
+/* Ajustes para los detalles del usuario */
+ h2 {
+    font-size: 4px;
+   
+}
+
+/* Media Queries para responsividad */
+
+/* Pantallas pequeñas (móviles) */
+@media (max-width: 767px) {
+    img {
+        width: 14px;
+        height:14PX;
+    }
+    .usuario-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .detalles {
+        text-align: center;
+    }
+
+     h2 {
+        font-size: 14px;
+    }
+
+    .image {
+        max-height: 250px;
+    }
+
+    .title {
+        font-size: 1.5rem; /* Ajusta el tamaño del título en pantallas pequeñas */
+        margin-top: 20px;
+        margin-bottom: 30px;
+    }
+
+    .volver-btn {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+    }
+}
+
+/* Pantallas medianas (tabletas) */
+@media (min-width: 768px) and (max-width: 1024px) {
+    img {
+        width: 14px;
+        height:14PX;
+    }
+
+    .usuario-container {
+        flex-direction: row;
+    }
+
+    .detalles {
+        text-align: left;
+    }
+
+    h2 {
+        font-size: 1.5rem; /* Ajusta el tamaño de la fuente */
+    }
+
+
+    .title {
+        font-size: 1.7rem; /* Ajuste en tabletas */
+    }
+
+    .volver-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 20%;
+    }
+}
+
+/* Pantallas grandes (escritorio) */
+@media (min-width: 1025px) {
+   img {
+        width: 14px;
+        height:14PX;
+    }
+
+    .usuario-container {
+        flex-direction: row;
+    }
+
+    .detalles {
+        text-align: left;
+    }
+
+    h2 {
+        font-size: 1.5rem; /* Ajusta el tamaño de la fuente */
+    }
+
+    .image {
+        max-height: 300px;
+    }
+
+    .title {
+        font-size: 2rem; /* Ajuste en pantallas grandes */
+    }
+
+    .volver-btn {
+        width: 45px;
+        height: 45px;
+        border-radius: 20%;
+    }
+}

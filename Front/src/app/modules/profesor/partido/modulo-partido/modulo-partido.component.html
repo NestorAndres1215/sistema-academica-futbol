@@ -1,0 +1,70 @@
+<div class="separator">
+    <h1 style="font-family: monospace;">Próximos Partidos</h1>
+    <div class="card-header position-sticky sticky-top">
+        <button class="volver-btn" (click)="volver()" class="btn btn-danger button_close" tabindex="0">
+            <i class="fas fa-long-arrow-alt-left"></i>
+        </button>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Estado vacío -->
+    <div *ngIf="!pagedData?.length" class="empty-state text-center py-5">
+        <mat-icon class="empty-icon">sports_soccer</mat-icon>
+        <h3 class="mt-3">No hay partidos programados</h3>
+        <p class="text-muted">Próximamente se anunciarán nuevos encuentros.</p>
+    </div>
+
+    <!-- Lista de partidos -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" *ngIf="pagedData?.length">
+        <div class="col" *ngFor="let partido of pagedData">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0 text-center text-uppercase">{{ partido.tipoPartido }}</h5>
+                </div>
+                
+                <div class="card-body">
+                    <!-- Equipo local -->
+                    <div class="team-row d-flex justify-content-between align-items-center mb-3">
+                        <div class="team-info d-flex align-items-center">
+                            <span class="team-name">{{ partido.equipo.nombre }}</span>
+                        </div>
+                        <span class="score">{{ partido.marcadorLocal ?? '-' }}</span>
+                    </div>
+                    
+                    <!-- Equipo visitante -->
+                    <div class="team-row d-flex justify-content-between align-items-center mb-4">
+                        <div class="team-info d-flex align-items-center">
+                            <span class="team-name">{{ partido.equipoRival }}</span>
+                        </div>
+                        <span class="score">{{ partido.marcadorVisita ?? '-' }}</span>
+                    </div>
+                    
+                    <hr class="my-3">
+                    
+                    <!-- Detalles del partido -->
+                    <div class="match-details">
+                        <div class="detail-item d-flex mb-2">
+                            <mat-icon class="me-2">calendar_today</mat-icon>
+                            <span>{{ partido.fecha | date:'mediumDate' }}</span>
+                        </div>
+                        <div class="detail-item d-flex mb-2">
+                            <mat-icon class="me-2">schedule</mat-icon>
+                            <span>{{ partido.hora }}</span>
+                        </div>
+                        <div class="detail-item d-flex">
+                            <mat-icon class="me-2">location_on</mat-icon>
+                            <span>{{ partido.lugar }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-footer bg-light">
+                    <button class="btn btn-outline-primary w-100" (click)="verDetalle(partido)">
+                        Ver detalles completos
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

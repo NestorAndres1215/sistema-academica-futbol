@@ -1,0 +1,57 @@
+<div class="card">
+    <div class="card-header position-sticky sticky-top">
+        <button type="button" class="btn btn-danger" (click)="cerrar()">
+            <i class="fas fa-long-arrow-alt-left"></i>
+        </button>
+        <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700; font-family: monospace;">
+            Visualización
+        </h3>
+    </div>
+    <div class="container">
+        <form [formGroup]="formulario">
+            <div class="row">
+                <!-- Primer Nombre -->
+                <div class="col-12 ">
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Nombre</mat-label>
+                        <input formControlName="nombre" matInput />
+                    </mat-form-field>
+                </div>
+                <div class="col-12 ">
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Categoria</mat-label>
+                        <input formControlName="categoria" matInput />
+                    </mat-form-field>
+                </div>
+                <div class="col-12 ">
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>AGenero</mat-label>
+                        <input formControlName="genero" matInput />
+                    </mat-form-field>
+                </div>
+                <div class="col-12 ">
+                    <mat-form-field class="full-width" appearance="fill">
+                        <mat-label>Sede</mat-label>
+                        <input formControlName="sede" matInput />
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+
+        <div class="row justify-content-center">
+            <!-- Información de Creación -->
+            <div class="col-12 col-md-6 mb-3 text-center">
+                <h5><strong>Usuario Creación:</strong> {{ usuarioCreacion }}</h5>
+                <h5><strong>Fecha Creación:</strong> {{ fechaCreacion }}</h5>
+                <h5><strong>Hora Creación:</strong> {{ horaCreacion }}</h5>
+            </div>
+
+            <!-- Información de Actualización -->
+            <div class="col-12 col-md-6 mb-3 text-center">
+                <h5><strong>Usuario Actualización:</strong> {{ usuarioActualizacion }}</h5>
+                <h5><strong>Fecha Actualización:</strong> {{ fechaActualizacion }}</h5>
+                <h5><strong>Hora Actualización:</strong> {{ horaActualizacion }}</h5>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+<div class="separator">
+  <h1 style="font-family: monospace;">Mantenimiento de Usuario Administrador</h1>
+  <div class="card-header position-sticky sticky-top">
+    <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
+      tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
+  </div>
+</div>
+<div class="card-body">
+  <div class="button-container">
+    <!-- Botón Excel -->
+    <button class="btn btn-excel" (click)="exportarExcel()">
+      <i class="fas fa-file-excel"></i> Exportar a Excel
+    </button>
+
+    <!-- Botón PDF -->
+    <button class="btn btn-pdf" (click)="exportarPDF()">
+      <i class="fas fa-file-pdf"></i> Exportar a PDF
+    </button>
+
+    <!-- Botón Imprimir -->
+    <button class="btn btn-print" (click)="exportarReporteAdministradores()">
+      <i class="fas fa-print"></i> Imprimir
+    </button>
+
+  </div>
+  <br>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Código</th>
+        <th>Nombre</th>
+        <th>Usuario</th>
+        <th>Correo</th>
+        <th>Telefono</th>
+        <th>Dni</th>
+        <th>Direccion</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of pagedData">
+        <td>{{ row.codigo }}</td>
+        <td>{{ row.primerNombre + " " + row.segundoNombre+ " "+row.apellidoPaterno+" " +row.apellidoMaterno }}</td>
+        <td>{{ row.usuario.username }}</td>
+        <td>{{ row.correo }}</td>
+        <td>{{ row.telefono }}</td>
+        <td>{{ row.dni }}</td>
+        <td>{{ row.direccion }}</td>
+        <td>
+          <button mat-icon-button class="btn-editar" (click)="editar(row)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button class="btn-vista" (click)="visor(row)">
+            <mat-icon>visibility</mat-icon>
+          </button>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+    (page)="pageChanged($event)">
+  </mat-paginator>
+</div>

@@ -1,0 +1,118 @@
+<div class="separator">
+    <h1 style="font-family: monospace;">Calendario</h1>
+    <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
+        tabindex="0">
+        <i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i>
+    </button>
+</div>
+<div class="container mt-4">
+    <div class="calendar__add-button">
+        <button style="background-color: #008CBA; color: white;" mat-button class="btn btn-success"
+            (click)="openModal()">
+            <mat-icon>add_circle</mat-icon> Agregar clase
+        </button>
+    </div>
+    <div class="row">
+        <div class="col-lg-8 col-md-7 col-sm-12 mb-4">
+            <section class="calendar">
+                <div class="calendar__navigation">
+                    <button mat-icon-button (click)="previousMonth()">
+                        <mat-icon>chevron_left</mat-icon>
+                    </button>
+                    <span class="calendar__current-month">{{ currentMonthAndYear}}</span>
+                    <button mat-icon-button (click)="nextMonth()">
+                        <mat-icon>chevron_right</mat-icon>
+                    </button>
+                </div>
+
+                <div class="calendar__grid">
+                    <div *ngFor="let name of nameDay; let i = index; trackBy: trackByIndex" class="calendar__day-name" style="  background-color: lightsteelblue;">
+                        {{ name }}
+                    </div>
+
+                    <div *ngFor="let day of calendarDays; let calendarIndex = index" class="calendar__day"
+                        [ngClass]="{'calendar__day--current-month': day.currentMonth, 'calendar__day--current-day': day.currentDay}"
+                        (click)="selectDay(day)">
+
+                        <div class="calendar__day-header" [ngStyle]="{
+                          'background-color': day.currentDay ? '#e8f5e9' : 'transparent',
+                          'color': day.isSunday ? '#d32f2f' : 'black'
+                        }">
+                            <span class="calendar__day-number">{{ day.day }}</span>
+                        </div>
+
+                        <div class="calendar__events">
+                            <div *ngFor="let event of day.events; let eventIndex = index; trackBy: trackByIndex">
+                                <button class="calendar__event" [matTooltip]="event.name" [matMenuTriggerFor]="menu"
+                                    [ngStyle]="{'background-color': event.background, 'color': event.color}">
+                                    <i class="calendar__event-icon" [ngClass]="'bx bx-' + event.type"></i>
+                                    <span class="calendar__event-name">{{ event.name }}</span>
+                                </button>
+
+                                <mat-menu #menu="matMenu">
+                                    <div class="calendar__event-menu">
+                                        <button class="calendar__event-menu-header" [matTooltip]="event.name"
+                                            [ngStyle]="{'background-color': event.background, 'color': event.color}">
+                                            <i class="calendar__event-menu-icon" [ngClass]="'bx bx-' + event.type"></i>
+                                            <span class="calendar__event-menu-name">{{ event.name }}</span>
+                                        </button>
+                                        <p class="calendar__event-menu-date">Fecha: {{ formatDate(event.date) }}</p>
+
+                                    </div>
+                                </mat-menu>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="col-lg-4 col-md-5 col-sm-12" *ngIf="selectedDay">
+            <div class="card">
+                <div *ngIf="selectedDay" >
+                    <h2 class="card-title">{{ selectedDay.day + " " + currentMonthAndYear }}</h2>
+                    <hr class="divider">
+                </div>
+                <div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Equipo</th>
+                                <th>Horario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <div *ngIf="listarDato.length === 0;">
+                                <p>No hay clases programadas para este día.</p>
+                            </div>
+                            <tr *ngFor="let clase of listarDato">
+                                <td>{{ clase.equipo.nombre }}</td>
+                                <td>{{ clase.horario.inicioHora + " - " + clase.horario.finHora }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Partido</th>
+                                <th>Horario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <div *ngIf="partidoFiltrado.length === 0;">
+                                <p>No hay clases programadas para este día.</p>
+                            </div>
+                            <tr *ngFor="let clase of partidoFiltrado">
+                                <td>{{ clase.equipo.nombre+ " vs " + clase.equipoRival}}</td>
+                                <td>{{ clase.hora }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br><br>

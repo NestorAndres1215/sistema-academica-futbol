@@ -1,0 +1,48 @@
+// DÍA 1
+
+Clase de Técnica Individual
+
+📌 Descripción:
+Esta clase se centra en el perfeccionamiento de habilidades técnicas específicas en el fútbol. Se trabajará en la precisión, coordinación, fluidez y ejecución de movimientos fundamentales mediante ejercicios personalizados que refuercen la base técnica de cada jugador.
+
+🎯 Objetivo:
+Optimizar el desempeño técnico de los jugadores, asegurando que ejecuten sus movimientos con mayor precisión, control y confianza. Se corregirán errores técnicos y se fomentará la autoevaluación y la práctica estructurada para el desarrollo continuo.
+
+✅ Precisión y control: Mejorar la ejecución de pases, tiros y dribles.
+✅ Coordinación y fluidez: Desarrollar movimientos técnicos con mayor naturalidad y eficiencia.
+✅ Postura y equilibrio: Optimizar la biomecánica de cada movimiento para mayor estabilidad.
+✅ Corrección de errores: Identificar y corregir fallas técnicas mediante ejercicios específicos.
+✅ Autonomía y autoevaluación: Fomentar el análisis personal y el compromiso con la mejora continua.
+
+// DÍA 2
+
+Clase de Táctica y Estrategia
+
+📌 Descripción:
+En esta sesión se abordará la comprensión del juego desde una perspectiva estratégica, analizando el posicionamiento en el campo, la toma de decisiones y la interacción con el equipo en situaciones reales de partido. Se trabajará en la ejecución de estrategias ofensivas y defensivas mediante ejercicios prácticos y simulaciones.
+
+🎯 Objetivo:
+Mejorar la capacidad táctica de los jugadores, permitiéndoles interpretar y reaccionar ante distintas situaciones del juego. Se potenciará el posicionamiento, los movimientos con y sin balón y la toma de decisiones para un mejor desempeño colectivo e individual.
+
+✅ Ubicación y posicionamiento: Mejorar la colocación en el campo según la fase de juego (ataque, defensa, transición).
+✅ Movimientos con y sin balón: Desarrollar desmarques, apoyos y coberturas defensivas.
+✅ Estrategias ofensivas: Aprender a generar superioridades numéricas y circulación efectiva del balón.
+✅ Estrategias defensivas: Aplicar conceptos como presión, repliegue y marcaje zonal o individual.
+✅ Toma de decisiones: Potenciar la lectura de juego y la anticipación de jugadas.
+
+// DÍA 3
+
+Clase de Preparación Física
+
+📌 Descripción:
+Esta clase está orientada a mejorar la condición física de los jugadores, enfocándose en la resistencia, fuerza, velocidad y flexibilidad. Se realizarán ejercicios específicos para optimizar el rendimiento en el campo y prevenir lesiones.
+
+🎯 Objetivo:
+Desarrollar una base física sólida que permita a los jugadores soportar la exigencia del juego y rendir al máximo en entrenamientos y partidos.
+
+✅ Resistencia: Mejorar la capacidad aeróbica y anaeróbica para soportar el ritmo del juego.
+✅ Fuerza: Incrementar la potencia muscular para mejorar el desempeño en duelos y acciones explosivas.
+✅ Velocidad y agilidad: Desarrollar la rapidez de reacción, cambios de dirección y aceleración.
+✅ Flexibilidad y movilidad: Prevenir lesiones y optimizar la amplitud de movimiento.
+✅ Recuperación: Aplicar técnicas de descanso y regeneración para mejorar la recuperación post-entrenamiento.
+

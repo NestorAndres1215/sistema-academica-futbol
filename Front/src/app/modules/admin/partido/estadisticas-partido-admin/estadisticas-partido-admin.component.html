@@ -1,0 +1,64 @@
+<div class="separator">
+    <h1 style="font-family: monospace;"> Estadisticas</h1>
+    <div class="card-header position-sticky sticky-top">
+      <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
+        tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
+    </div>
+  </div>
+  
+  <div class="container mt-4">
+  
+    <div class="d-flex align-items-center gap-3 mb-3">
+      <!-- Selección de equipo -->
+      <mat-form-field class="custom-field flex-grow-1" appearance="fill">
+        <mat-label>Equipo</mat-label>
+        <mat-select [(value)]="equipoSeleccionado" (selectionChange)="filtrarUsuarios()">
+          <mat-option value="">Seleccionar equipo</mat-option>
+          <mat-option *ngFor="let sede of listado" [value]="sede">
+            {{ sede }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    
+    
+    <div class="row">
+      <!-- Columna 1: Gráfico 1 y Gráfico 3 -->
+      <div class="col-md-6">
+        <!-- Gráfico 1: Ventas Mensuales -->
+        <div class="card shadow-lg mb-4">
+          <div class="card-header bg-primary text-white text-center">
+            Resultados de Partidos por Jornada
+          </div>
+          <div class="card-body">
+            <canvas id="chart1"></canvas>
+          </div>
+      
+        </div>
+        <!-- Gráfico 3 -->
+        <div class="card shadow-lg">
+          <div class="card-header bg-success text-white text-center">
+            Tabla de Barra de Partidos
+          </div>
+          <div class="card-body">
+            <canvas id="chart3"></canvas>
+          </div>
+     
+        </div>
+      </div>
+  
+      <!-- Columna 2: Gráfico 2 -->
+      <div class="col-md-6">
+        <div class="card shadow-lg">
+          <div class="card-header bg-warning text-dark text-center">
+            Porcentaje de Partidos
+          </div>
+          <div class="card-body">
+            <canvas id="chart2"></canvas>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+  </div>
+  <br><br>

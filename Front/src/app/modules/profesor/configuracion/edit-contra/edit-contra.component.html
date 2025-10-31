@@ -1,0 +1,55 @@
+<div class="card">
+    <div class="card-header position-sticky sticky-top">
+        <button _ngcontent-yfb-c88="" (click)="cerrar()" class="btn btn-danger button_close" tabindex="0"><i
+                _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
+        <button _ngcontent-yfb-c69="" class="btn btn-success ng-star-inserted" (click)="operar()"
+            style="margin-right: 10px; align-items: flex-end;"><i _ngcontent-yfb-c69=""
+                class="fas fa-save"></i></button>
+        <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700px;font-family: monospace;">
+            Editar</h3>
+    </div>
+    <div class="container">
+        <form [formGroup]="formulario">
+            <div class="row">
+                <!-- Usuario -->
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Usuario</mat-label>
+                    <input matInput formControlName="usuario" type="text">
+                </mat-form-field>
+
+
+
+                <mat-form-field class="full-width" appearance="fill">
+                    <mat-label>Contraseña Actual</mat-label>
+                    <input matInput [type]="verContraActual ? 'text' : 'password'" formControlName="contraActual">
+                    <button mat-icon-button matSuffix (click)="verContraActual = !verContraActual">
+                        <mat-icon>{{ verContraActual ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Nueva Contraseña</mat-label>
+                <input matInput [type]="verNuevaContra ? 'text' : 'password'" formControlName="nuevaContra">
+                <button mat-icon-button matSuffix (click)="verNuevaContra = !verNuevaContra">
+                    <mat-icon>{{ verNuevaContra ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+            </mat-form-field>
+
+
+
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Confirmar Nueva Contraseña</mat-label>
+                <input matInput [type]="verConfirmarContra ? 'text' : 'password'" formControlName="confirmarContra">
+                <button mat-icon-button matSuffix (click)="verConfirmarContra = !verConfirmarContra">
+                    <mat-icon>{{ verConfirmarContra ? 'visibility_off' : 'visibility' }}</mat-icon>
+                </button>
+            </mat-form-field>
+
+
+
+        </form>
+    </div>
+
+
+</div>

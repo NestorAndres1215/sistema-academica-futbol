@@ -1,0 +1,37 @@
+<div class="separator">
+    <h1 style="font-family: monospace;">Próximos Partidos</h1>
+    <div class="card-header position-sticky sticky-top">
+        <button class="volver-btn" (click)="volver()" class="btn btn-danger button_close" tabindex="0">
+            <i class="fas fa-long-arrow-alt-left"></i>
+        </button>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Si hay partidos, muestra la lista -->
+    <div *ngIf="pagedData?.length > 0; else noPartidos" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="col" *ngFor="let ejercicio of pagedData">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h3>{{ ejercicio.equipo.nombre }}</h3>
+                    <hr>
+                    <p><strong>Equipo Rival:</strong> {{ ejercicio.equipoRival }}</p>
+                    <p><strong>Lugar:</strong> {{ ejercicio.lugar }}</p>
+                    <p><strong>Fecha:</strong> {{ ejercicio.fecha }}</p>
+                    <p><strong>Hora:</strong> {{ ejercicio.hora }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensaje cuando no hay partidos -->
+    <ng-template #noPartidos>
+        <div class="text-center mt-5 p-4">
+            <mat-icon class="empty-icon">sports_soccer</mat-icon>
+            <h3 class="mt-3">No hay próximos partidos disponibles</h3>
+            <p class="text-muted">
+                Próximamente se anunciarán nuevos encuentros.
+            </p>
+        </div>
+    </ng-template>
+</div>

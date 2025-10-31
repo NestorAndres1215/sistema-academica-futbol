@@ -1,0 +1,18 @@
+[
+  {"codigo": "F001", "fecha": "2025-01-01", "nombre": "Año Nuevo"},
+  {"codigo": "F002", "fecha": "2025-04-17", "nombre": "Jueves Santo"},
+  {"codigo": "F003", "fecha": "2025-04-18", "nombre": "Viernes Santo"},
+  {"codigo": "F004", "fecha": "2025-05-01", "nombre": "Día del Trabajo"},
+  {"codigo": "F005", "fecha": "2025-06-07", "nombre": "Batalla de Arica y Día de la Bandera"},
+  {"codigo": "F006", "fecha": "2025-06-29", "nombre": "Día de San Pedro y San Pablo"},
+  {"codigo": "F007", "fecha": "2025-07-23", "nombre": "Día de la Fuerza Aérea del Perú"},
+  {"codigo": "F008", "fecha": "2025-07-28", "nombre": "Fiestas Patrias"},
+  {"codigo": "F009", "fecha": "2025-07-29", "nombre": "Fiestas Patrias"},
+  {"codigo": "F010", "fecha": "2025-08-06", "nombre": "Batalla de Junín"},
+  {"codigo": "F011", "fecha": "2025-08-30", "nombre": "Santa Rosa de Lima"},
+  {"codigo": "F012", "fecha": "2025-10-08", "nombre": "Combate de Angamos"},
+  {"codigo": "F013", "fecha": "2025-11-01", "nombre": "Día de Todos los Santos"},
+  {"codigo": "F014", "fecha": "2025-12-08", "nombre": "Inmaculada Concepción"},
+  {"codigo": "F015", "fecha": "2025-12-09", "nombre": "Batalla de Ayacucho"},
+  {"codigo": "F016", "fecha": "2025-12-25", "nombre": "Navidad"}
+]

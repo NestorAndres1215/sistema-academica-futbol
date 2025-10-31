@@ -1,0 +1,212 @@
+<div class="separator">
+    <h1 style="font-family: monospace;">Asignacion de Equipo/Categoria</h1>
+    <div class="card-header position-sticky sticky-top d-flex">
+        <button _ngcontent-yfb-c88="" class="btn btn-pdf" (click)="limpiar()" tabindex="0"
+            style="margin-right: 20px;">Limpiar</button>
+        <button _ngcontent-yfb-c88="" class="btn btn-excel" (click)="accionNuevo()" tabindex="0"
+            style="margin-right: 20px;">Finalizar</button>
+        <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
+            tabindex="0" style="margin-right: 20px;"><i _ngcontent-yfb-c88=""
+                class="fas fa-long-arrow-alt-left"></i></button>
+
+        <!-- Nuevo botón agregado con separación -->
+
+    </div>
+</div>
+
+
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Columna del Formulario (más grande) -->
+        <div class="col-lg-6 col-md-12" style="border: 2px solid #ccc; padding: 20px;">
+            <h1 class="card-title display-4">Equipo Asignado</h1>
+            <hr>
+            <form [formGroup]="formulario" (ngSubmit)="operar()">
+                <div class="row">
+                    <mat-form-field class="full-width custom-field" appearance="fill">
+                        <mat-label>Nombre</mat-label>
+                        <mat-select formControlName="nombre" placeholder="Seleccione un equipo"
+                            (selectionChange)="onEquipoSeleccionado($event.value)">
+                            <mat-option *ngFor="let equipo of datosTabla" [value]="equipo">
+                                {{ equipo.nombre }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width custom-field" appearance="fill">
+                        <mat-label>Categoría</mat-label>
+                        <input formControlName="categoria" matInput [value]="categoriaSeleccionada" readonly>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width custom-field" appearance="fill">
+                        <mat-label>Sede</mat-label>
+                        <input formControlName="sede" matInput [value]="sedeSeleccionada" readonly>
+                    </mat-form-field>
+
+
+                    <mat-form-field class="full-width custom-field" appearance="fill">
+                        <mat-label>Género</mat-label>
+                        <input formControlName="genero" matInput [value]="generoSeleccionado" readonly>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <button *ngIf="!formulario.disabled" type="submit" class="btn btn-excel ">
+                            <mat-icon>save</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Columna de la Tabla (más pequeña) -->
+        <div class="col-lg-6 col-md-12" style="border: 2px solid #ccc; padding: 20px;">
+            <h1 class="card-title display-4">Asignación</h1>
+            <hr>
+            <form [formGroup]="formulario1" (ngSubmit)="registrar()">
+
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>Selecciona un rol</mat-label>
+                            <mat-select formControlName="rol" (selectionChange)="cambiarRol()"
+                                [disabled]="!isFormEnabled">
+                                <mat-option *ngFor="let rol of roles" [value]="rol">{{ rol }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <!-- Campos Condicionales según el rol seleccionado -->
+                <ng-container *ngIf="formulario1.get('rol')?.value === 'Estudiante'">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Estudiante</mat-label>
+                                <mat-select formControlName="estudiante" [disabled]="!isFormEnabled">
+                                    <mat-option *ngFor="let sede of listarEstu" [value]="sede.codigo">
+                                        {{ sede.primerNombre + " " + sede.apellidoPaterno + " " +
+                                        sede.apellidoMaterno }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="row mb-3" *ngIf="formulario1.get('rol')?.value === 'Profesor'">
+                    <div class="col-md-12">
+                        <mat-form-field class="w-100" appearance="fill">
+                            <mat-label>Cargo</mat-label>
+                            <mat-select formControlName="cargo"
+                                [disabled]="!isFormEnabled || formulario1.get('rol')?.value !== 'Profesor'"
+                                (selectionChange)="filtrarProfesoresPorCargo()">
+                                <mat-option *ngFor="let cargo of cargos" [value]="cargo">{{ cargo }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <ng-container *ngIf="formulario1.get('rol')?.value === 'Profesor'">
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <mat-form-field class="w-100" appearance="fill">
+                                <mat-label>Profesores</mat-label>
+                                <mat-select formControlName="profesor" [disabled]="!isFormEnabled">
+                                    <mat-option *ngFor="let sede of listarProfe" [value]="sede.codigo">
+                                        {{ sede.primerNombre + " " + sede.apellidoPaterno + " " +
+                                        sede.apellidoMaterno }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <!-- Nuevo campo de Cargo -->
+
+
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <button type="submit" class="btn btn-excel" *ngIf="mostrarFormularioDetalle">
+                            <mat-icon>save</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+
+
+        <div class="col-lg-6 col-md-12" style="border: 2px solid #ccc; padding: 20px;">
+
+            <h1 class="card-title display-4">Lista de Estudiantes</h1>
+            <hr>
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="estudiantes.length === 0">
+                        <td colspan="8" style="text-align: center; color: grey;">
+                            No hay datos disponibles.
+                        </td>
+                    </tr>
+                    <tr *ngFor="let estudiante of estudiantes; let i = index">
+                        <td>{{ estudiante.codigo }}</td>
+                        <td>{{ estudiante.nombre }}</td>
+                        <td>
+                            <!-- Botón de eliminar -->
+                            <button mat-icon-button class="btn-eliminar" (click)="eliminarEstudiante(i)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <!-- Columna para la lista de profesores -->
+        <div class="col-lg-6 col-md-12" style="border: 2px solid #ccc; padding: 20px;">
+
+            <h1 class="card-title display-4">Lista de Profesores</h1>
+            <hr>
+            <table class="table table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="profesores.length === 0">
+                        <td colspan="8" style="text-align: center; color: grey;">
+                            No hay datos disponibles.
+                        </td>
+                    </tr>
+                    <tr *ngFor="let profesor of profesores; let i = index">
+                        <td>{{ profesor.codigo }}</td>
+                        <td>{{ profesor.nombre }}</td>
+                        <td>
+                            <!-- Botón de eliminar -->
+                            <button mat-icon-button class="btn-eliminar" (click)="eliminarProfesor(i)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Mostrar mensaje si el límite está completo -->
+            <div *ngIf="profesores.length >= 3" class="text-danger mt-3">
+                Ya se han completado los espacios para profesores.
+            </div>
+        </div>
+    </div>
+</div>

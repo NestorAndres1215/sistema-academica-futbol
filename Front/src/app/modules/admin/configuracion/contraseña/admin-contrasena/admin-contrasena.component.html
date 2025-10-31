@@ -1,0 +1,33 @@
+<div class="separator">
+    <h1 style="font-family: monospace;"> Usuarios Admnistradores</h1>
+    <hr>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Usuario</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of pagedData">
+                <td>{{ row.codigo }}</td>
+                <td>{{ row.primerNombre + " " + row.segundoNombre + " " + row.apellidoPaterno + " " + row.apellidoMaterno }}</td>
+                <td>{{ row.usuario.username }}</td>
+                <td>
+                    <button mat-icon-button class="btn-editar" (click)="editar(row)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+    (page)="pageChanged($event)">
+</mat-paginator>

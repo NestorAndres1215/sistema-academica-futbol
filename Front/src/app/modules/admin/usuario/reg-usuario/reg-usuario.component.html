@@ -1,0 +1,128 @@
+<div class="separator">
+    <h1 style="font-family: monospace;">Registro Usuario Administrador</h1>
+    <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
+        tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
+</div>
+<div class="container mt-5 p-4 shadow rounded bg-light custom-container">
+    <div class="header text-center mb-4">
+        <h1 class="text-primary">Datos Personales</h1>
+    </div>
+    <form [formGroup]="formulario" (ngSubmit)="operar()">
+        <div class="row">
+            <!-- Username -->
+            <div class="col-md-6 mb-3">
+                <mat-form-field class="full-width custom-field" appearance="outline">
+                    <mat-label>Nombre de Usuario</mat-label>
+                    <input formControlName="username" matInput placeholder="Digite su nombre de usuario">
+                </mat-form-field>
+            </div>
+
+            <!-- Password -->
+            <div class="col-md-6 mb-3">
+                <mat-form-field class="full-width custom-field" appearance="outline">
+                    <mat-label>Contraseña</mat-label>
+                    <input formControlName="password" matInput type="password" placeholder="Digite su contraseña">
+                </mat-form-field>
+            </div>
+
+            <!-- Primer Nombre -->
+            <div class="col-md-6 mb-3">
+                <mat-form-field class="full-width custom-field" appearance="outline">
+                    <mat-label>Primer Nombre</mat-label>
+                    <input formControlName="primerNombre" matInput placeholder="Digite su primer nombre">
+                </mat-form-field>
+            </div>
+
+            <!-- Segundo Nombre -->
+            <div class="col-md-6 mb-3">
+                <mat-form-field class="full-width custom-field" appearance="outline">
+                    <mat-label>Segundo Nombre</mat-label>
+                    <input formControlName="segundoNombre" matInput placeholder="Digite su segundo nombre">
+                </mat-form-field>
+            </div>
+
+            <!-- Apellido Paterno -->
+            <div class="col-md-6 mb-3">
+                <mat-form-field class="full-width custom-field" appearance="outline">
+                    <mat-label>Apellido Paterno</mat-label>
+                    <input formControlName="apellidoPaterno" matInput placeholder="Digite su apellido paterno">
+                </mat-form-field>
+            </div>
+
+            <!-- Apellido Materno -->
+            <div class="col-md-6 mb-3">
+                <mat-form-field class="full-width custom-field" appearance="outline">
+                    <mat-label>Apellido Materno</mat-label>
+                    <input formControlName="apellidoMaterno" matInput placeholder="Digite su apellido materno">
+                </mat-form-field>
+            </div>
+
+            <!-- Fecha de Nacimiento -->
+            <div class="col-md-6 mb-3">
+                <mat-form-field class="full-width custom-field" appearance="outline">
+                    <mat-label>Fecha de Nacimiento</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento"
+                        placeholder="Digite su fecha de nacimiento" [min]="minDate" [max]="maxDate" />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+
+            <!-- Edad -->
+            <div class="col-md-6 mb-3">
+                <mat-form-field class="full-width custom-field" appearance="outline">
+                    <mat-label>Edad</mat-label>
+                    <input formControlName="edad" matInput [value]="edad">
+                </mat-form-field>
+            </div>
+
+            <!-- Correo -->
+            <div class="col-md-6 mb-3">
+                <mat-form-field class="full-width custom-field" appearance="outline">
+                    <mat-label>Correo</mat-label>
+                    <input formControlName="correo" matInput type="email" placeholder="Digite su correo electrónico">
+                </mat-form-field>
+            </div>
+
+            <!-- Teléfono -->
+            <div class="col-md-6 mb-3">
+                <mat-form-field class="full-width custom-field" appearance="outline">
+                    <mat-label>Teléfono</mat-label>
+                    <input formControlName="telefono" matInput type="number" placeholder="Digite su número de teléfono">
+                </mat-form-field>
+            </div>
+
+            <!-- DNI -->
+            <div class="col-md-6 mb-3">
+                <mat-form-field class="full-width custom-field" appearance="outline">
+                    <mat-label>DNI</mat-label>
+                    <input formControlName="dni" type="number" matInput placeholder="Digite su DNI">
+                </mat-form-field>
+            </div>
+
+            <!-- Dirección -->
+            <div class="col-md-6 mb-3">
+                <mat-form-field class="full-width custom-field" appearance="outline">
+                    <mat-label>Dirección</mat-label>
+                    <input formControlName="direccion" matInput placeholder="Digite su dirección">
+                </mat-form-field>
+            </div>
+
+            <!-- Nacionalidad -->
+            <div class="col-md-6 mb-3">
+                <mat-form-field class="full-width custom-field" appearance="outline">
+                    <mat-label>Nacionalidad</mat-label>
+                    <input formControlName="nacionalidad" matInput placeholder="Digite su nacionalidad">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <!-- Botón de Envío -->
+        <div class="text-center mt-4">
+            <button mat-raised-button color="primary" class="custom-btn">Guardar Datos</button>
+        </div>
+    </form>
+</div>
+
+<br>

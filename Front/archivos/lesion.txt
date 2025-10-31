@@ -1,0 +1,13 @@
+# Registrar
+
+Estudiante *: María Fernanda López Sánchez  
+Tipo de Lesión *: Esguince grado 2 en tobillo derecho  
+
+Fecha de Lesión *: 25/03/2024  
+
+Descripción *: Torcedura de tobillo durante partido de fútbol escolar al pisar irregularidad en el campo. Presenta inflamación y dolor moderado. Aplicado hielo y vendaje compresivo inicial.
+
+Gravedad *: Moderada  
+Tiempo de Recuperación *: 3-4 semanas  
+
+Fecha de Recuperación *: 22/04/2024 (estimada)

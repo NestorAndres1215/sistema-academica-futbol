@@ -1,0 +1,44 @@
+<div class="card">
+    <div class="card-header position-sticky sticky-top">
+        <button _ngcontent-yfb-c88="" (click)="cerrar()" class="btn btn-danger button_close" tabindex="0"><i
+                _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
+        <button _ngcontent-yfb-c69="" class="btn btn-success ng-star-inserted" (click)="operar()"
+            style="margin-right: 10px; align-items: flex-end;"><i _ngcontent-yfb-c69=""
+                class="fas fa-save"></i></button>
+        <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700px;font-family: monospace;">
+            Registrar</h3>
+    </div>
+
+    <div class="container">
+        <form [formGroup]="formulario">
+            <div class="row">
+                    <mat-form-field class="full-width custom-field" appearance="fill">
+                        <mat-label>Tipo de Evento</mat-label>
+                        <input formControlName="tipoEvento" matInput placeholder="Ingrese el tipo de evento">
+                    </mat-form-field>
+           
+    
+              
+                    <mat-form-field class="full-width custom-field" appearance="fill">
+                        <mat-label>Descripción</mat-label>
+                        <textarea formControlName="descripcion" matInput placeholder="Descripción del evento"></textarea>
+                    </mat-form-field>
+            
+    
+     
+                    <mat-form-field class="full-width custom-field" appearance="fill">
+                        <mat-label>Responsable</mat-label>
+                        <input formControlName="responsable" matInput placeholder="Nombre del responsable">
+                    </mat-form-field>
+   
+    
+                    <mat-form-field class="full-width custom-field" appearance="fill">
+                        <mat-label>Observaciones</mat-label>
+                        <textarea formControlName="observaciones" matInput placeholder="Ingrese observaciones"></textarea>
+                    </mat-form-field>
+             
+            </div>
+        </form>
+    </div>
+    
+</div>

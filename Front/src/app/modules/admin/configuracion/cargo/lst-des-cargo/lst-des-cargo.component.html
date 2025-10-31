@@ -1,0 +1,63 @@
+<div class="card">
+    <div class="card-header position-sticky sticky-top">
+        <button _ngcontent-yfb-c88="" (click)="volver()" class="btn btn-danger button_close" tabindex="0">
+            <i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i>
+        </button>
+        <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700; font-family: monospace;">
+            Sede Desactivados
+        </h3>
+    </div>
+    <div class="card-body">
+
+        <div class="search-container">
+            <mat-form-field appearance="outline" class="custom-search">
+                <mat-icon matPrefix>search</mat-icon>
+                <input matInput type="text" placeholder="Buscar por nombre o apellidos" [(ngModel)]="filtro"
+                    (input)="filtrarUsuarios()">
+            </mat-form-field>
+
+        </div>
+
+        <div class="table-responsive" style="margin: 0 auto; margin-top: 10px; width: 100%;">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Descripcion/th>
+    
+                  
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="usuariosFiltrados.length === 0">
+                        <td colspan="5" style="text-align: center; color: grey;">
+                            No hay datos disponibles.
+                        </td>
+                    </tr>
+                    <tr *ngFor="let row of usuariosFiltrados">
+                        <td>{{ row.codigo }}</td>
+               
+                        <td>{{ row.nombre }}</td>
+           
+                        <td>{{ row.descripcion }}</td>
+             
+        
+                        <td>
+                            <button mat-icon-button class="btn-vista" (click)="visor(row)">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            <button mat-icon-button class="btn-eliminar" (click)="eliminar(row)">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+                (page)="pageChanged($event)">
+            </mat-paginator>
+        </div>
+    </div>
+</div>

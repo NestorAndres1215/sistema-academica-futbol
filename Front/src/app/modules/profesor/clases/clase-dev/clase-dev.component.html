@@ -1,0 +1,25 @@
+<mat-tab-group [(selectedIndex)]="activeTab1">
+    <mat-tab [label]="'Resumen'">
+        <div *ngIf="activeTab1 === 0">
+            <app-resumen-cla-pro-dev></app-resumen-cla-pro-dev>
+        </div>
+    </mat-tab>
+    <mat-tab [label]="primerDia || 'Día 1'">
+        <div *ngIf="activeTab1 === 1">
+            <app-profesor-dia-clase [dias]="primerDia"></app-profesor-dia-clase>
+
+        </div>
+    </mat-tab>
+    <mat-tab [label]="segundoDia || 'Día 2'">
+        <div *ngIf="activeTab1 === 2">
+
+            <app-profesor-dia-clase [dias]="segundoDia"></app-profesor-dia-clase>
+
+        </div>
+    </mat-tab>
+    <mat-tab [label]="tercerDia || 'Día 3'">
+        <div *ngIf="activeTab1 === 3">
+            <app-profesor-dia-clase [dias]="tercerDia"> </app-profesor-dia-clase>
+        </div>
+    </mat-tab>
+</mat-tab-group>

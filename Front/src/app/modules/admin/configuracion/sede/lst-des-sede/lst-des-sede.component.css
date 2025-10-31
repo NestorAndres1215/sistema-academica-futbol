@@ -1,0 +1,236 @@
+.card {
+    overflow: auto;
+    height: 100%;
+  }
+  .separator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px; /* Espacio uniforme alrededor del contenido */
+  }
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+  }
+  
+  
+  
+  .table th {
+    color: #000; 
+    background-color: #b0c4de;
+     border: 1px solid #ddd;
+    padding: 12px;  
+    text-align: left;
+     font-family: monospace;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+  }
+  .table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    font-family: monospace;
+  }
+  
+  .table-striped tbody tr:nth-child(even) {
+    background-color: #b0c4de;
+    color: rgb(0, 0, 0);
+  }
+  /* Estilos para los botones de acción */
+
+  .btn-print{
+    margin-right: 8px; 
+    color: black;
+  }
+  .btn-editar {
+    color: black; /* Color negro para el botón editar */
+    margin-right: 8px; /* Agrega un poco de espacio a la derecha del botón */
+  
+  }
+  
+  .btn-eliminar {
+    color: red; /* Color rojo para el botón eliminar */
+    margin-right: 8px; /* Agrega un poco de espacio a la derecha del botón */
+  }
+  /* Estilos para el botón de vista */
+  .btn-vista {
+    color: #007bff; /* Color azul para el botón de vista */
+    margin-right: 8px; /* Agrega un poco de espacio a la derecha del botón */
+  }
+  
+  /* Estilos para las filas impares */
+  .table-striped tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+    color: #333; /* Cambia el color del texto si es necesario */
+  }
+  
+  /* Estilos para las filas impares */
+  .table tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+  }
+  
+  .separator {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+    padding: 10px; /* Espacio uniforme alrededor del contenido */
+  }
+  
+  .title {
+    margin: 0;
+    flex-grow: 1;
+    margin-right: 70px; /* Agrega espacio a la derecha del título */
+  }
+  .button mat-icon {
+    height: 10px;
+    background: transparent;
+    border: none;
+    position: relative;
+  }
+  
+  .volver-btn {
+    margin-left: 10px; 
+    color: white;
+    background-color: red;
+    width: 40px; /* Ancho del botón */
+    height: 40px; /* Alto del botón */
+    border-radius: 20%; /* Hace que los bordes sean circulares */
+  }
+  
+  .card {
+    overflow: auto;
+    height: 100%;
+  }
+  
+  .btn-success {
+    float: right;
+    height: max-content;
+    margin-top: 5px;
+    margin-left: 3px;
+    margin-right: 5px;
+  }
+  
+  .btn-danger {
+    float: right;
+    height: max-content;
+    margin-top: 5px;
+    margin-right: 5px;
+  }
+  
+  .container {
+    margin-top: 20px;
+    /* Puedes ajustar este valor según tu preferencia */
+  }
+  input{
+    font-family: monospace;
+  }
+  mat-label{
+    font-family: monospace;
+  }
+  .card-header {
+    background-color: lightsteelblue;
+    color: black;
+    width: 100%;
+    padding: 16px 0;
+    right: 0;
+    justify-content: center;
+  }
+  
+  .card-body {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .campo {
+    display: grid;
+  
+  
+    margin-top: 10px;
+  }
+  
+  .col-dos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    /* Agregado para crear espacio entre columnas */
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  .col-dos>div {
+    flex: 1;
+    /* Distribuir el espacio de manera uniforme entre las dos columnas */
+    margin-right: 0;
+    /* Eliminar el margen derecho para que las columnas estén juntas */
+  }
+  
+  
+  .dos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 20px;
+    /* background-color: blueviolet;
+   color: brown; */
+  }
+  
+  .dos .mat-form-field {
+    width: 100%;
+  }
+  
+  .dos li {
+    list-style: none;
+    all: none;
+  }
+
+
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  /* Asegura que el contenedor ocupe el espacio adecuado */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .custom-search {
+    width: 100%;
+    height: 76px;
+    max-width: 600px; /* Limita el ancho del campo */
+    background: #fff; /* Fondo blanco */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  }
+  /* Ícono de búsqueda */
+  .custom-search mat-icon {
+  
+    font-size: 24px; /* Tamaño del ícono */
+  }
+  
+  /* Personalización del input */
+  .custom-search input {
+    font-size: 16px; /* Tamaño de fuente */
+    padding: 10px; /* Espaciado interno */
+  }
+  
+  /* Efecto de enfoque en el campo */
+  .custom-search.mat-form-field-appearance-outline .mat-form-field-outline {
+    border-color: #3f51b5; /* Color del borde al enfocarse */
+    transition: all 0.3s ease-in-out; /* Transición suave */
+  }
+  
+  .custom-search.mat-form-field-appearance-outline:hover .mat-form-field-outline {
+    border-color: #5c6bc0; /* Color al pasar el mouse */
+  }
+  

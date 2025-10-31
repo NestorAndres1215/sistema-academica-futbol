@@ -1,0 +1,74 @@
+<div class="separator">
+    <h1 style="font-family: monospace;">Historial de Partido</h1>
+    <div class="card-header position-sticky sticky-top">
+        <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
+            tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
+    </div>
+</div>
+<div class="card-body">
+    <div class="button-container">
+        <!-- Botón Excel -->
+        <button class="btn btn-excel" (click)="exportarExcel()">
+            <i class="fas fa-file-excel"></i> Exportar a Excel
+        </button>
+
+        <!-- Botón PDF -->
+        <button class="btn btn-pdf" (click)="exportarPDF()">
+            <i class="fas fa-file-pdf"></i> Exportar a PDF
+        </button>
+
+        <!-- Botón Imprimir -->
+        <button class="btn btn-print" (click)="exportarPrint()">
+            <i class="fas fa-print"></i> Imprimir
+        </button>
+
+
+    </div>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Equipo Local</th>
+                <th>Resultado</th>
+                <th>Equipo Rival</th>
+                <th>Lugar</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Resultado</th>
+                <th>Acciónes</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngIf="pagedData.length === 0">
+                <td colspan="9" style="text-align: center; color: grey;">
+                    No hay datos disponibles.
+                </td>
+            </tr>
+            <tr *ngFor="let row of pagedData">
+                <td>{{ row.codigo }}</td>
+                <td>{{ row.equipo.nombre }}</td>
+                <td>{{row.marcadorLocal +"- "+row.marcadorVisita}}</td>
+                <td>{{ row.equipoRival }}</td>
+                <td>{{ row.lugar }}</td>
+                <td>{{ row.fecha }}</td>
+                <td>{{ row.hora }}</td>
+                <td>{{ row.resultado }}</td> <!-- Mostrar el resultado -->
+          
+            <td>
+                <button mat-icon-button class="btn-editar" (click)="editar(row)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button class="btn-vista" (click)="visor(row)">
+                    <mat-icon>visibility</mat-icon>
+                </button>
+
+            </td>
+            </tr>
+        </tbody>
+    </table>
+    <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        (page)="pageChanged($event)">
+    </mat-paginator>
+    
+</div>
