@@ -53,10 +53,6 @@ export class ModuloPartidoComponent implements OnInit {
     private dialog: MatDialog,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private mensjae: MensajeService,
-    private historialService: HistorialService,
-    private excel: ExcelService,
-    private pdfService: PdfService,
     private route: Router
   ) {
     this.pageChanged({

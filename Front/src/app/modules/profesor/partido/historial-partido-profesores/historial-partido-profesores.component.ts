@@ -68,7 +68,7 @@ export class HistorialPartidoProfesoresComponent implements OnInit {
 
         return { ...partido, resultado }; // Agrega la propiedad "resultado" al objeto partido
       });
-      console.log(data);
+
       this.datosTabla = data;
       this.pagedData = data
       this.totalItems = this.datosTabla.length
@@ -100,21 +100,6 @@ export class HistorialPartidoProfesoresComponent implements OnInit {
   }
 
   visor(row: any) {
-    /* console.log(row)
- 
-     const dialogRef = this.dialog.open(VisorPartidoComponent, {
-       width: '850px',
-       disableClose: true,
-       height: '450px',
-       data: {
-         row,
-       }
-     });
-     dialogRef.afterClosed().subscribe(result => {
-       if (result) {
-         console.log('Elemento eliminado');
-       }
-     });*/
 
   }
   equipoSeleccionada: string = '';
@@ -125,16 +110,8 @@ export class HistorialPartidoProfesoresComponent implements OnInit {
   equipo: any[] = [];
   async listarEquipoDev() {
     this.equipoService.listarAsignacion().subscribe((data) => {
-
-      console.log(this.loginService.getUser().ul_codigo)
-      //  console.log(data.filter(i=>i.profesor.usuario.codigo==this.loginService.getUser().ul_codigo))
       const usuariosCodigo = data
         .filter(i => i.profesor && i.profesor.usuario && i.profesor.usuario.codigo === this.loginService.getUser().ul_codigo);
-
-      console.log(usuariosCodigo);
-      console.log(data)
-
-    
       this.asignacion = usuariosCodigo;
       this.listarEquipo()
     });
@@ -143,10 +120,8 @@ export class HistorialPartidoProfesoresComponent implements OnInit {
     this.equipoService.listarActivado().subscribe((data) => {
 
       const equipos = this.asignacion.map(i => i.equipo.nombre); // Array de nombres
-      console.log("Equipos:", equipos);
 
       const equiposFiltrados = data.filter(i => equipos.includes(i.nombre)); // Filtra los que coincidan
-      console.log("Equipos filtrados:", equiposFiltrados);
 
       this.equipo = equiposFiltrados;
     });
@@ -154,41 +129,32 @@ export class HistorialPartidoProfesoresComponent implements OnInit {
   estudiantesFiltrados = [...this.pagedData];
   filtrarUsuarios() {
     console.log("Equipo seleccionado:", this.equipoSeleccionada); // Verifica el valor seleccionado
-  
+
     // Si no hay equipo seleccionado, mostrar todos los usuarios
     if (!this.equipoSeleccionada) {
       this.estudiantesFiltrados = [...this.pagedData]; // Restaurar la lista original
-      console.log("Mostrando todos los estudiantes.");
       return;
     }
-  
+
     // Verificar que pagedData esté definido antes de filtrar
     if (!this.pagedData || !Array.isArray(this.pagedData)) {
-      console.error("Error: pagedData no está definido o no es un array.");
       this.estudiantesFiltrados = [];
       return;
     }
-  
-    console.log("Estudiantes antes de filtrar:", this.pagedData);
-  
+
     // Filtrar los estudiantes
     this.estudiantesFiltrados = this.pagedData.filter(estudiante => {
       if (!estudiante.equipo || !estudiante.equipo.nombre) {
-        console.warn("Advertencia: Estudiante sin equipo definido", estudiante);
+
         return false;
       }
-  
-      console.log(`Comparando: "${estudiante.equipo.nombre}" con "${this.equipoSeleccionada}"`);
-      
-      // Comparar nombres con insensibilidad a mayúsculas y espacios
+
       const coincideConEquipo =
         estudiante.equipo.nombre.trim().toLowerCase() === this.equipoSeleccionada.trim().toLowerCase();
-  
+
       return coincideConEquipo;
     });
-  
-    console.log("Estudiantes filtrados:", this.estudiantesFiltrados);
   }
-  
+
 
 }

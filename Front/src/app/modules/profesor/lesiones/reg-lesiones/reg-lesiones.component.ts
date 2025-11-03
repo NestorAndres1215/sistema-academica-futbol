@@ -20,9 +20,6 @@ import { Lesion } from 'src/app/model/lesion';
 })
 export class RegLesionesComponent implements OnInit {
   operar() {
-    console.log(this.estudiantes)
-    console.log(this.formulario.get('estudiante').value)
-
     const fechaLesion = new Date(this.formulario.get('fechaLesion')?.value);
     const fechaRecuperacion = new Date(this.formulario.get('fechaRecuperacion')?.value);
 
@@ -30,7 +27,6 @@ export class RegLesionesComponent implements OnInit {
       this.mensaje.MostrarMensaje("La fecha de recuperación no puede ser anterior a la fecha de lesión.");
       return;
     }
-
 
     const datos = {
       fechaLesion: fechaLesion.toISOString().split('T')[0],  // Formato YYYY-MM-DD
@@ -92,7 +88,8 @@ export class RegLesionesComponent implements OnInit {
   }
 
   constructor(
-    private estudianteService: EstudianteService, private historialService: HistorialService, private lesionService: LesionService,
+    private historialService: HistorialService,
+    private lesionService: LesionService,
     private formBuilder: UntypedFormBuilder,
     private equipodevService: EquipoService,
     private mensaje: MensajeService,
@@ -127,15 +124,11 @@ export class RegLesionesComponent implements OnInit {
   async listarDevEquipo() {
     this.equipodevService.listarDev().subscribe((data) => {
       this.estudiantes = data.filter(i => i.estudiante.codigo !== "0000")
-      console.log(data)
 
-      console.log(this.loginService.getUser().ul_codigo)
-      // // console.log(data.filter(i=>i.profesor.usuario.codigo==this.loginService.getUser().ul_codigo))
+
       const usuariosCodigo = data
         .filter(i => i.profesor && i.profesor.usuario && i.profesor.usuario.codigo === this.loginService.getUser().ul_codigo);
       const equipos = usuariosCodigo.map(i => i.equipo.nombre);
-      console.log(equipos);
-      console.log(this.estudiantes)
 
       const estudiantesFiltrados = this.estudiantes.filter(estudiante =>
         equipos.includes(estudiante.equipo.nombre)

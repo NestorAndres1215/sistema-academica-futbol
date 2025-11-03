@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, TrackByFunction } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { MESES } from 'src/app/constants/months.constants';
 import { Calendar } from 'src/app/model/calendar';
 import { Events } from 'src/app/model/events';
 import { ModalEventsComponent } from 'src/app/modules/admin/components/modal-events/modal-events.component';
@@ -18,9 +19,6 @@ import { PartidoService } from 'src/app/services/partido.service';
 })
 export class CalendarioProfesorComponent implements OnInit {
 
-  volver() {
-    throw new Error('Method not implemented.');
-  }
 
   currentMonth = 'Enero'; // Mes actual (ejemplo inicial)
   currentYear = 2025; // Año actual (ejemplo inicial)
@@ -29,6 +27,26 @@ export class CalendarioProfesorComponent implements OnInit {
   selectedDayName: string = ''; // Nombre del día (Lunes, Martes, etc.)
   selectedDay: any = null; // Variable para almacenar el día seleccionado
   mes: number
+  user: any
+  partido: any
+  nameDay = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  calendarDays: Calendar[] = [];
+  allEvents: Events[] = [];
+  currentMonthAndYear?: string;
+  private modalSvc = inject(ModalEventsService);
+  private dialog = inject(MatDialog);
+  clases: any
+  feriado: any
+  año: string
+  añoActual: String
+  private totalDays = 42;
+  private date = new Date();
+
+  listado: any[] = [];
+  private eventSubscription: Subscription;
+  trackByIndex: TrackByFunction<string>;
+
+
   selectDay(day: any): void {
     // Crear un objeto Date usando el día, mes y año actuales
     if (day.day === null) {
@@ -184,28 +202,28 @@ export class CalendarioProfesorComponent implements OnInit {
       this.partidoFiltrado = this.partido.filter(partido => {
         const fechaPartido = new Date(partido.fecha);
         const selected = new Date(selectedDate);
-    
+
         // Convertimos a UTC para evitar cambios por zona horaria
         const fechaPartidoUTC = new Date(Date.UTC(
-            fechaPartido.getUTCFullYear(),
-            fechaPartido.getUTCMonth(),
-            fechaPartido.getUTCDate()
+          fechaPartido.getUTCFullYear(),
+          fechaPartido.getUTCMonth(),
+          fechaPartido.getUTCDate()
         ));
-    
+
         const selectedUTC = new Date(Date.UTC(
-            selected.getUTCFullYear(),
-            selected.getUTCMonth(),
-            selected.getUTCDate()
+          selected.getUTCFullYear(),
+          selected.getUTCMonth(),
+          selected.getUTCDate()
         ));
-    
+
         console.log("Fecha del partido (original):", partido.fecha);
         console.log("Fecha del partido (convertida a UTC):", fechaPartidoUTC.toISOString());
         console.log("Fecha seleccionada (convertida a UTC):", selectedUTC.toISOString());
-    
+
         return fechaPartidoUTC.getTime() === selectedUTC.getTime();
-    });
-    
-    
+      });
+
+
       console.log(this.partidoFiltrado)
       // Si el día seleccionado está dentro del rango y no es feriado, comprobamos si corresponde a un día de la clase
       return clase.dias.some(diaObj =>
@@ -232,29 +250,15 @@ export class CalendarioProfesorComponent implements OnInit {
 
   }
 
-
   getMonthIndex(month: string): number {
-    const months = [
-      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-    ];
-    // Normalizamos el mes a mayúsculas para evitar problemas de comparación
+    /* const months = [
+       'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+     ];*/
+    const months = MESES
     return months.findIndex(m => m.toLowerCase() === month.toLowerCase());
   }
 
-  private modalSvc = inject(ModalEventsService);
-  private dialog = inject(MatDialog);
-
-  nameDay = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-  calendarDays: Calendar[] = [];
-  allEvents: Events[] = [];
-  currentMonthAndYear?: string;
-
-  private totalDays = 42;
-  private date = new Date();
-
-  private eventSubscription: Subscription;
-  trackByIndex: TrackByFunction<string>;
 
   constructor(
     private loginService: LoginService,
@@ -272,7 +276,6 @@ export class CalendarioProfesorComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeCalendar();
-    //this.listarClases()
     this.listarEquipo()
     this.listarFearidos()
 
@@ -284,7 +287,6 @@ export class CalendarioProfesorComponent implements OnInit {
     this.createCalendarDays();
   }
 
-  // Esta función será llamada cada vez que el evento se actualice
   private updateEvent(item: Events) {
     this.allEvents = this.allEvents.filter(event => event.id !== item.id).concat(item);
     this.modalSvc.saveEvents();
@@ -298,20 +300,19 @@ export class CalendarioProfesorComponent implements OnInit {
   formatDate(date: Date | string): string {
     const parsedDate = new Date(date);
     if (isNaN(parsedDate.getTime())) {
-      console.error('Invalid date:', date);
       return 'Fecha inválida';
     }
     return parsedDate.toLocaleDateString('es-ES', {
       weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     });
   }
-  año: string
-  añoActual: String
+
   private updateCurrentMonthAndYear() {
-    const monthNames = [
-      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-    ];
+    /* const monthNames = [
+       'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+       'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+     ];*/
+    const monthNames = MESES
     this.currentMonthAndYear = `${monthNames[this.date.getMonth()]} de ${this.date.getFullYear()}`;
     this.año = monthNames[this.date.getMonth()];
 
@@ -365,11 +366,10 @@ export class CalendarioProfesorComponent implements OnInit {
 
   private addCalendarDay(year: number, month: number, day: number, isCurrentDay: boolean, isCurrentMonth: boolean) {
     const date = new Date(year, month, day);
-    const isSunday = date.getDay() === 0; // Determinar si es domingo
+    const isSunday = date.getDay() === 0; 
 
-    // Solo agregar los días si pertenecen al mes actual
     this.calendarDays.push({
-      day: isCurrentMonth ? day : null, // Si no es del mes actual, no mostramos el número
+      day: isCurrentMonth ? day : null, 
       currentDay: isCurrentDay,
       currentMonth: isCurrentMonth,
       events: this.getEventsForDate(date),
@@ -410,23 +410,18 @@ export class CalendarioProfesorComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    // Limpiar la suscripción al destruir el componente
     this.eventSubscription.unsubscribe();
   }
-  clases: any
-  feriado: any
+
   async listarClases() {
     this.claseService.listarClaseActivado().subscribe((data) => {
 
-      console.log(data)
-      console.log(this.listado)
       this.user = this.loginService.getUser();
       const listadoNormalizado = this.listado.map(e => e.toLowerCase().trim());
-      console.log(listadoNormalizado)
       const resultado = data.filter(i =>
         listadoNormalizado.includes(i.equipo.nombre.toLowerCase().trim())
       );
-      console.log(data)
+
       this.clases = resultado
     });
   }
@@ -435,33 +430,28 @@ export class CalendarioProfesorComponent implements OnInit {
 
       this.feriado = data
     });
-  } user: any
-  partido: any
+  }
+  volver() {
+    throw new Error('Method not implemented.');
+  }
+
   async listarPartido() {
     this.partidoService.listarPartidosActuales().subscribe((data) => {
-      console.log(data)
-      console.log(this.listado)
+
       this.user = this.loginService.getUser();
       const listadoNormalizado = this.listado.map(e => e.toLowerCase().trim());
-      console.log(listadoNormalizado)
       const resultado = data.filter(i =>
         listadoNormalizado.includes(i.equipo.nombre.toLowerCase().trim())
       );
 
-      console.log(resultado)
-      
       this.partido = resultado
     });
   }
 
-  listado: any[] = [];
 
   async listarEquipo() {
     this.equipoService.listarAsignacion().subscribe((data) => {
-
-      console.log(data)
-
-      console.log(this.loginService.getUser().ul_codigo)
+      
       data = data.filter(item => item.profesor.codigo != "0000");
 
       const filteredData = data.filter(item =>

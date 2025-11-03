@@ -43,7 +43,7 @@ export class RegEjercicioComponent implements OnInit {
         codigo = "Código no definido";
         break;
     }
-    console.log(this.formulario.value)
+
     if (this.formulario.valid) {
 
       const objclase: Ejercicio = {
@@ -55,8 +55,7 @@ export class RegEjercicioComponent implements OnInit {
         usuarioCreacion: this.loginService.getUser().username,
         clase: this.codigo ,
       };
-      console.log(objclase)
-      // Crear el objeto del historial
+
       const historial: Historial = {
         usuario: this.loginService.getUser().username, // Usuario que realiza la acción
         detalle: `El usuario ${this.loginService.getUser().username} registró al clase detalle ${objclase.nombre} y con el  dia  ${this.dia}.`
@@ -65,7 +64,7 @@ export class RegEjercicioComponent implements OnInit {
       // Registrar el historial
       this.ejercicioService.registrar(objclase).subscribe(
         () => {
-          // Si el historial se registra correctamente, proceder con el registro del estudiante
+          
           this.historialService.registrar(historial).subscribe(
             response => {
               this.mensaje.MostrarMensajeExito("SE REGISTRO  CORRECTAMENTE");

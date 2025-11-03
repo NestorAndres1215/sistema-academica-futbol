@@ -24,7 +24,7 @@ export class LsLesionesComponent implements OnInit {
     private lesionService: LesionService,
     private dialog: MatDialog,
     private mensaje: MensajeService,
-    private router: Router,
+
   ) { }
   equipoSeleccionada: string = '';
   ngOnInit(): void {
@@ -54,7 +54,7 @@ export class LsLesionesComponent implements OnInit {
   estudiantesFiltrados = [...this.estudiantes];
 
   filtrarUsuarios() {
-console.log(this.equipoSeleccionada)
+
     if (!this.equipoSeleccionada) {
       //ver si esta bien es algo que se esta viendo
       this.estudiantesFiltrados = [...this.estudiantes];

@@ -21,16 +21,16 @@ import { MatSelectChange } from '@angular/material/select';
   styleUrls: ['./modal-events.component.css']
 })
 export class ModalEventsComponent implements OnInit {
-hola(arg0: any) {
-throw new Error('Method not implemented.');
-}
-equipo: any;
+  hola(arg0: any) {
+    throw new Error('Method not implemented.');
+  }
+  equipo: any;
 
   selectequipo(event: any) {
     this.selectedHorario = event.value;
     this.selectedDia = event.value;
-    this.isFormEnabled = this.selectedHorario !== ''; 
-    this.isFormEnabled = this.selectedDia !== ''; 
+    this.isFormEnabled = this.selectedHorario !== '';
+    this.isFormEnabled = this.selectedDia !== '';
   }
   cerrar() {
     this.dialogRe.close();
@@ -88,11 +88,11 @@ equipo: any;
 
     // Validar que la fecha de inicio sea menor que la fecha de fin
     if (fechaInicio > new Date(fechaFin)) {
-      console.log(fechaInicio, fechaFin);
+
       this.mensaje.MostrarMensaje("LA FECHA INICIAL DEBE SER MENOR QUE LA FECHA FINAL");
       // Validar que la fecha de inicio no sea menor a la fecha actual
     } else if (fechaInicio < fechaActual) {
-      console.log('Fecha de inicio no válida:', fechaInicio);
+  
       this.mensaje.MostrarMensaje("LA FECHA INICIAL NO PUEDE SER MENOR A LA FECHA ACTUAL");
     } else {
       console.log('Fechas válidas:', fechaInicio, fechaFin);
@@ -107,7 +107,7 @@ equipo: any;
         dia: this.formulario.get('dia')?.value,
         inicio: this.formulario.get('fechaInicio')?.value,
         fin: this.formulario.get('fechaFin')?.value,
-        descripcion:this.formulario.get('desc')?.value,
+        descripcion: this.formulario.get('desc')?.value,
         usuarioCreacion: this.loginService.getUser().username,
       }
       const historial: Historial = {
@@ -195,7 +195,7 @@ equipo: any;
     this.equipoListar = equiposFiltrados;
   }
   selectedHorario: any; // to store the selected horario
-  selectedDia:any
+  selectedDia: any
   dias: any
   isFormEnabled = true;
   // Function to check if the horario is already selected

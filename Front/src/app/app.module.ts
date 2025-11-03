@@ -117,7 +117,7 @@ import { DeleteComponent } from './modules/admin/components/delete/delete.compon
 import { MatTooltipModule } from '@angular/material/tooltip';
 registerLocaleData(localeEs, 'es');  
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { DiaComponent } from './modules/admin/components/calendario/dia/dia.component';
+
 import { HorarioComponent } from './modules/admin/calendario/horario/horario.component';
 import { VisorHorarioComponent } from './modules/admin/calendario/visor-horario/visor-horario.component';
 import { EditHorarioComponent } from './modules/admin/calendario/edit-horario/edit-horario.component';
@@ -280,7 +280,7 @@ import { EditRegDetalleLesionesComponent } from './modules/profesor/lesiones/edi
      CalendarioComponent,
      ModalEventsComponent,
      DeleteComponent,
-     DiaComponent,
+   
      HorarioComponent,
      VisorHorarioComponent,
      EditHorarioComponent,

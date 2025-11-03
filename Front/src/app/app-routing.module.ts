@@ -171,7 +171,7 @@ const routes: Routes = [
       { path: 'equipos', component: EquipoComponent },
     ]
   },
- 
+
 
 
 
@@ -218,7 +218,7 @@ const routes: Routes = [
     canActivate: [EstudianteGuard],
     children: [
       { path: 'det/cambiar-contraseña', component: ActualizarContraComponent },
-      {path:'det/registro-activades', component:RegActividadesComponent}
+      { path: 'det/registro-activades', component: RegActividadesComponent }
     ]
   },
   // PROFESOR
@@ -253,7 +253,7 @@ const routes: Routes = [
     children: [
       { path: 'proximos-partidos', component: ModuloPartidoComponent },
       { path: 'historial-partidos', component: HistorialPartidoProfesoresComponent },
-      { path: 'estadisticas-partidos', component: EstadisticasPartidoComponent }, 
+      { path: 'estadisticas-partidos', component: EstadisticasPartidoComponent },
     ]
   },
   {
@@ -269,7 +269,7 @@ const routes: Routes = [
     canActivate: [ProfesorGuard],
     children: [
       { path: 'cambiar-contraseña', component: ActualizarContraComponent },
-      {path:'de/registrado', component:RegActividadesComponent}
+      { path: 'de/registrado', component: RegActividadesComponent }
     ]
   },
 

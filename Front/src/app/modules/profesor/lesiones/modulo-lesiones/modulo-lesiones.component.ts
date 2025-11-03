@@ -15,24 +15,24 @@ import { EditRegDetalleLesionesComponent } from '../edit-reg-detalle-lesiones/ed
   styleUrls: ['./modulo-lesiones.component.css']
 })
 export class ModuloLesionesComponent implements OnInit {
-editar(row: any) {
-  const dialogRef = this.dialog.open(EditRegDetalleLesionesComponent, {
-    disableClose: true,
-    width: '850px',
-    height: '600px',
-    data:{
-      lesionCompleto: this.lesionCompleto,
-      row: row
+  editar(row: any) {
+    const dialogRef = this.dialog.open(EditRegDetalleLesionesComponent, {
+      disableClose: true,
+      width: '850px',
+      height: '600px',
+      data: {
+        lesionCompleto: this.lesionCompleto,
+        row: row
 
-    }
-  });
+      }
+    });
 
-  // Escucha el cierre del modal para actualizar la tabla
-  dialogRef.afterClosed().subscribe(data => {
-    this.lesiones()
-  })
-}
-registrar() {
+    // Escucha el cierre del modal para actualizar la tabla
+    dialogRef.afterClosed().subscribe(data => {
+      this.lesiones()
+    })
+  }
+  registrar() {
     const dialogRef = this.dialog.open(RegLesionesComponent, {
       disableClose: true,
       width: '850px',
@@ -54,44 +54,37 @@ registrar() {
     throw new Error('Method not implemented.');
   }
   equipo: any
-  constructor(private equipoService: EquipoService,private loginService:LoginService,
+  constructor(private equipoService: EquipoService, private loginService: LoginService,
     private lesionService: LesionService,
     private dialog: MatDialog,
     private mensaje: MensajeService,
     private router: Router,
   ) { }
   equipoSeleccionada: string = '';
+
   ngOnInit(): void {
-    //this.listarEquipo()
     this.listarDevEquipo()
     this.lesiones()
   }
+
   async listarEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
       const equipos = this.asignacion.map(i => i.equipo.nombre); // Array de nombres
-      console.log("Equipos:", equipos);
-
       const equiposFiltrados = data.filter(i => equipos.includes(i.nombre)); // Filtra los que coincidan
-      console.log("Equipos filtrados:", equiposFiltrados);
-
       this.equipo = equiposFiltrados;
     });
   }
   asignacion: any
   estudiantes: any[] = [];
   profesores: any[] = [];
-  usuariosFiltrados: any[] = []; 
+  usuariosFiltrados: any[] = [];
   async listarDevEquipo() {
     this.equipoService.listarAsignacion().subscribe((data) => {
       this.estudiantes = data.filter(i => i.estudiante.codigo !== "0000")
-      console.log(data)
-
-      console.log(this.loginService.getUser().ul_codigo)
-      //  console.log(data.filter(i=>i.profesor.usuario.codigo==this.loginService.getUser().ul_codigo))
+  
       const usuariosCodigo = data
         .filter(i => i.profesor && i.profesor.usuario && i.profesor.usuario.codigo === this.loginService.getUser().ul_codigo);
 
-      console.log(usuariosCodigo);
       this.asignacion = usuariosCodigo;
       this.listarEquipo()
       this.usuariosFiltrados = [...this.asignacion];
@@ -103,19 +96,12 @@ registrar() {
   estudiantesFiltrados = [...this.estudiantes];
 
   filtrarUsuarios() {
-console.log(this.equipoSeleccionada)
+
     if (!this.equipoSeleccionada) {
-      //ver si esta bien es algo que se esta viendo
       this.estudiantesFiltrados = [...this.estudiantes];
- 
       return;
     }
 
-    // Filtrar los estudiantes
-    // Suponiendo que this.lesion es un array de códigos de estudiantes lesionados, por ejemplo: ['0058', '0062']
-    console.log(this.lesion);
-
-    // Filtrar los estudiantes
     this.estudiantesFiltrados = this.estudiantes.filter(est => {
       const coincideConEquipo = est.equipo && est.equipo.nombre === this.equipoSeleccionada;
       const estaLesionado = this.lesion.includes(est.estudiante.codigo);
@@ -127,7 +113,7 @@ console.log(this.equipoSeleccionada)
       const lesionInfo = this.lesionCompleto.find(lesion => lesion.estudiante.codigo === est.estudiante.codigo);
       return {
         estudiante: est,
-        lesionado: lesionInfo ? lesionInfo : null 
+        lesionado: lesionInfo ? lesionInfo : null
       };
     });
 
@@ -147,9 +133,9 @@ console.log(this.equipoSeleccionada)
       this.lesion = data.map(i => i.estudiante.codigo);
       this.lesionCompleto = data
     });
-  }  
+  }
   virsor(row) {
-   console.log(row)
+    console.log(row)
     const dialogRef = this.dialog.open(VisorLesionComponent, {
       disableClose: true,
       width: '1020px',

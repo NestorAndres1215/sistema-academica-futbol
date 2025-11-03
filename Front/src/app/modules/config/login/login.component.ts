@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { LOGIN_MESSAGES, LOGIN_TITLES } from 'src/app/constants/login.constants';
 import { LoginService } from 'src/app/services/login.service';
 import { MensajeService } from 'src/app/services/mensaje.service';
 import Swal from 'sweetalert2';
@@ -8,7 +9,7 @@ import Swal from 'sweetalert2';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   loginData = {
     "username": '',
@@ -20,15 +21,6 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private mensaje: MensajeService) { }
 
-  ngOnInit(): void {
-
-  }
-
-  registrar() {
-
-
-
-  }
   hidePassword = true;
   verContraActual = false;
   togglePasswordVisibility() {
@@ -37,41 +29,23 @@ export class LoginComponent implements OnInit {
 
   formSubmit() {
     // Validar si el nombre de usuario está vacío o nulo
-    if (this.loginData.username.trim() === '' || this.loginData.username.trim() === null) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Campo requerido',
-        text: 'El nombre de usuario es requerido.',
-      });
+    if (!this.loginData.username.trim()) {
+      Swal.fire(LOGIN_TITLES.WARNING, LOGIN_MESSAGES.REQUIRED_USERNAME, 'warning');
       return;
     }
 
     if (this.loginData.username.trim().length < 3) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Nombre de usuario inválido',
-        text: 'El nombre de usuario debe tener al menos 3 caracteres.',
-      });
+      Swal.fire(LOGIN_TITLES.WARNING, LOGIN_MESSAGES.INVALID_USERNAME, 'warning');
       return;
     }
 
-    // Validar si la contraseña está vacía o nula
-    if (this.loginData.password.trim() === '' || this.loginData.password.trim() === null) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Campo requerido',
-        text: 'La contraseña es requerida.',
-      });
+    if (!this.loginData.password.trim()) {
+      Swal.fire(LOGIN_TITLES.WARNING, LOGIN_MESSAGES.REQUIRED_PASSWORD, 'warning');
       return;
     }
 
-    // Validar si la longitud de la contraseña es adecuada
     if (this.loginData.password.trim().length < 6) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Contraseña inválida',
-        text: 'La contraseña debe tener al menos 6 caracteres.',
-      });
+      Swal.fire(LOGIN_TITLES.WARNING, LOGIN_MESSAGES.INVALID_PASSWORD, 'warning');
       return;
     }
 
@@ -138,7 +112,7 @@ export class LoginComponent implements OnInit {
                   text: 'Rol no reconocido. Cierre de sesión.',
                   confirmButtonText: 'Aceptar'
                 });
-                
+
             }
           },
           (error) => {

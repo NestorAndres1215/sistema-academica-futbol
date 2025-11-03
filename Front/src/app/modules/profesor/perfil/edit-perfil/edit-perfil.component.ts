@@ -80,11 +80,6 @@ export class EditPerfilComponent implements OnInit {
   defaultImageUrl: string = 'assets/image/components/icono-perfil.jpg';
 
 
-  //imageUrl: string | ArrayBuffer | null = null; // Variable para la URL de la imagen
-
-
-
-
   imageUrl: string | null = null; // Variable para la URL de la imagen
 
   onFileSelected(event: any) {
@@ -130,9 +125,8 @@ export class EditPerfilComponent implements OnInit {
   }
 
   listarEdiciones() {
-    // Acceso a los datos del objeto row
-    // Asegúrate de que 'this.lista.row' tiene los datos correctamente estructurados.
-    const firstRow = this.lista.row[0];  // Suponiendo que row es un array
+
+    const firstRow = this.lista.row[0];  
     this.codigoUsuario = firstRow.usuario.codigo;
     this.codigoAdmin = firstRow.codigo;
     this.usuario = firstRow.usuario.username;
@@ -161,11 +155,9 @@ export class EditPerfilComponent implements OnInit {
       const hoy = new Date();
       const nacimiento = new Date(fechaNacimiento);
 
-      // Calcular edad
       let edad = hoy.getFullYear() - nacimiento.getFullYear();
       const mesDiferencia = hoy.getMonth() - nacimiento.getMonth();
 
-      // Ajustar si aún no ha cumplido años este año
       if (mesDiferencia < 0 || (mesDiferencia === 0 && hoy.getDate() < nacimiento.getDate())) {
         edad--;
       }
@@ -186,7 +178,6 @@ export class EditPerfilComponent implements OnInit {
         : new File([new Blob()], 'imagen_defecto.jpeg', { type: 'image/jpeg' }); // Imagen por defecto
 
     formValues.logo = logo;
-    let edad: string | null; // Declaramos la variable
 
     if (this.formulario.valid) {
       const registrar = {

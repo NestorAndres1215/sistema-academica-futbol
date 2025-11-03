@@ -32,13 +32,11 @@ export class RegEstudianteComponent implements OnInit {
   constructor(
     private sede: SedeService,
     private generales: GeneralService,
-    private claseService: ClaseService,
+
     private router: Router,
     private estudiante: EstudianteService,
     private formBuilder: UntypedFormBuilder,
     private mensaje: MensajeService,
-    private cdr: ChangeDetectorRef,
-    private dialog: MatDialog,
     private historialService:HistorialService,
     private loginService: LoginService
 
@@ -123,8 +121,6 @@ export class RegEstudianteComponent implements OnInit {
 
 
   operar(): void {
-    console.log(this.loginService.getUser().username,)
-    console.log(this.formulario.value)
 
     const edad = this.formulario.value.edad;
 
