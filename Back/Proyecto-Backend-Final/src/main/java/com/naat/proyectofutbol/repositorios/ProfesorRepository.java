@@ -1,5 +1,6 @@
 package com.naat.proyectofutbol.repositorios;
 
+import com.naat.proyectofutbol.entidades.Admin;
 import com.naat.proyectofutbol.entidades.Estudiante;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -13,14 +14,36 @@ import java.util.Optional;
 public interface ProfesorRepository extends JpaRepository<Profesor, String> {
 
     List<Profesor> findByUsuario_Codigo(String usuarioCodigo);
+
     @Query(value = "SELECT MAX(pr_codigo) FROM Profesor", nativeQuery = true)
     String obtenerUltimoCodigoProfesor();
+
     @Query(value = "SELECT MAX(us_codigo) FROM Usuario", nativeQuery = true)
     String obtenerUltimoCodigoUsuario();
+
     boolean existsByCorreo(String correo);
+
     boolean existsByTelefono(String telefono);
+
     boolean existsByDni(String dni);
+
     List<Profesor> findByEstadoTrue();
+
     List<Profesor> findByEstadoFalse();
+
+    List<Profesor> findByTelefono(String telefono);
+
+    List<Profesor> findByDni(String dni);
+
+    List<Profesor> findByCorreo(String correo);
+
+    List<Profesor> findByNacionalidad(String nacionalidad);
+
+    List<Profesor> findByEdad(String edad);
+
+    List<Profesor> findByApellidoPaterno(String apellidoPaterno);
+
+    List<Profesor> findByPrimerNombre(String primerNombre);
+
     Optional<Profesor> findByPrimerNombreAndApellidoPaternoAndApellidoMaterno(String nombre, String apellidoPaterno, String apellidoMaterno);
 }

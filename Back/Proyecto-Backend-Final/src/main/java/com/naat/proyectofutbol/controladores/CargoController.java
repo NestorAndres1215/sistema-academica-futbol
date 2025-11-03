@@ -1,5 +1,6 @@
 package com.naat.proyectofutbol.controladores;
 
+import com.naat.proyectofutbol.entidades.Admin;
 import com.naat.proyectofutbol.entidades.Cargo;
 import com.naat.proyectofutbol.servicios.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class CargoController {
                     .body(e.getMessage());
         }
     }
+
     @PutMapping("/actualizar-cargo")
     public ResponseEntity<?> actualizarCargo(@RequestBody Cargo cargo) {
         try {
@@ -55,6 +57,7 @@ public class CargoController {
                     .body(e.getMessage());
         }
     }
+
     @DeleteMapping("/activar/{codigo}")
     public ResponseEntity<?> activarPorCodigo(@PathVariable String codigo) {
         try {
@@ -63,6 +66,11 @@ public class CargoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());
         }
+    }
+
+    @GetMapping("/listar/{nombre}")
+    public List<Cargo> buscarPorNombre(@PathVariable("nombre") String nombre) {
+        return cargoService.findByNombre(nombre);
     }
 
 

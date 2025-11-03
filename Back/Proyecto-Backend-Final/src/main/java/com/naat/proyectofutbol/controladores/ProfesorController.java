@@ -112,5 +112,38 @@ public class ProfesorController {
         }
     }
 
+    @GetMapping("/telefono/{telefono}")
+    public List<Profesor> buscarPorTelefono(@PathVariable String telefono) {
+        return profesorService.findByTelefono(telefono);
+    }
 
+    @GetMapping("/dni/{dni}")
+    public List<Profesor> buscarPorDni(@PathVariable String dni) {
+        return profesorService.findByDni(dni);
+    }
+
+    @GetMapping("/correo/{correo}")
+    public List<Profesor> buscarPorCorreo(@PathVariable String correo) {
+        return profesorService.findByCorreo(correo);
+    }
+
+    @GetMapping("/nacionalidad/{nacionalidad}")
+    public List<Profesor> buscarPorNacionalidad(@PathVariable String nacionalidad) {
+        return profesorService.findByNacionalidad(nacionalidad);
+    }
+
+    @GetMapping("/edad/{edad}")
+    public List<Profesor> buscarPorEdad(@PathVariable String edad) {
+        return profesorService.findByEdad(edad);
+    }
+
+    @GetMapping("/apellido/{apellidoPaterno}")
+    public List<Profesor> buscarPorApellidoPaterno(@PathVariable String apellidoPaterno) {
+        return profesorService.findByApellidoPaterno(apellidoPaterno);
+    }
+
+    @GetMapping("/nombre/{primerNombre}")
+    public List<Profesor> buscarPorPrimerNombre(@PathVariable String primerNombre) {
+        return profesorService.findByPrimerNombre(primerNombre);
+    }
 }

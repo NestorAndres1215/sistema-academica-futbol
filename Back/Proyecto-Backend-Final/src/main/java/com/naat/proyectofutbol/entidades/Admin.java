@@ -77,33 +77,6 @@ public class Admin {
     public Admin() {
     }
 
-    @Override
-    public String toString() {
-        return "Admin{" +
-                "codigo='" + codigo + '\'' +
-                ", primerNombre='" + primerNombre + '\'' +
-                ", segundoNombre='" + segundoNombre + '\'' +
-                ", apellidoPaterno='" + apellidoPaterno + '\'' +
-                ", apellidoMaterno='" + apellidoMaterno + '\'' +
-                ", correo='" + correo + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", dni='" + dni + '\'' +
-                ", direccion='" + direccion + '\'' +
-                ", edad=" + edad +
-                ", fechaNacimiento=" + fechaNacimiento +
-                ", nacionalidad='" + nacionalidad + '\'' +
-                ", estado=" + estado +
-                ", perfil=" + Arrays.toString(perfil) +
-                ", usuarioCreacion='" + usuarioCreacion + '\'' +
-                ", fechaCreacion=" + fechaCreacion +
-                ", horaCreacion=" + horaCreacion +
-                ", usuarioActualizacion='" + usuarioActualizacion + '\'' +
-                ", fechaActualizacion=" + fechaActualizacion +
-                ", horaActualizacion=" + horaActualizacion +
-                ", usuario=" + usuario +
-                '}';
-    }
-
     public Admin(String codigo, String primerNombre, String segundoNombre, String apellidoPaterno, String apellidoMaterno, String correo, String telefono, String dni, String direccion, int edad, LocalDate fechaNacimiento, String nacionalidad, boolean estado, byte[] perfil, String usuarioCreacion, LocalDate fechaCreacion, LocalTime horaCreacion, String usuarioActualizacion, LocalDate fechaActualizacion, LocalTime horaActualizacion, Usuario usuario) {
         this.codigo = codigo;
         this.primerNombre = primerNombre;

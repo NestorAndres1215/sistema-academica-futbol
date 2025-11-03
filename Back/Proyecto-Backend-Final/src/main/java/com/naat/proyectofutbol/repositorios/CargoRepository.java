@@ -12,4 +12,5 @@ public interface CargoRepository extends JpaRepository<Cargo,String> {
     List<Cargo> findByEstadoTrue();
     List<Cargo> findByEstadoFalse();
     boolean existsByNombre(String nombre);
+    List<Cargo> findByNombre(String nombre);
 }

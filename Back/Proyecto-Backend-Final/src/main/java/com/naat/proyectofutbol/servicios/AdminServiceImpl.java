@@ -3,7 +3,6 @@ package com.naat.proyectofutbol.servicios;
 import com.naat.proyectofutbol.dto.AdminDTO;
 
 
-
 import com.naat.proyectofutbol.entidades.Admin;
 import com.naat.proyectofutbol.entidades.Usuario;
 import com.naat.proyectofutbol.modelo.Login;
@@ -11,7 +10,6 @@ import com.naat.proyectofutbol.repositorios.AdminRepository;
 import com.naat.proyectofutbol.repositorios.LoginRepository;
 import com.naat.proyectofutbol.repositorios.UsuarioRepository;
 import com.naat.proyectofutbol.util.Utilitarios;
-
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,21 +47,19 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public List<Admin> listarAdmin() {
-        return  adminRepository.findAll();
+        return adminRepository.findAll();
     }
 
     @Override
     public Admin guardarAdmin(AdminDTO admin) throws Exception {
 
-        // Llamada a la validación
         validarAdmin(admin);
 
-        // Obtener el último código de usuario
         String ultimoCodigo = obtenerUltimoCodigoUsuario();
-        // Incrementar el código para el nuevo usuario
+
         String nuevoCodigo = Utilitarios.incrementarSecuencia(ultimoCodigo);
-        String AdminCodigo=ObtenerUltimoCodigoAdmin();
-        String nuevoCodigoAdmin =Utilitarios.incrementarSecuencia(AdminCodigo);
+        String AdminCodigo = ObtenerUltimoCodigoAdmin();
+        String nuevoCodigoAdmin = Utilitarios.incrementarSecuencia(AdminCodigo);
 
         Login login = new Login();
         login.setUl_codigo(nuevoCodigo);
@@ -83,7 +79,7 @@ public class AdminServiceImpl implements AdminService {
         usuario.setRol("0001");
 
 
-        Admin administrador= new Admin();
+        Admin administrador = new Admin();
         administrador.setCodigo(nuevoCodigoAdmin);
         administrador.setPrimerNombre(admin.getPrimerNombre());
         administrador.setSegundoNombre(admin.getSegundoNombre());
@@ -111,10 +107,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Admin actualizarAdmin(AdminDTO admin) {
-        // Buscar si el Admin existe en la base de datos
+
         Optional<Admin> adminExistenteOpt = adminRepository.findById(admin.getCodigoAdmin());
 
-        // Si no existe, lanzamos un error o creamos un nuevo admin
         if (!adminExistenteOpt.isPresent()) {
             throw new RuntimeException("El Admin con codigo " + admin.getCodigoAdmin() + " no existe.");
         }
@@ -128,14 +123,12 @@ public class AdminServiceImpl implements AdminService {
         if (!dniEsValido(admin.getDni())) {
             throw new IllegalArgumentException("EL DNI DEBE TENER 8 DIGITOS");
         }
-        if (admin.getEdad() < 5 ) {
+        if (admin.getEdad() < 5) {
             throw new IllegalArgumentException("EDAD NO PERMITIDA");
         }
 
-        // Si existe, obtenemos el Admin y lo actualizamos
         Admin administrador = adminExistenteOpt.get();
 
-        // Actualizar los campos con los nuevos valores
         administrador.setPrimerNombre(admin.getPrimerNombre());
         administrador.setSegundoNombre(admin.getSegundoNombre());
         administrador.setApellidoPaterno(admin.getApellidoPaterno());
@@ -149,8 +142,8 @@ public class AdminServiceImpl implements AdminService {
         administrador.setNacionalidad(admin.getNacionalidad());
         administrador.setFechaActualizacion(LocalDate.now());
         administrador.setHoraActualizacion(LocalTime.now());
-        administrador.setUsuario(admin.getCodigoUsuario()); // Si esto necesita actualizarse también
-        administrador.setUsuarioCreacion(admin.getUsuarioCreacion()); // Si se actualiza
+        administrador.setUsuario(admin.getCodigoUsuario());
+        administrador.setUsuarioCreacion(admin.getUsuarioCreacion());
 
         if (!administrador.getTelefono().equals(admin.getTelefono())) {
             if (ExistePorTelefono(admin.getTelefono())) {
@@ -183,9 +176,9 @@ public class AdminServiceImpl implements AdminService {
                 .orElseThrow(() -> new RuntimeException("El usuario con código " + admin.getCodigoUsuario() + " no existe."));
         usuario.setUsername(admin.getUsername());
 
-     loginRepository.save(login); // Actualizar
-         usuarioRepository.save(usuario); // Actualizar Usuario
-        return  adminRepository.save(administrador);
+        loginRepository.save(login);
+        usuarioRepository.save(usuario);
+        return adminRepository.save(administrador);
     }
 
 
@@ -211,7 +204,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean ExistePorDNI(String dni) {
-        return adminRepository.existsByDni(dni);}
+        return adminRepository.existsByDni(dni);
+    }
 
     @Override
     public boolean telefonoEsValido(String telefono) {
@@ -220,12 +214,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean correoEsValido(String correo) {
-        // Verificar que el correo tenga el formato estándar
         return correo != null && correo.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     }
+
     @Override
     public boolean dniEsValido(String dni) {
-        // Verificar que el DNI tenga exactamente 8 dígitos
+
         return dni != null && dni.matches("\\d{8}");
     }
 
@@ -242,8 +236,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Admin actualizarImagen(String codigoUsuario, String codigoAdmin, String contra, String username, String primerNombre, String segundoNombre,
                                   String apellidoPaterno, String apellidoMaterno, String telefono, String email, String dni,
-                                  String direccion, LocalDate nacimiento, String nacionalidad,int edad, MultipartFile archivo) throws IOException {
-
+                                  String direccion, LocalDate nacimiento, String nacionalidad, int edad, MultipartFile archivo) throws IOException {
 
 
         Optional<Admin> adminExistenteOpt = adminRepository.findById(codigoAdmin);
@@ -260,10 +253,10 @@ public class AdminServiceImpl implements AdminService {
         if (!dniEsValido(dni)) {
             throw new IllegalArgumentException("EL DNI DEBE TENER 8 DIGITOS");
         }
-        if (edad < 5 ) {
+        if (edad < 5) {
             throw new IllegalArgumentException("EDAD NO PERMITIDA");
         }
-        // Si existe, obtenemos el Admin y lo actualizamos
+
         Admin administrador = adminExistenteOpt.get();
 
         // Actualizar los campos con los nuevos valores
@@ -281,16 +274,13 @@ public class AdminServiceImpl implements AdminService {
         administrador.setFechaActualizacion(LocalDate.now());
         administrador.setHoraActualizacion(LocalTime.now());
 
-        administrador.setUsuario(codigoUsuario); // Si esto necesita actualizarse también
+        administrador.setUsuario(codigoUsuario);
 
         String archivoBase64 = convertirArchivoABase64(archivo);
-        System.out.print(archivoBase64);
-        System.out.print(administrador.getPerfil());
-
-
 
         if (archivoBase64.isEmpty()) {
-            administrador.setPerfil(administrador.getPerfil()); ;
+            administrador.setPerfil(administrador.getPerfil());
+            ;
         } else {
             administrador.setPerfil(archivo.getBytes());
         }
@@ -306,7 +296,7 @@ public class AdminServiceImpl implements AdminService {
         }
 
         Login login = loginRepository.findById(codigoUsuario)
-                .orElseThrow(() -> new RuntimeException("El usuario con código " + codigoUsuario+ " no existe."));
+                .orElseThrow(() -> new RuntimeException("El usuario con código " + codigoUsuario + " no existe."));
 
         if (!login.getUsername().equals(username)) {
             if (usuarioService.usuarioExistePorUsername(username)) {
@@ -320,16 +310,15 @@ public class AdminServiceImpl implements AdminService {
         }
         login.setUsername(username);
         login.setCorreo(email);
-login.setPassword(this.bCryptPasswordEncoder.encode(contra));
+        login.setPassword(this.bCryptPasswordEncoder.encode(contra));
         Usuario usuario = usuarioRepository.findById(codigoUsuario)
                 .orElseThrow(() -> new RuntimeException("El usuario con código " + codigoUsuario + " no existe."));
         usuario.setUsername(username);
         usuario.setPassword(contra);
-        loginRepository.save(login); // Actualizar
-        usuarioRepository.save(usuario); // Actualizar Usuario
-        return  adminRepository.save(administrador);
+        loginRepository.save(login);
+        usuarioRepository.save(usuario);
+        return adminRepository.save(administrador);
     }
-
 
 
     private boolean validarAdmin(AdminDTO admin) {
@@ -358,11 +347,12 @@ login.setPassword(this.bCryptPasswordEncoder.encode(contra));
         if (!dniEsValido(admin.getDni())) {
             throw new IllegalArgumentException("EL DNI DEBE TENER 8 DIGITOS");
         }
-        if (admin.getEdad() < 5 ) {
+        if (admin.getEdad() < 5) {
             throw new IllegalArgumentException("EDAD NO PERMITIDA");
         }
         return ResponseEntity.ok("Validación exitosa").hasBody();
     }
+
     @Override
     public List<Admin> findAdminsByEstadoTrue() {
         return adminRepository.findByEstadoTrue();
@@ -372,80 +362,91 @@ login.setPassword(this.bCryptPasswordEncoder.encode(contra));
     public List<Admin> findAdminsByEstadoFalse() {
         return adminRepository.findByEstadoFalse();
     }
+
+    @Override
+    public List<Admin> findByCorreo(String correo) {
+        return adminRepository.findByCorreo(correo);
+    }
+
+    @Override
+    public List<Admin> findByDni(String dni) {
+        return adminRepository.findByDni(dni);
+    }
+
+    @Override
+    public List<Admin> findByApellidoPaterno(String apellidoPaterno) {
+        return adminRepository.findByApellidoPaterno(apellidoPaterno);
+    }
+
+    @Override
+    public List<Admin> findByPrimerNombre(String primerNombre) {
+        return adminRepository.findByPrimerNombre(primerNombre);
+    }
+
+    @Override
+    public List<Admin> findByTelefono(String telefono) {
+        return adminRepository.findByTelefono(telefono);
+    }
+
     @Override
     public Admin desactivarUsuario(String usuarioCodigo) {
-        // Buscar el Admin por su código
+
         Optional<Admin> adminExistenteOpt = adminRepository.findById(usuarioCodigo);
 
         if (adminExistenteOpt.isPresent()) {
             Admin administrador = adminExistenteOpt.get();
-            System.out.println(administrador.getUsuario().getCodigo());
-            System.out.println(administrador.getCodigo());
 
-            // Buscar el Usuario relacionado
             Optional<Usuario> usuario = usuarioRepository.findById(administrador.getUsuario().getCodigo());
 
             if (usuario.isPresent()) {
-                // Cambiar el estado del usuario a false (desactivarlo)
                 Usuario usuarioEntity = usuario.get();
-                usuarioEntity.setEstado(false); // O el atributo correspondiente en tu entidad Usuario
-                usuarioRepository.save(usuarioEntity); // Guardar cambios
+                usuarioEntity.setEstado(false);
+                usuarioRepository.save(usuarioEntity);
             }
 
-            // Buscar el Login relacionado
             Optional<Login> login = loginRepository.findById(administrador.getUsuario().getCodigo());
 
             if (login.isPresent()) {
-                // Cambiar el estado del Login a false (desactivarlo)
                 Login loginEntity = login.get();
-                loginEntity.setEstado(false); // O el atributo correspondiente en tu entidad Login
-                loginRepository.save(loginEntity); // Guardar cambios
+                loginEntity.setEstado(false);
+                loginRepository.save(loginEntity);
             }
 
-            // Cambiar el estado del Admin a false (desactivarlo)
-            administrador.setEstado(false); // O el atributo correspondiente en tu entidad Admin
-            // Guardar cambios
-
-            return  adminRepository.save(administrador);// Retornar el Admin desactivado o el objeto que necesites
+            administrador.setEstado(false);
+            return adminRepository.save(administrador);
         } else {
             throw new RuntimeException("Admin no encontrado con el código: " + usuarioCodigo);
         }
     }
+
     @Override
     public Admin activarUsuario(String usuarioCodigo) {
-        // Buscar el Admin por su código
+
         Optional<Admin> adminExistenteOpt = adminRepository.findById(usuarioCodigo);
 
         if (adminExistenteOpt.isPresent()) {
             Admin administrador = adminExistenteOpt.get();
-            System.out.println(administrador.getUsuario().getCodigo());
-            System.out.println(administrador.getCodigo());
 
-            // Buscar el Usuario relacionado
             Optional<Usuario> usuario = usuarioRepository.findById(administrador.getUsuario().getCodigo());
 
             if (usuario.isPresent()) {
-                // Cambiar el estado del usuario a false (desactivarlo)
+
                 Usuario usuarioEntity = usuario.get();
-                usuarioEntity.setEstado(true); // O el atributo correspondiente en tu entidad Usuario
-                usuarioRepository.save(usuarioEntity); // Guardar cambios
+                usuarioEntity.setEstado(true);
+                usuarioRepository.save(usuarioEntity);
             }
 
-            // Buscar el Login relacionado
             Optional<Login> login = loginRepository.findById(administrador.getUsuario().getCodigo());
 
             if (login.isPresent()) {
-                // Cambiar el estado del Login a false (desactivarlo)
+
                 Login loginEntity = login.get();
-                loginEntity.setEstado(true); // O el atributo correspondiente en tu entidad Login
-                loginRepository.save(loginEntity); // Guardar cambios
+                loginEntity.setEstado(true);
+                loginRepository.save(loginEntity);
             }
 
-            // Cambiar el estado del Admin a false (desactivarlo)
-            administrador.setEstado(true); // O el atributo correspondiente en tu entidad Admin
-            // Guardar cambios
-
-            return  adminRepository.save(administrador);// Retornar el Admin desactivado o el objeto que necesites
+            administrador.setEstado(true);
+            return adminRepository.save(administrador);
         } else {
             throw new RuntimeException("Admin no encontrado con el código: " + usuarioCodigo);
         }

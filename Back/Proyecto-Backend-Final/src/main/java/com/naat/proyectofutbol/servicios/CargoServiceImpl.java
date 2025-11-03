@@ -120,4 +120,9 @@ public class CargoServiceImpl implements CargoService{
     public boolean ExistePorNombre(String nombre) {
         return cargoRepository.existsByNombre(nombre);
     }
+
+    @Override
+    public List<Cargo> findByNombre(String nombre) {
+        return cargoRepository.findByNombre(nombre);
+    }
 }

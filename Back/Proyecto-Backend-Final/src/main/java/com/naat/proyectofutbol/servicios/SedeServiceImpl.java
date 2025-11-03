@@ -103,6 +103,12 @@ public class SedeServiceImpl implements SedeService{
     }
 
     @Override
+    public List<Sede> findByNombre(String nombre) {
+        return sedeRepository.findByNombre(nombre);
+    }
+
+
+    @Override
     public Sede desactivarSede(String sedeCodigo) {
         Optional<Sede> sedeExistenteOpt = sedeRepository.findById(sedeCodigo);
         if (sedeExistenteOpt.isPresent()) {

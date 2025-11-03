@@ -21,7 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class ProfesorServiceImpl  implements  ProfesorService {
+public class ProfesorServiceImpl implements ProfesorService {
     @Autowired
     private ProfesorRepository profesorRepository;
     @Autowired
@@ -41,7 +41,7 @@ public class ProfesorServiceImpl  implements  ProfesorService {
     public Profesor guardarProfesor(ProfesorDTO profesorDTO) throws Exception {
         validarDocumento(profesorDTO);
         validarProfesor(profesorDTO);
-        System.out.print(profesorDTO.getSede()+'\'');
+        System.out.print(profesorDTO.getSede() + '\'');
         Optional<Sede> sedeExistente = sedeRepository.findById(profesorDTO.getSede());
 
         Sede sede = sedeExistente.orElseThrow(() -> new Exception("La sede con el código " + profesorDTO.getSede() + " no existe."));
@@ -74,7 +74,7 @@ public class ProfesorServiceImpl  implements  ProfesorService {
 
         Profesor profesor = new Profesor();
 
-        if(profesorDTO.getSegundoNombre().equals("-")) {
+        if (profesorDTO.getSegundoNombre().equals("-")) {
             profesor.setSegundoNombre("");
         }
         profesor.setCodigo(nuevoCodigo);
@@ -133,7 +133,7 @@ public class ProfesorServiceImpl  implements  ProfesorService {
             if (profesorDTO.getEdad() < 18) {
                 throw new IllegalArgumentException("La edad no es permitida");
             }
-         validarDocumento(profesorDTO);
+            validarDocumento(profesorDTO);
             Profesor profesor = profesorOptional.get();
             profesor.setPrimerNombre(profesorDTO.getPrimerNombre());
             profesor.setSegundoNombre(profesorDTO.getSegundoNombre());
@@ -690,71 +690,108 @@ public class ProfesorServiceImpl  implements  ProfesorService {
         if (!adminExistenteOpt.isPresent()) {
             throw new RuntimeException("El Profesor con codigo " + adminExistenteOpt.get() + " no existe.");
         }
-       try{
+        try {
 
-        if (!telefonoEsValido(telefono)) {
-            throw new IllegalArgumentException("EL TELEFONO DEBE TENER 9 DIGITOS");
-        }
-        if (!correoEsValido(email)) {
-            throw new IllegalArgumentException("EL CORREO NO TIENEN FORMATO VALIDO");
-        }
-
-        // Si existe, obtenemos el Admin y lo actualizamos
-        Profesor profesor = adminExistenteOpt.get();
-
-        // Actualizar los campos con los nuevos valores
-        profesor.setPrimerNombre(primerNombre);
-        profesor.setSegundoNombre(segundoNombre);
-        profesor.setApellidoPaterno(apellidoPaterno);
-        profesor.setApellidoMaterno(apellidoMaterno);
-        profesor.setCorreo(email);
-        profesor.setDireccion(direccion);
-        profesor.setTelefono(telefono);
-        profesor.setFechaActualizacion(LocalDate.now());
-        profesor.setHoraActualizacion(LocalTime.now());
-        profesor.setUsuario(codigoUsuario); // Si esto necesita actualizarse también
-        String archivoBase64 = convertirArchivoABase64(archivo);
-        System.out.print(archivoBase64);
-        System.out.print(profesor.getPerfil());
-        if (archivoBase64.isEmpty()) {
-            profesor.setPerfil(profesor.getPerfil()); ;
-        } else {
-            profesor.setPerfil(archivo.getBytes());
-        }
-        if (!profesor.getTelefono().equals(telefono)) {
-            if (ExistePorTelefono(telefono)) {
-                throw new IllegalArgumentException("TELEFONO YA EXISTE");
+            if (!telefonoEsValido(telefono)) {
+                throw new IllegalArgumentException("EL TELEFONO DEBE TENER 9 DIGITOS");
             }
-        }
-
-
-        Login login = loginRepository.findById(codigoUsuario)
-                .orElseThrow(() -> new RuntimeException("El usuario con código " + codigoUsuario+ " no existe."));
-
-        if (!login.getUsername().equals(username)) {
-            if (usuarioService.usuarioExistePorUsername(username)) {
-                throw new IllegalArgumentException("USUARIO YA EXISTE");
+            if (!correoEsValido(email)) {
+                throw new IllegalArgumentException("EL CORREO NO TIENEN FORMATO VALIDO");
             }
-        }
-        if (!login.getCorreo().equals(email)) {
-            if (ExistePorEmail(email)) {
-                throw new IllegalArgumentException("CORREO YA EXISTE");
-            }
-        }
-        login.setUsername(username);
-        login.setCorreo(email);
-        Usuario usuario = usuarioRepository.findById(codigoUsuario)
-                .orElseThrow(() -> new RuntimeException("El usuario con código " + codigoUsuario + " no existe."));
-        usuario.setUsername(username);
 
-        loginRepository.save(login); // Actualizar
-        usuarioRepository.save(usuario); // Actualizar Usuario
-        return  profesorRepository.save(profesor);}
-       catch (Exception e) {
-       e.printStackTrace();
-        throw new RuntimeException(e);
+            // Si existe, obtenemos el Admin y lo actualizamos
+            Profesor profesor = adminExistenteOpt.get();
+
+            // Actualizar los campos con los nuevos valores
+            profesor.setPrimerNombre(primerNombre);
+            profesor.setSegundoNombre(segundoNombre);
+            profesor.setApellidoPaterno(apellidoPaterno);
+            profesor.setApellidoMaterno(apellidoMaterno);
+            profesor.setCorreo(email);
+            profesor.setDireccion(direccion);
+            profesor.setTelefono(telefono);
+            profesor.setFechaActualizacion(LocalDate.now());
+            profesor.setHoraActualizacion(LocalTime.now());
+            profesor.setUsuario(codigoUsuario); // Si esto necesita actualizarse también
+            String archivoBase64 = convertirArchivoABase64(archivo);
+            System.out.print(archivoBase64);
+            System.out.print(profesor.getPerfil());
+            if (archivoBase64.isEmpty()) {
+                profesor.setPerfil(profesor.getPerfil());
+                ;
+            } else {
+                profesor.setPerfil(archivo.getBytes());
+            }
+            if (!profesor.getTelefono().equals(telefono)) {
+                if (ExistePorTelefono(telefono)) {
+                    throw new IllegalArgumentException("TELEFONO YA EXISTE");
+                }
+            }
+
+
+            Login login = loginRepository.findById(codigoUsuario)
+                    .orElseThrow(() -> new RuntimeException("El usuario con código " + codigoUsuario + " no existe."));
+
+            if (!login.getUsername().equals(username)) {
+                if (usuarioService.usuarioExistePorUsername(username)) {
+                    throw new IllegalArgumentException("USUARIO YA EXISTE");
+                }
+            }
+            if (!login.getCorreo().equals(email)) {
+                if (ExistePorEmail(email)) {
+                    throw new IllegalArgumentException("CORREO YA EXISTE");
+                }
+            }
+            login.setUsername(username);
+            login.setCorreo(email);
+            Usuario usuario = usuarioRepository.findById(codigoUsuario)
+                    .orElseThrow(() -> new RuntimeException("El usuario con código " + codigoUsuario + " no existe."));
+            usuario.setUsername(username);
+
+            loginRepository.save(login); // Actualizar
+            usuarioRepository.save(usuario); // Actualizar Usuario
+            return profesorRepository.save(profesor);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
+
+    @Override
+    public List<Profesor> findByTelefono(String telefono) {
+        return profesorRepository.findByTelefono(telefono);
     }
+
+    @Override
+    public List<Profesor> findByDni(String dni) {
+        return profesorRepository.findByDni(dni);
+    }
+
+    @Override
+    public List<Profesor> findByCorreo(String correo) {
+        return profesorRepository.findByCorreo(correo);
+    }
+
+    @Override
+    public List<Profesor> findByNacionalidad(String nacionalidad) {
+        return profesorRepository.findByNacionalidad(nacionalidad);
+    }
+
+    @Override
+    public List<Profesor> findByEdad(String edad) {
+        return profesorRepository.findByEdad(edad);
+    }
+
+    @Override
+    public List<Profesor> findByApellidoPaterno(String apellidoPaterno) {
+        return profesorRepository.findByApellidoPaterno(apellidoPaterno);
+    }
+
+    @Override
+    public List<Profesor> findByPrimerNombre(String primerNombre) {
+        return profesorRepository.findByPrimerNombre(primerNombre);
+    }
+
     private String convertirArchivoABase64(MultipartFile archivo) throws IOException {
         byte[] contenido = archivo.getBytes();
         return Base64.getEncoder().encodeToString(contenido);
