@@ -5,6 +5,7 @@ import com.naat.proyectofutbol.dto.LesionesDTO;
 import com.naat.proyectofutbol.entidades.Lesiones;
 import com.naat.proyectofutbol.entidades.LesionesDev;
 import com.naat.proyectofutbol.servicios.LesionesService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/lesiones")
+@RequiredArgsConstructor
 public class LesionesController {
-    @Autowired
-    private LesionesService lesionesService;
+
+    private final LesionesService lesionesService;
 
 
     @GetMapping("/listar/activo")

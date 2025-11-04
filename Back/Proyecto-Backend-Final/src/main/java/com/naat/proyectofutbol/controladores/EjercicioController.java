@@ -3,6 +3,7 @@ package com.naat.proyectofutbol.controladores;
 import com.naat.proyectofutbol.dto.EjercicioDTO;
 import com.naat.proyectofutbol.entidades.Ejercicio;
 import com.naat.proyectofutbol.servicios.EjercicioService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ejercicio")
+@RequiredArgsConstructor
 public class EjercicioController {
-    @Autowired
-    private EjercicioService ejercicioService;
+
+    private final EjercicioService ejercicioService;
     @GetMapping("/listar")
     public List<Ejercicio> LISTAR() {
         return ejercicioService.lista();

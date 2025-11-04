@@ -2,6 +2,7 @@ package com.naat.proyectofutbol.controladores;
 
 import com.naat.proyectofutbol.entidades.Rol;
 import com.naat.proyectofutbol.servicios.RolService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +13,11 @@ import java.util.List;
 @RequestMapping("/rol")
 @CrossOrigin(origins = "http://localhost:4200", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
         RequestMethod.DELETE }, allowedHeaders = "*")
+@RequiredArgsConstructor
 public class RolController {
 
-    @Autowired
-    private RolService rolService;
+
+    private final RolService rolService;
 
     @GetMapping
     public List<Rol> listarRoles() {

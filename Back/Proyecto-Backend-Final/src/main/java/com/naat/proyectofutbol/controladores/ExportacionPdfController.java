@@ -2,6 +2,7 @@ package com.naat.proyectofutbol.controladores;
 
 
 import com.naat.proyectofutbol.exportacion.pdf.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -13,25 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.itextpdf.text.DocumentException;
 
 import java.io.IOException;
+
 @RestController
 @RequestMapping("/exportacion/pdf")
+@RequiredArgsConstructor
 public class ExportacionPdfController {
-    @Autowired
-    private AdminPDFService adminPDFService;
-    @Autowired
-    private SedePDFService sedePDFService;
-    @Autowired
-    private CargoPDFService cargoPDFService;
-    @Autowired
-    private ProfesorPDFService profesorPDFService;
-    @Autowired
-    private EstudiantePDFService estudiantePDFService;
-    @Autowired
-    private EquipoPDFService equipoPDFService;
-    @Autowired
-    private ClasePDFService clasePDFService;
-    @Autowired
-    private PartidoPDFService partidoPDFService;
+
+    private final AdminPDFService adminPDFService;
+    private final SedePDFService sedePDFService;
+    private final CargoPDFService cargoPDFService;
+    private final ProfesorPDFService profesorPDFService;
+    private final EstudiantePDFService estudiantePDFService;
+    private final EquipoPDFService equipoPDFService;
+    private final ClasePDFService clasePDFService;
+    private final PartidoPDFService partidoPDFService;
+
     @GetMapping("/usuario")
     public ResponseEntity<byte[]> generarInformePdfUsuarios() throws IOException, DocumentException {
         byte[] pdfBytes = adminPDFService.generarInformePdf();
@@ -79,6 +76,7 @@ public class ExportacionPdfController {
         headers.setContentDispositionFormData("inline", "informe_estudiante.pdf");
         return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
+
     @GetMapping("/equipo")
     public ResponseEntity<byte[]> generarInformePdfEquipo() throws IOException, DocumentException {
         byte[] pdfBytes = equipoPDFService.generarInformePdfEquipos();
@@ -87,6 +85,7 @@ public class ExportacionPdfController {
         headers.setContentDispositionFormData("inline", "equipo.pdf");
         return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
+
     @GetMapping("/clase")
     public ResponseEntity<byte[]> generarInformePdfClase() throws IOException, DocumentException {
         byte[] pdfBytes = clasePDFService.generarInformePdfClases();
@@ -95,6 +94,7 @@ public class ExportacionPdfController {
         headers.setContentDispositionFormData("inline", "clase.pdf");
         return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
+
     @GetMapping("/partido/activo")
     public ResponseEntity<byte[]> generarInformePdfPartidoActivo() throws IOException, DocumentException {
         byte[] pdfBytes = partidoPDFService.generarInformePartidosPdf();
@@ -103,6 +103,7 @@ public class ExportacionPdfController {
         headers.setContentDispositionFormData("inline", "partido.pdf");
         return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
     }
+
     @GetMapping("/partido/desactivo")
     public ResponseEntity<byte[]> generarInformePdfPartidoDesactivo() throws IOException, DocumentException {
         byte[] pdfBytes = partidoPDFService.generarInformePartidosDesactivadosPdf();

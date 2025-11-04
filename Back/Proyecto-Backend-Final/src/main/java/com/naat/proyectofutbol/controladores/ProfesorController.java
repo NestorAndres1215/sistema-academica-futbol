@@ -3,6 +3,7 @@ package com.naat.proyectofutbol.controladores;
 import com.naat.proyectofutbol.dto.ProfesorDTO;
 import com.naat.proyectofutbol.entidades.Profesor;
 import com.naat.proyectofutbol.servicios.ProfesorService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/profesor")
-
+@RequiredArgsConstructor
 public class ProfesorController {
-    @Autowired
-    private ProfesorService profesorService;
+
+    private final ProfesorService profesorService;
 
 
     @GetMapping("/listar/estado/activo")

@@ -5,6 +5,7 @@ import com.naat.proyectofutbol.dto.ClaseDevDTO;
 import com.naat.proyectofutbol.entidades.Clase;
 import com.naat.proyectofutbol.entidades.ClaseDev;
 import com.naat.proyectofutbol.servicios.ClaseService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/clase")
+@RequiredArgsConstructor
 public class ClaseController {
-    @Autowired
-    private ClaseService claseService;
+
+    private final ClaseService claseService;
 
 
     @GetMapping("/listar/activo")
@@ -28,6 +30,7 @@ public class ClaseController {
     public List<Clase> LISTARDESACTIVADOS() {
         return claseService.listardesactivados();
     }
+
     @PostMapping("/registrar")
     public ResponseEntity<?> REGISTRAR(@RequestBody ClaseDTO claseDTO) {
         try {
@@ -38,7 +41,7 @@ public class ClaseController {
         }
     }
 
-    @PutMapping ("/actualizar")
+    @PutMapping("/actualizar")
     public ResponseEntity<?> ACTUALIZAR(@RequestBody ClaseDTO claseDTO) {
         try {
             return ResponseEntity.ok(claseService.actualizar(claseDTO));
@@ -52,6 +55,7 @@ public class ClaseController {
     public List<ClaseDev> LISTARACTIVO() {
         return claseService.listarDevactivados();
     }
+
     @PostMapping("/dev/registrar")
     public ResponseEntity<?> REGISTRARDEV(@RequestBody ClaseDevDTO claseDevDTO) {
         try {
@@ -61,7 +65,8 @@ public class ClaseController {
                     .body(e.getMessage());
         }
     }
-    @PutMapping ("/dev/actualizar")
+
+    @PutMapping("/dev/actualizar")
     public ResponseEntity<?> ACTUALIZARDEV(@RequestBody ClaseDevDTO claseDTO) {
         try {
             return ResponseEntity.ok(claseService.actualizardev(claseDTO));

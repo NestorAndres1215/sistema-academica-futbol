@@ -1,6 +1,7 @@
 package com.naat.proyectofutbol.controladores;
 
 import com.naat.proyectofutbol.exportacion.excel.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,23 +10,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+
 @RestController
 @RequestMapping("/exportacion/excel")
+@RequiredArgsConstructor
 public class ExportacionExcelController {
-    @Autowired
-    private AdminExcelService adminExcelService;
-    @Autowired
-    private SedeExcelService sedeExcelService;
-    @Autowired
-    private CargoExcelService cargoExcelService;
-    @Autowired
-    private ProfesorExcelService profesorExcelService;
-    @Autowired
-    private  EquipoExcelService equipoExcelService;
-    @Autowired
-    private EstudianteExcelService estudianteExcelService;
-    @Autowired ClaseExcelService claseExcelService;
-    @Autowired PartidoExcelService partidoExcelService;
+    private final AdminExcelService adminExcelService;
+    private final SedeExcelService sedeExcelService;
+    private final CargoExcelService cargoExcelService;
+    private final ProfesorExcelService profesorExcelService;
+    private final EquipoExcelService equipoExcelService;
+    private final EstudianteExcelService estudianteExcelService;
+    private final ClaseExcelService claseExcelService;
+    private final PartidoExcelService partidoExcelService;
+
     @GetMapping("/usuario")
     public ResponseEntity<byte[]> exportToExcel() {
         try {
@@ -55,6 +53,7 @@ public class ExportacionExcelController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
     @GetMapping("/profesor")
     public ResponseEntity<byte[]> exportarProfesor() {
         try {
@@ -64,6 +63,7 @@ public class ExportacionExcelController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
     @GetMapping("/estudiante")
     public ResponseEntity<byte[]> exportarEstudiante() {
         try {
@@ -73,6 +73,7 @@ public class ExportacionExcelController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
     @GetMapping("/equipo")
     public ResponseEntity<byte[]> exportarEquipo() {
         try {
@@ -82,6 +83,7 @@ public class ExportacionExcelController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
     @GetMapping("/clase")
     public ResponseEntity<byte[]> exportarClase() {
         try {
@@ -91,6 +93,7 @@ public class ExportacionExcelController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
     @GetMapping("/partido/activado")
     public ResponseEntity<byte[]> exportarPartidoActivados() {
         try {
@@ -100,6 +103,7 @@ public class ExportacionExcelController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
     @GetMapping("/partido/desactivado")
     public ResponseEntity<byte[]> exportarPartidoDesactivados() {
         try {

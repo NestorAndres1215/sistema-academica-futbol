@@ -6,6 +6,7 @@ import com.naat.proyectofutbol.dto.EquipoDTO;
 import com.naat.proyectofutbol.entidades.Equipo;
 import com.naat.proyectofutbol.entidades.EquipoDev;
 import com.naat.proyectofutbol.servicios.EquipoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/equipo")
+@RequiredArgsConstructor
 public class EquipoController {
-    @Autowired
-    private EquipoService equipoService;
+
+    private final EquipoService equipoService;
+
     @GetMapping("/listar/activo")
     public List<Equipo> LISTARACTIVOS() {
         return equipoService.listaractivados();
@@ -27,6 +30,7 @@ public class EquipoController {
     public List<Equipo> LISTARDESACTIVADOS() {
         return equipoService.listardesactivados();
     }
+
     @PostMapping("/registrar")
     public ResponseEntity<?> REGISTRAR(@RequestBody EquipoDTO equipoDTO) {
         try {
@@ -37,7 +41,7 @@ public class EquipoController {
         }
     }
 
-    @PutMapping ("/actualizar")
+    @PutMapping("/actualizar")
     public ResponseEntity<?> ACTUALIZAR(@RequestBody EquipoDTO equipoDTO) {
         try {
             return ResponseEntity.ok(equipoService.actualizar(equipoDTO));
@@ -56,6 +60,7 @@ public class EquipoController {
                     .body(e.getMessage());
         }
     }
+
     @DeleteMapping("/activar/{codigo}")
     public ResponseEntity<?> activar(@PathVariable String codigo) {
         try {
@@ -67,24 +72,24 @@ public class EquipoController {
     }
 
 
-
     @PostMapping("/asignacion/registrar")
-    public ResponseEntity<?> REGISTRARASIGNACION1( @RequestBody List<AsignacionDTO>  asignacionDTO) {
+    public ResponseEntity<?> REGISTRARASIGNACION1(@RequestBody List<AsignacionDTO> asignacionDTO) {
         try {
-           System.out.print(asignacionDTO+"\n");
+            System.out.print(asignacionDTO + "\n");
             return ResponseEntity.ok(equipoService.regEquipo(asignacionDTO));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());
         }
     }
+
     @GetMapping("/listar/equipodev/activo")
     public List<EquipoDev> listarEquipoDevActivados() {
         return equipoService.listarEquipoDevActivados(); // Asegúrate de que este método exista en tu repositorio
     }
 
     @DeleteMapping("/asignacion/eliminar/{id}")
-    public ResponseEntity<?>  deleteItem(@PathVariable String codigo) {
+    public ResponseEntity<?> deleteItem(@PathVariable String codigo) {
 
         try {
             return ResponseEntity.ok(equipoService.eliminarEquipo(codigo));
@@ -95,8 +100,8 @@ public class EquipoController {
 
     }
 
-    @PutMapping ("/asignacion/actualizar")
-    public ResponseEntity<?> ACTUAÑOZAR( @RequestBody List<AsignacionEstudiante>  asignacionEstudiantes) {
+    @PutMapping("/asignacion/actualizar")
+    public ResponseEntity<?> ACTUAÑOZAR(@RequestBody List<AsignacionEstudiante> asignacionEstudiantes) {
         try {
 
             return ResponseEntity.ok(equipoService.actualizarEquipoEstudiante(asignacionEstudiantes));
@@ -105,6 +110,7 @@ public class EquipoController {
                     .body(e.getMessage());
         }
     }
+
     @GetMapping("/listar")
     public List<EquipoDev> LISTAR() {
         return equipoService.listar();

@@ -5,6 +5,7 @@ import com.naat.proyectofutbol.dto.GeneralDevDTO;
 import com.naat.proyectofutbol.entidades.General;
 import com.naat.proyectofutbol.entidades.GeneralDev;
 import com.naat.proyectofutbol.servicios.GeneralService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/general")
+@RequiredArgsConstructor
 public class GeneralController {
 
-    @Autowired
-    private GeneralService generalService;
+
+    private final GeneralService generalService;
 
     @GetMapping("/tablaGenerales/listar/activo")
     public List<General> getAdminsByEstadoTrue() {

@@ -5,6 +5,7 @@ import com.naat.proyectofutbol.dto.PartidoDTO;
 
 import com.naat.proyectofutbol.entidades.Partido;
 import com.naat.proyectofutbol.servicios.PartidoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/partido")
+@RequiredArgsConstructor
 public class PartidoController {
-    @Autowired
-    private PartidoService partidoService;
+
+    private final PartidoService partidoService;
 
     @GetMapping("/listar/activo")
     public List<Partido> listarActivado() {

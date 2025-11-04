@@ -4,6 +4,7 @@ import com.naat.proyectofutbol.dto.AdminDTO;
 import com.naat.proyectofutbol.entidades.Admin;
 import com.naat.proyectofutbol.repositorios.UsuarioRepository;
 import com.naat.proyectofutbol.servicios.AdminService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/admin")
+@RequiredArgsConstructor
 public class AdminController {
-    @Autowired
-    private AdminService adminService;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+
+    private final AdminService adminService;
+
+    private final UsuarioRepository usuarioRepository;
 
     @GetMapping("/usuario/{usuarioCodigo}")
     public List<Admin> getAdminsByUsuario(@PathVariable String usuarioCodigo) {

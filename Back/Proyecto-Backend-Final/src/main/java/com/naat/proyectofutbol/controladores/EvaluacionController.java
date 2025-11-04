@@ -5,6 +5,7 @@ import com.naat.proyectofutbol.dto.EvaluacionDevDTO;
 import com.naat.proyectofutbol.entidades.Evaluacion;
 import com.naat.proyectofutbol.entidades.EvaluacionDev;
 import com.naat.proyectofutbol.servicios.EvalucionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/evaluacion")
+@RequiredArgsConstructor
 public class EvaluacionController {
-    @Autowired
-    private EvalucionService evalucionService;
+
+    private final EvalucionService evalucionService;
 
     @GetMapping("/listar")
     public List<Evaluacion> listar() {

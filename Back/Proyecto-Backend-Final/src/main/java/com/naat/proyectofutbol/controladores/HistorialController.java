@@ -5,6 +5,7 @@ import com.naat.proyectofutbol.entidades.Historial;
 import com.naat.proyectofutbol.entidades.Usuario;
 import com.naat.proyectofutbol.servicios.HistorialService;
 import com.naat.proyectofutbol.servicios.UsuarioService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +15,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/historial")
+@RequiredArgsConstructor
 public class HistorialController {
 
-    @Autowired
-    private HistorialService historialService;
-    @Autowired
-    private UsuarioService usuarioService;
+
+    private final HistorialService historialService;
+
+    private final UsuarioService usuarioService;
 
 
     @GetMapping("/usuario/{usuarioId}")

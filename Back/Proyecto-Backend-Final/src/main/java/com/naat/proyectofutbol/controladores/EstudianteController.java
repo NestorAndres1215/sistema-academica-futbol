@@ -3,6 +3,7 @@ package com.naat.proyectofutbol.controladores;
 import com.naat.proyectofutbol.dto.EstudianteDTO;
 import com.naat.proyectofutbol.entidades.Estudiante;
 import com.naat.proyectofutbol.servicios.EstudianteService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +14,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/estudiante")
-
+@RequiredArgsConstructor
 public class EstudianteController {
-    @Autowired
-    private EstudianteService estudianteService;
+
+    private final EstudianteService estudianteService;
 
     @GetMapping("/listar/estado/activo")
     public List<Estudiante> getAdminsByEstadoTrue() {
