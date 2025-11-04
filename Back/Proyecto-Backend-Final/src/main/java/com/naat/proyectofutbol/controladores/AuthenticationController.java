@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import com.naat.proyectofutbol.servicios.LoginService;
 import com.naat.proyectofutbol.servicios.UsuarioService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,18 +25,18 @@ import static com.naat.proyectofutbol.constrainst.Mensajes.USUARIO_NO_ENCONTRADO
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+@RequiredArgsConstructor
 public class AuthenticationController {
 
-	@Autowired
-	private AuthenticationManager authenticationManager;
 
-	@Autowired
-	private LoginService userDetailsService;
+	private final AuthenticationManager authenticationManager;
 
-	@Autowired
-	private JwtUtils jwtUtils;
-	@Autowired
-	private UsuarioService usuarioService;
+	private final LoginService userDetailsService;
+
+	private final JwtUtils jwtUtils;
+
+	private final UsuarioService usuarioService;
+
 	@PostMapping("/generate-token")
 	public ResponseEntity<?> generarToken(@RequestBody JwtRequest jwtRequest) throws Exception {
 		try {

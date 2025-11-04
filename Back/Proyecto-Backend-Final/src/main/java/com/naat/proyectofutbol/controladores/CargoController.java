@@ -2,6 +2,7 @@ package com.naat.proyectofutbol.controladores;
 
 import com.naat.proyectofutbol.entidades.Cargo;
 import com.naat.proyectofutbol.servicios.CargoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,10 +12,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cargo")
+@RequiredArgsConstructor
 public class CargoController {
 
-    @Autowired
-    private CargoService cargoService;
+
+    private final CargoService cargoService;
 
     @GetMapping("/listar/cargo/activo")
     public List<Cargo> getAdminsByEstadoTrue() {

@@ -5,6 +5,7 @@ import com.naat.proyectofutbol.entidades.Rol;
 import com.naat.proyectofutbol.repositorios.MenuRepository;
 import com.naat.proyectofutbol.repositorios.RolRepository;
 import com.naat.proyectofutbol.servicios.MenuService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,16 +19,14 @@ import java.util.List;
 @RequestMapping("/menu")
 @CrossOrigin(origins = "http://localhost:4200", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT,
         RequestMethod.DELETE }, allowedHeaders = "*")
+@RequiredArgsConstructor
 public class MenuController {
 
-    @Autowired
-    private MenuService menuService;  // Inyectamos la interfaz
+    private final MenuService menuService;  // Inyectamos la interfaz
 
-    @Autowired
-    private RolRepository rolRepository;  // Inyectamos el repositorio de Rol
+    private final RolRepository rolRepository;  // Inyectamos el repositorio de Rol
 
-    @Autowired
-    private MenuRepository menuRepository;
+    private final MenuRepository menuRepository;
 
     @GetMapping("/{rolCodigo1}/{rolCodigo2}")
     public ResponseEntity<?> obtenerMenusPorDosRoles(@PathVariable String rolCodigo1, @PathVariable String rolCodigo2) {
