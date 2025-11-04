@@ -4,6 +4,7 @@ import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.naat.proyectofutbol.entidades.Admin;
 import com.naat.proyectofutbol.repositorios.AdminRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,10 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AdminPDFService {
-    @Autowired
-    private AdminRepository adminRepository;
+
+    private final AdminRepository adminRepository;
 
 
     public byte[] generarInformePdf() throws DocumentException {

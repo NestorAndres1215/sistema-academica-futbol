@@ -5,6 +5,7 @@ import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.naat.proyectofutbol.entidades.Cargo;
 import com.naat.proyectofutbol.repositorios.CargoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,11 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CargoPDFService {
 
-    @Autowired
-    private CargoRepository cargoRepository;
+
+    private final  CargoRepository cargoRepository;
 
     public byte[] generarInformePdfCargo() throws DocumentException, IOException {
         List<Cargo> cargoList = cargoRepository.findByEstadoTrue();

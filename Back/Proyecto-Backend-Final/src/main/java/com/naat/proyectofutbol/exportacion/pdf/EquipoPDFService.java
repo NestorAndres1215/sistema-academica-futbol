@@ -6,6 +6,7 @@ import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.naat.proyectofutbol.entidades.Equipo;
 import com.naat.proyectofutbol.repositorios.EquipoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 @Service
+@RequiredArgsConstructor
 public class EquipoPDFService {
 
-@Autowired
-private EquipoRepository equipoRepository;
+
+private final  EquipoRepository equipoRepository;
 
     public byte[] generarInformePdfEquipos() throws DocumentException {
         // Obtener la lista de equipos desde la base de datos

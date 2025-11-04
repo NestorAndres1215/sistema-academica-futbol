@@ -5,6 +5,7 @@ import com.itextpdf.text.pdf.*;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.naat.proyectofutbol.entidades.Sede;
 import com.naat.proyectofutbol.repositorios.SedeRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,9 +16,10 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SedePDFService {
-    @Autowired
-    private SedeRepository sedeRepository;
+
+    private final  SedeRepository sedeRepository;
 
     public byte[] generarInformePdfSede() throws DocumentException {
         // Obtener la lista de sedes desde la base de datos

@@ -6,6 +6,7 @@ import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.naat.proyectofutbol.entidades.Admin;
 import com.naat.proyectofutbol.entidades.Partido;
 import com.naat.proyectofutbol.repositorios.PartidoRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +19,10 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PartidoPDFService {
-    @Autowired
-    private PartidoRepository partidoRepository;
+
+    private final PartidoRepository partidoRepository;
     public byte[] generarInformePartidosPdf() throws DocumentException {
         // Obtener la lista de partidos activos desde la base de datos
         List<Partido> partidoList = partidoRepository.findByEstadoTrue();

@@ -1,6 +1,7 @@
 package com.naat.proyectofutbol.json;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -8,21 +9,28 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import static com.naat.proyectofutbol.constrainst.Mensajes.ARCHIVO_FERIADOS_NO_ENCONTRADO;
+
 @Service
+@RequiredArgsConstructor   // <-- Lombok genera el constructor
 public class FeriadoService {
 
-    private final ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper; // final → inyección automática
 
-    public FeriadoService(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
     public List<Feriado> obtenerFeriados() throws IOException {
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("feriados.json")) {
+        try (InputStream inputStream = getClass()
+                .getClassLoader()
+                .getResourceAsStream("feriados.json")) {
+
             if (inputStream == null) {
-                throw new IOException("No se pudo encontrar el archivo feriados.json en el classpath");
+                throw new IOException(ARCHIVO_FERIADOS_NO_ENCONTRADO);
             }
-            return objectMapper.readValue(inputStream, objectMapper.getTypeFactory().constructCollectionType(List.class, Feriado.class));
+
+            return objectMapper.readValue(
+                    inputStream,
+                    objectMapper.getTypeFactory()
+                            .constructCollectionType(List.class, Feriado.class)
+            );
         }
     }
-
 }

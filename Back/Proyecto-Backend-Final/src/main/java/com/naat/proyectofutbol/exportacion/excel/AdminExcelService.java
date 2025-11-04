@@ -2,6 +2,7 @@ package com.naat.proyectofutbol.exportacion.excel;
 
 import com.naat.proyectofutbol.entidades.Admin;
 import com.naat.proyectofutbol.repositorios.AdminRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,11 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AdminExcelService {
 
 
-    @Autowired
-    private AdminRepository adminRepository;  // Inyectamos el repositorio
+    private final  AdminRepository adminRepository;  // Inyectamos el repositorio
 
     public ResponseEntity<byte[]> exportToExcel(String fileName) throws IOException {
         // Obtener los datos de la base de datos

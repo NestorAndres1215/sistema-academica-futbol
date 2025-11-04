@@ -2,6 +2,7 @@ package com.naat.proyectofutbol.exportacion.excel;
 
 import com.naat.proyectofutbol.entidades.Sede;
 import com.naat.proyectofutbol.repositorios.SedeRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +15,10 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class SedeExcelService {
-    @Autowired
-    private SedeRepository sedeRepository;
+
+    private final SedeRepository sedeRepository;
 
     public ResponseEntity<byte[]> exportToExcelSede(String fileName) throws IOException {
         // Obtener los datos de la base de datos

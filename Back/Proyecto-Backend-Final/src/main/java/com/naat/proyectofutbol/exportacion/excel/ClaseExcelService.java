@@ -3,6 +3,7 @@ package com.naat.proyectofutbol.exportacion.excel;
 import com.naat.proyectofutbol.entidades.Clase;
 
 import com.naat.proyectofutbol.repositorios.ClaseRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 @Service
+@RequiredArgsConstructor
 public class ClaseExcelService {
-    @Autowired
-    private ClaseRepository claseRepository;
+
+    private final ClaseRepository claseRepository;
     public ResponseEntity<byte[]> exportToExcel(String fileName) throws IOException {
 
         List<Clase> claseList = claseRepository.findAll(); // Obtener la lista de clases

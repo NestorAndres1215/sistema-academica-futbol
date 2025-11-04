@@ -1,6 +1,7 @@
 package com.naat.proyectofutbol.configuraciones;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -17,55 +18,49 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.naat.proyectofutbol.servicios.UserDetailsServiceImpl;
 
 
+@EnableWebSecurity
+@Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@RequiredArgsConstructor
+public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final JwtAuthenticationEntryPoint unauthorizedHandler;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @EnableWebSecurity
-    @Configuration
-    @EnableGlobalMethodSecurity(prePostEnabled = true)
-    public class MySecurityConfig extends WebSecurityConfigurerAdapter {
-
-        @Autowired
-        private JwtAuthenticationEntryPoint unauthorizedHandler;
-
-        @Autowired
-        private UserDetailsServiceImpl userDetailsServiceImpl;
-
-        @Autowired
-        private JwtAuthenticationFilter jwtAuthenticationFilter;
-
-        @Override
-        @Bean
-        public AuthenticationManager authenticationManagerBean() throws Exception {
-            return super.authenticationManagerBean();
-        }
-
-        @Bean
-        public BCryptPasswordEncoder passwordEncoder(){
-            return new BCryptPasswordEncoder();
-        }
-
-        @Override
-        protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-            auth.userDetailsService(this.userDetailsServiceImpl).passwordEncoder(passwordEncoder());
-        }
-
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http
-                    .csrf()
-                    .disable()
-                    .cors()
-                    .and()
-                    .authorizeRequests()
-                    .antMatchers("/generate-token","/usuarios/").permitAll()
-                    .antMatchers(HttpMethod.OPTIONS).permitAll()
-                    .anyRequest().authenticated()
-                    .and()
-                    .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
-                    .and()
-                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
-            http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-        }
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(this.userDetailsServiceImpl).passwordEncoder(passwordEncoder());
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .csrf()
+                .disable()
+                .cors()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/generate-token", "/usuarios/").permitAll()
+                .antMatchers(HttpMethod.OPTIONS).permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    }
+}
 

@@ -1,6 +1,5 @@
 package com.naat.proyectofutbol.configuraciones;
 
-import com.naat.proyectofutbol.constrainst.UsuarioError;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -10,12 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.naat.proyectofutbol.constrainst.Mensajes.USUARIO_NO_AUTORIZADO;
+
+
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, UsuarioError.USUARIO_NO_AUTORIZADO.getMensaje());
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, USUARIO_NO_AUTORIZADO);
     }
 }
 

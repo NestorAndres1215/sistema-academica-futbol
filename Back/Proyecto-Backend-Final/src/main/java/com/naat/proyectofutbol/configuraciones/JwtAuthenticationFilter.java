@@ -1,7 +1,6 @@
 package com.naat.proyectofutbol.configuraciones;
 
-import com.naat.proyectofutbol.constrainst.Mensaje;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,14 +16,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+
+import static com.naat.proyectofutbol.constrainst.Mensajes.TOKEN_INVALIDO;
+
 @Component
+@RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
 
-    @Autowired
-    private JwtUtils jwtUtil;
+    private final  UserDetailsServiceImpl userDetailsService;
+
+
+    private final JwtUtils jwtUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -40,13 +43,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             try{
                 username = this.jwtUtil.extractUsername(jwtToken);
             }catch (Exception e){
-                e.printStackTrace();
-                String errorMessage = Mensaje.TOKEN_INVALIDO.getMensaje();
-                //response.getWriter().write(errorMessage);
+                String errorMessage =(TOKEN_INVALIDO);
+
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 response.setContentType("application/json");
                 response.getWriter().write("{\"message\": \"El token ha expirado, por favor inicia sesión nuevamente.\"}");
-                return; // Finalizar el filtro aquí
+                return;
             }
 
         }
@@ -62,13 +64,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request,response);
     }
-/*
-    private String obtenerTokenDeEncabezado(HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
-        if (header != null && header.startsWith("Bearer ")) {
-            return header.substring(7);  // Elimina "Bearer " para obtener solo el token
-        }
-        return null;
-    }*/
+
 }
 

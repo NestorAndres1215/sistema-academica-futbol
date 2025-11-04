@@ -2,6 +2,7 @@ package com.naat.proyectofutbol.exportacion.excel;
 
 import com.naat.proyectofutbol.entidades.Cargo;
 import com.naat.proyectofutbol.repositorios.CargoRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 @Service
+@RequiredArgsConstructor
 public class CargoExcelService {
 
 
-    @Autowired
-    private CargoRepository cargoRepository;
+
+    private final CargoRepository cargoRepository;
 
     public ResponseEntity<byte[]> exportToExcelCargo(String fileName) throws IOException {
 

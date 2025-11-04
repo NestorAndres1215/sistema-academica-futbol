@@ -4,6 +4,7 @@ import com.naat.proyectofutbol.entidades.Admin;
 import com.naat.proyectofutbol.entidades.Partido;
 import com.naat.proyectofutbol.repositorios.AdminRepository;
 import com.naat.proyectofutbol.repositorios.PartidoRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,10 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PartidoExcelService {
-    @Autowired
-    private PartidoRepository partidoRepository;  // Inyectamos el repositorio
+
+    private final PartidoRepository partidoRepository;  // Inyectamos el repositorio
 
     public ResponseEntity<byte[]> partidosExcelActivo(String fileName) throws IOException {
         // Obtener los datos de la base de datos

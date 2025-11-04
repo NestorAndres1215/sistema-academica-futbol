@@ -2,7 +2,6 @@ package com.naat.proyectofutbol.controladores;
 
 import java.security.Principal;
 
-import com.naat.proyectofutbol.constrainst.UsuarioError;
 import com.naat.proyectofutbol.servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +17,9 @@ import com.naat.proyectofutbol.modelo.JwtRequest;
 import com.naat.proyectofutbol.modelo.JwtResponse;
 import com.naat.proyectofutbol.modelo.Login;
 import com.naat.proyectofutbol.servicios.UserDetailsServiceImpl;
+
+import static com.naat.proyectofutbol.constrainst.Mensajes.ERROR_USUARIO;
+import static com.naat.proyectofutbol.constrainst.Mensajes.USUARIO_NO_ENCONTRADO;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
@@ -38,12 +40,12 @@ public class AuthenticationController {
 		try {
 			// Verifica que el usuario exista
 			if(!usuarioService.usuarioExistePorUsername(jwtRequest.getUsername())) {
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(UsuarioError.USUARIO_NO_ENCONTRADO.getMensaje());
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(USUARIO_NO_ENCONTRADO);
 			}
 
 			// Verifica las credenciales del usuario
 			if(!usuarioService.existsByUsernameAndPassword(jwtRequest.getUsername(), jwtRequest.getPassword())) {
-				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(UsuarioError.ERROR_USUARIO.getMensaje());
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ERROR_USUARIO);
 			}
 
 			// Autenticación

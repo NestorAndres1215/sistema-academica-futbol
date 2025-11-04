@@ -2,6 +2,7 @@ package com.naat.proyectofutbol.exportacion.excel;
 
 import com.naat.proyectofutbol.entidades.Profesor;
 import com.naat.proyectofutbol.repositorios.ProfesorRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,10 @@ import java.io.IOException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProfesorExcelService {
-@Autowired
-private ProfesorRepository profesorRepository;
+
+    private final ProfesorRepository profesorRepository;
 
     public ResponseEntity<byte[]> exportToExcelProfesor(String fileName) throws IOException {
 

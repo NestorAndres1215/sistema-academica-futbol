@@ -1,10 +1,12 @@
 package com.naat.proyectofutbol.exportacion.pdf;
+
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import com.naat.proyectofutbol.entidades.Profesor;
 import com.naat.proyectofutbol.repositorios.ProfesorRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +20,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
+@RequiredArgsConstructor
 public class ProfesorPDFService {
-    @Autowired
-    private ProfesorRepository profesorRepository;
+
+    private final ProfesorRepository profesorRepository;
 
     public byte[] generarInformePdfProfesor() throws DocumentException {
         // Obtener la lista de profesores desde la base de datos
@@ -73,8 +76,7 @@ public class ProfesorPDFService {
         table.setWidths(columnWidths);
 
 
-
-        String[] headers = {"Código", "Nombre Completo", "Correo", "Teléfono", "Edad",  "Cargo", "Sede"};
+        String[] headers = {"Código", "Nombre Completo", "Correo", "Teléfono", "Edad", "Cargo", "Sede"};
 
         for (String header : headers) {
             PdfPCell headerCell = new PdfPCell(new Phrase(header, headerFont));
@@ -83,7 +85,6 @@ public class ProfesorPDFService {
             headerCell.setPadding(8f);
             table.addCell(headerCell);
         }
-
 
 
         for (Profesor profesor : profesorList) {
@@ -122,6 +123,7 @@ public class ProfesorPDFService {
         document.close();
         return byteArrayOutputStream.toByteArray();
     }
+
     private void addTableCell(PdfPTable table, String content, Font font, int alignment) {
         PdfPCell cell = new PdfPCell(new Phrase(content, font));
         cell.setHorizontalAlignment(alignment);

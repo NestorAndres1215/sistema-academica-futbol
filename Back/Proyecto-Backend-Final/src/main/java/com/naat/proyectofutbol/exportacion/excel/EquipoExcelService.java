@@ -3,6 +3,7 @@ package com.naat.proyectofutbol.exportacion.excel;
 
 import com.naat.proyectofutbol.entidades.Equipo;
 import com.naat.proyectofutbol.repositorios.EquipoRepository;
+import lombok.RequiredArgsConstructor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,14 +11,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class EquipoExcelService {
-    @Autowired
-    private EquipoRepository equipoRepository;
+
+    private final EquipoRepository equipoRepository;
+
     public ResponseEntity<byte[]> exportToExcelEquipos(String fileName) throws IOException {
 
         List<Equipo> equipoList = equipoRepository.findByEstadoTrue(); // Obtener la lista de equipos
