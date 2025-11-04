@@ -1,5 +1,6 @@
 package com.naat.proyectofutbol.configuraciones;
 
+import com.naat.proyectofutbol.servicios.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -8,7 +9,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.naat.proyectofutbol.servicios.UserDetailsServiceImpl;
+
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -24,7 +25,7 @@ import static com.naat.proyectofutbol.constrainst.Mensajes.TOKEN_INVALIDO;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 
-    private final  UserDetailsServiceImpl userDetailsService;
+    private final LoginService userDetailsService;
 
 
     private final JwtUtils jwtUtil;

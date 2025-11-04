@@ -1,6 +1,7 @@
 package com.naat.proyectofutbol.configuraciones;
 
 
+import com.naat.proyectofutbol.servicios.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.naat.proyectofutbol.servicios.UserDetailsServiceImpl;
 
 
 @EnableWebSecurity
@@ -25,7 +25,7 @@ import com.naat.proyectofutbol.servicios.UserDetailsServiceImpl;
 public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtAuthenticationEntryPoint unauthorizedHandler;
-    private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final LoginService userDetailsServiceImpl;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Override

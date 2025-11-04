@@ -2,12 +2,9 @@ package com.naat.proyectofutbol.controladores;
 
 import com.naat.proyectofutbol.dto.ClaseDTO;
 import com.naat.proyectofutbol.dto.ClaseDevDTO;
-import com.naat.proyectofutbol.dto.EquipoDTO;
 import com.naat.proyectofutbol.entidades.Clase;
 import com.naat.proyectofutbol.entidades.ClaseDev;
-import com.naat.proyectofutbol.entidades.Equipo;
 import com.naat.proyectofutbol.servicios.ClaseService;
-import com.naat.proyectofutbol.servicios.EquipoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

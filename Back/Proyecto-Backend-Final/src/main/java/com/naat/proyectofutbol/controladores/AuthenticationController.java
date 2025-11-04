@@ -2,6 +2,7 @@ package com.naat.proyectofutbol.controladores;
 
 import java.security.Principal;
 
+import com.naat.proyectofutbol.servicios.LoginService;
 import com.naat.proyectofutbol.servicios.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +17,7 @@ import com.naat.proyectofutbol.configuraciones.JwtUtils;
 import com.naat.proyectofutbol.modelo.JwtRequest;
 import com.naat.proyectofutbol.modelo.JwtResponse;
 import com.naat.proyectofutbol.modelo.Login;
-import com.naat.proyectofutbol.servicios.UserDetailsServiceImpl;
+
 
 import static com.naat.proyectofutbol.constrainst.Mensajes.ERROR_USUARIO;
 import static com.naat.proyectofutbol.constrainst.Mensajes.USUARIO_NO_ENCONTRADO;
@@ -29,7 +30,7 @@ public class AuthenticationController {
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	private UserDetailsServiceImpl userDetailsService;
+	private LoginService userDetailsService;
 
 	@Autowired
 	private JwtUtils jwtUtils;

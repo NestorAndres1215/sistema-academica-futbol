@@ -2,6 +2,7 @@ package com.naat.proyectofutbol.servicios;
 
 import com.naat.proyectofutbol.entidades.Usuario;
 import com.naat.proyectofutbol.repositorios.UsuarioRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,25 +15,22 @@ import static com.naat.proyectofutbol.constrainst.Mensajes.USUARIO_NO_ENCONTRADO
 
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
-	
-	@Autowired
-	private LoginRepository usuarioRepository;
-@Autowired
-private UsuarioRepository usuario2Repository;
+@RequiredArgsConstructor
+public class LoginService implements UserDetailsService {
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
- Usuario usuarioActivado= this.usuario2Repository.findByUsernameAndEstado(username);
-		Login usuario = this.usuarioRepository.findByUsername(username);
+    private final LoginRepository usuarioRepository;
 
-	        if(usuarioActivado == null){
-				usuario=null;
-				throw new IllegalArgumentException(USUARIO_NO_ENCONTRADO);
-	      //      throw new UsernameNotFoundException("Usuario no encontrado");
-	        }
-		return usuario;
-	}
+    private final UsuarioRepository usuario2Repository;
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Usuario usuarioActivado = this.usuario2Repository.findByUsernameAndEstado(username);
+        Login usuario = this.usuarioRepository.findByUsername(username);
 
+        if (usuarioActivado == null) {
+            usuario = null;
+            throw new IllegalArgumentException(USUARIO_NO_ENCONTRADO);
+        }
+        return usuario;
+    }
 }

@@ -1,6 +1,5 @@
 package com.naat.proyectofutbol.controladores;
 
-import com.naat.proyectofutbol.entidades.Admin;
 import com.naat.proyectofutbol.entidades.Cargo;
 import com.naat.proyectofutbol.servicios.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;

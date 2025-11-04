@@ -3,7 +3,6 @@ package com.naat.proyectofutbol.controladores;
 import com.naat.proyectofutbol.dto.AdminDTO;
 import com.naat.proyectofutbol.entidades.Admin;
 import com.naat.proyectofutbol.repositorios.UsuarioRepository;
-import com.naat.proyectofutbol.servicios.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;

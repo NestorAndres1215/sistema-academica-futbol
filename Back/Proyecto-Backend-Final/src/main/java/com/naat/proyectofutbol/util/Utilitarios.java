@@ -2,14 +2,9 @@ package com.naat.proyectofutbol.util;
 
 public class Utilitarios {
 
-
-    public boolean esTelefonoValido(String telefono) {
-        return telefono != null && telefono.matches("\\d{9}");
-    }
-
     public static String incrementarSecuencia(String secuencia) {
         if (secuencia == null) {
-            secuencia = "0000";  
+            secuencia = "0000";
         }
         System.out.print(secuencia);
         String alphaPart = secuencia.substring(0, secuencia.length() - 2);
@@ -23,7 +18,6 @@ public class Utilitarios {
             }
             return alphaPart + String.format("%02d", num);
         } catch (NumberFormatException e) {
-            e.printStackTrace();
             return null;
         }
     }

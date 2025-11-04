@@ -1,9 +1,7 @@
 package com.naat.proyectofutbol.controladores;
 
-import com.naat.proyectofutbol.dto.AsignacionDTO;
 import com.naat.proyectofutbol.dto.DetalleLesionDTO;
 import com.naat.proyectofutbol.dto.LesionesDTO;
-import com.naat.proyectofutbol.entidades.Horario;
 import com.naat.proyectofutbol.entidades.Lesiones;
 import com.naat.proyectofutbol.entidades.LesionesDev;
 import com.naat.proyectofutbol.servicios.LesionesService;
