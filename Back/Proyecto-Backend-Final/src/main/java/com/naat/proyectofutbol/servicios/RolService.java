@@ -18,4 +18,7 @@ public class  RolService {
     public List<Rol> listarRoles() {
         return rolRepository.findAll(); // Devuelve todos los roles
     }
+    public List<Rol> findByRol(String nombre) {
+        return rolRepository.findByRol(nombre);
+    }
 }
