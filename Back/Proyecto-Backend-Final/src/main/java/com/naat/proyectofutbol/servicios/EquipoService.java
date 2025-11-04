@@ -301,7 +301,7 @@ System.out.print(equipo);
                 equipoDev1.setNumeroCamiseta(asignacionEstudiante.getNumeroCamiseta());
                 equipoDev1.setPosicion(asignacionEstudiante.getPosicion());
                 equipoDev1.setEsCapitan(asignacionEstudiante.isEsCapitan());
-                equipoDev1.setEstado(asignacionEstudiante.getEstado());
+                equipoDev1.setEstado(asignacionEstudiante.isEstado());
                 equipoDev1.setUsuarioActualizacion(asignacionEstudiante.getUsuarioActualizacion());
                 equipoDev1.setFechaActualizacion(LocalDate.now());
                 equipoDev1.setHoraActualizacion(LocalTime.now());

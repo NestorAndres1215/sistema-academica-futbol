@@ -1,5 +1,12 @@
 package com.naat.proyectofutbol.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioDTO {
 
     private String username;
@@ -7,33 +14,6 @@ public class UsuarioDTO {
     private String ul_Codigo;
 
 
-
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-
-    public String getUl_Codigo() {
-        return ul_Codigo;
-    }
-
-    public void setUl_Codigo(String ul_Codigo) {
-        this.ul_Codigo = ul_Codigo;
-    }
 
 
 }
