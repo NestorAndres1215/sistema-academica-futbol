@@ -4,6 +4,7 @@ package com.naat.proyectofutbol.servicios;
 import com.naat.proyectofutbol.entidades.Sede;
 import com.naat.proyectofutbol.repositorios.SedeRepository;
 import com.naat.proyectofutbol.util.Utilitarios;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +14,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class  SedeService{
 
-    @Autowired
-    private SedeRepository sedeRepository;
 
-
+    private final SedeRepository sedeRepository;
 
 
     public List<Sede> listarSedes() {

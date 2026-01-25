@@ -1,10 +1,15 @@
 package com.naat.proyectofutbol.entidades;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 @Entity
 @Table(name = "lesiondev")
+@AllArgsConstructor
+@NoArgsConstructor
 public class LesionesDev {
     @Id
     @Column(name = "dl_codigo")
@@ -49,45 +54,6 @@ public class LesionesDev {
 
     @Column(name = "dl_usuario_actualizacion")
     private String usuarioActualizacion;
-    public LesionesDev() {
-    }
-
-    public LesionesDev(String codigo, Lesiones lesiones, LocalDate fecha, LocalTime hora, String tipoEvento, String descripcion, String responsable, String observaciones, String usuarioRegistro, LocalDate fechaCreacion, LocalTime horaCreacion, LocalDate fechaActualizacion, LocalTime horaActualizacion, String usuarioActualizacion) {
-        this.codigo = codigo;
-        this.lesiones = lesiones;
-        this.fecha = fecha;
-        this.hora = hora;
-        this.tipoEvento = tipoEvento;
-        this.descripcion = descripcion;
-        this.responsable = responsable;
-        this.observaciones = observaciones;
-        this.usuarioRegistro = usuarioRegistro;
-        this.fechaCreacion = fechaCreacion;
-        this.horaCreacion = horaCreacion;
-        this.fechaActualizacion = fechaActualizacion;
-        this.horaActualizacion = horaActualizacion;
-        this.usuarioActualizacion = usuarioActualizacion;
-    }
-
-    @Override
-    public String toString() {
-        return "LesionesDev{" +
-                "codigo='" + codigo + '\'' +
-                ", lesiones=" + lesiones +
-                ", fecha=" + fecha +
-                ", hora=" + hora +
-                ", tipoEvento='" + tipoEvento + '\'' +
-                ", descripcion='" + descripcion + '\'' +
-                ", responsable='" + responsable + '\'' +
-                ", observaciones='" + observaciones + '\'' +
-                ", usuarioRegistro='" + usuarioRegistro + '\'' +
-                ", fechaCreacion=" + fechaCreacion +
-                ", horaCreacion=" + horaCreacion +
-                ", fechaActualizacion=" + fechaActualizacion +
-                ", horaActualizacion=" + horaActualizacion +
-                ", usuarioActualizacion='" + usuarioActualizacion + '\'' +
-                '}';
-    }
 
     public String getCodigo() {
         return codigo;

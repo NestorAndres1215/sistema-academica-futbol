@@ -8,6 +8,7 @@ import com.naat.proyectofutbol.entidades.Partido;
 import com.naat.proyectofutbol.repositorios.EquipoRepository;
 import com.naat.proyectofutbol.repositorios.PartidoRepository;
 import com.naat.proyectofutbol.util.Utilitarios;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class PartidoService{
 
-    @Autowired
-    private PartidoRepository partidoRepository;
-    @Autowired
-    private EquipoRepository equipoRepository;
+    private final PartidoRepository partidoRepository;
+
+    private final EquipoRepository equipoRepository;
 
 
 

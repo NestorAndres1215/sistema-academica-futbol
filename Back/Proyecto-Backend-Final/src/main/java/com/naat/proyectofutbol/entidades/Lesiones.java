@@ -1,11 +1,16 @@
 package com.naat.proyectofutbol.entidades;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "lesiones")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Lesiones {
     @Id
     @Column(name = "le_codigo", length = 4)
@@ -58,49 +63,7 @@ public class Lesiones {
     @JoinColumn(name = "le_estudiante", referencedColumnName = "es_codigo")
     private Estudiante estudiante;
 
-    public Lesiones(String codigo, String tipoLesion, LocalDate fechaLesion, String gravedad, boolean estado, Integer tiempoRecuperacion, LocalDate fechaCreacion, LocalTime horaCreacion, LocalDate fechaActualizacion, LocalTime horaActualizacion, String comentarios, String usuarioRegistro, String usuarioActualizacion, LocalDate fechaRecuperacion, String descripcion, Estudiante estudiante) {
-        this.codigo = codigo;
-        this.tipoLesion = tipoLesion;
-        this.fechaLesion = fechaLesion;
-        this.gravedad = gravedad;
-        this.estado = estado;
-        this.tiempoRecuperacion = tiempoRecuperacion;
-        this.fechaCreacion = fechaCreacion;
-        this.horaCreacion = horaCreacion;
-        this.fechaActualizacion = fechaActualizacion;
-        this.horaActualizacion = horaActualizacion;
-        this.comentarios = comentarios;
-        this.usuarioRegistro = usuarioRegistro;
-        this.usuarioActualizacion = usuarioActualizacion;
-        this.fechaRecuperacion = fechaRecuperacion;
-        this.descripcion = descripcion;
-        this.estudiante = estudiante;
-    }
 
-    public Lesiones() {
-    }
-
-    @Override
-    public String toString() {
-        return "Lesiones{" +
-                "codigo='" + codigo + '\'' +
-                ", tipoLesion='" + tipoLesion + '\'' +
-                ", fechaLesion=" + fechaLesion +
-                ", gravedad='" + gravedad + '\'' +
-                ", estado=" + estado +
-                ", tiempoRecuperacion=" + tiempoRecuperacion +
-                ", fechaCreacion=" + fechaCreacion +
-                ", horaCreacion=" + horaCreacion +
-                ", fechaActualizacion=" + fechaActualizacion +
-                ", horaActualizacion=" + horaActualizacion +
-                ", comentarios='" + comentarios + '\'' +
-                ", usuarioRegistro='" + usuarioRegistro + '\'' +
-                ", usuarioActualizacion='" + usuarioActualizacion + '\'' +
-                ", fechaRecuperacion=" + fechaRecuperacion +
-                ", descripcion='" + descripcion + '\'' +
-                ", estudiante=" + estudiante +
-                '}';
-    }
 
     public String getCodigo() {
         return codigo;

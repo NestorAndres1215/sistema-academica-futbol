@@ -6,6 +6,7 @@ import com.naat.proyectofutbol.entidades.Usuario;
 import com.naat.proyectofutbol.repositorios.HistorialRepository;
 import com.naat.proyectofutbol.repositorios.UsuarioRepository;
 import com.naat.proyectofutbol.util.Utilitarios;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,17 +16,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class   HistorialService{
+@RequiredArgsConstructor
+public class HistorialService {
 
-    @Autowired
-    private HistorialRepository historialRepository;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+
+    private final HistorialRepository historialRepository;
+
+    private final UsuarioRepository usuarioRepository;
 
 
     public List<Historial> obtenerHistorialPorUsuario(Usuario usuario) {
         return historialRepository.findByUsuario(usuario);
     }
+
     public Usuario findById(String codigo) {
         return usuarioRepository.findByCodigo(codigo);
     }
@@ -39,7 +42,7 @@ public class   HistorialService{
         Usuario usuario = usuarioExistente.get(0);
         String codigoUsuario = usuario.getCodigo();
 
-        Historial historial1  =  new Historial();
+        Historial historial1 = new Historial();
         historial1.setCodigo(nuevoCodigo);
         historial1.setHora(LocalTime.now());
         historial1.setFecha(LocalDate.now());

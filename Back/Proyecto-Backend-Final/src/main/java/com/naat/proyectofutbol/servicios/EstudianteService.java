@@ -8,6 +8,7 @@ import com.naat.proyectofutbol.repositorios.LoginRepository;
 import com.naat.proyectofutbol.repositorios.SedeRepository;
 import com.naat.proyectofutbol.repositorios.UsuarioRepository;
 import com.naat.proyectofutbol.util.Utilitarios;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,19 +24,20 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class  EstudianteService{
-    @Autowired
-    private EstudianteRepository estudianteRepository;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private LoginRepository loginRepository;
-    @Autowired
-    private SedeRepository sedeRepository;
-    @Autowired
-    private UsuarioService usuarioService;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final EstudianteRepository estudianteRepository;
+
+    private final UsuarioRepository usuarioRepository;
+
+    private final LoginRepository loginRepository;
+
+    private final SedeRepository sedeRepository;
+
+    private final UsuarioService usuarioService;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public List<Estudiante> findProfesorByEstadoTrue() {
         return estudianteRepository.findByEstadoTrue();

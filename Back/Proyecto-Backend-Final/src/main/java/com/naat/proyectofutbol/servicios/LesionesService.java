@@ -7,6 +7,7 @@ import com.naat.proyectofutbol.repositorios.EquipoDevRepository;
 import com.naat.proyectofutbol.repositorios.LesionDevRepository;
 import com.naat.proyectofutbol.repositorios.LesionesRepository;
 import com.naat.proyectofutbol.util.Utilitarios;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +18,13 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class  LesionesService{
 
-    @Autowired
-    private LesionesRepository lesionesRepository;
-    @Autowired
-    private LesionDevRepository lesionDevRepository;
-    @Autowired
-    private EquipoDevRepository equipoDevRepository;
+
+    private final LesionesRepository lesionesRepository;
+    private final LesionDevRepository lesionDevRepository;
+    private final EquipoDevRepository equipoDevRepository;
 
     public List<Lesiones> findAdminsByEstadoTrue() {
         return lesionesRepository.findByEstadoTrue();

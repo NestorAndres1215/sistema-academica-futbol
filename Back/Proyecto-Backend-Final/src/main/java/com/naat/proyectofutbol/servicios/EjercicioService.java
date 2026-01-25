@@ -5,6 +5,7 @@ import com.naat.proyectofutbol.entidades.Ejercicio;
 import com.naat.proyectofutbol.entidades.Equipo;
 import com.naat.proyectofutbol.repositorios.EjercicioRepository;
 import com.naat.proyectofutbol.util.Utilitarios;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +15,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class EjercicioService{
-    @Autowired
-    private EjercicioRepository ejercicioRepository;
+
+    private final EjercicioRepository ejercicioRepository;
 
 
     public String obtenerCodigo() {

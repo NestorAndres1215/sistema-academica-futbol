@@ -1,5 +1,8 @@
 package com.naat.proyectofutbol.entidades;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -7,32 +10,34 @@ import java.util.Arrays;
 
 @Entity
 @Table(name = "profesor")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Profesor {
     @Id
     @Column(name = "pr_codigo")
     private String codigo;
-    @Column(name="pr_primernombre")
+    @Column(name = "pr_primernombre")
     private String primerNombre;
-    @Column(name="pr_segundonombre")
-    private  String segundoNombre;
+    @Column(name = "pr_segundonombre")
+    private String segundoNombre;
     @Column(name = "pr_apellidopaterno")
-    private  String apellidoPaterno;
+    private String apellidoPaterno;
     @Column(name = "pr_apellidomaterno")
-    private  String apellidoMaterno;
+    private String apellidoMaterno;
     @Column(name = "pr_telefono")
-    private  String telefono;
+    private String telefono;
     @Column(name = "pr_genero")
-    private  String genero;
+    private String genero;
     @Column(name = "pr_dni")
-    private  String dni;
+    private String dni;
     @Column(name = "pr_tipodoc")
     private String tipo;
     @Column(name = "pr_direccion")
-    private  String direccion;
+    private String direccion;
     @Column(name = "pr_correo")
-    private  String correo;
+    private String correo;
     @Column(name = "pr_edad")
-    private  int edad;
+    private int edad;
     @Column(name = "pr_fechanacimiento")
     private LocalDate fechaNacimiento;
     @Column(name = "pr_nacionalidad")
@@ -65,69 +70,6 @@ public class Profesor {
     @Column(name = "pr_usuarioactualizacion")
     private String usuarioActualizacion;
 
-    public Profesor() {
-    }
-
-    @Override
-    public String toString() {
-        return "Profesor{" +
-                "codigo='" + codigo + '\'' +
-                ", primerNombre='" + primerNombre + '\'' +
-                ", segundoNombre='" + segundoNombre + '\'' +
-                ", apellidoPaterno='" + apellidoPaterno + '\'' +
-                ", apellidoMaterno='" + apellidoMaterno + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", genero='" + genero + '\'' +
-                ", dni='" + dni + '\'' +
-                ", tipo='" + tipo + '\'' +
-                ", direccion='" + direccion + '\'' +
-                ", correo='" + correo + '\'' +
-                ", edad=" + edad +
-                ", fechaNacimiento=" + fechaNacimiento +
-                ", nacionalidad='" + nacionalidad + '\'' +
-                ", estado=" + estado +
-                ", perfil=" + Arrays.toString(perfil) +
-                ", fechaCreacion=" + fechaCreacion +
-                ", horaCreacion=" + horaCreacion +
-                ", fechaActualizacion=" + fechaActualizacion +
-                ", horaActualizacion=" + horaActualizacion +
-                ", cargo=" + cargo +
-                ", usuario=" + usuario +
-                ", sede=" + sede +
-                ", usuarioCreacion='" + usuarioCreacion + '\'' +
-                ", usuarioActualizacion='" + usuarioActualizacion + '\'' +
-
-                '}';
-    }
-
-    public Profesor(String codigo, String primerNombre, String segundoNombre, String apellidoPaterno, String apellidoMaterno, String telefono, String genero, String dni, String tipo, String direccion, String correo, int edad, LocalDate fechaNacimiento, String nacionalidad, boolean estado, byte[] perfil, LocalDate fechaCreacion, LocalTime horaCreacion, LocalDate fechaActualizacion, LocalTime horaActualizacion, Cargo cargo, Usuario usuario, Sede sede, String usuarioCreacion, String usuarioActualizacion, String tipoDoc) {
-        this.codigo = codigo;
-        this.primerNombre = primerNombre;
-        this.segundoNombre = segundoNombre;
-        this.apellidoPaterno = apellidoPaterno;
-        this.apellidoMaterno = apellidoMaterno;
-        this.telefono = telefono;
-        this.genero = genero;
-        this.dni = dni;
-        this.tipo = tipo;
-        this.direccion = direccion;
-        this.correo = correo;
-        this.edad = edad;
-        this.fechaNacimiento = fechaNacimiento;
-        this.nacionalidad = nacionalidad;
-        this.estado = estado;
-        this.perfil = perfil;
-        this.fechaCreacion = fechaCreacion;
-        this.horaCreacion = horaCreacion;
-        this.fechaActualizacion = fechaActualizacion;
-        this.horaActualizacion = horaActualizacion;
-        this.cargo = cargo;
-        this.usuario = usuario;
-        this.sede = sede;
-        this.usuarioCreacion = usuarioCreacion;
-        this.usuarioActualizacion = usuarioActualizacion;
-
-    }
 
     public String getTipo() {
         return tipo;

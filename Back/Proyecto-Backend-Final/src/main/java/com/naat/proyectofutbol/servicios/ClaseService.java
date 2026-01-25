@@ -7,6 +7,7 @@ import com.naat.proyectofutbol.repositorios.ClaseDevRepository;
 import com.naat.proyectofutbol.repositorios.ClaseRepository;
 import com.naat.proyectofutbol.repositorios.HorarioRepository;
 import com.naat.proyectofutbol.util.Utilitarios;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,20 +17,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ClaseService{
+@RequiredArgsConstructor
+public class ClaseService {
 
-    @Autowired
-    private ClaseRepository claseRepository;
-    @Autowired
-    private HorarioRepository horarioRepository;
-    @Autowired
-    private ClaseDevRepository claseDevRepository;
-
-
+    private final ClaseRepository claseRepository;
+    private final HorarioRepository horarioRepository;
+    private final ClaseDevRepository claseDevRepository;
 
 
     public List<Clase> listaractivados() {
-        return  claseRepository.findByEstadoTrue();
+        return claseRepository.findByEstadoTrue();
     }
 
 
@@ -100,7 +97,7 @@ public class ClaseService{
                 // Si no hay cambios, no entra aquí ni realiza verificación de duplicados
                 System.out.println("No hubo cambios en los valores.");
             }
-                System.out.print("entro");
+            System.out.print("entro");
             // Actualizar los valores de la clase existente
             claseExistente.setCodigo(claseDTO.getCodigo());
             claseExistente.setInicio(claseDTO.getInicio());
@@ -152,7 +149,7 @@ public class ClaseService{
 
 
     public ClaseDev registrardev(ClaseDevDTO claseDevDTO) {
-System.out.print(claseDevDTO);
+        System.out.print(claseDevDTO);
         try {
             String ultimoCodigo = obtenerCodigoDev();
             String nuevoCodigo = Utilitarios.incrementarSecuencia(ultimoCodigo);
@@ -169,7 +166,7 @@ System.out.print(claseDevDTO);
             clase.setUsuarioCreacion(clase.getUsuarioCreacion());
             clase.setEstado(true);
             System.out.print(clase);
-           return claseDevRepository.save(clase);
+            return claseDevRepository.save(clase);
 
         } catch (Exception e) {
 
@@ -180,7 +177,7 @@ System.out.print(claseDevDTO);
 
 
     public String obtenerCodigoDev() {
-        return  claseDevRepository.obtenerUltimoCodigo();
+        return claseDevRepository.obtenerUltimoCodigo();
     }
 
 

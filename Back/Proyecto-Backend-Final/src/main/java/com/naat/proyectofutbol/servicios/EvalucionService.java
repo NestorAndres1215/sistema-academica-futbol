@@ -7,6 +7,7 @@ import com.naat.proyectofutbol.modelo.Login;
 import com.naat.proyectofutbol.repositorios.EvaluacionDevRepository;
 import com.naat.proyectofutbol.repositorios.EvaluacionRepository;
 import com.naat.proyectofutbol.util.Utilitarios;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +19,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class  EvalucionService {
 
-    @Autowired
-    private EvaluacionDevRepository evaluacionDevRepository;
-    @Autowired
-    private EvaluacionRepository evaluacionRepository;
+
+    private final EvaluacionDevRepository evaluacionDevRepository;
+
+    private final EvaluacionRepository evaluacionRepository;
 
 
     public List<Evaluacion> listaEvaluacion() {

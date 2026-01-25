@@ -11,6 +11,7 @@ import com.naat.proyectofutbol.repositorios.GeneralRepository;
 import com.naat.proyectofutbol.util.Utilitarios;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +22,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class  GeneralService{
-    @Autowired
-    private GeneralRepository generalRepository;
-    @Autowired
-    private GeneralDevRepository generalDevRepository;
+
+    private final GeneralRepository generalRepository;
+
+    private final GeneralDevRepository generalDevRepository;
 
 
     public List<General> listarGeneral() {

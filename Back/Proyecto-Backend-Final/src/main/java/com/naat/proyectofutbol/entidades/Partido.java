@@ -1,17 +1,20 @@
 package com.naat.proyectofutbol.entidades;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "partido")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Partido {
     @Id
     @Column(name = "pat_codigo")
     private String codigo;
-
-
 
     @Column(name = "pat_marcadorlocal")
     private String marcadorLocal;
@@ -68,34 +71,6 @@ public class Partido {
     @JoinColumn(name = "pat_equipo", referencedColumnName = "eq_codigo")
     private Equipo equipo;
 
-
-    @Override
-    public String toString() {
-        return "Partido{" +
-                "codigo='" + codigo + '\'' +
-                ", marcadorLocal='" + marcadorLocal + '\'' +
-                ", equipoRival='" + equipoRival + '\'' +
-                ", fecha=" + fecha +
-                ", hora=" + hora +
-                ", lugar='" + lugar + '\'' +
-                ", tipoPartido='" + tipoPartido + '\'' +
-                ", comentarios='" + comentarios + '\'' +
-                ", estado=" + estado +
-                ", usuarioCreacion='" + usuarioCreacion + '\'' +
-                ", usuarioActualizacion='" + usuarioActualizacion + '\'' +
-                ", fechaCreacion=" + fechaCreacion +
-                ", horaCreacion=" + horaCreacion +
-                ", fechaActualizacion=" + fechaActualizacion +
-                ", horaActualizacion=" + horaActualizacion +
-                ", derrota='" + derrota + '\'' +
-                ", victoria='" + victoria + '\'' +
-                ", marcadorVisita='" + marcadorVisita + '\'' +
-                ", equipo=" + equipo +
-                '}';
-    }
-
-    public Partido() {
-    }
 
 
     public String getCodigo() {

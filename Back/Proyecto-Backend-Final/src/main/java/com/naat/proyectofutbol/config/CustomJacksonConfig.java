@@ -15,11 +15,9 @@ public class CustomJacksonConfig {
     public ObjectMapper objectMapper() {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        // Configuración del módulo para manejar fechas
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        // Configuración para el deserializador personalizado
         SimpleModule module = new SimpleModule();
         module.addDeserializer(GrantedAuthority.class, new CustomGrantedAuthorityDeserializer());
         objectMapper.registerModule(module);

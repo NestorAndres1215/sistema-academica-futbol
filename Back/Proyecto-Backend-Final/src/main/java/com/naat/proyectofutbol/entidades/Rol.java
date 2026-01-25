@@ -1,5 +1,8 @@
 package com.naat.proyectofutbol.entidades;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,6 +12,8 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "rol")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Rol {
     @Id
     @Column(name = "tr_codigo", length = 255, nullable = false, unique = true)
@@ -28,19 +33,6 @@ public class Rol {
     @Column(name = "tr_horaactualizacion")
     private LocalTime horaActualizacion;
 
-
-
-    public Rol(String codigo, String rol, LocalDate fechaCreacion, LocalTime horaCreacion, LocalDate fechaActualizacion, LocalTime horaActualizacion) {
-        this.codigo = codigo;
-        this.rol = rol;
-        this.fechaCreacion = fechaCreacion;
-        this.horaCreacion = horaCreacion;
-        this.fechaActualizacion = fechaActualizacion;
-        this.horaActualizacion = horaActualizacion;
-    }
-
-    public Rol() {
-    }
 
     public String getCodigo() {
         return codigo;
@@ -90,15 +82,5 @@ public class Rol {
         this.horaActualizacion = horaActualizacion;
     }
 
-    @Override
-    public String toString() {
-        return "Rol{" +
-                "codigo='" + codigo + '\'' +
-                ", rol='" + rol + '\'' +
-                ", fechaCreacion=" + fechaCreacion +
-                ", horaCreacion=" + horaCreacion +
-                ", fechaActualizacion=" + fechaActualizacion +
-                ", horaActualizacion=" + horaActualizacion +
-                '}';
-    }
+
 }

@@ -7,6 +7,7 @@ import com.naat.proyectofutbol.dto.EquipoDTO;
 import com.naat.proyectofutbol.entidades.*;
 import com.naat.proyectofutbol.repositorios.*;
 import com.naat.proyectofutbol.util.Utilitarios;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,19 +16,20 @@ import java.time.LocalTime;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class EquipoService{
-    @Autowired
-    private EquipoRepository equipoRepository ;
-    @Autowired
-    private EquipoDevRepository equipoDevRepository;
-    @Autowired
-    private EstudianteRepository estudianteRepository;
-    @Autowired
-    private ProfesorRepository profesorRepository;
-    @Autowired
-    private EvaluacionRepository evaluacionRepository;
-    @Autowired
-    private  EvaluacionDevRepository evaluacionDevRepository;
+
+    private final EquipoRepository equipoRepository ;
+
+    private final EquipoDevRepository equipoDevRepository;
+
+    private final EstudianteRepository estudianteRepository;
+
+    private final ProfesorRepository profesorRepository;
+
+    private final EvaluacionRepository evaluacionRepository;
+
+    private final   EvaluacionDevRepository evaluacionDevRepository;
 
 
     public List<Equipo> listaractivados() {

@@ -1,9 +1,14 @@
 package com.naat.proyectofutbol.entidades;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "menu")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Menu {
 
     @Id
@@ -38,21 +43,6 @@ public class Menu {
     @JoinColumn(name = "mu_rol", referencedColumnName = "tr_codigo")
     private Rol rol;
 
-    public Menu(String id, String categoria, String codigo, String icono, Integer nivel, String nombre, String tipo, String ruta, Integer activar, Rol rol) {
-        this.id = id;
-        this.categoria = categoria;
-        this.codigo = codigo;
-        this.icono = icono;
-        this.nivel = nivel;
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.ruta = ruta;
-        this.activar = activar;
-        this.rol = rol;
-    }
-
-    public Menu() {
-    }
 
     public String getId() {
         return id;

@@ -1,12 +1,17 @@
 package com.naat.proyectofutbol.entidades;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "usuario")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Usuario {
     @Id
     @Column(name = "us_codigo")
@@ -46,39 +51,6 @@ public class Usuario {
     @Column(name = "us_usuarioactualizacion")
     private String usuarioActualizacion;
 
-    public Usuario(String codigo, String username, String password, boolean estado, LocalDate fechaCreacion, LocalTime horaCreacion, LocalDate fechaActualizacion, LocalTime horaActualizacion, Rol rol, String usuarioCreacion, String usuarioActualizacion) {
-        this.codigo = codigo;
-        this.username = username;
-        this.password = password;
-        this.estado = estado;
-        this.fechaCreacion = fechaCreacion;
-        this.horaCreacion = horaCreacion;
-        this.fechaActualizacion = fechaActualizacion;
-        this.horaActualizacion = horaActualizacion;
-        this.rol = rol;
-        this.usuarioCreacion = usuarioCreacion;
-        this.usuarioActualizacion = usuarioActualizacion;
-    }
-
-    public Usuario() {
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario{" +
-                "codigo='" + codigo + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", estado=" + estado +
-                ", fechaCreacion=" + fechaCreacion +
-                ", horaCreacion=" + horaCreacion +
-                ", fechaActualizacion=" + fechaActualizacion +
-                ", horaActualizacion=" + horaActualizacion +
-                ", rol=" + rol +
-                ", usuarioCreacion='" + usuarioCreacion + '\'' +
-                ", usuarioActualizacion='" + usuarioActualizacion + '\'' +
-                '}';
-    }
 
     public String getUsuarioActualizacion() {
         return usuarioActualizacion;

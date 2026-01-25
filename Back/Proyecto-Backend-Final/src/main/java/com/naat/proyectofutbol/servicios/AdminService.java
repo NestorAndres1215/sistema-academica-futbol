@@ -12,6 +12,7 @@ import com.naat.proyectofutbol.repositorios.UsuarioRepository;
 import com.naat.proyectofutbol.util.Utilitarios;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,17 +29,18 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AdminService {
-    @Autowired
-    private AdminRepository adminRepository;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private LoginRepository loginRepository;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
-    private UsuarioService usuarioService;
+
+    private final AdminRepository adminRepository;
+
+    private final UsuarioRepository usuarioRepository;
+
+    private final LoginRepository loginRepository;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final UsuarioService usuarioService;
 
 
     public List<Admin> getAdminsByUsuarioCodigo(String usuarioCodigo) {

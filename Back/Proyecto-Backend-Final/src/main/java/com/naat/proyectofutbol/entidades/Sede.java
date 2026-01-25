@@ -1,5 +1,8 @@
 package com.naat.proyectofutbol.entidades;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,6 +12,8 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "sede")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Sede {
 
     @Id
@@ -44,41 +49,6 @@ public class Sede {
 
     @Column(name = "se_hora_actualizacion")
     private LocalTime horaActualizacion;  // Hora de la última actualización
-
-
-    public Sede() {
-    }
-
-    @Override
-    public String toString() {
-        return "Sede{" +
-                "codigo='" + codigo + '\'' +
-                ", nombre='" + nombre + '\'' +
-                ", direccion='" + direccion + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", estado=" + estado +
-                ", usuarioCreacion='" + usuarioCreacion + '\'' +
-                ", fechaCreacion=" + fechaCreacion +
-                ", usuarioActualizacion='" + usuarioActualizacion + '\'' +
-                ", fechaActualizacion=" + fechaActualizacion +
-                ", horaCreacion=" + horaCreacion +
-                ", horaActualizacion=" + horaActualizacion +
-                '}';
-    }
-
-    public Sede(String codigo, String nombre, String direccion, String telefono, boolean estado, String usuarioCreacion, LocalDate fechaCreacion, String usuarioActualizacion, LocalDate fechaActualizacion, LocalTime horaCreacion, LocalTime horaActualizacion) {
-        this.codigo = codigo;
-        this.nombre = nombre;
-        this.direccion = direccion;
-        this.telefono = telefono;
-        this.estado = estado;
-        this.usuarioCreacion = usuarioCreacion;
-        this.fechaCreacion = fechaCreacion;
-        this.usuarioActualizacion = usuarioActualizacion;
-        this.fechaActualizacion = fechaActualizacion;
-        this.horaCreacion = horaCreacion;
-        this.horaActualizacion = horaActualizacion;
-    }
 
     public String getCodigo() {
         return codigo;

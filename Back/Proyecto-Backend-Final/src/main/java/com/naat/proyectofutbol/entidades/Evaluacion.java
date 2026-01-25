@@ -1,11 +1,19 @@
 package com.naat.proyectofutbol.entidades;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.poi.hpsf.Decimal;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "evaluacion")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Evaluacion {
     @Id
     @Column(name = "ev_codigo")
@@ -20,37 +28,6 @@ public class Evaluacion {
     @ManyToOne
     @JoinColumn(name = "ev_estudiante", referencedColumnName = "es_codigo")
     private Estudiante estudiante;
-
-    public Evaluacion() {
-    }
-
-    public String getCodigo() {
-        return codigo;
-    }
-
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    public Integer getNotaFinal() {
-        return notaFinal;
-    }
-
-    public void setNotaFinal(Integer notaFinal) {
-        this.notaFinal = notaFinal;
-    }
-
-    public String getComentarios() {
-        return comentarios;
-    }
-
-    public void setComentarios(String comentarios) {
-        this.comentarios = comentarios;
-    }
-
-    public Estudiante getEstudiante() {
-        return estudiante;
-    }
 
     public void setEstudiante(String codigo) {
         if (codigo != null) {

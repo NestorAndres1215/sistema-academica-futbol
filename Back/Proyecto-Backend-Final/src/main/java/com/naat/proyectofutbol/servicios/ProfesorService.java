@@ -5,6 +5,7 @@ import com.naat.proyectofutbol.entidades.*;
 import com.naat.proyectofutbol.modelo.Login;
 import com.naat.proyectofutbol.repositorios.*;
 import com.naat.proyectofutbol.util.Utilitarios;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,21 +22,22 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class  ProfesorService {
-    @Autowired
-    private ProfesorRepository profesorRepository;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private SedeRepository sedeRepository;
-    @Autowired
-    private CargoRepository cargoRepository;
-    @Autowired
-    private LoginRepository loginRepository;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
-    private UsuarioService usuarioService;
+
+    private final ProfesorRepository profesorRepository;
+
+    private final UsuarioRepository usuarioRepository;
+
+    private final SedeRepository sedeRepository;
+
+    private final CargoRepository cargoRepository;
+
+    private final LoginRepository loginRepository;
+
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final UsuarioService usuarioService;
 
 
     public Profesor guardarProfesor(ProfesorDTO profesorDTO) throws Exception {

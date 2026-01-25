@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import com.naat.proyectofutbol.dto.UsuarioDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,15 @@ import com.naat.proyectofutbol.repositorios.UsuarioRepository;
 import com.naat.proyectofutbol.repositorios.LoginRepository;
 
 @Service
+@RequiredArgsConstructor
 public class  UsuarioService {
 
-	@Autowired
-    private UsuarioRepository usuarioRepository;
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired
-    private LoginRepository loginRepository;
+
+    private final UsuarioRepository usuarioRepository;
+
+    private final  BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final LoginRepository loginRepository;
     // GUARDAR USUARIO
 
     public Usuario guardarUsuario(Usuario usuarios) {
