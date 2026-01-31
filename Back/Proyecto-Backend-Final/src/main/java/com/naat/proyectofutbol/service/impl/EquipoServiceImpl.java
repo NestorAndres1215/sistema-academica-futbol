@@ -79,7 +79,7 @@ public class EquipoServiceImpl implements EquipoService {
     public Equipo actualizar(EquipoRequest dto) {
 
         Equipo equipo = equipoRepository.findById(dto.getCodigo())
-                    .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPO_NO_ENCONTRADO));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPO_NO_ENCONTRADO));
 
         Sede sede = sedeRepository.findById(dto.getSede())
                 .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));
@@ -278,6 +278,25 @@ public class EquipoServiceImpl implements EquipoService {
         return equipoDev;
     }
 
+    @Override
+    public Optional<Equipo> buscarPorCodigo(String codigo) {
+        return equipoRepository.findById(codigo);
+    }
+
+    @Override
+    public List<Equipo> listarPorSede(String sede) {
+        return equipoRepository.findBySede(sede);
+    }
+
+    @Override
+    public List<Equipo> listarPorNombre(String nombre) {
+        return equipoRepository.findByNombreContainingIgnoreCase(nombre);
+    }
+
+    @Override
+    public List<Equipo> listarPorGenero(String genero) {
+        return equipoRepository.findByGenero(genero);
+    }
 
     public String obtenerCodigo() {
         return equipoRepository.obtenerUltimoCodigo();

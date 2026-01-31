@@ -2,6 +2,7 @@ package com.naat.proyectofutbol.controller;
 
 import com.naat.proyectofutbol.dto.request.EstudianteRequest;
 import com.naat.proyectofutbol.model.Estudiante;
+import com.naat.proyectofutbol.model.Profesor;
 import com.naat.proyectofutbol.service.EstudianteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -72,5 +73,41 @@ public class EstudianteController {
 
         return ResponseEntity.ok(estudianteService.actualizarImagen(codigoUsuario, codigoAdmin, username, primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno, telefono, email, direccion, perfil));
 
+    }
+
+
+    @GetMapping("/telefono/{telefono}")
+    public List<Estudiante> buscarPorTelefono(@PathVariable String telefono) {
+        return estudianteService.findByTelefono(telefono);
+    }
+
+    @GetMapping("/dni/{dni}")
+    public List<Estudiante> buscarPorDni(@PathVariable String dni) {
+        return estudianteService.findByDni(dni);
+    }
+
+    @GetMapping("/correo/{correo}")
+    public List<Estudiante> buscarPorCorreo(@PathVariable String correo) {
+        return estudianteService.findByCorreo(correo);
+    }
+
+    @GetMapping("/nacionalidad/{nacionalidad}")
+    public List<Estudiante> buscarPorNacionalidad(@PathVariable String nacionalidad) {
+        return estudianteService.findByNacionalidad(nacionalidad);
+    }
+
+    @GetMapping("/edad/{edad}")
+    public List<Estudiante> buscarPorEdad(@PathVariable String edad) {
+        return estudianteService.findByEdad(edad);
+    }
+
+    @GetMapping("/apellido/{apellidoPaterno}")
+    public List<Estudiante> buscarPorApellidoPaterno(@PathVariable String apellidoPaterno) {
+        return estudianteService.findByApellidoPaterno(apellidoPaterno);
+    }
+
+    @GetMapping("/nombre/{primerNombre}")
+    public List<Estudiante> buscarPorPrimerNombre(@PathVariable String primerNombre) {
+        return estudianteService.findByPrimerNombre(primerNombre);
     }
 }

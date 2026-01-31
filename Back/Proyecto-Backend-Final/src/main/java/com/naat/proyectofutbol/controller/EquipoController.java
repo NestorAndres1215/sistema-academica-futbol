@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/equipo")
@@ -76,6 +77,25 @@ public class EquipoController {
     @GetMapping("/listar")
     public List<EquipoDev> listar() {
         return equipoService.listar();
+    }
+    @GetMapping("/listar/{codigo}")
+    public ResponseEntity<Optional<Equipo>> buscarPorCodigo(@PathVariable String codigo) {
+        return ResponseEntity.ok(equipoService.buscarPorCodigo(codigo));
+    }
+
+    @GetMapping("/sede/{sede}")
+    public ResponseEntity<List<Equipo>> listarPorSede(@PathVariable String sede) {
+        return ResponseEntity.ok(equipoService.listarPorSede(sede));
+    }
+
+    @GetMapping("/nombre/{nombre}")
+    public ResponseEntity<List<Equipo>> listarPorNombre(@PathVariable String nombre) {
+        return ResponseEntity.ok(equipoService.listarPorNombre(nombre));
+    }
+
+    @GetMapping("/genero/{genero}")
+    public ResponseEntity<List<Equipo>> listarPorGenero(@PathVariable String genero) {
+        return ResponseEntity.ok(equipoService.listarPorGenero(genero));
     }
 
 }

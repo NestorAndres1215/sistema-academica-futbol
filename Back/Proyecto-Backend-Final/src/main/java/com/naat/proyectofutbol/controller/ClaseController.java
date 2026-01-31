@@ -46,6 +46,11 @@ public class ClaseController {
         return claseService.listarDevactivados();
     }
 
+    @GetMapping("/listar/dev/desactivo")
+    public List<ClaseDev> listarDesactivosDev() {
+        return claseService.listarDevdesactivados();
+    }
+
     @PostMapping("/dev/registrar")
     public ResponseEntity<ClaseDev> registrarDev(@Valid @RequestBody ClaseDevRequest claseDevDTO) {
         return ResponseEntity.ok(claseService.registrardev(claseDevDTO));

@@ -35,4 +35,6 @@ public class EjercicioController {
         return ResponseEntity.ok(ejercicioService.actualizar(ejercicioDTO));
     }
 
+
+
 }
