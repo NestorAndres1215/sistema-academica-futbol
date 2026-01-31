@@ -1,12 +1,13 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Historial } from 'src/app/model/historial';
-import { AdminService } from 'src/app/services/admin.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
+
+import { AdminService } from 'src/app/core/services/admin.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { DatosPersonalesComponent } from '../datos-personales.component';
+import { Historial } from 'src/app/core/model/historial';
 
 @Component({
   selector: 'app-edt-datos',

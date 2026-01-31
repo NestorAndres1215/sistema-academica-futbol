@@ -2,22 +2,23 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { ExcelService } from 'src/app/services/excel.service';
-import { GeneralService } from 'src/app/services/general.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { PdfService } from 'src/app/services/pdf.service';
-import { SedeService } from 'src/app/services/sede.service';
+import { ExcelService } from 'src/app/core/services/excel.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { PdfService } from 'src/app/core/services/pdf.service';
+import { SedeService } from 'src/app/core/services/sede.service';
 import { VisorTbGeneralComponent } from '../visor-tb-general/visor-tb-general.component';
 import { EditTbGeneralComponent } from '../edit-tb-general/edit-tb-general.component';
 import { LtDevComponent } from '../lt-dev/lt-dev.component';
 import { ModalEliminacionComponent } from '../../../components/modal-eliminacion/modal-eliminacion.component';
-import { Respuesta } from 'src/app/model/respuesta';
-import { Historial } from 'src/app/model/historial';
-import { LoginService } from 'src/app/services/login.service';
-import { HistorialService } from 'src/app/services/historial.service';
+
+import { LoginService } from 'src/app/core/services/login.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
 import { LstDesTbGeneralComponent } from '../lst-des-tb-general/lst-des-tb-general.component';
 import { RegSedeComponent } from '../../sede/reg-sede/reg-sede.component';
 import { RegTbGeneralComponent } from '../reg-tb-general/reg-tb-general.component';
+import { Historial } from 'src/app/core/model/historial';
+import { Respuesta } from 'src/app/core/model/respuesta';
 
 @Component({
   selector: 'app-ls-tabla-general',

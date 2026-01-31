@@ -2,13 +2,14 @@ import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
-import { SedeService } from 'src/app/services/sede.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { Sede } from 'src/app/model/sede';
-import { LoginService } from 'src/app/services/login.service';
+import { SedeService } from 'src/app/core/services/sede.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { LoginService } from 'src/app/core/services/login.service';
 import { SedeComponent } from '../sede/sede.component';
-import { HistorialService } from 'src/app/services/historial.service';
-import { Historial } from 'src/app/model/historial';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { Historial } from 'src/app/core/model/historial';
+import { Sede } from 'src/app/core/model/sede';
+
 
 @Component({
   selector: 'app-reg-sede',

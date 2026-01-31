@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EditPerfilComponent } from '../edit-perfil/edit-perfil.component';
-import { LoginService } from 'src/app/services/login.service';
-import { ProfesorService } from 'src/app/services/profesor.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 

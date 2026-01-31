@@ -19,7 +19,7 @@ export class EstudianteService {
   }
 
   guardarEstudiante(profesor: Estudiante): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/estudiante/guardar-estudiante`, profesor);  // La URL debe ser cerrada adecuadamente
+    return this.http.post<any>(`${baserUrl}/estudiante/guardar-estudiante`, profesor); 
   }
   actualizarEstudiante(profesor: Estudiante): Observable<any> {
     return this.http.put<any>(`${baserUrl}/estudiante/actualizar-estudiante`, profesor);

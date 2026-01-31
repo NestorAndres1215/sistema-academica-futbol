@@ -3,13 +3,15 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { LstUsuarioComponent } from '../lst-usuario/lst-usuario.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { AdminService } from 'src/app/services/admin.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { LoginService } from 'src/app/services/login.service';
-import { Admin } from 'src/app/model/Admin';
+import { AdminService } from 'src/app/core/services/admin.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { LoginService } from 'src/app/core/services/login.service';
+
 import { MatTableDataSource } from '@angular/material/table';
-import { Historial } from 'src/app/model/historial';
-import { HistorialService } from 'src/app/services/historial.service';
+
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { Admin } from 'src/app/core/model/Admin';
+import { Historial } from 'src/app/core/model/historial';
 
 @Component({
   selector: 'app-edit-usuario',

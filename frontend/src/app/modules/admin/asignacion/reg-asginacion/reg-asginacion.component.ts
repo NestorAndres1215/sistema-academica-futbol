@@ -1,16 +1,13 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {  Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { Asignacion } from 'src/app/model/Asignacion';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { EstudianteService } from 'src/app/services/estudiante.service';
-import { GeneralService } from 'src/app/services/general.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { ProfesorService } from 'src/app/services/profesor.service';
-import { SedeService } from 'src/app/services/sede.service';
+import { Asignacion } from 'src/app/core/model/Asignacion';
+
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { EstudianteService } from 'src/app/core/services/estudiante.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { ProfesorService } from 'src/app/core/services/profesor.service';
+import { SedeService } from 'src/app/core/services/sede.service';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-reg-asginacion',

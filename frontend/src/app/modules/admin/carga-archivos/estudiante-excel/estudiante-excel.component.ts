@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Historial } from 'src/app/model/historial';
-import { Profesor } from 'src/app/model/profesor';
-import { CargoService } from 'src/app/services/cargo.service';
-import { EstudianteService } from 'src/app/services/estudiante.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { ProfesorService } from 'src/app/services/profesor.service';
-import { SedeService } from 'src/app/services/sede.service';
+import { Historial } from 'src/app/core/model/historial';
+import { CargoService } from 'src/app/core/services/cargo.service';
+import { EstudianteService } from 'src/app/core/services/estudiante.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { ProfesorService } from 'src/app/core/services/profesor.service';
+import { SedeService } from 'src/app/core/services/sede.service';
 import * as XLSX from 'xlsx';
 
 

@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DvEstPerfilComponent } from '../dv-est-perfil/dv-est-perfil.component';
-import { EstudianteService } from 'src/app/services/estudiante.service';
+import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Sede } from 'src/app/model/sede';
-import { SedeComponent } from '../../configuracion/sede/sede/sede.component';
-import { SedeService } from 'src/app/services/sede.service';
-import { GeneralService } from 'src/app/services/general.service';
+import { SedeService } from 'src/app/core/services/sede.service';
+import { GeneralService } from 'src/app/core/services/general.service';
 
 @Component({
   selector: 'app-estudiante',

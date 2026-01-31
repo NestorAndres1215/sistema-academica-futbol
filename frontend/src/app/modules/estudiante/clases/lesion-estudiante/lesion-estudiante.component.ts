@@ -3,10 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { VisorLesionComponent } from 'src/app/modules/admin/lesiones/visor-lesion/visor-lesion.component';
 import { RegLesionesComponent } from 'src/app/modules/profesor/lesiones/reg-lesiones/reg-lesiones.component';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { LesionService } from 'src/app/services/lesion.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { LesionService } from 'src/app/core/services/lesion.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 
 @Component({
   selector: 'app-lesion-estudiante',

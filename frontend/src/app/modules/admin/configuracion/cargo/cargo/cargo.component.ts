@@ -2,19 +2,21 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { CargoService } from 'src/app/services/cargo.service';
-import { ExcelService } from 'src/app/services/excel.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { PdfService } from 'src/app/services/pdf.service';
+import { CargoService } from 'src/app/core/services/cargo.service';
+import { ExcelService } from 'src/app/core/services/excel.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { PdfService } from 'src/app/core/services/pdf.service';
 import { VisorCargoComponent } from '../visor-cargo/visor-cargo.component';
 import { EditCargoComponent } from '../edit-cargo/edit-cargo.component';
 import { RegCargoComponent } from '../reg-cargo/reg-cargo.component';
 import { ModalEliminacionComponent } from '../../../components/modal-eliminacion/modal-eliminacion.component';
-import { Respuesta } from 'src/app/model/respuesta';
+
 import { LstDesCargoComponent } from '../lst-des-cargo/lst-des-cargo.component';
-import { Historial } from 'src/app/model/historial';
-import { LoginService } from 'src/app/services/login.service';
-import { HistorialService } from 'src/app/services/historial.service';
+
+import { LoginService } from 'src/app/core/services/login.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { Historial } from 'src/app/core/model/historial';
+import { Respuesta } from 'src/app/core/model/respuesta';
 
 @Component({
   selector: 'app-cargo',

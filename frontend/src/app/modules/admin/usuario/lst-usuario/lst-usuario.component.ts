@@ -1,22 +1,23 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { AdminService } from 'src/app/services/admin.service';
-import { LoginService } from 'src/app/services/login.service';
+import { AdminService } from 'src/app/core/services/admin.service';
+import { LoginService } from 'src/app/core/services/login.service';
 import { VisorUsuarioComponent } from '../visor-usuario/visor-usuario.component';
 import { EditUsuarioComponent } from '../edit-usuario/edit-usuario.component';
 import { Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';  // Asegúrate de que esté importado
-import { ExcelService } from 'src/app/services/excel.service';
-import { PdfService } from 'src/app/services/pdf.service';
+import { ExcelService } from 'src/app/core/services/excel.service';
+import { PdfService } from 'src/app/core/services/pdf.service';
 import { ModalEliminacionComponent } from '../../components/modal-eliminacion/modal-eliminacion.component';
-import { Respuesta } from 'src/app/model/respuesta';
-import { MensajeService } from 'src/app/services/mensaje.service';
+
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { LsDesUsuarioComponent } from '../ls-des-usuario/ls-des-usuario.component';
-import { Historial } from 'src/app/model/historial';
-import { HistorialService } from 'src/app/services/historial.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { Historial } from 'src/app/core/model/historial';
+import { Respuesta } from 'src/app/core/model/respuesta';
 
 @Component({
   selector: 'app-lst-usuario',

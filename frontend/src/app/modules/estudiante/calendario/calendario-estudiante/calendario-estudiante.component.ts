@@ -1,15 +1,16 @@
 import { Component, inject, OnInit, TrackByFunction } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { Calendar } from 'src/app/model/calendar';
-import { Events } from 'src/app/model/events';
+
 import { ModalEventsComponent } from 'src/app/modules/admin/components/modal-events/modal-events.component';
-import { ClaseService } from 'src/app/services/clase.service';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { HorarioService } from 'src/app/services/horario.service';
-import { LoginService } from 'src/app/services/login.service';
-import { ModalEventsService } from 'src/app/services/modal-events.service';
-import { PartidoService } from 'src/app/services/partido.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { HorarioService } from 'src/app/core/services/horario.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { ModalEventsService } from 'src/app/core/services/modal-events.service';
+import { PartidoService } from 'src/app/core/services/partido.service';
+import { Events } from 'src/app/core/model/events';
+import { Calendar } from 'src/app/core/model/calendar';
 
 @Component({
   selector: 'app-calendario-estudiante',

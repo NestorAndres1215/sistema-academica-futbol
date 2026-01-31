@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClaseService } from 'src/app/services/clase.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
 
 @Component({
   selector: 'app-resumen-cla-pro-dev',

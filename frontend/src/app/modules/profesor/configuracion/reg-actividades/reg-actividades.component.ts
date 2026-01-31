@@ -2,8 +2,8 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
 
 @Component({
   selector: 'app-reg-actividades',

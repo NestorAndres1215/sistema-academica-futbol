@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { EditPerfilEstudianteComponent } from '../edit-perfil-estudiante/edit-perfil-estudiante.component';
-import { EstudianteService } from 'src/app/services/estudiante.service';
+import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { LoginService } from 'src/app/services/login.service';
+import { LoginService } from 'src/app/core/services/login.service';
 
 @Component({
   selector: 'app-dp-estduante',

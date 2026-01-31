@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LOGIN_MESSAGES, LOGIN_TITLES } from 'src/app/constants/login.constants';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { LOGIN_MESSAGES, LOGIN_TITLES } from 'src/app/core/constants/login.constants';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-login',

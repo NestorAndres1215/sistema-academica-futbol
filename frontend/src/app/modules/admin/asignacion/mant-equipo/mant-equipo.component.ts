@@ -1,23 +1,23 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ModalEliminacionComponent } from '../../components/modal-eliminacion/modal-eliminacion.component';
-import { Respuesta } from 'src/app/model/respuesta';
-import { Historial } from 'src/app/model/historial';
 import { EditEquipoComponent } from '../edit-equipo/edit-equipo.component';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { EquipoService } from 'src/app/services/equipo.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
 import { MatDialog } from '@angular/material/dialog';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { ExcelService } from 'src/app/services/excel.service';
-import { PdfService } from 'src/app/services/pdf.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { ExcelService } from 'src/app/core/services/excel.service';
+import { PdfService } from 'src/app/core/services/pdf.service';
 import { Router } from '@angular/router';
 import { VisorEqupoComponent } from '../visor-equpo/visor-equpo.component';
 
 import { LsDesEquipoComponent } from '../ls-des-equipo/ls-des-equipo.component';
-import { GeneralService } from 'src/app/services/general.service';
-import { SedeService } from 'src/app/services/sede.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { SedeService } from 'src/app/core/services/sede.service';
 import { RegERquipoComponent } from '../reg-erquipo/reg-erquipo.component';
+import { Historial } from 'src/app/core/model/historial';
+import { Respuesta } from 'src/app/core/model/respuesta';
 
 @Component({
   selector: 'app-mant-equipo',

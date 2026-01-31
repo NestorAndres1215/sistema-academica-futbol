@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import baserUrl from '../interceptor/helper';
 import { catchError, map, Observable, throwError } from 'rxjs';
@@ -22,10 +22,10 @@ export class ProfesorService {
   }
 
   guardarProfesor(profesor: Profesor): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/profesor/guardar-profesor`, profesor);  // La URL debe ser cerrada adecuadamente
+    return this.http.post<any>(`${baserUrl}/profesor/guardar-profesor`, profesor);
   }
   guardarProfesorExcel(profesor: any): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/profesor/guardar-excel-profesores`, profesor);  // Nombre del parámetro es 'profesor'
+    return this.http.post<any>(`${baserUrl}/profesor/guardar-excel-profesores`, profesor); 
   }
   actualizarProfesor(profesor: Profesor): Observable<any> {
     return this.http.put<any>(`${baserUrl}/profesor/actualizar-profesor`, profesor);

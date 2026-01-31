@@ -1,13 +1,14 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Historial } from 'src/app/model/historial';
+
 import { DatosPersonalesProfesoresComponent } from '../datos-personales-profesores/datos-personales-profesores.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ProfesorService } from 'src/app/services/profesor.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { ProfesorService } from 'src/app/core/services/profesor.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 import Swal from 'sweetalert2';
+import { Historial } from 'src/app/core/model/historial';
 @Component({
   selector: 'app-edit-perfil',
   templateUrl: './edit-perfil.component.html',

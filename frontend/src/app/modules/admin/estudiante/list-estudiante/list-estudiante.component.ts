@@ -1,19 +1,21 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { LstDesEstudianteComponent } from '../lst-des-estudiante/lst-des-estudiante.component';
-import { Respuesta } from 'src/app/model/respuesta';
+
 import { ModalEliminacionComponent } from '../../components/modal-eliminacion/modal-eliminacion.component';
 import { EditEstudianteComponent } from '../edit-estudiante/edit-estudiante.component';
 import { VisorEstudianteComponent } from '../visor-estudiante/visor-estudiante.component';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { PdfService } from 'src/app/services/pdf.service';
-import { ExcelService } from 'src/app/services/excel.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { LoginService } from 'src/app/services/login.service';
+import { PdfService } from 'src/app/core/services/pdf.service';
+import { ExcelService } from 'src/app/core/services/excel.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { LoginService } from 'src/app/core/services/login.service';
 import { MatDialog } from '@angular/material/dialog';
-import { EstudianteService } from 'src/app/services/estudiante.service';
+import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { Router } from '@angular/router';
-import { Historial } from 'src/app/model/historial';
-import { HistorialService } from 'src/app/services/historial.service';
+
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { Historial } from 'src/app/core/model/historial';
+import { Respuesta } from 'src/app/core/model/respuesta';
 
 @Component({
   selector: 'app-list-estudiante',

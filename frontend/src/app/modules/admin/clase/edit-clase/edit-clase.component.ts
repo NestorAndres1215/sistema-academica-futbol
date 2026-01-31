@@ -2,14 +2,15 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { LsClaseComponent } from '../ls-clase/ls-clase.component';
-import { GeneralService } from 'src/app/services/general.service';
-import { HorarioService } from 'src/app/services/horario.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { Clase } from 'src/app/model/Clase';
-import { Historial } from 'src/app/model/historial';
-import { LoginService } from 'src/app/services/login.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { ClaseService } from 'src/app/services/clase.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { HorarioService } from 'src/app/core/services/horario.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+
+import { LoginService } from 'src/app/core/services/login.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
+import { Clase } from 'src/app/core/model/Clase';
+import { Historial } from 'src/app/core/model/historial';
 
 @Component({
   selector: 'app-edit-clase',

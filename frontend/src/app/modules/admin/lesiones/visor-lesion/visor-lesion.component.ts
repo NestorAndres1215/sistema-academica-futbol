@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { LsLesionesComponent } from '../ls-lesiones/ls-lesiones.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { LesionService } from 'src/app/services/lesion.service';
+import { LesionService } from 'src/app/core/services/lesion.service';
 import { VisorLesiondetComponent } from '../visor-lesiondet/visor-lesiondet.component';
 
 @Component({

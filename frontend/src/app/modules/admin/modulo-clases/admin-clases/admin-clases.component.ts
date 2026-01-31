@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ClaseService } from 'src/app/services/clase.service';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { LoginService } from 'src/app/services/login.service';
-import { ProfesorService } from 'src/app/services/profesor.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { ProfesorService } from 'src/app/core/services/profesor.service';
 
 @Component({
   selector: 'app-admin-clases',

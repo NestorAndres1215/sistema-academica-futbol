@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClaseService } from 'src/app/services/clase.service';
-import { EquipoService } from 'src/app/services/equipo.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
 
 @Component({
   selector: 'app-estudiante-dev-pro',

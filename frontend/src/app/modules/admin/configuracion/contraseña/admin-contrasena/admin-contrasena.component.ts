@@ -3,8 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { EditContraComponent } from 'src/app/modules/profesor/configuracion/edit-contra/edit-contra.component';
-import { AdminService } from 'src/app/services/admin.service';
-import { LoginService } from 'src/app/services/login.service';
+import { AdminService } from 'src/app/core/services/admin.service';
+import { LoginService } from 'src/app/core/services/login.service';
 
 @Component({
   selector: 'app-admin-contrasena',

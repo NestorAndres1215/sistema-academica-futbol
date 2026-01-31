@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { LesionService } from 'src/app/services/lesion.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { LesionService } from 'src/app/core/services/lesion.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { VisorLesionComponent } from '../visor-lesion/visor-lesion.component';
 
 @Component({

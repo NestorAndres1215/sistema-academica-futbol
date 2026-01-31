@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AdminService } from 'src/app/services/admin.service';
+import { AdminService } from 'src/app/core/services/admin.service';
 import { DtUsuarioComponent } from '../dt-usuario/dt-usuario.component';
 import { MatDialog } from '@angular/material/dialog';
 import {  Router } from '@angular/router';

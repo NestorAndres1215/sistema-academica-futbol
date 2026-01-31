@@ -1,13 +1,15 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Cargo } from 'src/app/model/Cargo';
+
 import { CargoComponent } from '../cargo/cargo.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { CargoService } from 'src/app/services/cargo.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { LoginService } from 'src/app/services/login.service';
-import { Historial } from 'src/app/model/historial';
-import { HistorialService } from 'src/app/services/historial.service';
+import { CargoService } from 'src/app/core/services/cargo.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { LoginService } from 'src/app/core/services/login.service';
+
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { Cargo } from 'src/app/core/model/Cargo';
+import { Historial } from 'src/app/core/model/historial';
 
 @Component({
   selector: 'app-reg-cargo',
@@ -61,7 +63,7 @@ export class RegCargoComponent implements OnInit {
       };
       this.cargo.registrarCargo(objRegistrar).subscribe(
         response => {
-          // Registrar el historial solo después de que se haya registrado el cargo
+        
           this.historialService.registrar(historial).subscribe(
             () => {
               this.mensaje.MostrarMensajeExito("SE REGISTRÓ CARGO");
@@ -69,7 +71,7 @@ export class RegCargoComponent implements OnInit {
               this.cdr.detectChanges();
             },
             error => {
-              this.mensaje.MostrarBodyError(error); // Manejar error de registrar historial
+              this.mensaje.MostrarBodyError(error); 
             }
           );
         },

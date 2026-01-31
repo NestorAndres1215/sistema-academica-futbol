@@ -1,17 +1,17 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Ejercicio } from 'src/app/model/Ejercicio';
-import { Estudiante } from 'src/app/model/estudiante';
-import { Historial } from 'src/app/model/historial';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { EstudianteService } from 'src/app/services/estudiante.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
+
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { EstudianteService } from 'src/app/core/services/estudiante.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { ModuloLesionesComponent } from '../modulo-lesiones/modulo-lesiones.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LesionService } from 'src/app/services/lesion.service';
-import { Lesion } from 'src/app/model/lesion';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LesionService } from 'src/app/core/services/lesion.service';
+import { Lesion } from 'src/app/core/model/lesion';
+import { Historial } from 'src/app/core/model/historial';
+
 
 @Component({
   selector: 'app-reg-lesiones',

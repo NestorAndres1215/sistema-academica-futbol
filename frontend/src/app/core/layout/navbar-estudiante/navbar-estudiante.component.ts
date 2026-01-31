@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { Router } from '@angular/router';
-import { LoginService } from 'src/app/services/login.service';
-import { MenuService } from 'src/app/services/menu.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MenuService } from 'src/app/core/services/menu.service';
 
 @Component({
   selector: 'app-navbar-estudiante',

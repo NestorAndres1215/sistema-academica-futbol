@@ -2,16 +2,16 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { Historial } from 'src/app/model/historial';
-import { ExcelService } from 'src/app/services/excel.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { PartidoService } from 'src/app/services/partido.service';
-import { PdfService } from 'src/app/services/pdf.service';
+import { ExcelService } from 'src/app/core/services/excel.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { PartidoService } from 'src/app/core/services/partido.service';
+import { PdfService } from 'src/app/core/services/pdf.service';
 import { EditPartidoComponent } from '../edit-partido/edit-partido.component';
 import { VisorPartidoComponent } from '../visor-partido/visor-partido.component';
 import { HistorialEditAdminComponent } from '../historial-edit-admin/historial-edit-admin.component';
+import { Historial } from 'src/app/core/model/historial';
 
 @Component({
   selector: 'app-historial-partido-admin',

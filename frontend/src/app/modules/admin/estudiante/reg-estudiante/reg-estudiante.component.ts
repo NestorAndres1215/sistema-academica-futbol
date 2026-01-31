@@ -2,16 +2,16 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Estudiante } from 'src/app/model/estudiante';
-import { Historial } from 'src/app/model/historial';
-import { Profesor } from 'src/app/model/profesor';
-import { ClaseService } from 'src/app/services/clase.service';
-import { EstudianteService } from 'src/app/services/estudiante.service';
-import { GeneralService } from 'src/app/services/general.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { SedeService } from 'src/app/services/sede.service';
+import { Estudiante } from 'src/app/core/model/estudiante';
+import { Historial } from 'src/app/core/model/historial';
+
+import { ClaseService } from 'src/app/core/services/clase.service';
+import { EstudianteService } from 'src/app/core/services/estudiante.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { SedeService } from 'src/app/core/services/sede.service';
 
 @Component({
   selector: 'app-reg-estudiante',

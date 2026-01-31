@@ -1,19 +1,19 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Events } from 'src/app/model/events';
-import { ModalEventsService } from 'src/app/services/modal-events.service';
+import { ModalEventsService } from 'src/app/core/services/modal-events.service';
 import { CalendarioComponent } from '../../calendario/calendario/calendario.component';
-import { HorarioService } from 'src/app/services/horario.service';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { GeneralService } from 'src/app/services/general.service';
-import { Clase } from 'src/app/model/Clase';
-import { ClaseService } from 'src/app/services/clase.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { Historial } from 'src/app/model/historial';
-import { LoginService } from 'src/app/services/login.service';
-import { HistorialService } from 'src/app/services/historial.service';
+import { HorarioService } from 'src/app/core/services/horario.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
 import { MatSelectChange } from '@angular/material/select';
+import { Events } from 'src/app/core/model/events';
+import { Clase } from 'src/app/core/model/Clase';
+import { Historial } from 'src/app/core/model/historial';
 
 @Component({
   selector: 'app-modal-events',

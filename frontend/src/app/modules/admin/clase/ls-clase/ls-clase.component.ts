@@ -1,20 +1,20 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { LisDesClaseComponent } from '../lis-des-clase/lis-des-clase.component';
-import { Historial } from 'src/app/model/historial';
-import { Respuesta } from 'src/app/model/respuesta';
+
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { ClaseService } from 'src/app/services/clase.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ExcelService } from 'src/app/services/excel.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { PdfService } from 'src/app/services/pdf.service';
+import { ExcelService } from 'src/app/core/services/excel.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { PdfService } from 'src/app/core/services/pdf.service';
 import { EditEstudianteComponent } from '../../estudiante/edit-estudiante/edit-estudiante.component';
 import { VisorEstudianteComponent } from '../../estudiante/visor-estudiante/visor-estudiante.component';
 import { VisorClaseComponent } from '../visor-clase/visor-clase.component';
 import { EditClaseComponent } from '../edit-clase/edit-clase.component';
+import { Historial } from 'src/app/core/model/historial';
 
 @Component({
   selector: 'app-ls-clase',

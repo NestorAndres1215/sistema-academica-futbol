@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DvProPerfilComponent } from '../dv-pro-perfil/dv-pro-perfil.component';
-import { ProfesorService } from 'src/app/services/profesor.service';
+import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { SedeService } from 'src/app/services/sede.service';
-import { CargoService } from 'src/app/services/cargo.service';
+import { SedeService } from 'src/app/core/services/sede.service';
+import { CargoService } from 'src/app/core/services/cargo.service';
 
 @Component({
   selector: 'app-profesor',

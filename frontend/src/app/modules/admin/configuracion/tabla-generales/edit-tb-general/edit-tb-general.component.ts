@@ -2,12 +2,13 @@ import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { LsTablaGeneralComponent } from '../ls-tabla-general/ls-tabla-general.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { GeneralService } from 'src/app/services/general.service';
-import { General } from 'src/app/model/General';
-import { LoginService } from 'src/app/services/login.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { Historial } from 'src/app/model/historial';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { General } from 'src/app/core/model/General';
+import { Historial } from 'src/app/core/model/historial';
+
 
 @Component({
   selector: 'app-edit-tb-general',

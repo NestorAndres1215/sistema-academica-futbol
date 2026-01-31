@@ -1,4 +1,4 @@
-import { AdminGuard } from './guard/admin.guard';
+import { AdminGuard } from './core/guard/admin.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PrincipalComponent } from './modules/principal/principal.component';
@@ -8,8 +8,8 @@ import { SedesComponent } from './pages/sedes/sedes.component';
 import { LoginComponent } from './modules/config/login/login.component';
 //ADMINISTRADOR
 import { HomeAdminComponent } from './modules/admin/home-admin/home-admin.component';
-import { ProfesorGuard } from './guard/profesor.guard';
-import { EstudianteGuard } from './guard/estudiante.guard';
+import { ProfesorGuard } from './core/guard/profesor.guard';
+import { EstudianteGuard } from './core/guard/estudiante.guard';
 import { HomeEstudianteComponent } from './modules/estudiante/home-estudiante/home-estudiante.component';
 import { PrincipalEstudianteComponent } from './modules/estudiante/principal-estudiante/principal-estudiante.component';
 import { HomeProfesorComponent } from './modules/profesor/home-profesor/home-profesor.component';
@@ -74,7 +74,6 @@ const routes: Routes = [
     canActivate: [AdminGuard],
     children: [
       { path: '', component: PrincipalComponent, },
-
     ]
   },
   {

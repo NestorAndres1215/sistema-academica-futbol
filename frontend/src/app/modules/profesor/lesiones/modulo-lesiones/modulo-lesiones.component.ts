@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { VisorLesionComponent } from 'src/app/modules/admin/lesiones/visor-lesion/visor-lesion.component';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { LesionService } from 'src/app/services/lesion.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { LesionService } from 'src/app/core/services/lesion.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { RegLesionesComponent } from '../reg-lesiones/reg-lesiones.component';
 import { EditRegDetalleLesionesComponent } from '../edit-reg-detalle-lesiones/edit-reg-detalle-lesiones.component';
 

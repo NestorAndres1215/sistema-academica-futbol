@@ -1,15 +1,15 @@
 import { Time } from '@angular/common';
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component,  OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Historial } from 'src/app/model/historial';
-import { Partido } from 'src/app/model/partido';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { PartidoService } from 'src/app/services/partido.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { PartidoService } from 'src/app/core/services/partido.service';
 import { LsPartidoComponent } from '../ls-partido/ls-partido.component';
+import { Historial } from 'src/app/core/model/historial';
+import { Partido } from 'src/app/core/model/partido';
 
 @Component({
   selector: 'app-reg-partido',

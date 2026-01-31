@@ -1,16 +1,17 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Historial } from 'src/app/model/historial';
-import { Respuesta } from 'src/app/model/respuesta';
-import { GeneralService } from 'src/app/services/general.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
+
+import { GeneralService } from 'src/app/core/services/general.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
 import { LsTablaGeneralComponent } from '../ls-tabla-general/ls-tabla-general.component';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { VisorTbGeneralComponent } from '../visor-tb-general/visor-tb-general.component';
 import { ModalEliminacionComponent } from '../../../components/modal-eliminacion/modal-eliminacion.component';
+import { Historial } from 'src/app/core/model/historial';
+import { Respuesta } from 'src/app/core/model/respuesta';
 
 @Component({
   selector: 'app-lst-des-lt-dev',

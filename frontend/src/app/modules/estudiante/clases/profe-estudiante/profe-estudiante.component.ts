@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClaseService } from 'src/app/services/clase.service';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { LoginService } from 'src/app/services/login.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { LoginService } from 'src/app/core/services/login.service';
 
 @Component({
   selector: 'app-profe-estudiante',

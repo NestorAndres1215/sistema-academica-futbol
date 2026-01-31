@@ -1,14 +1,15 @@
 import { Component, inject, OnInit, TrackByFunction } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Calendar } from 'src/app/model/calendar';
-import { Events } from 'src/app/model/events';
-import { ModalEventsService } from 'src/app/services/modal-events.service';
+
+import { ModalEventsService } from 'src/app/core/services/modal-events.service';
 import { DeleteComponent } from '../../components/delete/delete.component';
 import { Subscription } from 'rxjs';
-import { ClaseService } from 'src/app/services/clase.service';
-import { HorarioService } from 'src/app/services/horario.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
+import { HorarioService } from 'src/app/core/services/horario.service';
 import { ModalEventsComponent } from '../../components/modal-events/modal-events.component';
-import { PartidoService } from 'src/app/services/partido.service';
+import { PartidoService } from 'src/app/core/services/partido.service';
+import { Calendar } from 'src/app/core/model/calendar';
+import { Events } from 'src/app/core/model/events';
 
 @Component({
   selector: 'app-calendario',

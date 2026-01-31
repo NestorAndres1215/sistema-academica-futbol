@@ -2,15 +2,16 @@ import { ChangeDetectorRef, Component, Inject, Input, OnInit } from '@angular/co
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Ejercicio } from 'src/app/model/Ejercicio';
-import { Historial } from 'src/app/model/historial';
+
 import { AdminClaseDiaComponent } from 'src/app/modules/admin/modulo-clases/admin-clase-dia/admin-clase-dia.component';
-import { ClaseService } from 'src/app/services/clase.service';
-import { EjercicioService } from 'src/app/services/ejercicio.service';
-import { GeneralService } from 'src/app/services/general.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
+import { EjercicioService } from 'src/app/core/services/ejercicio.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { Ejercicio } from 'src/app/core/model/Ejercicio';
+import { Historial } from 'src/app/core/model/historial';
 
 @Component({
   selector: 'app-edit-ejecicio',

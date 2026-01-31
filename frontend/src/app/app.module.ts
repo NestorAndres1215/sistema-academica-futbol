@@ -31,7 +31,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSortModule } from '@angular/material/sort';
 //importacion del component
-import { authInterceptorProviders } from './interceptor/auth.interceptor';
+import { authInterceptorProviders } from './core/interceptor/auth.interceptor';
 import { PrincipalComponent } from './modules/principal/principal.component';
 import { CommonModule, registerLocaleData } from '@angular/common';
 //PAGES
@@ -42,14 +42,14 @@ import { SedesComponent } from './pages/sedes/sedes.component';
 import { NavbarComponent } from './pages/components/navbar/navbar.component';
 import { FooterComponent } from './pages/components/footer/footer.component';
 //ADMIN
-import { NavbarAdministradorComponent } from './modules/admin/components/navbar-administrador/navbar-administrador.component';
+import { NavbarAdministradorComponent } from './core/layout/navbar-administrador/navbar-administrador.component';
 import { HomeAdminComponent } from './modules/admin/home-admin/home-admin.component';
 import { DatosPersonalesComponent } from './modules/admin/datos-personales/datos-personales.component';
 import { LoginComponent } from './modules/config/login/login.component';
 import { HomeEstudianteComponent } from './modules/estudiante/home-estudiante/home-estudiante.component';
 import { HomeProfesorComponent } from './modules/profesor/home-profesor/home-profesor.component';
-import { NavbarEstudianteComponent } from './modules/estudiante/navbar-estudiante/navbar-estudiante.component';
-import { NavbarProfesorComponent } from './modules/profesor/components/navbar-profesor/navbar-profesor.component';
+import { NavbarEstudianteComponent } from './core/layout/navbar-estudiante/navbar-estudiante.component';
+import { NavbarProfesorComponent } from './core/layout/navbar-profesor/navbar-profesor.component';
 import { PrincipalEstudianteComponent } from './modules/estudiante/principal-estudiante/principal-estudiante.component';
 import { PrincipalProfesorComponent } from './modules/profesor/principal-profesor/principal-profesor.component';
 import { RegUsuarioComponent } from './modules/admin/usuario/reg-usuario/reg-usuario.component';

@@ -2,23 +2,20 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { ExcelService } from 'src/app/services/excel.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { PdfService } from 'src/app/services/pdf.service';
-import { SedeService } from 'src/app/services/sede.service';
-
-
-
+import { ExcelService } from 'src/app/core/services/excel.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { PdfService } from 'src/app/core/services/pdf.service';
+import { SedeService } from 'src/app/core/services/sede.service';
 import { ModalEliminacionComponent } from '../../../components/modal-eliminacion/modal-eliminacion.component';
-import { Respuesta } from 'src/app/model/respuesta';
 
 import { EditSedeComponent } from '../edit-sede/edit-sede.component';
 import { RegSedeComponent } from '../reg-sede/reg-sede.component';
 import { VisorSedeComponent } from '../visor-sede/visor-sede.component';
 import { LstDesSedeComponent } from '../lst-des-sede/lst-des-sede.component';
-import { Historial } from 'src/app/model/historial';
-import { LoginService } from 'src/app/services/login.service';
-import { HistorialService } from 'src/app/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { Historial } from 'src/app/core/model/historial';
+import { Respuesta } from 'src/app/core/model/respuesta';
 
 @Component({
   selector: 'app-sede',

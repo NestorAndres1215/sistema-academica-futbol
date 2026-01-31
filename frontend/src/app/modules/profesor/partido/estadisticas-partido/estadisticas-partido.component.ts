@@ -2,13 +2,13 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import Chart, { ChartType } from 'chart.js/auto';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { ExcelService } from 'src/app/services/excel.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { PartidoService } from 'src/app/services/partido.service';
-import { PdfService } from 'src/app/services/pdf.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { ExcelService } from 'src/app/core/services/excel.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { PartidoService } from 'src/app/core/services/partido.service';
+import { PdfService } from 'src/app/core/services/pdf.service';
 
 @Component({
   selector: 'app-estadisticas-partido',

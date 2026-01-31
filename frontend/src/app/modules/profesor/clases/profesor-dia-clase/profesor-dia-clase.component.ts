@@ -3,10 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { AdminCargaClaseComponent } from 'src/app/modules/admin/modulo-clases/admin-carga-clase/admin-carga-clase.component';
 import { AdminCargaEditClaseComponent } from 'src/app/modules/admin/modulo-clases/admin-carga-edit-clase/admin-carga-edit-clase.component';
-import { ClaseService } from 'src/app/services/clase.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
 import { RegEjercicioComponent } from '../../ejercicio/reg-ejercicio/reg-ejercicio.component';
-import { EjercicioService } from 'src/app/services/ejercicio.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { EjercicioService } from 'src/app/core/services/ejercicio.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { EditEjecicioComponent } from '../../ejercicio/edit-ejecicio/edit-ejecicio.component';
 
 @Component({

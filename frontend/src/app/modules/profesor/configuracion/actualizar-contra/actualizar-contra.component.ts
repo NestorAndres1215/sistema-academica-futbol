@@ -2,9 +2,9 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { EditPartidoComponent } from 'src/app/modules/admin/partido/edit-partido/edit-partido.component';
-import { LoginService } from 'src/app/services/login.service';
-import { ProfesorService } from 'src/app/services/profesor.service';
-import { UserService } from 'src/app/services/usuario.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { ProfesorService } from 'src/app/core/services/profesor.service';
+import { UserService } from 'src/app/core/services/usuario.service';
 import { EditContraComponent } from '../edit-contra/edit-contra.component';
 
 @Component({

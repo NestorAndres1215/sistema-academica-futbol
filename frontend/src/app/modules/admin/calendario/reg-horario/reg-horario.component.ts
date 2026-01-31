@@ -1,13 +1,14 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { HorarioComponent } from '../horario/horario.component';
-import { LoginService } from 'src/app/services/login.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { HorarioService } from 'src/app/services/horario.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { HorarioService } from 'src/app/core/services/horario.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Horario } from 'src/app/model/horario';
-import { Historial } from 'src/app/model/historial';
+import { Historial } from 'src/app/core/model/historial';
+import { Horario } from 'src/app/core/model/horario';
+
 
 @Component({
   selector: 'app-reg-horario',

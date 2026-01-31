@@ -1,19 +1,19 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { VisorSedeComponent } from '../visor-sede/visor-sede.component';
-import { Respuesta } from 'src/app/model/respuesta';
 
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { Router } from '@angular/router';
 
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { AdminService } from 'src/app/services/admin.service';
-import { SedeService } from 'src/app/services/sede.service';
+import { SedeService } from 'src/app/core/services/sede.service';
 import { SedeComponent } from '../sede/sede.component';
 import { ModalEliminacionComponent } from '../../../components/modal-eliminacion/modal-eliminacion.component';
-import { LoginService } from 'src/app/services/login.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { Historial } from 'src/app/model/historial';
+import { LoginService } from 'src/app/core/services/login.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { Historial } from 'src/app/core/model/historial';
+import { Respuesta } from 'src/app/core/model/respuesta';
+
 
 @Component({
   selector: 'app-lst-des-sede',

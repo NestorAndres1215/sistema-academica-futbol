@@ -18,22 +18,10 @@ import Swal from 'sweetalert2';
 export class AuthInterceptor implements HttpInterceptor{
 
   constructor(private loginService: LoginService, private router: Router) {}
-/*
+
 intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
   let authReq = req;
   const token = this.loginService.getToken();
-  console.log(token)
-  if(token != null){
-    console.log("ingreso")
-    authReq = authReq.clone({
-      setHeaders : {Authorization: `Bearer ${token}` }
-    })
-  }
-  return next.handle(authReq);
-}*/
-intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-  let authReq = req;
-  const token = this.loginService.getToken(); // Obtener el token desde el servicio
 
   if (token != null) {
     authReq = authReq.clone({
@@ -48,11 +36,9 @@ intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> 
         error.status === 401 &&
         error.error.message === 'El token ha expirado, por favor inicia sesión nuevamente.'
       ) {
-        console.log('El token ha expirado. Mostrando alerta y redirigiendo al login...');
     
         this.loginService.logout();
 
-        // Mostrar el mensaje de alerta
         Swal.fire({
           title: 'Sesión expirada',
           text: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',

@@ -24,7 +24,7 @@ export class EvaluacionService {
     return this.http.put<{ mensaje: string; cantidadDesactivadas: number; cantidadNuevas: number }>(
       `${baserUrl}/evaluacion/desactivar/${clase}/${conteo}`,
       {},
-      { responseType: 'json' } // 🔹 Asegura que la respuesta es JSON
+      { responseType: 'json' }
     );
   }
   

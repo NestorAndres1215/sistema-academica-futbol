@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Admin } from 'src/app/model/Admin';
-import { Historial } from 'src/app/model/historial';
-import { AdminService } from 'src/app/services/admin.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { Admin } from 'src/app/core/model/Admin';
+import { Historial } from 'src/app/core/model/historial';
+
+import { AdminService } from 'src/app/core/services/admin.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 
 @Component({
   selector: 'app-reg-usuario',

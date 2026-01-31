@@ -2,15 +2,14 @@ import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { MantEquipoComponent } from '../mant-equipo/mant-equipo.component';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { SedeService } from 'src/app/services/sede.service';
-import { GeneralService } from 'src/app/services/general.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { Estudiante } from 'src/app/model/estudiante';
-import { Equipo } from 'src/app/model/equipo';
-import { LoginService } from 'src/app/services/login.service';
-import { Historial } from 'src/app/model/historial';
-import { HistorialService } from 'src/app/services/historial.service';
-import { EquipoService } from 'src/app/services/equipo.service';
+import { SedeService } from 'src/app/core/services/sede.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { Equipo } from 'src/app/core/model/equipo';
+import { Historial } from 'src/app/core/model/historial';
 
 
 @Component({

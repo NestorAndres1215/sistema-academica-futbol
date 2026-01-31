@@ -2,14 +2,15 @@ import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ClaseService } from 'src/app/services/clase.service';
-import { GeneralService } from 'src/app/services/general.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { AdminClaseDiaComponent } from '../admin-clase-dia/admin-clase-dia.component';
-import { Historial } from 'src/app/model/historial';
-import { ClaseDev } from 'src/app/model/clasedev';
+import { ClaseDev } from 'src/app/core/model/clasedev';
+import { Historial } from 'src/app/core/model/historial';
+
 
 @Component({
   selector: 'app-admin-carga-edit-clase',

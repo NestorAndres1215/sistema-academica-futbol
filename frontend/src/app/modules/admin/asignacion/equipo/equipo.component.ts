@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { EquipoService } from 'src/app/services/equipo.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
 import { EquipoPerfilComponent } from '../equipo-perfil/equipo-perfil.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 
 @Component({
   selector: 'app-equipo',

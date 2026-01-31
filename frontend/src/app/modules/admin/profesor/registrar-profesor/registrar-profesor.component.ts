@@ -2,17 +2,17 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Admin } from 'src/app/model/Admin';
-import { Historial } from 'src/app/model/historial';
-import { Profesor } from 'src/app/model/profesor';
-import { AdminService } from 'src/app/services/admin.service';
-import { CargoService } from 'src/app/services/cargo.service';
-import { GeneralService } from 'src/app/services/general.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { ProfesorService } from 'src/app/services/profesor.service';
-import { SedeService } from 'src/app/services/sede.service';
+import { Historial } from 'src/app/core/model/historial';
+import { Profesor } from 'src/app/core/model/profesor';
+
+import { AdminService } from 'src/app/core/services/admin.service';
+import { CargoService } from 'src/app/core/services/cargo.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { ProfesorService } from 'src/app/core/services/profesor.service';
+import { SedeService } from 'src/app/core/services/sede.service';
 
 
 @Component({

@@ -3,17 +3,17 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MatTableDataSource } from '@angular/material/table';
 import { LstProfesoresComponent } from '../lst-profesores/lst-profesores.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ProfesorService } from 'src/app/services/profesor.service';
+import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { Router } from '@angular/router';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { LoginService } from 'src/app/services/login.service';
-import { Profesor } from 'src/app/model/profesor';
-import { CargoService } from 'src/app/services/cargo.service';
-import { SedeService } from 'src/app/services/sede.service';
-import { GeneralService } from 'src/app/services/general.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { Historial } from 'src/app/model/historial';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { CargoService } from 'src/app/core/services/cargo.service';
+import { SedeService } from 'src/app/core/services/sede.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
 import { switchMap } from 'rxjs';
+import { Historial } from 'src/app/core/model/historial';
+import { Profesor } from 'src/app/core/model/profesor';
 
 @Component({
   selector: 'app-edit-profesor',

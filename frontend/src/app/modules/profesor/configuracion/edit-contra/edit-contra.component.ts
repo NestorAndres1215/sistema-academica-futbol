@@ -2,11 +2,12 @@ import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { ActualizarContraComponent } from '../actualizar-contra/actualizar-contra.component';
 import { FormBuilder, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { Usuario } from 'src/app/model/User';
-import { UserService } from 'src/app/services/usuario.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+
+import { UserService } from 'src/app/core/services/usuario.service';
+import { Usuario } from 'src/app/core/model/User';
 
 @Component({
   selector: 'app-edit-contra',

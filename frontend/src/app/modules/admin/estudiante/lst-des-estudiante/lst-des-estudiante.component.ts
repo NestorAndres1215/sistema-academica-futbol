@@ -1,16 +1,17 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { VisorEstudianteComponent } from '../visor-estudiante/visor-estudiante.component';
-import { Respuesta } from 'src/app/model/respuesta';
 import { ModalEliminacionComponent } from '../../components/modal-eliminacion/modal-eliminacion.component';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ListEstudianteComponent } from '../list-estudiante/list-estudiante.component';
-import { EstudianteService } from 'src/app/services/estudiante.service';
+import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { Historial } from 'src/app/model/historial';
-import { LoginService } from 'src/app/services/login.service';
-import { HistorialService } from 'src/app/services/historial.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+
+import { LoginService } from 'src/app/core/services/login.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { Historial } from 'src/app/core/model/historial';
+import { Respuesta } from 'src/app/core/model/respuesta';
 
 @Component({
   selector: 'app-lst-des-estudiante',

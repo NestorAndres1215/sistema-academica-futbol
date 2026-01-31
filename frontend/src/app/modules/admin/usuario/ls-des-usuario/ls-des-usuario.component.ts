@@ -1,16 +1,17 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { AdminService } from 'src/app/services/admin.service';
+import { AdminService } from 'src/app/core/services/admin.service';
 import { VisorUsuarioComponent } from '../visor-usuario/visor-usuario.component';
 import { Router } from '@angular/router';
-import { Respuesta } from 'src/app/model/respuesta';
 import { ModalEliminacionComponent } from '../../components/modal-eliminacion/modal-eliminacion.component';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { LstUsuarioComponent } from '../lst-usuario/lst-usuario.component';
-import { Historial } from 'src/app/model/historial';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
+
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { Respuesta } from 'src/app/core/model/respuesta';
+import { Historial } from 'src/app/core/model/historial';
 
 @Component({
   selector: 'app-ls-des-usuario',

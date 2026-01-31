@@ -1,19 +1,20 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { VisorClaseComponent } from '../visor-clase/visor-clase.component';
 import { ModalEliminacionComponent } from '../../components/modal-eliminacion/modal-eliminacion.component';
-import { Respuesta } from 'src/app/model/respuesta';
-import { Historial } from 'src/app/model/historial';
+
 import { LsClaseComponent } from '../ls-clase/ls-clase.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { GeneralService } from 'src/app/services/general.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { SedeService } from 'src/app/services/sede.service';
-import { ClaseService } from 'src/app/services/clase.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { SedeService } from 'src/app/core/services/sede.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
+import { Historial } from 'src/app/core/model/historial';
+import { Respuesta } from 'src/app/core/model/respuesta';
 
 @Component({
   selector: 'app-lis-des-clase',

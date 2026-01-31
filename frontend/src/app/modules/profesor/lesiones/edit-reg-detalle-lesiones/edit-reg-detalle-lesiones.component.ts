@@ -1,12 +1,12 @@
 import { ChangeDetectorRef, Component, Inject, InjectionToken, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
-import { EquipoService } from 'src/app/services/equipo.service';
-import { EstudianteService } from 'src/app/services/estudiante.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LesionService } from 'src/app/services/lesion.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { EstudianteService } from 'src/app/core/services/estudiante.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LesionService } from 'src/app/core/services/lesion.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { ModuloLesionesComponent } from '../modulo-lesiones/modulo-lesiones.component';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
 

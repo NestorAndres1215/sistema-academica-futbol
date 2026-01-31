@@ -2,21 +2,21 @@ import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angula
 import { EditDevComponent } from '../edit-dev/edit-dev.component';
 
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { GeneralService } from 'src/app/services/general.service';
+import { GeneralService } from 'src/app/core/services/general.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { ExcelService } from 'src/app/services/excel.service';
-import { PdfService } from 'src/app/services/pdf.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { ExcelService } from 'src/app/core/services/excel.service';
+import { PdfService } from 'src/app/core/services/pdf.service';
 import { Router } from '@angular/router';
-import { Respuesta } from 'src/app/model/respuesta';
 import { ModalEliminacionComponent } from '../../../components/modal-eliminacion/modal-eliminacion.component';
 import { LsTablaGeneralComponent } from '../ls-tabla-general/ls-tabla-general.component';
 import { VisorTbGeneralComponent } from '../visor-tb-general/visor-tb-general.component';
 import { RegDevComponent } from '../reg-dev/reg-dev.component';
-import { Historial } from 'src/app/model/historial';
-import { LoginService } from 'src/app/services/login.service';
-import { HistorialService } from 'src/app/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
 import { LstDesLtDevComponent } from '../lst-des-lt-dev/lst-des-lt-dev.component';
+import { Historial } from 'src/app/core/model/historial';
+import { Respuesta } from 'src/app/core/model/respuesta';
 
 @Component({
   selector: 'app-lt-dev',

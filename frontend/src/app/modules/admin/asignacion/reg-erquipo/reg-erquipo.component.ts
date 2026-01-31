@@ -1,15 +1,16 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MantEquipoComponent } from '../mant-equipo/mant-equipo.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { GeneralService } from 'src/app/services/general.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { SedeService } from 'src/app/services/sede.service';
-import { LoginService } from 'src/app/services/login.service';
-import { EquipoService } from 'src/app/services/equipo.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { SedeService } from 'src/app/core/services/sede.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Historial } from 'src/app/model/historial';
-import { Equipo } from 'src/app/model/equipo';
+import { Equipo } from 'src/app/core/model/equipo';
+import { Historial } from 'src/app/core/model/historial';
+
 
 @Component({
   selector: 'app-reg-erquipo',

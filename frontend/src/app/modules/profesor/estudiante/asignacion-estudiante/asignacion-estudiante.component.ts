@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { POSICIONES } from 'src/app/constants/posiciones.constants';
-import { Historial } from 'src/app/model/historial';
+import { POSICIONES } from 'src/app/core/constants/posiciones.constants';
+
 import { EquipoPerfilComponent } from 'src/app/modules/admin/asignacion/equipo-perfil/equipo-perfil.component';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { Historial } from 'src/app/core/model/historial';
 
 
 @Component({

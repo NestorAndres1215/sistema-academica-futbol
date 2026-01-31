@@ -3,12 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { EditContraComponent } from 'src/app/modules/profesor/configuracion/edit-contra/edit-contra.component';
-import { ExcelService } from 'src/app/services/excel.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { PdfService } from 'src/app/services/pdf.service';
-import { ProfesorService } from 'src/app/services/profesor.service';
+import { ExcelService } from 'src/app/core/services/excel.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { PdfService } from 'src/app/core/services/pdf.service';
+import { ProfesorService } from 'src/app/core/services/profesor.service';
 
 @Component({
   selector: 'app-profesor-contrasena',

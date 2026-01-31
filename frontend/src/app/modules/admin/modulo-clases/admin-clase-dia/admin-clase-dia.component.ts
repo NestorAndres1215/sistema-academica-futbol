@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ClaseService } from 'src/app/services/clase.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
 import { AdminCargaClaseComponent } from '../admin-carga-clase/admin-carga-clase.component';
 import { MatDialog } from '@angular/material/dialog';
 import { AdminCargaEditClaseComponent } from '../admin-carga-edit-clase/admin-carga-edit-clase.component';

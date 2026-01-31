@@ -3,14 +3,15 @@ import { ModalEliminacionComponent } from '../../../components/modal-eliminacion
 import { VisorTbGeneralComponent } from '../visor-tb-general/visor-tb-general.component';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { HistorialService } from 'src/app/services/historial.service';
-import { LoginService } from 'src/app/services/login.service';
-import { GeneralService } from 'src/app/services/general.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { GeneralService } from 'src/app/core/services/general.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Historial } from 'src/app/model/historial';
-import { Respuesta } from 'src/app/model/respuesta';
+
 import { LsTablaGeneralComponent } from '../ls-tabla-general/ls-tabla-general.component';
+import { Historial } from 'src/app/core/model/historial';
+import { Respuesta } from 'src/app/core/model/respuesta';
 
 @Component({
   selector: 'app-lst-des-tb-general',

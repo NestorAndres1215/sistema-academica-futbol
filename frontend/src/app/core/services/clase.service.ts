@@ -18,18 +18,18 @@ export class ClaseService {
     return this.http.get<any>(`${baserUrl}/clase/listar/desactivado`);
   }
   registrar(clase: Clase): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/clase/registrar`, clase);  // La URL debe ser cerrada adecuadamente
+    return this.http.post<any>(`${baserUrl}/clase/registrar`, clase);  
   }
   actualizar(clase: Clase): Observable<any> {
-    return this.http.put<any>(`${baserUrl}/clase/actualizar`, clase);  // La URL debe ser cerrada adecuadamente
+    return this.http.put<any>(`${baserUrl}/clase/actualizar`, clase);  
   }
   listarClaseDevActivado(): Observable<any> {
     return this.http.get<any>(`${baserUrl}/clase/listar/dev/activo`);
   }
   registrarDev(clase: ClaseDev): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/clase/dev/registrar`, clase);  // La URL debe ser cerrada adecuadamente
+    return this.http.post<any>(`${baserUrl}/clase/dev/registrar`, clase); 
   }
   actualizarDev(clase: ClaseDev): Observable<any> {
-    return this.http.put<any>(`${baserUrl}/clase/dev/actualizar`, clase);  // La URL debe ser cerrada adecuadamente
+    return this.http.put<any>(`${baserUrl}/clase/dev/actualizar`, clase); 
   }
 }

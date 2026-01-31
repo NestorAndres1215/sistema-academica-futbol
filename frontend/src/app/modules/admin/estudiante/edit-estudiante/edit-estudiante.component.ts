@@ -1,17 +1,18 @@
 import { ChangeDetectorRef, Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { Estudiante } from 'src/app/model/estudiante';
 import { ListEstudianteComponent } from '../list-estudiante/list-estudiante.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { EstudianteService } from 'src/app/services/estudiante.service';
+import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { Router } from '@angular/router';
-import { SedeService } from 'src/app/services/sede.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { GeneralService } from 'src/app/services/general.service';
-import { LoginService } from 'src/app/services/login.service';
-import { Historial } from 'src/app/model/historial';
-import { HistorialService } from 'src/app/services/historial.service';
+import { SedeService } from 'src/app/core/services/sede.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { GeneralService } from 'src/app/core/services/general.service';
+import { LoginService } from 'src/app/core/services/login.service';
+
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { Estudiante } from 'src/app/core/model/estudiante';
+import { Historial } from 'src/app/core/model/historial';
 
 @Component({
   selector: 'app-edit-estudiante',

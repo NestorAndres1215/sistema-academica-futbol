@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { LoginService } from 'src/app/services/login.service';
-import { PartidoService } from 'src/app/services/partido.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { PartidoService } from 'src/app/core/services/partido.service';
 
 @Component({
   selector: 'app-historial-partido-estudiante',

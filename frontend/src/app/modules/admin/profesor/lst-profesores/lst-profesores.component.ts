@@ -1,19 +1,21 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { VisorProfesorComponent } from '../visor-profesor/visor-profesor.component';
-import { Respuesta } from 'src/app/model/respuesta';
+
 import { ModalEliminacionComponent } from '../../components/modal-eliminacion/modal-eliminacion.component';
 import { LstDesProfesorComponent } from '../lst-des-profesor/lst-des-profesor.component';
-import { PdfService } from 'src/app/services/pdf.service';
+import { PdfService } from 'src/app/core/services/pdf.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { ProfesorService } from 'src/app/services/profesor.service';
+import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { MatDialog } from '@angular/material/dialog';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
-import { ExcelService } from 'src/app/services/excel.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { ExcelService } from 'src/app/core/services/excel.service';
 import { Router } from '@angular/router';
 import { EditProfesorComponent } from '../edit-profesor/edit-profesor.component';
-import { HistorialService } from 'src/app/services/historial.service';
-import { Historial } from 'src/app/model/historial';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { Historial } from 'src/app/core/model/historial';
+import { Respuesta } from 'src/app/core/model/respuesta';
+
 
 @Component({
   selector: 'app-lst-profesores',

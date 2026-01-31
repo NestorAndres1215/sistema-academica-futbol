@@ -10,39 +10,39 @@ export class ExcelService {
   constructor(private http: HttpClient) { }
 
   descargarExcelAdmin(): Observable<Blob> {
-    const url = `${baserUrl}/exportacion/excel/usuario`; // Reemplaza con la ruta correcta a tu endpoint de PDF
+    const url = `${baserUrl}/exportacion/excel/usuario`; 
     return this.http.get(url, { responseType: 'blob' });
   }
   descargarExcelSede(): Observable<Blob> {
-    const url = `${baserUrl}/exportacion/excel/sede`; // Reemplaza con la ruta correcta a tu endpoint de PDF
+    const url = `${baserUrl}/exportacion/excel/sede`; 
     return this.http.get(url, { responseType: 'blob' });
   }
   descargarExcelCargo(): Observable<Blob> {
-    const url = `${baserUrl}/exportacion/excel/cargo`; // Reemplaza con la ruta correcta a tu endpoint de PDF
+    const url = `${baserUrl}/exportacion/excel/cargo`; 
     return this.http.get(url, { responseType: 'blob' });
   }
   descargarExcelProfesor(): Observable<Blob> {
-    const url = `${baserUrl}/exportacion/excel/profesor`; // Reemplaza con la ruta correcta a tu endpoint de PDF
+    const url = `${baserUrl}/exportacion/excel/profesor`; 
     return this.http.get(url, { responseType: 'blob' });
   }
   descargarExcelEstudiante(): Observable<Blob> {
-    const url = `${baserUrl}/exportacion/excel/estudiante`; // Reemplaza con la ruta correcta a tu endpoint de PDF
+    const url = `${baserUrl}/exportacion/excel/estudiante`; 
     return this.http.get(url, { responseType: 'blob' });
   }
   descargarExcelEquipo(): Observable<Blob> {
-    const url = `${baserUrl}/exportacion/excel/equipo`; // Reemplaza con la ruta correcta a tu endpoint de PDF
+    const url = `${baserUrl}/exportacion/excel/equipo`;
     return this.http.get(url, { responseType: 'blob' });
   }
   descargarExcelClase(): Observable<Blob> {
-    const url = `${baserUrl}/exportacion/excel/clase`; // Reemplaza con la ruta correcta a tu endpoint de PDF
+    const url = `${baserUrl}/exportacion/excel/clase`; 
     return this.http.get(url, { responseType: 'blob' });
   }
   descargarExcelPartidoActivo(): Observable<Blob> {
-    const url = `${baserUrl}/exportacion/excel/partido/activado`; // Reemplaza con la ruta correcta a tu endpoint de PDF
+    const url = `${baserUrl}/exportacion/excel/partido/activado`; 
     return this.http.get(url, { responseType: 'blob' });
   }
   descargarExcelPartidoDesactivo(): Observable<Blob> {
-    const url = `${baserUrl}/exportacion/excel/partido/desactivado`; // Reemplaza con la ruta correcta a tu endpoint de PDF
+    const url = `${baserUrl}/exportacion/excel/partido/desactivado`;
     return this.http.get(url, { responseType: 'blob' });
   }
 }

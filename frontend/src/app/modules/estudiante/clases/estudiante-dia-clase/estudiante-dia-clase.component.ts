@@ -4,11 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { AdminCargaEditClaseComponent } from 'src/app/modules/admin/modulo-clases/admin-carga-edit-clase/admin-carga-edit-clase.component';
 import { EditEjecicioComponent } from 'src/app/modules/profesor/ejercicio/edit-ejecicio/edit-ejecicio.component';
 import { RegEjercicioComponent } from 'src/app/modules/profesor/ejercicio/reg-ejercicio/reg-ejercicio.component';
-import { ClaseService } from 'src/app/services/clase.service';
-import { EjercicioService } from 'src/app/services/ejercicio.service';
-import { EquipoService } from 'src/app/services/equipo.service';
-import { LoginService } from 'src/app/services/login.service';
-import { MensajeService } from 'src/app/services/mensaje.service';
+import { ClaseService } from 'src/app/core/services/clase.service';
+import { EjercicioService } from 'src/app/core/services/ejercicio.service';
+import { EquipoService } from 'src/app/core/services/equipo.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 
 @Component({
   selector: 'app-estudiante-dia-clase',

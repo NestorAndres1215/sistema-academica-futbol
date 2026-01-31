@@ -2,9 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Router } from '@angular/router';
-import { AdminService } from 'src/app/services/admin.service';
+import { AdminService } from 'src/app/core/services/admin.service';
 
-import { LoginService } from 'src/app/services/login.service';
+import { LoginService } from 'src/app/core/services/login.service';
 import { EdtDatosComponent } from './edt-datos/edt-datos.component';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
