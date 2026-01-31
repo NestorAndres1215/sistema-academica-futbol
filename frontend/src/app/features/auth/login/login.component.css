@@ -1,17 +1,3 @@
-body {
-
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    padding: 31.8px;
-    margin: 0px auto;
-    width: 100%;
-    height: 90%;
-    top: 0;
-    left: 0;
-    object-fit: cover;
-    position: absolute;
-}
 
 .container {
   display: flex;
@@ -20,8 +6,8 @@ body {
   max-width: 800px;
   height: 420px;
   flex-direction: row;
-  border-radius: 40px; /* Ajusta el valor según el redondeo que desees */
-  overflow: hidden; /* Opcional: evita que el contenido sobresalga */
+  border-radius: 40px; 
+  overflow: hidden;
 }
 
 .login {

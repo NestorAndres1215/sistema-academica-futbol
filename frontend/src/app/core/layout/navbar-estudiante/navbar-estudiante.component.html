@@ -1,62 +1,61 @@
 <div class="example-container">
-    <div>
-      <mat-toolbar color="primary" class="example-toolbar">
-        <button mat-icon-button (click)="sidenav.toggle()">
-          <mat-icon *ngIf="!sidenav.opened">menu</mat-icon>
-          <mat-icon *ngIf="sidenav.opened">close</mat-icon>
+  <div>
+    <mat-toolbar color="primary">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon *ngIf="!sidenav.opened" class="fw-bold fs-3">menu</mat-icon>
+        <mat-icon *ngIf="sidenav.opened" class="fw-bold fs-3">close</mat-icon>
+      </button>
+
+      <span class="example-spacer"></span>
+      <div class="d-flex align-items-center gap-2">
+        <h4 *ngIf="isLoggedIn && user" class="fw-bold mb-0">{{ user.username }}</h4>
+        <h4 class="fw-bold mb-0 ">- ESTUDIANTE</h4>
+      </div>
+
+      <button mat-icon-button [matMenuTriggerFor]="menu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item>
+          <mat-icon>check_circle</mat-icon>
+          <span>Version: <strong>1.0.0</strong></span>
         </button>
-        <h1 class="example-app-name" style="width: max-content;"><img class="img-logo"></h1>
-        <span class="example-spacer"></span>
-        <div style="justify-content: center;display: flex;margin: initial;" class="navegador">
-          <h4 *ngIf="isLoggedIn && user" style="font-family: monospace;"> {{ user.username }} </h4>
-          <h4 style="font-family: monospace;"> - Estudiante</h4>
-        </div>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-          <mat-icon>more_vert</mat-icon>
+        <button mat-menu-item>
+          <mat-icon>settings</mat-icon>
+          <span>Configuracion <strong></strong></span>
         </button>
-        <mat-menu #menu="matMenu">
-          
-          <button mat-menu-item >
-            <mat-icon>check_circle</mat-icon>
-            <span style="font-family: monospace;">Version: <strong>0.0.1</strong></span>
-          </button>
-         
-          <button mat-menu-item >
-            <mat-icon>settings</mat-icon>
-            <span style="font-family: monospace;">Configuracion <strong></strong></span>
-          </button>
-          <button mat-menu-item *ngIf="isLoggedIn" (click)="logout()">
-            <mat-icon>exit_to_app</mat-icon>
-            <span style="font-family: monospace;">Cerrar Sesión</span>
-          </button>
-        </mat-menu>
-      </mat-toolbar>
-    </div>
-    <mat-sidenav-container class="example-sidenav-container" class="app-container">
-      <mat-sidenav #sidenav style="width: 28%; min-width: 350px;" mode="push" [opened]="false">
-        <mat-divider></mat-divider>
-        <mat-list>
-          <ng-container *ngFor="let menuItem of datosmenuPrimero">
-            <mat-list-item [routerLink]="[menuItem.ruta]" (click)="toggleSubMenu(menuItem)" style="cursor: pointer">
-              <mat-icon>{{ menuItem.icono }}</mat-icon>
-              <span style="margin-left: 8px; color: black;font-family: monospace;">{{ menuItem.nombre }}</span>
-            </mat-list-item>
-            <ng-container *ngIf="menuItem.mostrarSubMenu">
-              <mat-list-item *ngFor="let subMenuItem of this.menu2FiltradoPorCategoria[menuItem.categoria]"
-                [routerLink]="[subMenuItem.ruta]" 
-                style="cursor: pointer">
-                <mat-icon>{{ subMenuItem.icono }}</mat-icon>
-                <span style="margin-left: 8px; color: black;font-family: monospace;">{{ subMenuItem.nombre }}</span>
-              </mat-list-item>
-            </ng-container>
-          </ng-container>
-        </mat-list>
-      </mat-sidenav>
-  
-      <mat-sidenav-content class="sidenav-content">
-        <div class="content-wrapper">
-          <router-outlet></router-outlet>
-        </div>
-      </mat-sidenav-content>
-    </mat-sidenav-container>
+        <button mat-menu-item *ngIf="isLoggedIn" (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Cerrar Sesión</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
   </div>
+  <mat-sidenav-container class="example-sidenav-container">
+    <mat-sidenav #sidenav mode="push" [opened]="false">
+      <mat-divider></mat-divider>
+      <mat-list>
+        <ng-container *ngFor="let menuItem of datosmenuPrimero">
+          <mat-list-item [routerLink]="[menuItem.ruta]" (click)="toggleSubMenu(menuItem)" style="cursor: pointer">
+            <mat-icon class="fw-bold fs-5">{{ menuItem.icono }}</mat-icon>
+            <span class="ms-2  text-dark">{{ menuItem.nombre }}</span>
+
+          </mat-list-item>
+          <ng-container *ngIf="menuItem.mostrarSubMenu">
+            <mat-list-item *ngFor="let subMenuItem of this.menu2FiltradoPorCategoria[menuItem.categoria]"
+              [routerLink]="[subMenuItem.ruta]" style="cursor: pointer">
+              <mat-icon class="fw-bold fs-5">{{ subMenuItem.icono }}</mat-icon>
+              <span  class="ms-2  text-dark">{{ subMenuItem.nombre }}</span>
+            </mat-list-item>
+          </ng-container>
+        </ng-container>
+      </mat-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content class="sidenav-content">
+      <div class="content-wrapper">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
