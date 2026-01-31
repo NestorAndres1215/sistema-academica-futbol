@@ -1,0 +1,5 @@
+export const ROLES = Object.freeze({
+    ROLE_ESTUDIANTE: 'ESTUDIANTE',
+    ROLE_ADMINISTRADOR: 'ADMINISTRADOR',
+    ROLE_PROFESOR: 'PROFESOR'
+});

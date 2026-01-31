@@ -195,6 +195,7 @@ import { DatosPersonalesProfesoresComponent } from './features/profesor/perfil/d
 import { EditPerfilComponent } from './features/profesor/perfil/edit-perfil/edit-perfil.component';
 import { PrincipalProfesorComponent } from './features/profesor/principal-profesor/principal-profesor.component';
 import { ButtonComponent } from './shared/button/button.component';
+import { TituloComponent } from './shared/titulo/titulo.component';
 
 
 @NgModule({
@@ -356,6 +357,7 @@ import { ButtonComponent } from './shared/button/button.component';
     AdminContrasenaComponent,
     EditRegDetalleLesionesComponent,
     ButtonComponent,
+    TituloComponent,
   ],
   imports: [
     BrowserModule,
