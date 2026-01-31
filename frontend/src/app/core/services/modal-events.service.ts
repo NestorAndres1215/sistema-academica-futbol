@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { Events } from '../model/events';
-import { ModalEventsComponent } from '../../modules/admin/components/modal-events/modal-events.component';
+import { ModalEventsComponent } from '../../shared/modal/modal-events/modal-events.component';
 
 @Injectable({
   providedIn: 'root'

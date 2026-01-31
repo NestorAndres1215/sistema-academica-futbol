@@ -24,7 +24,6 @@ export class NavbarAdministradorComponent implements OnInit {
 
   constructor(
     public login: LoginService,
-    private dialog: MatDialog,
     private router: Router,
     private menu: MenuService) { }
 
@@ -58,13 +57,12 @@ export class NavbarAdministradorComponent implements OnInit {
     this.menu.listarmenuPrimero().subscribe(
       data => {
         this.menuxd = data
-        console.log(this.menuxd)
-        //this.datosmenuPrimero = this.menuxd.filter((item: { tipo: string; }) => item.tipo === 'T'); 
+      
         this.datosmenuPrimero = this.menuxd.filter(
           (item: { rol: { codigo: string } | null }) =>
             item.rol && (item.rol.codigo === 'ROL' || item.rol.codigo === '0001')
         );
-        console.log(this.datosmenuPrimero);
+
       }
     );
   }
@@ -73,7 +71,6 @@ export class NavbarAdministradorComponent implements OnInit {
     menuItem.mostrarSubMenu = !menuItem.mostrarSubMenu;
 
     if (menuItem.mostrarSubMenu) {
-      console.log(menuItem.mostrarSubMenu)
       this.menu2FiltradoPorCategoria[menuItem.categoria] = this.menu2.filter((i: { categoria: any; }) => i.categoria === menuItem.categoria);
       if (this.menu2FiltradoPorCategoria[menuItem.categoria].length === 0) {
         this.router.navigate(['/administrador']);
@@ -94,7 +91,7 @@ export class NavbarAdministradorComponent implements OnInit {
 
   public logout() {
     this.login.logout();
-    window.location.href = '/login'; // O la página a la que quieras redirigir
+     this.router.navigate(['/login']);
   }
   
   status = false;

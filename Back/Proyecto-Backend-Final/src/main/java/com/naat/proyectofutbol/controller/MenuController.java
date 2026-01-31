@@ -32,28 +32,23 @@ public class MenuController {
             Optional<Rol> rol1 = rolRepository.findByCodigo(rolCodigo1);
             Optional<Rol> rol2 = rolRepository.findByCodigo(rolCodigo2);
 
-            // Validar si ambos roles existen
             if (rol1 == null || rol2 == null) {
                 String mensaje = (rol1 == null ? "Rol no encontrado para el código: " + rolCodigo1 : "") +
                         (rol2 == null ? " Rol no encontrado para el código: " + rolCodigo2 : "");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(mensaje.trim());
             }
 
-            // Obtener menús para ambos roles
             List<Menu> menusRol1 = menuService.obtenerMenusPorRol(rol1);
             List<Menu> menusRol2 = menuService.obtenerMenusPorRol(rol2);
 
-            // Fusionar y evitar duplicados (opcional)
             List<Menu> todosLosMenus = new ArrayList<>(menusRol1);
             todosLosMenus.addAll(menusRol2);
 
-            // Validar si hay menús
             if (todosLosMenus.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontraron menús para los roles con códigos: " + rolCodigo1 + " y " + rolCodigo2);
             }
 
-            // Retornar menús encontrados
             return ResponseEntity.ok(todosLosMenus);
 
 
