@@ -59,8 +59,7 @@ export class NavbarEstudianteComponent implements OnInit {
       data => {
         this.menuxd = data
         console.log(this.menuxd)
-        //this.datosmenuPrimero = this.menuxd.filter((item: { tipo: string; }) => item.tipo === 'T'); 
-        this.datosmenuPrimero = this.menuxd.filter(
+      this.datosmenuPrimero = this.menuxd.filter(
           (item: { rol: { codigo: string } | null }) =>
             item.rol && (item.rol.codigo === 'ROL' || item.rol.codigo === '0002')
         );
@@ -106,9 +105,4 @@ export class NavbarEstudianteComponent implements OnInit {
     this.mainMenuTrigger.closeMenu();
   }
 
-
-
-  modo() {
-    this.router.navigate(['/modo']);
-  }
 }

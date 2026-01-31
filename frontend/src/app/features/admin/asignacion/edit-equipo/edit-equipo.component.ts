@@ -45,6 +45,7 @@ export class EditEquipoComponent implements OnInit {
     private dialogRe: MatDialogRef<MantEquipoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: UntypedFormBuilder,) { }
+
   ngOnInit(): void {
     this.lista = this.data
     this.listarSede()
@@ -53,9 +54,9 @@ export class EditEquipoComponent implements OnInit {
     console.log(this.lista)
     this.listarEdiciones()
   }
-  sedes: any[] = []; // Lista de sedes
-  generos: any[] = []; // Lista de sedes
-  categorias: any[] = []; // Lista de sedes
+  sedes: any[] = [];
+  generos: any[] = [];
+  categorias: any[] = [];
   listarEdiciones() {
     this.codigo = this.lista.row.codigo;
     this.nombre = this.lista.row.nombre;
@@ -88,14 +89,13 @@ export class EditEquipoComponent implements OnInit {
   }
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
-      console.log(data)
       this.generos = data;
 
     })
   }
   async listaPosicion() {
     this.generales.listarGeneralDevActivado("0004").subscribe((data) => {
-      console.log(data)
+
       this.categorias = data;
 
     })
@@ -104,9 +104,6 @@ export class EditEquipoComponent implements OnInit {
     this.sedeService.listarSedeActivado().subscribe(
       (data) => {
         this.sedes = data;
-      },
-      (error) => {
-        console.error('Error al listar las sedes', error);
       }
     );
   }
@@ -141,7 +138,7 @@ export class EditEquipoComponent implements OnInit {
           );
         },
         error => {
-          // Si hubo un error al registrar el historial, mostrar un mensaje de error
+      
           this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
         }
       );

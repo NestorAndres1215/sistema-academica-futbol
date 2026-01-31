@@ -6,7 +6,7 @@
     margin-bottom: 20px;
     padding: 10px;
 }
-/* Título centrado */
+
 .title {
     margin: 0;
     flex-grow: 1;
@@ -15,7 +15,7 @@
 img{
     object-fit: cover; width: 400px; height: 100%; border-radius: 8px;
 }
-/* Estilo para el icono del botón */
+
 .button mat-icon {
     height: 10px;
     background: transparent;
@@ -23,7 +23,7 @@ img{
     position: relative;
 }
 
-/* Botón de volver */
+
 .volver-btn {
     margin-left: 10px;
     color: white;
@@ -34,13 +34,13 @@ img{
 }
 
 .imagen-ajustada {
-    width: 200px; /* Ancho fijo */
-    height: 300px; /* Alto fijo */
-    object-fit: cover; /* Recorta la imagen para ajustarse al contenedor */
-    border-radius: 8px; /* Esquinas redondeadas */
+    width: 200px; 
+    height: 300px;
+    object-fit: cover; 
+    border-radius: 8px; 
   }
   
-/* Contenedor del usuario */
+
 .usuario-container {
     display: flex;
     align-items: center;
@@ -48,13 +48,10 @@ img{
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 10px;
-    flex-wrap: wrap; /* Asegura que los elementos se ajusten en pantallas pequeñas */
+    flex-wrap: wrap; 
 }
 
-/* Estilo de la foto de perfil */
 
-
-/* Detalles del usuario */
 .detalles {
     flex: 1;
 }
@@ -67,20 +64,19 @@ strong {
     font-weight: bold;
 }
 
-/* Contenedor general */
+
 .container {
     margin-top: 50px;
     padding: 0 15px;
 }
 
-/* Centrar el título */
 .title {
     margin-bottom: 60px;
     margin-top: 40px;
     text-align: center;
 }
 
-/* Estilo para las imágenes */
+
 .image-container {
     display: flex;
     justify-content: center;
@@ -94,15 +90,13 @@ strong {
     border-radius: 8px;
 }
 
-/* Ajustes para los detalles del usuario */
+
  h2 {
     font-size: 4px;
    
 }
 
-/* Media Queries para responsividad */
 
-/* Pantallas pequeñas (móviles) */
 @media (max-width: 767px) {
     img {
         width: 14px;

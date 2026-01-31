@@ -61,8 +61,6 @@ export class HorarioComponent implements OnInit {
     private dialog: MatDialog,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private mensaje: MensajeService,
-    private historialService: HistorialService,
     private route: Router
   ) {
     this.pageChanged({
@@ -77,8 +75,6 @@ export class HorarioComponent implements OnInit {
       console.log(data)
       data = data.filter(item => item.codigo !== '0000');
       this.user = this.loginService.getUser();
-
-      console.log(data);
       this.datosTabla = data;
       this.pagedData = data
       this.totalItems = this.datosTabla.length
@@ -143,6 +139,5 @@ export class HorarioComponent implements OnInit {
   volver(): void {
     this.route.navigate(['/administrador']);
   }
-
 
 }

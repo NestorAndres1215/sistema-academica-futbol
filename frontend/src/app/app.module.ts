@@ -3,7 +3,6 @@ import { CUSTOM_ELEMENTS_SCHEMA, LOCALE_ID, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
-//importaciones de angular material
 import { MatListModule } from '@angular/material/list';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatMenuModule } from '@angular/material/menu';
@@ -30,26 +29,15 @@ import { MatTableModule } from '@angular/material/table';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSortModule } from '@angular/material/sort';
-//importacion del component
 import { authInterceptorProviders } from './core/interceptor/auth.interceptor';
-
 import { CommonModule, registerLocaleData } from '@angular/common';
-//PAGES
-
 import { NavbarComponent } from './core/layout/public/navbar/navbar.component';
 import { FooterComponent } from './core/layout/public/footer/footer.component';
-//ADMIN
 import { NavbarAdministradorComponent } from './core/layout/navbar-administrador/navbar-administrador.component';
-
 import { NavbarEstudianteComponent } from './core/layout/navbar-estudiante/navbar-estudiante.component';
 import { NavbarProfesorComponent } from './core/layout/navbar-profesor/navbar-profesor.component';
-
 import { ModalEliminacionComponent } from './shared/modal/modal-eliminacion/modal-eliminacion.component';
-
-
 import localeEs from '@angular/common/locales/es';
-
-
 import { ModalEventsComponent } from './shared/modal/modal-events/modal-events.component';
 import { DeleteComponent } from './shared/modal/delete/delete.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -201,23 +189,18 @@ import { TituloComponent } from './shared/titulo/titulo.component';
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
-    //PAGES
     InicioComponent,
     NosotrosComponent,
     SedesComponent,
     LoginComponent,
-    //COMPONENTES
     NavbarComponent,
     FooterComponent,
-    //ADMINISTRADOR
     NavbarAdministradorComponent,
     HomeAdminComponent,
     DatosPersonalesComponent,
-    //ESTUDIANTE
     NavbarEstudianteComponent,
     HomeEstudianteComponent,
     PrincipalEstudianteComponent,
-    //PROFESOR
     NavbarProfesorComponent,
     HomeProfesorComponent,
     PrincipalProfesorComponent,
@@ -394,7 +377,7 @@ import { TituloComponent } from './shared/titulo/titulo.component';
     MatProgressBarModule,
     MatPaginatorModule,
     FormsModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     MatNativeDateModule,
     MatDatepickerModule,
   ],

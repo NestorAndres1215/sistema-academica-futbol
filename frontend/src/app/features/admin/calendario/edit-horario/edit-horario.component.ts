@@ -32,12 +32,13 @@ export class EditHorarioComponent implements OnInit {
     private horarioService: HorarioService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: UntypedFormBuilder,) { }
-  lista: any
+    lista: any
+
   ngOnInit(): void {
     this.lista = this.data
-    console.log(this.lista)
     this.listarEdiciones()
   }
+
   inicio: string
   final: string
   usuarioCreacion: string;
@@ -48,6 +49,7 @@ export class EditHorarioComponent implements OnInit {
   horaActualizacion: string;
   public formulario: UntypedFormGroup;
   codigo: string
+
   listarEdiciones() {
     this.codigo = this.lista.row.codigo;
     this.inicio = this.lista.row.inicioHora;
@@ -72,7 +74,6 @@ export class EditHorarioComponent implements OnInit {
 
 
   operar() {
-    // Obtener las horas desde el formulario
     const finHora = this.formulario.get('fin')?.value;
     const inicioHora = this.formulario.get('inicio')?.value;
 
@@ -81,17 +82,14 @@ export class EditHorarioComponent implements OnInit {
         const inicio = new Date('1970-01-01T' + inicioHora);
         const fin = new Date('1970-01-01T' + finHora);
 
-        // Comprobar si la hora de inicio es menor que la de fin
         if (inicio >= fin) {
           this.formulario.get('fin')?.setErrors({ invalidTime: true });
           this.mensaje.MostrarMensaje('La hora de inicio debe ser menor que la hora de fin.');
           return false;
         }
 
-        // Calcular la diferencia en milisegundos
         const diferenciaHoras = (fin.getTime() - inicio.getTime()) / (1000 * 3600);  // Convertir milisegundos a horas
 
-        // Comprobar si la diferencia está entre 1 y 4 horas
         if (diferenciaHoras < 1) {
           this.formulario.get('fin')?.setErrors({ minDuration: true });
           this.mensaje.MostrarMensaje('La duración debe ser mayor a 1 hora.');
@@ -104,14 +102,12 @@ export class EditHorarioComponent implements OnInit {
           return false;
         }
       }
-      return true;  // Validación exitosa
+      return true; 
     };
 
-    // Validar las horas antes de proceder
     if (!validarHoras()) {
-      return;  // Si la validación falla, detener la ejecución
+      return;  
     }
-
 
     if (this.formulario.valid) {
       const objHorario: Horario = {
@@ -123,12 +119,11 @@ export class EditHorarioComponent implements OnInit {
       }
       console.log(objHorario)
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+        usuario: this.loginService.getUser().username, 
         detalle: `El usuario ${this.loginService.getUser().username} actualizó al horario con el codigo ${objHorario.codigo}`,
       };
       this.horarioService.actualizar(objHorario).subscribe(
         () => {
-          // Si el historial se registra correctamente, proceder con la actualización del estudiante
           this.historialService.registrar(historial).subscribe(
             response => {
               this.mensaje.MostrarMensajeExito("SE ACTUALIZÓ HORARIO");
@@ -136,13 +131,12 @@ export class EditHorarioComponent implements OnInit {
               this.cdr.detectChanges();
             },
             error => {
-              this.mensaje.MostrarBodyError( error );
+              this.mensaje.MostrarBodyError(error);
             }
           );
         },
         error => {
-          // Si hubo un error al registrar el historial, mostrar un mensaje de error
-          this.mensaje.MostrarBodyError( error );
+          this.mensaje.MostrarBodyError(error);
         }
       );
     } else {

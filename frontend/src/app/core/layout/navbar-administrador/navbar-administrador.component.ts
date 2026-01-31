@@ -29,8 +29,8 @@ export class NavbarAdministradorComponent implements OnInit {
 
   ngOnInit(): void {
     this.listarRolMenu()
-   
-    
+
+
     this.isLoggedIn = this.login.isLoggedIn();
     this.user = this.login.getUser();
     this.login.loginStatusSubjec.asObservable().subscribe(
@@ -41,7 +41,7 @@ export class NavbarAdministradorComponent implements OnInit {
     )
 
   }
- 
+
   async listarRolMenu() {
     this.menu.listarPorRol("ROL", "0001").subscribe(data => {
       this.rolMenu = data
@@ -51,13 +51,13 @@ export class NavbarAdministradorComponent implements OnInit {
     })
   }
 
- datosmenuPrimero: any
+  datosmenuPrimero: any
   menuxd: any
   async listarMenuPrimero() {
     this.menu.listarmenuPrimero().subscribe(
       data => {
         this.menuxd = data
-      
+
         this.datosmenuPrimero = this.menuxd.filter(
           (item: { rol: { codigo: string } | null }) =>
             item.rol && (item.rol.codigo === 'ROL' || item.rol.codigo === '0001')
@@ -89,11 +89,11 @@ export class NavbarAdministradorComponent implements OnInit {
     );
   }
 
-  public logout() {
+  logout() {
     this.login.logout();
-     this.router.navigate(['/login']);
+    this.router.navigate(['/login']);
   }
-  
+
   status = false;
   addToggle() {
     this.status = !this.status;
@@ -103,9 +103,4 @@ export class NavbarAdministradorComponent implements OnInit {
     this.mainMenuTrigger.closeMenu();
   }
 
-
-
-  modo() {
-    this.router.navigate(['/modo']);
-  }
 }

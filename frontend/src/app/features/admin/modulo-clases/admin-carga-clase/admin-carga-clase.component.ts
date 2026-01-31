@@ -11,6 +11,7 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { ClaseService } from 'src/app/core/services/clase.service';
 import { ClaseDev } from 'src/app/core/model/clasedev';
 import { Historial } from 'src/app/core/model/historial';
+import { SwalService } from 'src/app/core/services/swal.service';
 
 
 @Component({
@@ -19,52 +20,47 @@ import { Historial } from 'src/app/core/model/historial';
   styleUrls: ['./admin-carga-clase.component.css']
 })
 export class AdminCargaClaseComponent implements OnInit {
+
+
   operar() {
 
-    console.log(this.formulario.value)
-    if (this.formulario.valid) {
-      const objclase: ClaseDev = {
-        titulo: this.formulario.get('titulo')?.value,
-        descripcion: this.formulario.get('descripcion')?.value,
-        objetivo: this.formulario.get('objetivo')?.value,
-        clase: this.codigo,
-        usuarioCreacion: this.loginService.getUser().username,
-        dia: this.dia
-      };
-      console.log(objclase)
-      // Crear el objeto del historial
-      const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
-        detalle: `El usuario ${this.loginService.getUser().username} registró al clase detalle ${objclase.titulo} y con el  dia  ${this.dia}.`
-      };
-
-      // Registrar el historial
-      this.claseService.registrarDev(objclase).subscribe(
-        () => {
-          // Si el historial se registra correctamente, proceder con el registro del estudiante
-          this.historialService.registrar(historial).subscribe(
-            response => {
-              this.mensaje.MostrarMensajeExito("SE REGISTRO  CORRECTAMENTE");
-              this.formulario.reset();
-              this.dialog.closeAll();
-              this.cdr.detectChanges();
-            },
-            error => {
-              this.mensaje.MostrarBodyError(error);
-            }
-          );
-        },
-        error => {
-          // Si hubo un error al registrar el historial, mostrar un mensaje de error
-          this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
-        }
-      );
-    }
-    else {
-      console.log("formulario vacio")
-      this.mensaje.MostrarMensaje("FORMULARIO VACIO")
+    if (!this.formulario.valid) {
+      this.swalService.advertencia("Formulario vacío", "Por favor completa todos los campos obligatorios.");
       this.formulario.markAllAsTouched();
+      return;
     }
+
+    const objClase: ClaseDev = {
+      titulo: this.formulario.get('titulo')?.value,
+      descripcion: this.formulario.get('descripcion')?.value,
+      objetivo: this.formulario.get('objetivo')?.value,
+      clase: this.codigo,
+      usuarioCreacion: this.loginService.getUser().username,
+      dia: this.dia
+    };
+
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} registró al clase detalle ${objClase.titulo} y con el  dia  ${this.dia}.`
+    };
+
+
+    this.claseService.registrarDev(objClase).subscribe({
+      next: () => {
+        this.historialService.registrar(historial).subscribe({
+          next: () => {
+            this.mensaje.MostrarMensajeExito("Se registró correctamente");
+            this.formulario.reset();
+            this.dialog.closeAll();
+            this.cdr.detectChanges();
+          },
+          error: err => this.swalService.error("ERROR", err.error.message)
+        });
+      },
+      error: err => this.swalService.error("ERROR", err.error.message)
+    });
+
+
   }
   cerrar() {
     this.dialogRe.close();
@@ -78,7 +74,7 @@ export class AdminCargaClaseComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private historialService: HistorialService,
-    private router: Router,
+    private swalService: SwalService,
     private generalService: GeneralService,
     private dialogRe: MatDialogRef<AdminClaseDiaComponent>,
     private loginService: LoginService,
@@ -101,25 +97,20 @@ export class AdminCargaClaseComponent implements OnInit {
   codigoClase: string
   tituloClase: any
   @Input() dias: string = '';
+
   listarClase() {
     this.generalService.listarGeneralDevActivado("0008").subscribe((data) => {
-      console.log(data.descripcion1)
-      console.log(this.claseListar)
-      const claseFiltrada = data.filter(item => 
+      const claseFiltrada = data.filter(item =>
         !this.claseListar.some(clase => clase === item.descripcion1)
       );
-      
-      console.log(claseFiltrada);
-      
       this.tituloClase = claseFiltrada;
 
     })
   }
   initForm(): void {
     this.formulario = this.formBuilder.group({
-      // sede: [this.sedes, Validators.required],
       descripcion: ['', Validators.required],
-      objetivo: ['', Validators.required], // Corregido: Eliminar la coma extra
+      objetivo: ['', Validators.required],
       titulo: ['', Validators.required],
     });
 
@@ -127,23 +118,10 @@ export class AdminCargaClaseComponent implements OnInit {
 
   listarClaseDetalle() {
     this.claseService.listarClaseDevActivado().subscribe((data) => {
-      console.log(data)
       const claseEncontrada = data
-        .filter(index => index.clase.codigo == this.codigo) // Filtra las clases que coincidan con el código
+        .filter(index => index.clase.codigo == this.codigo)
         .map(index => index.titulo);
-      // Encuentra la clase
-
-      //console.log(claseEncontrada)
-      //console.log(this.dias)
       this.claseListar = claseEncontrada
-      console.log(this.claseListar)
-      //  const claseEncontrada2 = claseEncontrada.find(index => index.dia == this.dias); // Encuentra la clase
-      //console.log(claseEncontrada2.titulo)
-
-      //this.titulo = claseEncontrada2.titulo
-      //this.descripcion = claseEncontrada2.descripcion
-      //this.objetivo = claseEncontrada2.objetivo
-      //this.codigoClase = claseEncontrada2.codigo
     })
   }
 }

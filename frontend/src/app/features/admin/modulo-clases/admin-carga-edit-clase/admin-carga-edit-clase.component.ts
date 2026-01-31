@@ -26,23 +26,21 @@ export class AdminCargaEditClaseComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private historialService: HistorialService,
-    private router: Router,
-    private generalService: GeneralService,
     private dialogRe: MatDialogRef<AdminClaseDiaComponent>,
     private loginService: LoginService,
     @Inject(MAT_DIALOG_DATA) public data: any,) { }
-  
+
   titulo: string
   objetivo: string
   descripcion: string
   codigo: string
   dia: string
-  codigoClase:string
+  codigoClase: string
   ngOnInit(): void {
     console.log(this.data)
     this.titulo = this.data.titulo
     this.codigo = this.data.codigo
-    this.codigoClase=this.data.codigoClase
+    this.codigoClase = this.data.codigoClase
     this.dia = this.data.dia
     this.objetivo = this.data.objetivo
     this.descripcion = this.data.descripcion
@@ -61,7 +59,7 @@ export class AdminCargaEditClaseComponent implements OnInit {
     console.log(this.formulario.value)
     if (this.formulario.valid) {
       const objclase: ClaseDev = {
-        codigo:this.codigoClase,
+        codigo: this.codigoClase,
         titulo: this.formulario.get('titulo')?.value,
         descripcion: this.formulario.get('descripcion')?.value,
         objetivo: this.formulario.get('objetivo')?.value,
@@ -79,7 +77,7 @@ export class AdminCargaEditClaseComponent implements OnInit {
       // Registrar el historial
       this.claseService.actualizarDev(objclase).subscribe(
         () => {
-          // Si el historial se registra correctamente, proceder con el registro del estudiante
+
           this.historialService.registrar(historial).subscribe(
             response => {
               this.mensaje.MostrarMensajeExito("SE ACTUALIZO CARGA DE CLASE");

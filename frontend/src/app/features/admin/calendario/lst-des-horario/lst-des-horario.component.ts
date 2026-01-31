@@ -62,10 +62,8 @@ export class LstDesHorarioComponent implements OnInit {
      private dialogRe: MatDialogRef<HorarioComponent>,
      private loginService: LoginService,
      private change: ChangeDetectorRef,
-     private mensaje: MensajeService,
      private dialog:MatDialog,
-     private historialService: HistorialService,
-     private route: Router
+
    ) {
      this.pageChanged({
        pageIndex: 0, pageSize: this.pageSize,
@@ -79,8 +77,6 @@ export class LstDesHorarioComponent implements OnInit {
        console.log(data)
        data = data.filter(item => item.codigo !== '0000');
        this.user = this.loginService.getUser();
- 
-       console.log(data);
        this.datosTabla = data;
        this.pagedData = data
        this.totalItems = this.datosTabla.length
@@ -92,7 +88,6 @@ export class LstDesHorarioComponent implements OnInit {
  
    async getUserInfo() {
      this.user = this.loginService.getUser();
-     const userID = this.user.id;
      const usuarios = this.datosTabla.filter(item => item.id === this.user.id);
      this.xd = usuarios
    }
@@ -104,7 +99,6 @@ export class LstDesHorarioComponent implements OnInit {
  
  
    pageChanged(event: PageEvent) {
-     console.log(event)
      this.totalItems = this.datosTabla.length
      const startIndex = event.pageIndex * event.pageSize;
      const endIndex = startIndex + event.pageSize;
