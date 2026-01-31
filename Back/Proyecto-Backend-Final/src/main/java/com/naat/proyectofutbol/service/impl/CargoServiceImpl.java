@@ -1,5 +1,6 @@
 package com.naat.proyectofutbol.service.impl;
 
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.exception.ResourceAlreadyExistsException;
 import com.naat.proyectofutbol.exception.ResourceNotFoundException;
 import com.naat.proyectofutbol.model.Cargo;
@@ -44,9 +45,7 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public Cargo actualizarCargo(Cargo cargo) {
         Cargo cargoExistente = cargoRepository.findById(cargo.getCodigo())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Cargo no encontrado: " + cargo.getCodigo()
-                ));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.CARGO_NO_ENCONTRADO));
 
         if (!cargoExistente.getNombre().equals(cargo.getNombre())) {
             validarNombreUnico(cargo.getNombre());
@@ -75,9 +74,7 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public Cargo activarSede(String codigo) {
         Cargo cargo = cargoRepository.findById(codigo)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Cargo no encontrado con el código: " + codigo
-                ));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.CARGO_NO_ENCONTRADO));
 
         cargo.setEstado(true);
         return cargoRepository.save(cargo);
@@ -86,32 +83,23 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public Cargo findByNombre(String nombre) {
         return cargoRepository.findByNombre(nombre)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Cargo no encontrado: " + nombre
-                ));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.CARGO_NO_ENCONTRADO));
     }
 
     @Override
     public Cargo desactivarCargo(String codigo) {
 
         Cargo cargo = cargoRepository.findById(codigo)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Cargo no encontrado con el código: " + codigo
-                ));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.CARGO_NO_ENCONTRADO));
 
         cargo.setEstado(false);
         return cargoRepository.save(cargo);
     }
 
 
-
     private void validarNombreUnico(String nombre) {
         cargoRepository.findByNombre(nombre)
-                .ifPresent(c -> {
-                    throw new ResourceAlreadyExistsException(
-                            "El cargo ya existe: " + nombre
-                    );
-                });
+                .orElseThrow(()-> new ResourceAlreadyExistsException(NotFoundMessages.CARGO_NO_ENCONTRADO));
     }
 
 }

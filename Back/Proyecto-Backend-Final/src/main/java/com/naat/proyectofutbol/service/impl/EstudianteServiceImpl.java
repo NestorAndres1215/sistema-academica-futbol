@@ -1,6 +1,10 @@
 package com.naat.proyectofutbol.service.impl;
 
 
+import com.naat.proyectofutbol.constants.AlreadyExistsMessages;
+import com.naat.proyectofutbol.constants.GlobalErrorMessages;
+import com.naat.proyectofutbol.constants.NotFoundMessages;
+import com.naat.proyectofutbol.constants.Roles;
 import com.naat.proyectofutbol.dto.request.EstudianteRequest;
 import com.naat.proyectofutbol.exception.BadRequestException;
 import com.naat.proyectofutbol.exception.ResourceAlreadyExistsException;
@@ -104,13 +108,14 @@ public class EstudianteServiceImpl implements EstudianteService {
         String nuevoCodigoUsuario = Utilitarios.incrementarSecuencia(ultimoCodigoUsuario);
 
 
-        usuarioService.registrar(nuevoCodigoUsuario, estudianteDTO.getUsername(), estudianteDTO.getPassword(), "0003");
-        loginService.registrar(nuevoCodigoUsuario, estudianteDTO.getUsername(), estudianteDTO.getPassword(), "ESTUDIANTE");
+        usuarioService.registrar(nuevoCodigoUsuario, estudianteDTO.getUsername(), estudianteDTO.getPassword(), Roles.CODIGO_ESTUDIANTE);
+        loginService.registrar(nuevoCodigoUsuario, estudianteDTO.getUsername(), estudianteDTO.getPassword(), Roles.ROLE_ESTUDIANTE);
         Sede sede = sedeRepository.findById(estudianteDTO.getSede())
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + estudianteDTO.getSede()));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));
 
         Usuario usuario = usuarioRepository.findById(nuevoCodigoUsuario)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + nuevoCodigoUsuario));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
+
         Estudiante estudiante = Estudiante.builder()
                 .codigo(nuevoCodigo)
                 .primerNombre(estudianteDTO.getPrimerNombre())
@@ -139,30 +144,26 @@ public class EstudianteServiceImpl implements EstudianteService {
 
     @Override
     public Estudiante actualizarEstudiante(EstudianteRequest estudianteDTO) {
+
         Estudiante estudiante = estudianteRepository.findById(estudianteDTO.getCodigoEstudiante())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("El estudiante con código " + estudianteDTO.getCodigoEstudiante() + " no existe")
-                );
+                .orElseThrow(() -> new ResourceNotFoundException( NotFoundMessages.ESTUDIANTE_NO_ENCONTRADO));
+
         DocumentoValidator.validarDocumento(estudianteDTO.getTipoDoc(), estudianteDTO.getNacionalidad(), estudianteDTO.getDni());
         validarActualizacionEstudiante(estudiante, estudianteDTO.getTelefono(), estudianteDTO.getCorreo(), estudianteDTO.getUsername(), estudianteDTO.getDni());
 
 
         Sede sede = sedeRepository.findById(estudianteDTO.getSede())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("La sede con código " + estudianteDTO.getSede() + " no existe")
-                );
+                .orElseThrow(() -> new ResourceNotFoundException( NotFoundMessages.SEDE_NO_ENCONTRADO));
 
         usuarioService.actualizar(estudianteDTO.getCodigoUsuario(), estudianteDTO.getUsername(), estudianteDTO.getPassword(), "0001");
         loginService.actualizar(estudianteDTO.getCodigoUsuario(), estudianteDTO.getUsername(), estudianteDTO.getPassword(), "ESTUDIANTE");
 
         Usuario usuario = usuarioRepository.findById(estudianteDTO.getCodigoUsuario())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Usuario no encontrado: " + estudianteDTO.getCodigoUsuario())
-                );
+                .orElseThrow(() -> new ResourceNotFoundException( NotFoundMessages.USUARIO_NO_ENCONTRADO));
 
         if (!usuario.getUsername().equals(estudianteDTO.getUsername())
                 && usuarioService.usuarioExistePorUsername(estudianteDTO.getUsername())) {
-            throw new ResourceAlreadyExistsException("El usuario ya existe");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.USUARIO_YA_EXISTE);
         }
         estudiante.setPrimerNombre(estudianteDTO.getPrimerNombre());
         estudiante.setSegundoNombre(estudianteDTO.getSegundoNombre());
@@ -196,18 +197,18 @@ public class EstudianteServiceImpl implements EstudianteService {
             validarEstudiante(estudianteDTO);
 
             Sede sede = sedeRepository.findById(estudianteDTO.getSede())
-                    .orElseThrow(() -> new ResourceNotFoundException("La sede con código " + estudianteDTO.getSede() + " no existe"));
+                    .orElseThrow(() -> new ResourceNotFoundException( NotFoundMessages.SEDE_NO_ENCONTRADO));
 
             String ultimoCodigo = obtenerUltimoCodigoEstudiante();
             String nuevoCodigo = Utilitarios.incrementarSecuencia(ultimoCodigo);
             String ultimoCodigoUsuario = ObtenerUltimoCodigoUsuario();
             String nuevoCodigoUsuario = Utilitarios.incrementarSecuencia(ultimoCodigoUsuario);
 
-            usuarioService.registrar(nuevoCodigoUsuario, estudianteDTO.getUsername(), estudianteDTO.getPassword(), "0003");
-            loginService.registrar(nuevoCodigoUsuario, estudianteDTO.getUsername(), estudianteDTO.getPassword(), "ESTUDIANTE");
+            usuarioService.registrar(nuevoCodigoUsuario, estudianteDTO.getUsername(), estudianteDTO.getPassword(), Roles.CODIGO_ESTUDIANTE);
+            loginService.registrar(nuevoCodigoUsuario, estudianteDTO.getUsername(), estudianteDTO.getPassword(), Roles.ROLE_ESTUDIANTE);
 
             Usuario usuario = usuarioRepository.findById(nuevoCodigoUsuario)
-                    .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + nuevoCodigoUsuario));
+                    .orElseThrow(() -> new ResourceNotFoundException( NotFoundMessages.USUARIO_NO_ENCONTRADO));
 
             Estudiante estudiante = Estudiante.builder()
                     .codigo(nuevoCodigo)
@@ -242,18 +243,17 @@ public class EstudianteServiceImpl implements EstudianteService {
 
         Estudiante estudiante = estudianteRepository.findById((codigoEstudiante))
                 .orElseThrow(() ->
-                        new RuntimeException("El estudiante con código " + codigoEstudiante + " no existe")
+                        new RuntimeException( NotFoundMessages.ESTUDIANTE_NO_ENCONTRADO)
                 );
         validarActualizacionEstudiante(estudiante, telefono, email, username, "");
-        usuarioService.actualizar(codigoUsuario, username, estudiante.getUsuario().getPassword(), "0001");
-        loginService.actualizar(codigoUsuario, username, estudiante.getUsuario().getPassword(), "ADMINISTRADOR");
+        usuarioService.actualizar(codigoUsuario, username, estudiante.getUsuario().getPassword(), Roles.CODIGO_ESTUDIANTE);
+        loginService.actualizar(codigoUsuario, username, estudiante.getUsuario().getPassword(), Roles.ROLE_ESTUDIANTE);
 
         Usuario usuario = usuarioRepository.findById(codigoUsuario)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + codigoUsuario));
+                .orElseThrow(() -> new ResourceNotFoundException( NotFoundMessages.USUARIO_NO_ENCONTRADO));
+
         Sede sede = sedeRepository.findById(estudiante.getSede().getCodigo())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("La sede con código " + estudiante.getSede().getCodigo() + " no existe")
-                );
+                .orElseThrow(() -> new ResourceNotFoundException( NotFoundMessages.SEDE_NO_ENCONTRADO));
 
 
         estudiante.setPrimerNombre(primerNombre);
@@ -278,7 +278,7 @@ public class EstudianteServiceImpl implements EstudianteService {
             try {
                 estudiante.setPerfil(archivo.getBytes());
             } catch (IOException e) {
-                throw new BadRequestException("Error al procesar la imagen");
+                throw new BadRequestException(GlobalErrorMessages.IMAGEN_ERROR);
             }
         }
 
@@ -289,7 +289,8 @@ public class EstudianteServiceImpl implements EstudianteService {
     public Estudiante desactivar(String usuarioCodigo) {
 
         Estudiante estudiante = estudianteRepository.findById(usuarioCodigo)
-                .orElseThrow(() -> new ResourceNotFoundException("Estudiante no encontrado con el código: " + usuarioCodigo));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ESTUDIANTE_NO_ENCONTRADO));
+
         usuarioService.desactivarUsuario(estudiante.getUsuario().getCodigo());
         estudiante.setEstado(false);
         return estudianteRepository.save(estudiante);
@@ -297,8 +298,10 @@ public class EstudianteServiceImpl implements EstudianteService {
 
     @Override
     public Estudiante activar(String usuarioCodigo) {
+
         Estudiante estudiante = estudianteRepository.findById(usuarioCodigo)
-                .orElseThrow(() -> new ResourceNotFoundException("Estudiante no encontrado con el código: " + usuarioCodigo));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ESTUDIANTE_NO_ENCONTRADO));
+
         usuarioService.desactivarUsuario(estudiante.getUsuario().getCodigo());
         estudiante.setEstado(true);
         return estudianteRepository.save(estudiante);
@@ -307,44 +310,45 @@ public class EstudianteServiceImpl implements EstudianteService {
     private void validarEstudiante(EstudianteRequest estudianteDTO) {
 
         if (usuarioService.usuarioExistePorUsername(estudianteDTO.getUsername())) {
-            throw new ResourceAlreadyExistsException("USUARIO YA EXISTE");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.USUARIO_YA_EXISTE);
         }
 
         if (ExistePorEmail(estudianteDTO.getCorreo())) {
-            throw new ResourceAlreadyExistsException("CORREO YA EXISTE");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.CORREO_YA_EXISTE);
         }
 
         if (ExistePorDNI(estudianteDTO.getDni())) {
-            throw new ResourceAlreadyExistsException("DNI YA EXISTE");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.DNI_YA_EXISTE);
         }
 
         if (ExistePorTelefono(estudianteDTO.getTelefono())) {
-            throw new ResourceAlreadyExistsException("TELEFONO YA EXISTE");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.TELEFONO_YA_EXISTE);
         }
+
     }
 
     private void validarActualizacionEstudiante(Estudiante estudiante, String telefono, String correo, String username, String dni) {
 
         if (!estudiante.getTelefono().equals(telefono)
                 && ExistePorTelefono(telefono)) {
-            throw new ResourceAlreadyExistsException("El teléfono ya existe");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.TELEFONO_YA_EXISTE);
         }
 
         if (!estudiante.getDni().equals(dni)
                 && ExistePorDNI(dni)) {
-            throw new ResourceAlreadyExistsException("El DNI ya existe");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.DNI_YA_EXISTE);
         }
 
         if (!estudiante.getCorreo().equals(correo)
                 && ExistePorEmail(correo)) {
-            throw new ResourceAlreadyExistsException("El correo ya existe");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.CORREO_YA_EXISTE);
         }
 
         String usernameActual = estudiante.getUsuario().getUsername();
 
         if (!usernameActual.equals(username)
                 && usuarioService.usuarioExistePorUsername(username)) {
-            throw new ResourceAlreadyExistsException("El usuario ya existe");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.USUARIO_YA_EXISTE);
         }
     }
 

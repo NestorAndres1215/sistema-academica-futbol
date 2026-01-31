@@ -1,5 +1,6 @@
 package com.naat.proyectofutbol.service.impl;
 
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.dto.request.AsignacionRequest;
 import com.naat.proyectofutbol.dto.request.AsignacionEstudianteRequest;
 import com.naat.proyectofutbol.dto.request.EquipoRequest;
@@ -58,7 +59,7 @@ public class EquipoServiceImpl implements EquipoService {
         String ultimoCodigo = obtenerCodigo();
         String nuevoCodigo = Utilitarios.incrementarSecuencia(ultimoCodigo);
         Sede sede = sedeRepository.findById(dto.getSede())
-                .orElseThrow(() -> new ResourceNotFoundException("La sede con código " + dto.getSede() + " no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));
 
         Equipo equipo = Equipo.builder()
                 .codigo(nuevoCodigo)
@@ -78,10 +79,10 @@ public class EquipoServiceImpl implements EquipoService {
     public Equipo actualizar(EquipoRequest dto) {
 
         Equipo equipo = equipoRepository.findById(dto.getCodigo())
-                .orElseThrow(() -> new ResourceNotFoundException("El equipo con código " + dto.getCodigo() + " no existe"));
+                    .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPO_NO_ENCONTRADO));
 
         Sede sede = sedeRepository.findById(dto.getSede())
-                .orElseThrow(() -> new ResourceNotFoundException("La sede con código " + dto.getSede() + " no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));
 
         equipo.setCodigo(dto.getCodigo());
         equipo.setNombre(dto.getNombre());
@@ -100,7 +101,7 @@ public class EquipoServiceImpl implements EquipoService {
     public Equipo desactivar(String usuarioCodigo) {
 
         Equipo equipo = equipoRepository.findById(usuarioCodigo)
-                .orElseThrow(() -> new ResourceNotFoundException("Equipo no encontrado con el código: " + usuarioCodigo));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPO_NO_ENCONTRADO));
         equipo.setEstado(false);
         return equipoRepository.save(equipo);
     }
@@ -109,7 +110,7 @@ public class EquipoServiceImpl implements EquipoService {
     public Equipo activar(String usuarioCodigo) {
 
         Equipo equipo = equipoRepository.findById(usuarioCodigo)
-                .orElseThrow(() -> new ResourceNotFoundException("Equipo no encontrado con el código: " + usuarioCodigo));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPO_NO_ENCONTRADO));
         equipo.setEstado(true);
         return equipoRepository.save(equipo);
     }
@@ -157,23 +158,18 @@ public class EquipoServiceImpl implements EquipoService {
                 String nuevoCodigoEvaluacion;
                 do {
                     nuevoCodigoEvaluacion = Utilitarios.incrementarSecuencia(ultimoCodigoEvaluacion);
-                } while (codigosGenerados.contains(nuevoCodigoEvaluacion)); // Evita duplicados
+                } while (codigosGenerados.contains(nuevoCodigoEvaluacion));
                 codigosGenerados.add(nuevoCodigoEvaluacion);
                 ultimoCodigoEvaluacion = nuevoCodigoEvaluacion;
 
                 Estudiante estudiante = estudianteRepository.findById(codigoEstudiante)
-                        .orElseThrow(() -> new ResourceNotFoundException(
-                                "El estudiante con código " + codigoEstudiante + " no existe"
-                        ));
+                        .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ESTUDIANTE_NO_ENCONTRADO));
 
                 Profesor profesor = profesorRepository.findById(codigoProfesor)
-                        .orElseThrow(() -> new ResourceNotFoundException(
-                                "El estudiante con código " + codigoProfesor + " no existe"
-                        ));
+                        .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.PROFESOR_NO_ENCONTRADO));
+
                 Equipo equipoExistente = equipoRepository.findById(equipoDev.getCodigo())
-                        .orElseThrow(() -> new ResourceNotFoundException(
-                                "El estudiante con código " + codigoProfesor + " no existe"
-                        ));
+                        .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPO_NO_ENCONTRADO));
 
                 Evaluacion evaluacion = Evaluacion.builder()
                         .codigo(ultimoCodigoEvaluacion)
@@ -209,18 +205,13 @@ public class EquipoServiceImpl implements EquipoService {
             } else {
 
                 Estudiante estudiante = estudianteRepository.findById(codigoEstudiante)
-                        .orElseThrow(() -> new ResourceNotFoundException(
-                                "El estudiante con código " + codigoEstudiante + " no existe"
-                        ));
+                        .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ESTUDIANTE_NO_ENCONTRADO));
+
                 Profesor profesor = profesorRepository.findById(codigoProfesor)
-                        .orElseThrow(() -> new ResourceNotFoundException(
-                                "El estudiante con código " + codigoProfesor + " no existe"
-                        ));
+                        .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.PROFESOR_NO_ENCONTRADO));
 
                 Equipo equipoExistente = equipoRepository.findById(equipoDev.getCodigo())
-                        .orElseThrow(() -> new ResourceNotFoundException(
-                                "El estudiante con código " + codigoProfesor + " no existe"
-                        ));
+                        .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPO_NO_ENCONTRADO));
 
                 ultimoCodigoEquipoDev = Utilitarios.incrementarSecuencia(ultimoCodigoEquipoDev);
                 EquipoDev equipoDev1 = EquipoDev.builder()
@@ -248,21 +239,17 @@ public class EquipoServiceImpl implements EquipoService {
         for (AsignacionEstudianteRequest asignacionEstudiante : asignacionEstudiantes) {
 
             EquipoDev equipoExistente = equipoDevRepository.findById(asignacionEstudiante.getCodigo())
-                    .orElseThrow(() -> new ResourceNotFoundException(
-                            "El equipoDev con código " + asignacionEstudiante.getCodigo() + " no existe"
-                    ));
+                    .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPODEV_NO_ENCONTRADO));
+
             Equipo equipo = equipoRepository.findById(asignacionEstudiante.getEquipo())
-                    .orElseThrow(() -> new ResourceNotFoundException("El equipo con código " + asignacionEstudiante.getEquipo() + " no existe"));
+                    .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPODEV_NO_ENCONTRADO));
 
             Estudiante estudiante = estudianteRepository.findById(asignacionEstudiante.getEstudiante())
-                    .orElseThrow(() -> new ResourceNotFoundException(
-                            "El estudiante con código " + asignacionEstudiante.getEstudiante() + " no existe"
-                    ));
+                    .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ESTUDIANTE_NO_ENCONTRADO));
 
             Profesor profesor = profesorRepository.findById(asignacionEstudiante.getProfesor())
-                    .orElseThrow(() -> new ResourceNotFoundException(
-                            "El estudiante con código " + asignacionEstudiante.getProfesor() + " no existe"
-                    ));
+                    .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.PROFESOR_NO_ENCONTRADO));
+
             equipoExistente.setCodigo(asignacionEstudiante.getCodigo());
             equipoExistente.setNumeroCamiseta(asignacionEstudiante.getNumeroCamiseta());
             equipoExistente.setPosicion(asignacionEstudiante.getPosicion());

@@ -17,13 +17,14 @@ public class MenuServiceImpl implements MenuService {
 
     private final MenuRepository menuRepository;
     private final RolService rolService;
-@Override
+
+    @Override
     public List<Menu> listar() {
         return menuRepository.findAll();
     }
-@Override
+
+    @Override
     public List<Menu> obtenerMenusPorRol(Optional<Rol> rol) {
-        // Llamamos al repositorio para obtener los menús asociados con el rol
         return menuRepository.findByRol(rol);
     }
 

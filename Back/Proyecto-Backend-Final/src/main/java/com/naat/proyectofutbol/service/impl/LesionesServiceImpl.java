@@ -1,5 +1,6 @@
 package com.naat.proyectofutbol.service.impl;
 
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.dto.DetalleLesionRequest;
 import com.naat.proyectofutbol.dto.request.LesionesRequest;
 import com.naat.proyectofutbol.exception.ResourceNotFoundException;
@@ -52,11 +53,7 @@ public class LesionesServiceImpl implements LesionesService {
         desactivar(dto.getEquipo());
 
         Estudiante estudiante = estudianteRepository.findById(dto.getEstudiante())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Estudiante no encontrado: " + dto.getEstudiante()
-                        )
-                );
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ESTUDIANTE_NO_ENCONTRADO));
 
         Lesiones lesiones = Lesiones.builder()
                 .codigo(nuevoCodigo)
@@ -86,11 +83,7 @@ public class LesionesServiceImpl implements LesionesService {
         String nuevoCodigo = Utilitarios.incrementarSecuencia(ultimoCodigo);
 
         Lesiones lesiones = lesionesRepository.findById(dto.getLesiones())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Lesión no encontrada: " + dto.getLesiones()
-                        )
-                );
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.LESION_NO_ENCONTRADO));
 
         LesionesDev lesionesDev = LesionesDev.builder()
                 .codigo(nuevoCodigo)
@@ -110,7 +103,7 @@ public class LesionesServiceImpl implements LesionesService {
     public EquipoDev desactivar(String equipoCodigo) {
 
         EquipoDev equipo = equipoDevRepository.findById(equipoCodigo)
-                .orElseThrow(() -> new ResourceNotFoundException("Equipo no encontrado con el código: " + equipoCodigo));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPODEV_NO_ENCONTRADO));
         equipo.setEstado(false);
         return equipoDevRepository.save(equipo);
     }

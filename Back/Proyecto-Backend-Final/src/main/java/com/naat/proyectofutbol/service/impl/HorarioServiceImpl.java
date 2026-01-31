@@ -1,6 +1,9 @@
 package com.naat.proyectofutbol.service.impl;
 
+import com.naat.proyectofutbol.constants.AlreadyExistsMessages;
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.exception.ResourceAlreadyExistsException;
+import com.naat.proyectofutbol.exception.ResourceNotFoundException;
 import com.naat.proyectofutbol.model.Horario;
 import com.naat.proyectofutbol.repository.HorarioRepository;
 import com.naat.proyectofutbol.service.HorarioService;
@@ -63,9 +66,7 @@ public class HorarioServiceImpl implements HorarioService {
 
     private void validarHorarioUnico(LocalTime inicio, LocalTime fin) {
         if (horarioRepository.existsByInicioHoraAndFinHora(inicio, fin)) {
-            throw new ResourceAlreadyExistsException(
-                    "El rango de horario ya existe: " + inicio + " - " + fin
-            );
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.HORARIO_YA_EXISTE);
         }
     }
 
@@ -78,7 +79,7 @@ public class HorarioServiceImpl implements HorarioService {
     public Horario actualizarHorario(Horario horario) {
         Horario horarioExistente = horarioRepository.findById(horario.getCodigo())
                 .orElseThrow(() ->
-                        new RuntimeException("El horario con código " + horario.getCodigo() + " no existe")
+                        new ResourceNotFoundException(NotFoundMessages.HORARIO_NO_ENCONTRADO)
                 );
 
 
@@ -87,10 +88,7 @@ public class HorarioServiceImpl implements HorarioService {
                         !horarioExistente.getFinHora().equals(horario.getFinHora());
 
         if (cambioHorario && verificarExistenciaHorario(horario.getInicioHora(), horario.getFinHora())) {
-            throw new IllegalArgumentException(
-                    "El rango de horario ya existe: "
-                            + horario.getInicioHora() + " - " + horario.getFinHora()
-            );
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.HORARIO_YA_EXISTE);
         }
 
         horarioExistente.setInicioHora(horario.getInicioHora());

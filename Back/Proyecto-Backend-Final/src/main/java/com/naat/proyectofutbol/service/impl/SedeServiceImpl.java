@@ -1,5 +1,6 @@
 package com.naat.proyectofutbol.service.impl;
 
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.exception.ResourceAlreadyExistsException;
 import com.naat.proyectofutbol.exception.ResourceNotFoundException;
 import com.naat.proyectofutbol.model.Sede;
@@ -82,13 +83,13 @@ public class SedeServiceImpl implements SedeService {
     @Override
     public Sede BuscarNombre(String nombre) {
         return sedeRepository.findByNombre(nombre)
-                .orElseThrow(() -> new ResourceNotFoundException("Sede no encontrada con código: " + nombre));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));
     }
 
     @Override
     public Sede buscarPorCodigo(String codigo) {
         return sedeRepository.findById(codigo)
-                .orElseThrow(() -> new ResourceNotFoundException("Sede no encontrada con código: " + codigo));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));
     }
 
     @Override
@@ -108,7 +109,7 @@ public class SedeServiceImpl implements SedeService {
     private void validarTelefono(String telefono) {
         sedeRepository.findByTelefono(telefono)
                 .ifPresent(s -> {
-                    throw new ResourceAlreadyExistsException("El teléfono ya existe: " + telefono);
+                    throw new ResourceAlreadyExistsException(NotFoundMessages.SEDE_NO_ENCONTRADO);
                 });
     }
 

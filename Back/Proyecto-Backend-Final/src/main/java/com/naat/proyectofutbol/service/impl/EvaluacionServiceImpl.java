@@ -1,5 +1,6 @@
 package com.naat.proyectofutbol.service.impl;
 
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.dto.request.EvaluacionDevRequest;
 import com.naat.proyectofutbol.exception.ResourceNotFoundException;
 import com.naat.proyectofutbol.model.Evaluacion;
@@ -44,10 +45,10 @@ public class EvaluacionServiceImpl implements EvaluacionService {
         List<EvaluacionDev> evaluacionRegistro = new ArrayList<>();
 
         for (EvaluacionDevRequest evaluacionDevDTO : evaluacionDevDTOS) {
+
             EvaluacionDev evaluacionExistente = evaluacionDevRepository.findById(evaluacionDevDTO.getCodigo())
-                    .orElseThrow(() -> new ResourceNotFoundException(
-                            "La evaluación con código " + evaluacionDevDTO.getCodigo() + " no existe"
-                    ));
+                    .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EVALUACIONDEV_NO_ENCONTRADO));
+
             double total =
                     evaluacionDevDTO.getPases() +
                             evaluacionDevDTO.getTiros() +
@@ -63,7 +64,7 @@ public class EvaluacionServiceImpl implements EvaluacionService {
 
             Evaluacion evaluacion = evaluacionRepository.findById(evaluacionDevDTO.getEvaluacion())
                     .orElseThrow(() -> new ResourceNotFoundException(
-                            "La evaluación con código " + evaluacionDevDTO.getEvaluacion() + " no existe"
+                            NotFoundMessages.EVALUACION_NO_ENCONTRADO
                     ));
 
             evaluacionExistente.setEvaluacion(evaluacion);

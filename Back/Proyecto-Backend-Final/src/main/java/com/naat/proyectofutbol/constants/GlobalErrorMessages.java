@@ -8,7 +8,6 @@ public class GlobalErrorMessages {
     public static final String PROHIBIDO = "PROHIBIDO";
     public static final String NO_ENCONTRADO = "NO ENCONTRADO";
     public static final String CONFLICTO = "CONFLICTO";
-    public static final String ERROR_API_GOOGLE = "ERROR DE COMUNICACIÓN CON GOOGLE";
     public static final String ERROR_PROCESO = "ERROR EN EL PROCESO DE EJECUCIÓN";
     public static final String SECUENCIA_INVALIDA = "LA PARTE NUMÉRICA DE LA SECUENCIA NO ES VÁLIDA.";
     public static final String LIMITE_ROLES_SUPERADO = "SE HA ALCANZADO EL LÍMITE MÁXIMO DE 3 PERMITIDOS.";
@@ -20,5 +19,5 @@ public class GlobalErrorMessages {
     public static final String TOKEN_NO_ENCONTRADO = "TOKEN_NO_ENCONTRADO";
     public static final String PASSWORD_NO_COINCIDE = "LAS CONTRASEÑAS NO COINCIDEN";
     public static final String PASSWORD_IGUAL_ANTERIOR = "LA NUEVA CONTRASEÑA NO PUEDE SER IGUAL A LA ACTUAL";
-
+    public static final String IMAGEN_ERROR = "ERROR AL PROCESAR LA IMAGEN";
 }

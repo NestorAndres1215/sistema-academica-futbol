@@ -1,5 +1,6 @@
 package com.naat.proyectofutbol.service.impl;
 
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.exception.ResourceNotFoundException;
 import com.naat.proyectofutbol.model.Rol;
 import com.naat.proyectofutbol.repository.RolRepository;
@@ -24,7 +25,7 @@ public class RolServiceImpl implements RolService {
 
     @Override
     public Rol findByRol(String nombre) {
-        return rolRepository.findByRol(nombre).orElseThrow(() -> new ResourceNotFoundException("Rol no encontrado:  ADMINISTRADOR"));
+        return rolRepository.findByRol(nombre).orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ROL_NO_ENCONTRADO));
     }
 
     @Override
@@ -38,7 +39,7 @@ public class RolServiceImpl implements RolService {
     public Rol actualizarRol(String codigo, Rol rol) {
 
         Rol rolDB = rolRepository.findById(codigo)
-                .orElseThrow(() -> new RuntimeException("Rol no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ROL_NO_ENCONTRADO));
 
         rolDB.setRol(rol.getRol());
         rolDB.setFechaActualizacion(LocalDate.now());

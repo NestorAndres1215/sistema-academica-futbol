@@ -1,6 +1,9 @@
 package com.naat.proyectofutbol.service.impl;
 
+import com.naat.proyectofutbol.constants.AlreadyExistsMessages;
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.dto.request.GeneralDevRequest;
+import com.naat.proyectofutbol.exception.ResourceAlreadyExistsException;
 import com.naat.proyectofutbol.exception.ResourceNotFoundException;
 import com.naat.proyectofutbol.model.General;
 import com.naat.proyectofutbol.model.GeneralDev;
@@ -37,7 +40,7 @@ public class GeneralServiceImpl implements GeneralService {
     public General guardarGeneral(General general) {
 
         if (existsByDescripcion(general.getDescripcion1())) {
-            throw new IllegalArgumentException("DESCRIPCION YA EXISTE");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.DESCRIPCION_YA_EXISTE);
         }
 
         String ultimoCodigo = obtenerUltimoCodigo();
@@ -58,10 +61,10 @@ public class GeneralServiceImpl implements GeneralService {
     public General actualizarGeneral(General general) {
 
         General generalExistente = generalRepository.findById(general.getCodigo())
-                .orElseThrow(() -> new ResourceNotFoundException("La entidad con código " + general.getCodigo() + " no existe."));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.GENERAL_NO_ENCONTRADO));
 
         if (!general.getDescripcion1().equals(generalExistente.getDescripcion1()) && existsByDescripcion(general.getDescripcion1())) {
-            throw new IllegalArgumentException("La descripción ya existe: " + general.getDescripcion1());
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.DESCRIPCION_YA_EXISTE);
         }
         generalExistente.setDescripcion1(general.getDescripcion1());
         generalExistente.setEstado(true);
@@ -82,13 +85,12 @@ public class GeneralServiceImpl implements GeneralService {
     }
 
 
-
     @Override
-    public List<GeneralDev> cambiarListaGen(String generalCodigo,boolean estado) {
+    public List<GeneralDev> cambiarListaGen(String generalCodigo, boolean estado) {
         List<GeneralDev> generales = generalDevRepository.findByGeneralCodigo(generalCodigo);
 
         if (generales.isEmpty()) {
-            throw new ResourceNotFoundException("No se encontraron registros con el código: " + generalCodigo);
+            throw new ResourceNotFoundException(NotFoundMessages.GENERAL_NO_ENCONTRADO);
         }
 
         generales.forEach(g -> g.setEstado(estado));
@@ -99,7 +101,7 @@ public class GeneralServiceImpl implements GeneralService {
     @Override
     public GeneralDev cambiarEstadoGen(String generalCodigo, boolean estado) {
         GeneralDev general = generalDevRepository.findById(generalCodigo)
-                .orElseThrow(() -> new ResourceNotFoundException("No encontrada con el código: " + generalCodigo));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.GENERAL_NO_ENCONTRADO));
 
         general.setEstado(estado);
 
@@ -112,9 +114,7 @@ public class GeneralServiceImpl implements GeneralService {
         List<General> generales = generalRepository.findByCodigo(generalCodigo);
 
         if (generales.isEmpty()) {
-            throw new ResourceNotFoundException(
-                    "No se encontraron registros con el código: " + generalCodigo
-            );
+            throw new ResourceNotFoundException(NotFoundMessages.GENERAL_NO_ENCONTRADO);
         }
 
         generales.forEach(g -> g.setEstado(estado));
@@ -131,9 +131,7 @@ public class GeneralServiceImpl implements GeneralService {
     public GeneralDev guardarGeneralDev(GeneralDevRequest generalDTO) {
 
         General general = generalRepository.findById(generalDTO.getGeneral())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "La sede con el código " + generalDTO.getGeneral() + " no existe."
-                ));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.GENERAL_NO_ENCONTRADO));
 
         validarGeneralDev(generalDTO);
 
@@ -158,9 +156,8 @@ public class GeneralServiceImpl implements GeneralService {
     public GeneralDev actualizarGeneralDev(GeneralDevRequest generalDTO) {
 
         GeneralDev generalExist = generalDevRepository.findById(generalDTO.getCodigo())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "El registro con el código " + generalDTO.getCodigo() + " no existe."
-                ));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.GENERAL_NO_ENCONTRADO));
+
         validarGeneralDevActualizar(generalDTO, generalExist);
 
 
@@ -177,26 +174,24 @@ public class GeneralServiceImpl implements GeneralService {
     private void validarGeneralDev(GeneralDevRequest generalDTO) {
 
         if (existsByDescripcion(generalDTO.getDescripcionPrimero())) {
-            throw new IllegalArgumentException("DESCRIPCIÓN YA EXISTE");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.DESCRIPCION_YA_EXISTE);
         }
 
         if (existsByClave(generalDTO.getClave())) {
-            throw new IllegalArgumentException("CLAVE YA EXISTE");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.CLAVE_YA_EXISTE);
         }
     }
+
     private void validarGeneralDevActualizar(GeneralDevRequest generalDTO, GeneralDev generalExist) {
 
-        if (!generalExist.getDescripcion1().equals(generalDTO.getDescripcionPrimero())
-                && existsByDescripcion(generalDTO.getDescripcionPrimero())) {
-            throw new IllegalArgumentException("DESCRIPCIÓN YA EXISTE");
+        if (!generalExist.getDescripcion1().equals(generalDTO.getDescripcionPrimero()) && existsByDescripcion(generalDTO.getDescripcionPrimero())) {
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.DESCRIPCION_YA_EXISTE);
         }
 
-        if (!generalExist.getClave().equals(generalDTO.getClave())
-                && existsByClave(generalDTO.getClave())) { // <-- usar existsByClave correcto
-            throw new IllegalArgumentException("CLAVE YA EXISTE");
+        if (!generalExist.getClave().equals(generalDTO.getClave()) && existsByClave(generalDTO.getClave())) {
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.CLAVE_YA_EXISTE);
         }
     }
-
 
 
     public String obtenerUltimoCodigo() {
@@ -211,7 +206,6 @@ public class GeneralServiceImpl implements GeneralService {
     public boolean existsByDescripcion(String Descripcion) {
         return generalRepository.existsByDescripcion1(Descripcion);
     }
-
 
 
 }

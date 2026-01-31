@@ -1,5 +1,6 @@
 package com.naat.proyectofutbol.security;
 
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.exception.ResourceNotFoundException;
 import com.naat.proyectofutbol.model.Login;
 import com.naat.proyectofutbol.model.Usuario;
@@ -24,10 +25,10 @@ public class AuthoryConfigService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         Login login = Optional.ofNullable(loginRepository.findByUsername(username))
-                .orElseThrow(() -> new UsernameNotFoundException("Login no encontrado: " + username));
+                .orElseThrow(() -> new UsernameNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
 
         if (!login.isEstado()) {
-            throw new UsernameNotFoundException("Login inactivo: " + username);
+            throw new UsernameNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO);
         }
 
         return login;

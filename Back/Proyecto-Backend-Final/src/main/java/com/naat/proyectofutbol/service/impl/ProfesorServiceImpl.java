@@ -1,6 +1,9 @@
 package com.naat.proyectofutbol.service.impl;
 
 
+import com.naat.proyectofutbol.constants.AlreadyExistsMessages;
+import com.naat.proyectofutbol.constants.GlobalErrorMessages;
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.dto.request.ProfesorRequest;
 import com.naat.proyectofutbol.exception.BadRequestException;
 import com.naat.proyectofutbol.exception.ResourceAlreadyExistsException;
@@ -106,13 +109,13 @@ public class ProfesorServiceImpl implements ProfesorService {
         usuarioService.registrar(nuevoCodigoUsuario, profesorDTO.getUsername(), profesorDTO.getPassword(), "0002");
         loginService.registrar(nuevoCodigoUsuario, profesorDTO.getUsername(), profesorDTO.getPassword(), "PROFESOR");
         Sede sede = sedeRepository.findById(profesorDTO.getSede())
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + profesorDTO.getSede()));
+                .orElseThrow(() -> new ResourceNotFoundException(   NotFoundMessages.SEDE_NO_ENCONTRADO));
 
         Cargo cargo = cargoRepository.findById(profesorDTO.getCargo())
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + profesorDTO.getCargo()));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.CARGO_NO_ENCONTRADO));
 
         Usuario usuario = usuarioRepository.findById(nuevoCodigoUsuario)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + nuevoCodigoUsuario));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
 
         Profesor profesor = Profesor.builder()
                 .codigo(nuevoCodigoProfesor)
@@ -145,28 +148,23 @@ public class ProfesorServiceImpl implements ProfesorService {
     public Profesor actualizarProfesor(ProfesorRequest profesorDTO) {
 
         Profesor profesor = profesorRepository.findById(profesorDTO.getCodigoProfesor())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("El estudiante con código " + profesorDTO.getCodigoProfesor() + " no existe")
-                );
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.PROFESOR_NO_ENCONTRADO));
+
         DocumentoValidator.validarDocumento(profesorDTO.getTipoDoc(), profesorDTO.getNacionalidad(), profesorDTO.getDni());
         validarActualizacionProfesor(profesor, profesorDTO.getTelefono(), profesorDTO.getCorreo(), profesorDTO.getUsername(), profesorDTO.getDni());
 
 
         Sede sede = sedeRepository.findById(profesorDTO.getSede())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("La sede con código " + profesorDTO.getSede() + " no existe")
-                );
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));
+
         Cargo cargo = cargoRepository.findById(profesorDTO.getCargo())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("La sede con código " + profesorDTO.getCargo() + " no existe")
-                );
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.CARGO_NO_ENCONTRADO));
+
         usuarioService.actualizar(profesorDTO.getCodigoUsuario(), profesorDTO.getUsername(), profesorDTO.getPassword(), "0003");
         loginService.actualizar(profesorDTO.getCodigoUsuario(), profesorDTO.getUsername(), profesorDTO.getPassword(), "PROFESOR");
 
         Usuario usuario = usuarioRepository.findById(profesorDTO.getCodigoUsuario())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Usuario no encontrado: " + profesorDTO.getCodigoUsuario())
-                );
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
 
         profesor.setPrimerNombre(profesorDTO.getPrimerNombre());
         profesor.setSegundoNombre(profesorDTO.getSegundoNombre());
@@ -219,10 +217,11 @@ public class ProfesorServiceImpl implements ProfesorService {
             DocumentoValidator.validarDocumento(profesorDTO.getTipoDoc(), profesorDTO.getNacionalidad(), profesorDTO.getDni());
 
             Sede sede = sedeRepository.findById(profesorDTO.getSede())
-                    .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + profesorDTO.getSede()));
+                    .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));
 
             Cargo cargo = cargoRepository.findById(profesorDTO.getCargo())
-                    .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + profesorDTO.getCargo()));
+                    .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.CARGO_NO_ENCONTRADO));
+
             String ultimoCodigo = obtenerUltimoCodigoProfesor();
             String nuevoCodigoProfesor = Utilitarios.incrementarSecuencia(ultimoCodigo);
             String ultimoCodigoUsuario = ObtenerUltimoCodigoUsuario();
@@ -233,7 +232,7 @@ public class ProfesorServiceImpl implements ProfesorService {
 
 
             Usuario usuario = usuarioRepository.findById(nuevoCodigoUsuario)
-                    .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + nuevoCodigoUsuario));
+                    .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
 
 
             Profesor profesor = Profesor.builder()
@@ -269,20 +268,18 @@ public class ProfesorServiceImpl implements ProfesorService {
     public Profesor actualizarImagen(String codigoUsuario, String codigoProfesor, String username, String primerNombre, String segundoNombre, String apellidoPaterno, String apellidoMaterno, String telefono, String email, String direccion, MultipartFile archivo) {
 
         Profesor profesor = profesorRepository.findById(codigoProfesor)
-                .orElseThrow(() -> new ResourceNotFoundException("El estudiante con código " + codigoProfesor + " no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.PROFESOR_NO_ENCONTRADO));
 
         validarActualizacionProfesor(profesor, telefono, email, username, "");
 
         Usuario usuario = usuarioRepository.findById(codigoUsuario)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + codigoUsuario));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
+
         Sede sede = sedeRepository.findById(profesor.getSede().getCodigo())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("La sede con código " + profesor.getSede().getCodigo() + " no existe")
-                );
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));
+
         Cargo cargo = cargoRepository.findById(profesor.getCargo().getCodigo())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("La sede con código " + profesor.getCargo().getCodigo() + " no existe")
-                );
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.CARGO_NO_ENCONTRADO));
         profesor.setPrimerNombre(primerNombre);
         profesor.setSegundoNombre(segundoNombre);
         profesor.setApellidoPaterno(apellidoPaterno);
@@ -296,60 +293,60 @@ public class ProfesorServiceImpl implements ProfesorService {
         profesor.setHoraActualizacion(LocalTime.now());
         profesor.setUsuario(usuario);
 
-        // 🖼️ Imagen
         if (archivo != null && !archivo.isEmpty()) {
             try {
                 profesor.setPerfil(archivo.getBytes());
             } catch (IOException e) {
-                throw new BadRequestException("Error al procesar la imagen del profesor");
+                throw new BadRequestException(GlobalErrorMessages.IMAGEN_ERROR);
             }
         }
         return profesorRepository.save(profesor);
     }
 
     private void validarActualizacionProfesor(Profesor profesor, String telefono, String correo, String username, String dni) {
-
         if (!profesor.getTelefono().equals(telefono)
                 && ExistePorTelefono(telefono)) {
-            throw new ResourceAlreadyExistsException("El teléfono ya existe");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.TELEFONO_YA_EXISTE);
         }
 
         if (!profesor.getDni().equals(dni)
                 && ExistePorDNI(dni)) {
-            throw new ResourceAlreadyExistsException("El DNI ya existe");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.DNI_YA_EXISTE);
         }
 
         if (!profesor.getCorreo().equals(correo)
                 && ExistePorEmail(correo)) {
-            throw new ResourceAlreadyExistsException("El correo ya existe");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.CORREO_YA_EXISTE);
         }
 
         String usernameActual = profesor.getUsuario().getUsername();
 
         if (!usernameActual.equals(username)
                 && usuarioService.usuarioExistePorUsername(username)) {
-            throw new ResourceAlreadyExistsException("El usuario ya existe");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.USUARIO_YA_EXISTE);
         }
+
     }
 
     private void validarProfesor(ProfesorRequest profesorDTO) {
 
         if (usuarioService.usuarioExistePorUsername(profesorDTO.getUsername())) {
-            throw new ResourceAlreadyExistsException("USUARIO YA EXISTE");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.USUARIO_YA_EXISTE);
         }
 
         if (ExistePorEmail(profesorDTO.getCorreo())) {
-            throw new ResourceAlreadyExistsException("CORREO YA EXISTE");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.CORREO_YA_EXISTE);
         }
 
         if (ExistePorDNI(profesorDTO.getDni())) {
-            throw new ResourceAlreadyExistsException("DNI YA EXISTE");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.DNI_YA_EXISTE);
         }
 
         if (ExistePorTelefono(profesorDTO.getTelefono())) {
-            throw new ResourceAlreadyExistsException("TELEFONO YA EXISTE");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.TELEFONO_YA_EXISTE);
         }
     }
+
 
     public boolean ExistePorEmail(String email) {
         return profesorRepository.existsByCorreo(email);

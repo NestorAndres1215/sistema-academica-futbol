@@ -1,6 +1,9 @@
 package com.naat.proyectofutbol.service.impl;
 
+import com.naat.proyectofutbol.constants.AlreadyExistsMessages;
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.dto.request.HistorialRequest;
+import com.naat.proyectofutbol.exception.ResourceAlreadyExistsException;
 import com.naat.proyectofutbol.exception.ResourceNotFoundException;
 import com.naat.proyectofutbol.model.Historial;
 import com.naat.proyectofutbol.model.Usuario;
@@ -27,12 +30,12 @@ public class HistorialServiceImpl implements HistorialService {
     public Historial guardar(HistorialRequest historialDTO) {
         String ultimoCodigo = UltimoCodigo();
         String nuevoCodigo = Utilitarios.incrementarSecuencia(ultimoCodigo);
+
         Usuario usuario = usuarioRepository.findByUsername(historialDTO.getUsuario())
                 .stream()
                 .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Usuario no encontrado: " + historialDTO.getUsuario()
-                ));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
+
         Historial historial = Historial.builder()
                 .codigo(nuevoCodigo)
                 .detalle(historialDTO.getDetalle())

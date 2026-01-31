@@ -1,5 +1,7 @@
 package com.naat.proyectofutbol.service.impl;
 
+import com.naat.proyectofutbol.constants.AlreadyExistsMessages;
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.dto.request.PartidoRequest;
 import com.naat.proyectofutbol.exception.ResourceAlreadyExistsException;
 import com.naat.proyectofutbol.exception.ResourceNotFoundException;
@@ -49,17 +51,11 @@ public class PartidoServiceImpl implements PartidoService {
         String nuevoCodigo = Utilitarios.incrementarSecuencia(ultimoCodigo);
 
         if (validar(partidoDTO.getFecha(), partidoDTO.getHora(), partidoDTO.getEquipo())) {
-            throw new ResourceAlreadyExistsException(
-                    "Ya existe un partido registrado con la misma fecha, hora y equipo"
-            );
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.HORARIO_YA_EXISTE);
         }
 
         Equipo equipo = equipoRepository.findById(partidoDTO.getEquipo())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Equipo no encontrado con código " + partidoDTO.getEquipo()
-                        )
-                );
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPO_NO_ENCONTRADO));
 
         Partido partido = Partido.builder()
                 .codigo(nuevoCodigo)
@@ -87,17 +83,10 @@ public class PartidoServiceImpl implements PartidoService {
     public Partido actualizarPartido(PartidoRequest dto) {
 
         Partido partido = partidoRepository.findById(dto.getCodigo())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "El partido con código " + dto.getCodigo() + " no existe"
-                        )
-                );
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.PARTIDO_NO_ENCONTRADO));
+
         Equipo equipo = equipoRepository.findById(dto.getEquipo())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Equipo no encontrado con código " + dto.getEquipo()
-                        )
-                );
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPO_NO_ENCONTRADO));
 
         partido.setEquipoRival(dto.getEquipoRival());
         partido.setDerrota(dto.getDerrota());
@@ -122,18 +111,11 @@ public class PartidoServiceImpl implements PartidoService {
     public Partido actualizarPartidoSegundo(PartidoRequest dto) {
 
         Partido partido = partidoRepository.findById(dto.getCodigo())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "El partido con código " + dto.getCodigo() + " no existe"
-                        )
-                );
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.PARTIDO_NO_ENCONTRADO));
 
         Equipo equipo = equipoRepository.findById(dto.getEquipo())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException(
-                                "Equipo no encontrado con código " + dto.getEquipo()
-                        )
-                );
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPO_NO_ENCONTRADO));
+
         partido.setEquipoRival(dto.getEquipoRival());
         partido.setDerrota(dto.getDerrota());
         partido.setVictoria(dto.getVictoria());
@@ -160,8 +142,7 @@ public class PartidoServiceImpl implements PartidoService {
         LocalDateTime ahora = LocalDateTime.now();
 
         for (Partido partido : partidos) {
-            LocalDateTime fechaHoraPartido =
-                    LocalDateTime.of(partido.getFecha(), partido.getHora());
+            LocalDateTime fechaHoraPartido = LocalDateTime.of(partido.getFecha(), partido.getHora());
 
             if (fechaHoraPartido.isBefore(ahora)) {
                 partido.setEstado(false);
@@ -174,9 +155,7 @@ public class PartidoServiceImpl implements PartidoService {
     public boolean validar(LocalDate fecha, LocalTime hora, String codigoEquipo) {
 
         Equipo equipo = equipoRepository.findById(codigoEquipo)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Equipo no encontrado")
-                );
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPO_NO_ENCONTRADO));
 
         return partidoRepository.existsByFechaAndHoraAndEquipo(fecha, hora, equipo);
     }

@@ -1,6 +1,6 @@
 package com.naat.proyectofutbol.util;
 
-import com.naat.proyectofutbol.dto.request.EstudianteRequest;
+import com.naat.proyectofutbol.exception.BadRequestException;
 
 import java.util.Map;
 
@@ -78,17 +78,17 @@ public class DocumentoValidator {
 
 
         if (numeroDoc == null || numeroDoc.isBlank()) {
-            throw new IllegalArgumentException("El número de documento no puede estar vacío.");
+            throw new BadRequestException("El número de documento no puede estar vacío.");
         }
 
         switch (tipoDoc) {
             case "CE":
                 Integer ceLength = CE_LENGTH_BY_COUNTRY.get(pais);
                 if (ceLength == null) {
-                    throw new IllegalArgumentException("País no tiene validación configurada para CE.");
+                    throw new BadRequestException("País no tiene validación configurada para CE.");
                 }
                 if (numeroDoc.length() != ceLength) {
-                    throw new IllegalArgumentException(
+                    throw new BadRequestException(
                             "El Carné de Extranjería en " + pais + " debe tener " + ceLength + " dígitos."
                     );
                 }
@@ -97,10 +97,10 @@ public class DocumentoValidator {
             case "PS":
                 Integer psLength = PS_LENGTH_BY_COUNTRY.get(pais);
                 if (psLength == null) {
-                    throw new IllegalArgumentException("País no tiene validación configurada para Pasaporte.");
+                    throw new BadRequestException("País no tiene validación configurada para Pasaporte.");
                 }
                 if (numeroDoc.length() != psLength) {
-                    throw new IllegalArgumentException(
+                    throw new BadRequestException(
                             "El Pasaporte en " + pais + " debe tener " + psLength + " caracteres."
                     );
                 }
@@ -108,12 +108,12 @@ public class DocumentoValidator {
 
             case "DNI":
                 if (numeroDoc.length() != 8) {
-                    throw new IllegalArgumentException("El DNI debe tener 8 dígitos.");
+                    throw new BadRequestException("El DNI debe tener 8 dígitos.");
                 }
                 break;
 
             default:
-                throw new IllegalArgumentException("Tipo de documento no válido: " + tipoDoc);
+                throw new BadRequestException("Tipo de documento no válido: " + tipoDoc);
         }
     }
 }

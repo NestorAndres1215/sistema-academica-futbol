@@ -1,6 +1,9 @@
 package com.naat.proyectofutbol.service.impl;
 
 
+import com.naat.proyectofutbol.constants.GlobalErrorMessages;
+import com.naat.proyectofutbol.constants.NotFoundMessages;
+import com.naat.proyectofutbol.constants.Roles;
 import com.naat.proyectofutbol.dto.request.AdminRequest;
 import com.naat.proyectofutbol.exception.BadRequestException;
 import com.naat.proyectofutbol.exception.ResourceAlreadyExistsException;
@@ -62,11 +65,11 @@ public class AdminServiceImpl implements AdminService {
         String AdminCodigo = ObtenerUltimoCodigoAdmin();
         String nuevoCodigoAdmin = Utilitarios.incrementarSecuencia(AdminCodigo);
 
-        usuarioService.registrar(nuevoCodigo, admin.getUsername(), admin.getPassword(), "0001");
-        loginService.registrar(nuevoCodigo, admin.getUsername(), admin.getPassword(), "ADMINISTRADOR");
+        usuarioService.registrar(nuevoCodigo, admin.getUsername(), admin.getPassword(), Roles.CODIGO_ADMIN);
+        loginService.registrar(nuevoCodigo, admin.getUsername(), admin.getPassword(), Roles.ROLE_ADMIN);
 
         Usuario usuario = usuarioRepository.findById(nuevoCodigo)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + nuevoCodigo));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
 
         Admin administrador = Admin.builder()
                 .codigo(nuevoCodigoAdmin)
@@ -96,12 +99,12 @@ public class AdminServiceImpl implements AdminService {
 
         Admin administrador = adminRepository.findById(admin.getCodigoAdmin())
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("El Admin con codigo " + admin.getCodigoAdmin() + " no existe."));
+                        new ResourceNotFoundException(NotFoundMessages.ADMIN_NO_ENCONTRADO));
 
         validarActualizacion(administrador, administrador.getTelefono(), admin.getCorreo(), admin.getDni(), admin.getUsername());
 
-        usuarioService.actualizar(admin.getCodigoUsuario(), admin.getUsername(), admin.getPassword(), "0001");
-        loginService.actualizar(admin.getCodigoUsuario(), admin.getUsername(), admin.getPassword(), "ADMINISTRADOR");
+        usuarioService.actualizar(admin.getCodigoUsuario(), admin.getUsername(), admin.getPassword(), Roles.CODIGO_ADMIN);
+        loginService.actualizar(admin.getCodigoUsuario(), admin.getUsername(), admin.getPassword(), Roles.ROLE_ADMIN);
 
 
         administrador.setPrimerNombre(admin.getPrimerNombre());
@@ -121,8 +124,7 @@ public class AdminServiceImpl implements AdminService {
         if (admin.getCodigoUsuario() != null && (administrador.getUsuario() == null || !administrador.getUsuario().getCodigo().equals(admin.getCodigoUsuario()))) {
 
             Usuario usuario = usuarioRepository.findById(admin.getCodigoUsuario())
-                    .orElseThrow(() ->
-                            new ResourceNotFoundException("El usuario con código " + admin.getCodigoUsuario() + " no existe."));
+                    .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
 
             administrador.setUsuario(usuario);
         }
@@ -146,12 +148,12 @@ public class AdminServiceImpl implements AdminService {
 
         Admin admin = adminRepository.findById(codigoAdmin)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("El Admin con codigo " + codigoAdmin + " no existe."));
+                        new ResourceNotFoundException(NotFoundMessages.ADMIN_NO_ENCONTRADO));
 
 
         validarActualizacion(admin, telefono, email, dni, username);
-        usuarioService.actualizar(codigoUsuario, username, contra, "0001");
-        loginService.actualizar(codigoUsuario, username, contra, "ADMINISTRADOR");
+        usuarioService.actualizar(codigoUsuario, username, contra, Roles.CODIGO_ADMIN);
+        loginService.actualizar(codigoUsuario, username, contra, Roles.ROLE_ADMIN);
 
         admin.setPrimerNombre(primerNombre);
         admin.setSegundoNombre(segundoNombre);
@@ -170,7 +172,7 @@ public class AdminServiceImpl implements AdminService {
             try {
                 admin.setPerfil(archivo.getBytes());
             } catch (IOException e) {
-                throw new BadRequestException("Error al procesar la imagen");
+                throw new BadRequestException(GlobalErrorMessages.IMAGEN_ERROR);
             }
         }
 
@@ -224,24 +226,19 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Admin buscarPorCorreo(String correo) {
         return adminRepository.findByCorreo(correo)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Admin con correo " + correo + " no encontrado"
-                ));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ADMIN_NO_ENCONTRADO));
     }
 
     @Override
     public Admin buscarPorDni(String dni) {
         return adminRepository.findByDni(dni)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Admin con DNI " + dni + " no encontrado"
-                ));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ADMIN_NO_ENCONTRADO));
     }
 
     @Override
     public Admin buscarPorTelefono(String telefono) {
         return adminRepository.findByTelefono(telefono)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Admin con teléfono " + telefono + " no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ADMIN_NO_ENCONTRADO));
     }
 
 
@@ -259,7 +256,7 @@ public class AdminServiceImpl implements AdminService {
     public Admin desactivarUsuario(String usuarioCodigo) {
 
         Admin admin = adminRepository.findById(usuarioCodigo)
-                .orElseThrow(() -> new ResourceNotFoundException("Admin no encontrado con el código: " + usuarioCodigo));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ADMIN_NO_ENCONTRADO));
         usuarioService.desactivarUsuario(admin.getUsuario().getCodigo());
         admin.setEstado(false);
         return adminRepository.save(admin);
@@ -268,7 +265,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public Admin activarUsuario(String usuarioCodigo) {
         Admin admin = adminRepository.findById(usuarioCodigo)
-                .orElseThrow(() -> new ResourceNotFoundException("Admin no encontrado con el código: " + usuarioCodigo));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ADMIN_NO_ENCONTRADO));
 
         usuarioService.activar(admin.getUsuario().getCodigo());
         admin.setEstado(true);

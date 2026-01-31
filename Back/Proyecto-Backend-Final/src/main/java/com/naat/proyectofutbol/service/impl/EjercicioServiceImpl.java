@@ -2,6 +2,7 @@ package com.naat.proyectofutbol.service.impl;
 
 
 
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.dto.request.EjercicioRequest;
 import com.naat.proyectofutbol.exception.ResourceNotFoundException;
 import com.naat.proyectofutbol.model.ClaseDev;
@@ -39,7 +40,7 @@ public class EjercicioServiceImpl implements EjeciciosService {
         String nuevoCodigo = Utilitarios.incrementarSecuencia(obtenerCodigo());
 
         ClaseDev clase = claseDevRepository.findById(dto.getClase())
-                .orElseThrow(() -> new ResourceNotFoundException("La clase con código " + dto.getClase() + " no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.CLASEDEV_NO_ENCONTRADO));
 
         Ejercicio ejercicio = Ejercicio.builder()
                 .codigo(nuevoCodigo)
@@ -64,10 +65,10 @@ public class EjercicioServiceImpl implements EjeciciosService {
     public Ejercicio actualizar(EjercicioRequest dto) {
 
         Ejercicio ejercicio = ejercicioRepository.findById(dto.getCodigo())
-                .orElseThrow(() -> new ResourceNotFoundException("El Ejercicio con código " + dto.getCodigo() + " no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EJERCICIO_NO_ENCONTRADO));
 
         ClaseDev clase = claseDevRepository.findById(dto.getClase())
-                .orElseThrow(() -> new ResourceNotFoundException("La Clase con código " + dto.getClase() + " no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.CLASEDEV_NO_ENCONTRADO));
 
         ejercicio.setNombre(dto.getNombre());
         ejercicio.setDuracion(dto.getDuracion());

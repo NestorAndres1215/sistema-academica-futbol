@@ -1,5 +1,7 @@
 package com.naat.proyectofutbol.service.impl;
 
+import com.naat.proyectofutbol.constants.AlreadyExistsMessages;
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.dto.request.ClaseDevRequest;
 import com.naat.proyectofutbol.dto.request.ClaseRequest;
 import com.naat.proyectofutbol.exception.ResourceAlreadyExistsException;
@@ -48,9 +50,10 @@ public class ClaseServiceImpl implements ClaseService {
         String nuevoCodigo = Utilitarios.incrementarSecuencia(ultimoCodigo);
 
         Horario horario = horarioRepository.findById(claseDTO.getHorario())
-                .orElseThrow(() -> new ResourceNotFoundException("El horario con código " + claseDTO.getHorario() + " no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.HORARIO_NO_ENCONTRADO));
+
         Equipo equipo = equipoRepository.findById(claseDTO.getEquipo())
-                .orElseThrow(() -> new ResourceNotFoundException("El horario con código " + claseDTO.getEquipo() + " no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPO_NO_ENCONTRADO));
 
 
         Clase clase = Clase.builder()
@@ -76,10 +79,10 @@ public class ClaseServiceImpl implements ClaseService {
     public Clase actualizar(ClaseRequest claseDTO) {
 
         Clase claseExistente = claseRepository.findById(claseDTO.getCodigo())
-                .orElseThrow(() -> new ResourceNotFoundException("La clase con código " + claseDTO.getCodigo() + " no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.CLASE_NO_ENCONTRADO));
 
         Horario horario = horarioRepository.findById(claseDTO.getHorario())
-                .orElseThrow(() -> new ResourceNotFoundException("El horario con código " + claseDTO.getHorario() + " no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.HORARIO_NO_ENCONTRADO));
 
         boolean hayCambios = !claseDTO.getInicio().equals(claseExistente.getInicio()) || !claseDTO.getFin().equals(claseExistente.getFin())
                 || !horario.equals(claseExistente.getHorario())
@@ -87,7 +90,7 @@ public class ClaseServiceImpl implements ClaseService {
 
         if (hayCambios) {
             if (claseRepository.existsByInicioAndFinAndHorarioAndDia(claseDTO.getInicio(), claseDTO.getFin(), horario, claseDTO.getDia())) {
-                throw new ResourceAlreadyExistsException("Ya existe una clase con los mismos valores de inicio, fin, horario y día.");
+                throw new ResourceAlreadyExistsException(AlreadyExistsMessages.CLASE_YA_EXISTE);
             }
         }
         Clase claseActualizada = Clase.builder()
@@ -125,7 +128,8 @@ public class ClaseServiceImpl implements ClaseService {
         String nuevoCodigo = Utilitarios.incrementarSecuencia(ultimoCodigo);
 
         Clase clase = claseRepository.findById(claseDevDTO.getClase())
-                .orElseThrow(() -> new ResourceNotFoundException("La clase con código " + claseDevDTO.getClase() + " no existe"));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.CLASE_NO_ENCONTRADO));
+
         ClaseDev claseDev = ClaseDev.builder()
                 .codigo(nuevoCodigo)
                 .titulo(claseDevDTO.getTitulo())
@@ -146,14 +150,10 @@ public class ClaseServiceImpl implements ClaseService {
     public ClaseDev actualizardev(ClaseDevRequest claseDevDTO) {
 
         ClaseDev claseExistente = claseDevRepository.findById(claseDevDTO.getCodigo())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "La ClaseDev con código " + claseDevDTO.getCodigo() + " no existe"
-                ));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.CLASEDEV_NO_ENCONTRADO));
 
         Clase clase = claseRepository.findById(claseDevDTO.getClase())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "La Clase con código " + claseDevDTO.getClase() + " no existe"
-                ));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.CLASE_NO_ENCONTRADO));
 
         ClaseDev claseActualizada = ClaseDev.builder()
                 .codigo(claseExistente.getCodigo())
@@ -161,7 +161,7 @@ public class ClaseServiceImpl implements ClaseService {
                 .dia(claseDevDTO.getDia())
                 .objetivo(claseDevDTO.getObjetivo())
                 .descripcion(claseDevDTO.getDescripcion())
-                .clase(clase) // entidad correcta
+                .clase(clase)
                 .estado(true)
                 .usuarioCreacion(claseExistente.getUsuarioCreacion())
                 .usuarioActualizacion(claseDevDTO.getUsuarioActualizacion())

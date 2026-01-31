@@ -1,6 +1,7 @@
 package com.naat.proyectofutbol.service.impl;
 
 
+import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.exception.ResourceNotFoundException;
 import com.naat.proyectofutbol.model.Rol;
 import com.naat.proyectofutbol.model.Usuario;
@@ -34,11 +35,11 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Usuario actualizar(String codigo, String username, String contrasena,String roles)  {
 
         Usuario usuario = usuarioRepository.findById(codigo)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + codigo));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
 
         if (roles != null && (usuario.getRol() == null || !usuario.getRol().getCodigo().equals(roles))) {
             Rol rol = rolRepository.findByCodigo(roles)
-                    .orElseThrow(() -> new ResourceNotFoundException("Rol no encontrado: " + roles));
+                    .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ROL_NO_ENCONTRADO));
 
             usuario.setRol(rol);
         }
@@ -53,7 +54,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     public Usuario registrar(String codigo, String username, String contrasena,String roles) {
 
         Rol rol = rolRepository.findByCodigo(roles)
-                .orElseThrow(() -> new ResourceNotFoundException("Rol no encontrado: 0001"));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ROL_NO_ENCONTRADO));
 
         Usuario usuario = Usuario.builder()
                 .codigo(codigo)
@@ -76,13 +77,13 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public Usuario buscarUsername(String username) {
         return usuarioRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + username));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
     }
 
     @Override
     public Usuario obtenerUsuarioPorCodigo(String codigo) {
         return usuarioRepository.findById(codigo)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado: " + codigo));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
     }
 
     @Override
@@ -93,7 +94,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public Usuario desactivar(String codigo) {
         Usuario usuario = usuarioRepository.findById(codigo)
-                    .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con el código: " + codigo));
+                    .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
         usuario.setEstado(false);
         return usuarioRepository.save(usuario);
     }
@@ -101,7 +102,7 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public Usuario activar(String codigo) {
         Usuario usuario = usuarioRepository.findById(codigo)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con el código: " + codigo));
+                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
         usuario.setEstado(true);
         return usuarioRepository.save(usuario);
     }
