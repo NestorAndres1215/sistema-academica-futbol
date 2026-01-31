@@ -25,6 +25,15 @@ public class RolController {
         return ResponseEntity.ok(rolService.findByRol(nombre));
     }
 
+    @PostMapping("/registrar")
+    public ResponseEntity<Rol> crearRol(@RequestBody Rol rol) {
+        return ResponseEntity.ok(rolService.registrarRol(rol));
+    }
+
+    @PutMapping("/actualizar/{codigo}")
+    public ResponseEntity<Rol> actualizarRol(@PathVariable String codigo, @RequestBody Rol rol) {
+        return ResponseEntity.ok(rolService.actualizarRol(codigo, rol));
+    }
 
 
 }

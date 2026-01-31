@@ -14,7 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/lesiones")
@@ -30,7 +32,7 @@ public class LesionesController {
 
     @GetMapping("/listar/desactivado")
     public List<Lesiones> listarDesactivado() {
-        return lesionesService.listarActivos();
+        return lesionesService.listarInactivos();
     }
 
     @GetMapping("/listar/dev/activo")
@@ -46,5 +48,32 @@ public class LesionesController {
     @PostMapping("/dev/registrar")
     public ResponseEntity<LesionesDev>registrarDetalle(@Valid @RequestBody DetalleLesionRequest lesionesDTO) {
         return ResponseEntity.ok(lesionesService.registrarLesionesDev(lesionesDTO));
+    }
+
+    @GetMapping("/{codigo}")
+    public ResponseEntity<Optional<Lesiones>> buscarPorCodigo(@PathVariable String codigo) {
+        return ResponseEntity.ok(lesionesService.buscarPorCodigo(codigo));
+    }
+    @GetMapping("/gravedad/{gravedad}")
+    public ResponseEntity<List<Lesiones>> listarPorGravedad(@PathVariable String gravedad) {
+        return ResponseEntity.ok(lesionesService.listarPorGravedad(gravedad));
+    }
+
+    @GetMapping("/estudiante/{codigo}")
+    public ResponseEntity<List<Lesiones>> listarPorEstudiante(@PathVariable String codigo) {
+        return ResponseEntity.ok(lesionesService.listarPorEstudiante(codigo));
+    }
+
+    @GetMapping("/recuperacion/{fecha}")
+    public ResponseEntity<List<Lesiones>> listarPorFechaRecuperacion(@PathVariable String fecha) {
+        LocalDate fechaRec = LocalDate.parse(fecha);
+        return ResponseEntity.ok(lesionesService.listarPorFechaRecuperacion(fechaRec));
+    }
+
+    @GetMapping("/recuperacion/rango")
+    public ResponseEntity<List<Lesiones>> listarPorRangoRecuperacion(@RequestParam String inicio, @RequestParam String fin) {
+        LocalDate fechaInicio = LocalDate.parse(inicio);
+        LocalDate fechaFin = LocalDate.parse(fin);
+        return ResponseEntity.ok(lesionesService.listarPorRangoRecuperacion(fechaInicio, fechaFin));
     }
 }

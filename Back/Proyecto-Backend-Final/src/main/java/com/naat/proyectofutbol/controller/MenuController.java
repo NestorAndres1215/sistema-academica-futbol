@@ -43,15 +43,11 @@ public class MenuController {
 
             List<Menu> todosLosMenus = new ArrayList<>(menusRol1);
             todosLosMenus.addAll(menusRol2);
-
             if (todosLosMenus.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("No se encontraron menús para los roles con códigos: " + rolCodigo1 + " y " + rolCodigo2);
             }
-
             return ResponseEntity.ok(todosLosMenus);
-
-
     }
 
     @GetMapping("/menuPrimero")

@@ -28,18 +28,18 @@ public class CargoController {
     }
 
     @PostMapping("/guardar-cargo")
-    public ResponseEntity<?> guardarCargo(@RequestBody Cargo cargo) {
+    public ResponseEntity<Cargo> guardarCargo(@RequestBody Cargo cargo) {
         return ResponseEntity.ok(cargoService.guardarCargo(cargo));
     }
 
     @PutMapping("/actualizar-cargo")
-    public ResponseEntity<?> actualizarCargo(@RequestBody Cargo cargo) {
+    public ResponseEntity<Cargo> actualizarCargo(@RequestBody Cargo cargo) {
         return ResponseEntity.ok(cargoService.actualizarCargo(cargo));
     }
 
 
     @DeleteMapping("/desactivar/{codigo}")
-    public ResponseEntity<?> desactivarPorCodigo(@PathVariable String codigo) {
+    public ResponseEntity<Cargo> desactivarPorCodigo(@PathVariable String codigo) {
         return ResponseEntity.ok(cargoService.desactivarCargo(codigo));
     }
 

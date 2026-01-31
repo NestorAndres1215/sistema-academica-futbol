@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -106,6 +107,31 @@ public class LesionesServiceImpl implements LesionesService {
                 .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.EQUIPODEV_NO_ENCONTRADO));
         equipo.setEstado(false);
         return equipoDevRepository.save(equipo);
+    }
+
+    @Override
+    public Optional<Lesiones> buscarPorCodigo(String codigo) {
+        return lesionesRepository.findById(codigo);
+    }
+
+    @Override
+    public List<Lesiones> listarPorGravedad(String gravedad) {
+        return lesionesRepository.findByGravedad(gravedad);
+    }
+
+    @Override
+    public List<Lesiones> listarPorEstudiante(String codigoEstudiante) {
+        return lesionesRepository.findByEstudiante_Codigo(codigoEstudiante);
+    }
+
+    @Override
+    public List<Lesiones> listarPorFechaRecuperacion(LocalDate fecha) {
+        return lesionesRepository.findByFechaRecuperacion(fecha);
+    }
+
+    @Override
+    public List<Lesiones> listarPorRangoRecuperacion(LocalDate inicio, LocalDate fin) {
+        return lesionesRepository.findByFechaRecuperacionBetween(inicio, fin);
     }
 
 }

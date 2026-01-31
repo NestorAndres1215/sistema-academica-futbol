@@ -23,6 +23,10 @@ public class GeneralController {
     public List<General> getAdminsByEstadoTrue() {
         return generalService.findGeneralByEstadoTrue();
     }
+    @GetMapping("/listar")
+    public List<General> listar() {
+        return generalService.listarGeneral();
+    }
 
     @GetMapping("/tablaGenerales/listar/desactivado")
     public List<General> getAdminsByEstadoFalse() {
