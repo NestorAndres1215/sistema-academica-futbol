@@ -18,6 +18,11 @@ import * as XLSX from 'xlsx';
 })
 export class EstudianteExcelComponent implements OnInit {
   nombre: string
+     botonesConfig = {
+    editar: false,
+    volver: true,
+
+  };
   cargarExcel() {
     console.log(this.data)
     if (!this.data || this.data.length === 0) {  

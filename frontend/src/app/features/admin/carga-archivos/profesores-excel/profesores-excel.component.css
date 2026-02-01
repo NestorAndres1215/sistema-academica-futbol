@@ -28,22 +28,7 @@
     background-color: #b0c4de;
     color: rgb(0, 0, 0);
   }
-  /* Estilos para los botones de acción */
-  .btn-editar {
-    color: black; /* Color negro para el botón editar */
-    margin-right: 8px; /* Agrega un poco de espacio a la derecha del botón */
-  
-  }
-  
-  .btn-eliminar {
-    color: red; /* Color rojo para el botón eliminar */
-    margin-right: 8px; /* Agrega un poco de espacio a la derecha del botón */
-  }
-  /* Estilos para el botón de vista */
-  .btn-vista {
-    color: #007bff; /* Color azul para el botón de vista */
-    margin-right: 8px; /* Agrega un poco de espacio a la derecha del botón */
-  }
+
   
   /* Estilos para las filas impares */
   .table-striped tbody tr:nth-child(odd) {
@@ -54,36 +39,6 @@
   /* Estilos para las filas impares */
   .table tbody tr:nth-child(odd) {
     background-color: #f2f2f2;
-  }
-  
-  .separator {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
-    padding: 10px; /* Espacio uniforme alrededor del contenido */
-  }
-  
-  .title {
-    margin: 0;
-    flex-grow: 1;
-    margin-right: 70px; /* Agrega espacio a la derecha del título */
-  }
-  .button mat-icon {
-    height: 10px;
-    background: transparent;
-    border: none;
-    position: relative;
-  }
-  
-  .volver-btn {
-    margin-left: 10px; 
-    color: white;
-    background-color: red;
-    width: 40px; /* Ancho del botón */
-    height: 40px; /* Alto del botón */
-    border-radius: 20%; /* Hace que los bordes sean circulares */
   }
   
   .card-body {
@@ -119,80 +74,10 @@
       padding: 0.25rem; /* Menor padding en pantallas muy pequeñas */
     }
   
-    .btn-editar, .btn-vista, .btn-eliminar {
-      font-size: 14px; /* Ajusta el tamaño de los íconos */
-    }
   }
 
  
-  .button-container {
-    display: flex; 
-    justify-content: flex-start; /* Alinea los botones al principio */
-    gap: 15px; /* Ajusta el espacio entre los botones */
-  }
 
-    .btn {
-      display: flex; /* Alinea el icono y texto */
-      align-items: center; /* Centra el texto y el icono */
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #444; /* Color de fondo al hacer hover */
-    }
-
-    .btn i {
-      margin-right: 8px; /* Espacio entre el icono y el texto */
-    }
-
-    .btn-excel {
-      background-color: #4CAF50; /* Color de fondo de Excel */
-      color: white;
-    }
-
-    .btn-pdf {
-      background-color: #f44336; /* Color de fondo de PDF */
-      color: white;
-    }
-
-    .btn-print {
-      background-color: #008CBA; /* Color de fondo de Print */
-      color: white;
-    }
-
-    .btn-view-deactivated {
-      margin-left: auto; /* Esto mueve este botón hacia la derecha */
-      background-color: #ffc107; /* Amarillo */
-      color: white; /* Texto blanco para buen contraste */
-    }
-
-    @media print {
-      /* Ocultar el botón de imprimir */
-      .btn-print {
-        display: none;
-      }
-    
-      /* Estilos para la tabla */
-      #tablaAImprimir {
-        width: 100%;
-        border-collapse: collapse;
-      }
-    
-      #tablaAImprimir th, #tablaAImprimir td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: center;
-      }
-    
-      #tablaAImprimir th {
-        background-color: #f2f2f2;
-      }
-    }
 
 
     .celda-roja {

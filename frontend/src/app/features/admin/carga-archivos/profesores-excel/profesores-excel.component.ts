@@ -17,10 +17,16 @@ import * as XLSX from 'xlsx';
 })
 export class ProfesoresExcelComponent implements OnInit {
   nombre: string
+
+  
+   botonesConfig = {
+    editar: false,
+    volver: true,
+
+  };
   cargarExcel() :void{
     if (!this.data || this.data.length === 0) {  
       this.mensaje.MostrarMensaje("⚠️ LOS DATOS ESTÁN VACÍOS");
-      console.warn("❌ No hay datos disponibles.");
       return;
     }
     const result = this.data.map(item => {

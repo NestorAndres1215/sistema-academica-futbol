@@ -1,15 +1,5 @@
 
 
-.separator {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
-    padding: 10px;
-    /* Espacio uniforme alrededor del contenido */
-}
-
 /* Estilos para la tabla */
 .table {
     width: 100%;
@@ -48,22 +38,19 @@
   }
   
   .btn-eliminar {
-    color: red; /* Color rojo para el botón eliminar */
-    margin-right: 8px; /* Agrega un poco de espacio a la derecha del botón */
+    color: red; 
+    margin-right: 8px;
   }
-  /* Estilos para el botón de vista */
   .btn-vista {
-    color: #007bff; /* Color azul para el botón de vista */
-    margin-right: 8px; /* Agrega un poco de espacio a la derecha del botón */
+    color: #007bff; 
+    margin-right: 8px;
   }
-  
-  /* Estilos para las filas impares */
+
   .table-striped tbody tr:nth-child(odd) {
     background-color: #ffffff;
-    color: #333; /* Cambia el color del texto si es necesario */
+    color: #333; 
   }
   
-  /* Estilos para las filas impares */
   .table tbody tr:nth-child(odd) {
     background-color: #f2f2f2;
   }
@@ -73,7 +60,7 @@
     margin: 0 auto;
     margin-top: 40px;
     width: 95%;
-    overflow-x: auto; /* Habilita el desplazamiento horizontal si es necesario */
+    overflow-x: auto; 
   }
   
   .table {
@@ -107,52 +94,6 @@
     }
   }
 
- 
-  .button-container {
-    display: flex; 
-    justify-content: flex-start; /* Alinea los botones al principio */
-    gap: 15px; /* Ajusta el espacio entre los botones */
-  }
-
-    .btn {
-      display: flex; /* Alinea el icono y texto */
-      align-items: center; /* Centra el texto y el icono */
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #444; /* Color de fondo al hacer hover */
-    }
-
-    .btn i {
-      margin-right: 8px; /* Espacio entre el icono y el texto */
-    }
-
-    .btn-excel {
-      background-color: #4CAF50; /* Color de fondo de Excel */
-      color: white;
-    }
-
-    .btn-pdf {
-      background-color: #f44336; /* Color de fondo de PDF */
-      color: white;
-    }
-
-    .btn-print {
-      background-color: #008CBA; /* Color de fondo de Print */
-      color: white;
-    }
-
-    .btn-view-deactivated {
-      margin-left: auto; /* Esto mueve este botón hacia la derecha */
-      background-color: #ffc107; /* Amarillo */
-      color: white; /* Texto blanco para buen contraste */
-    }
 
     @media print {
       /* Ocultar el botón de imprimir */

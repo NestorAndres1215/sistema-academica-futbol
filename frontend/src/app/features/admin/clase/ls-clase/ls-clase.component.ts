@@ -34,6 +34,12 @@ export class LsClaseComponent implements OnInit {
   pageSize = 5;
   listar: any
 
+   botonesConfig = {
+    editar: false,
+    volver: true,
+
+  };
+
   constructor(
     private claseService: ClaseService,
     private dialog: MatDialog,

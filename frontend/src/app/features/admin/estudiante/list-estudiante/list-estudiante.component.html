@@ -1,28 +1,18 @@
 <app-titulo titulo="Mantenimiento de Estudiantes" [botonesConfig]="botonesConfig" (volver)="volver()">
 </app-titulo>
 <div class="card-body">
-    <div class="row mb-4 g-2">
-
-        <!-- Exportar Excel -->
-        <div class="col-6 col-md-auto">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <div class="d-flex gap-2">
             <app-button label="Exportar a Excel" icon="fas fa-file-excel" color="excel" (onClick)="exportarExcel()">
             </app-button>
-        </div>
 
-        <!-- Exportar PDF -->
-        <div class="col-6 col-md-auto">
             <app-button label="Exportar a PDF" icon="fas fa-file-pdf" color="pdf" (onClick)="exportarPDF()">
             </app-button>
-        </div>
 
-        <!-- Imprimir -->
-        <div class="col-6 col-md-auto">
             <app-button label="Imprimir" icon="fas fa-print" color="imprimir" (onClick)="exportarPrint()">
             </app-button>
         </div>
-
-        <!-- Ver Desactivados -->
-        <div class="col-6 col-md-auto ms-md-auto">
+        <div class="d-flex gap-2">
             <app-button label="Ver Desactivados" icon="fas fa-eye-slash" color="desactivar"
                 (onClick)="verUsuariosDesactivados()">
             </app-button>
