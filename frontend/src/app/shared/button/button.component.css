@@ -61,13 +61,13 @@
 .activar {
     background: linear-gradient(135deg, #7a9b00, #bef453);
 }
-
+.pdf,
 .logout,
 .eliminar,
 .cancelar {
     background: linear-gradient(135deg, #8a341e, #f6513b);
 }
-
+.excel,
 .confirmar {
     background: linear-gradient(135deg, #1aa36a, #41d48d);
 }
