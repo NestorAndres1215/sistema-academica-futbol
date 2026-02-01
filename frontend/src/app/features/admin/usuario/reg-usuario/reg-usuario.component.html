@@ -2,9 +2,9 @@
 </app-titulo>
 <div class="container mt-5 p-4 shadow rounded bg-light custom-container">
     <div class="header text-center mb-4">
-        <h1 class="text-primary">Datos Personales</h1>
+        <h1 >Datos Personales</h1>
     </div>
-    <form [formGroup]="formulario" (ngSubmit)="operar()">
+    <form [formGroup]="formulario" >
         <div class="row">
             <!-- Username -->
             <div class="col-md-6 mb-3">
@@ -117,7 +117,10 @@
 
         <!-- Botón de Envío -->
         <div class="text-center mt-4">
-            <button mat-raised-button color="primary" class="custom-btn">Guardar Datos</button>
+      <app-button label="Registar" icon="fas fa-save" color="registrar" (onClick)="operar()">
+      </app-button>
+
+          
         </div>
     </form>
 </div>

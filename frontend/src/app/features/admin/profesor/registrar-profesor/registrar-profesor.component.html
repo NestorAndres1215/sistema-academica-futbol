@@ -6,7 +6,7 @@
     <div class="header text-center mb-4">
         <h1 class="text-primary">Datos Personales</h1>
     </div>
-    <form [formGroup]="formulario" (ngSubmit)="operar()">
+    <form [formGroup]="formulario" >
         <div class="row">
             <div class="col-md-4 mb-3">
                 <mat-form-field class="full-width custom-field" appearance="fill">
@@ -126,7 +126,8 @@
             </div>
         </div>
         <div class="text-center mt-4">
-            <button mat-raised-button color="primary" class="custom-btn">Guardar Datos</button>
+                <app-button label="Registar" icon="fas fa-save" color="registrar" (onClick)="operar()">
+      </app-button>
         </div>
     </form>
 </div>
