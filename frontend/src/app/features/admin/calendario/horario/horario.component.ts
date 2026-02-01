@@ -139,5 +139,9 @@ export class HorarioComponent implements OnInit {
   volver(): void {
     this.route.navigate(['/administrador']);
   }
+   botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
 }

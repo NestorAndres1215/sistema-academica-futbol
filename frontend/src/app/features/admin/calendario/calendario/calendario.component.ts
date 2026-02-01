@@ -21,9 +21,15 @@ export class CalendarioComponent implements OnInit {
   volver() {
     throw new Error('Method not implemented.');
   }
+  botonesConfig = {
+    editar: false,
+    volver: true,
+
+  };
 
   listarDato: any
-  partidoFiltrado: any
+partidoFiltrado: any[] = [];
+
   selectedDayName: string = '';
   selectedDay: any = null;
   mes: number

@@ -1,17 +1,13 @@
-<div class="separator">
-    <h1 style="font-family: monospace;">Calendario</h1>
-    <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
-        tabindex="0">
-        <i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i>
-    </button>
-</div>
+<app-titulo titulo="Calendario Clases y Partidos" [botonesConfig]="botonesConfig" (volver)="volver()">
+</app-titulo>
 <div class="container mt-4">
-    <div class="calendar__add-button">
-        <button style="background-color: #008CBA; color: white;" mat-button class="btn btn-success"
-            (click)="openModal()">
-            <mat-icon>add_circle</mat-icon> Agregar clase
-        </button>
+    <div class="d-flex justify-content-end mb-3">
+        <app-button label="Registro" icon="fas fa-plus-circle" color="registrar" (onClick)="openModal()">
+        </app-button>
     </div>
+
+
+
     <div class="row">
         <div class="col-lg-8 col-md-7 col-sm-12 mb-4">
             <section class="calendar">
@@ -26,7 +22,8 @@
                 </div>
 
                 <div class="calendar__grid">
-                    <div *ngFor="let name of nameDay; let i = index; trackBy: trackByIndex" class="calendar__day-name" style="  background-color: lightsteelblue;">
+                    <div *ngFor="let name of nameDay; let i = index; trackBy: trackByIndex" class="calendar__day-name"
+                        style="  background-color: lightsteelblue;">
                         {{ name }}
                     </div>
 
@@ -68,7 +65,7 @@
         </div>
         <div class="col-lg-4 col-md-5 col-sm-12" *ngIf="selectedDay">
             <div class="card">
-                <div *ngIf="selectedDay" >
+                <div *ngIf="selectedDay">
                     <h2 class="card-title">{{ selectedDay.day + " " + currentMonthAndYear }}</h2>
                     <hr class="divider">
                 </div>
