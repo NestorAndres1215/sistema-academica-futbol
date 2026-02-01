@@ -23,7 +23,11 @@ import { Respuesta } from 'src/app/core/model/respuesta';
   styleUrls: ['./list-estudiante.component.css']
 })
 export class ListEstudianteComponent implements OnInit {
+ botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
   user: any = null;
   xd: any
   datosTabla: any[] = [];

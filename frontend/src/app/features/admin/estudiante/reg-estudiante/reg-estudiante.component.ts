@@ -19,10 +19,12 @@ import { SedeService } from 'src/app/core/services/sede.service';
   styleUrls: ['./reg-estudiante.component.css']
 })
 export class RegEstudianteComponent implements OnInit {
-  limpiarFormulario() {
-   
-}
 
+  botonesConfig = {
+    editar: false,
+    volver: true,
+
+  };
   public formulario: UntypedFormGroup;
 
   nacionalidad: any;
@@ -37,7 +39,7 @@ export class RegEstudianteComponent implements OnInit {
     private estudiante: EstudianteService,
     private formBuilder: UntypedFormBuilder,
     private mensaje: MensajeService,
-    private historialService:HistorialService,
+    private historialService: HistorialService,
     private loginService: LoginService
 
   ) { }
@@ -74,11 +76,11 @@ export class RegEstudianteComponent implements OnInit {
 
 
     this.formulario = this.formBuilder.group({
-    
+
       sede: [this.sedes, Validators.required],
       genero: [this.genero, Validators.required],
       tipo: [this.tiposDocumento, Validators.required],
-     
+
       primerNombre: ['', Validators.required],
       segundoNombre: ['', Validators.required], // Corregido: Eliminar la coma extra
       apellidoPaterno: ['', Validators.required],
@@ -174,7 +176,7 @@ export class RegEstudianteComponent implements OnInit {
               this.mensaje.MostrarMensajeExito("SE REGISTRÓ ESTUDIANTE");
               this.formulario.reset();
               this.formulario.reset();
-       
+
             },
             error => {
               this.mensaje.MostrarBodyError(error);

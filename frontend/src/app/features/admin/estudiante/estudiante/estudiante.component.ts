@@ -12,7 +12,11 @@ import { GeneralService } from 'src/app/core/services/general.service';
   styleUrls: ['./estudiante.component.css']
 })
 export class EstudianteComponent implements OnInit {
+ botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
   filtro: string = ''; // Campo de texto para buscar por nombre o apellidos
   sedeSeleccionada: string = ''; // Código de la sede seleccionada
   generoSeleccionado:string='';

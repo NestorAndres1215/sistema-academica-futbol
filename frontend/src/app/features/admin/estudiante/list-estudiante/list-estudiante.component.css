@@ -56,36 +56,6 @@
     background-color: #f2f2f2;
   }
   
-  .separator {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
-    padding: 10px; /* Espacio uniforme alrededor del contenido */
-  }
-  
-  .title {
-    margin: 0;
-    flex-grow: 1;
-    margin-right: 70px; /* Agrega espacio a la derecha del título */
-  }
-  .button mat-icon {
-    height: 10px;
-    background: transparent;
-    border: none;
-    position: relative;
-  }
-  
-  .volver-btn {
-    margin-left: 10px; 
-    color: white;
-    background-color: red;
-    width: 40px; /* Ancho del botón */
-    height: 40px; /* Alto del botón */
-    border-radius: 20%; /* Hace que los bordes sean circulares */
-  }
-  
   .card-body {
     margin: 0 auto;
     margin-top: 40px;
