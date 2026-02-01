@@ -17,7 +17,11 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
 export class RegUsuarioComponent implements OnInit {
 
   public formulario: UntypedFormGroup;
+ botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
   constructor(
     private router: Router,
     private adminService: AdminService,

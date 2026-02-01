@@ -1,1 +1,43 @@
-<p>titulo works!</p>
+<div class="container-fluid px-4 px-md-5 border-bottom py-3">
+    <div class="
+      d-flex
+      flex-column
+      flex-md-row
+      align-items-center
+      align-items-md-center
+      text-center
+      text-md-start
+      gap-3
+    ">
+
+        <h1 class="fw-bold m-0 fs-3 fs-md-1">
+            {{ titulo }}
+        </h1>
+
+        <div class="
+        d-flex
+        gap-2
+        justify-content-center
+        ms-md-auto
+      ">
+      <app-button
+        *ngIf="botonesConfig.editar"
+        label="Editar"
+        icon="fas fa-edit"
+        color="editar"
+        (onClick)="editar.emit()">
+      </app-button>
+
+      <app-button
+        *ngIf="botonesConfig.volver"
+        label="Volver"
+        icon="fas fa-long-arrow-alt-left"
+        color="eliminar"
+        (onClick)="volver.emit()">
+      </app-button>
+
+
+        </div>
+
+    </div>
+</div>

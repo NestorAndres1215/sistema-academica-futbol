@@ -1,15 +1,10 @@
-<div class="separator">
-    <h1 style="font-family: monospace;">Datos Personales</h1>
-    <div class="card-header position-sticky sticky-top">
-        <button _ngcontent-yfb-c69="" class="btn btn-success ng-star-inserted" (click)="operar()"
-            style="margin-right: 10px; align-items: flex-end;"><i _ngcontent-yfb-c69=""
-                class="fas fa-save"></i></button>
-
-        <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
-            tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
-    </div>
-</div>
-
+<app-titulo
+  titulo="Datos Personales"
+  [mostrarEditar]="true"
+  [mostrarVolver]="true"
+  (editar)="operar()"
+  (volver)="volver()">
+</app-titulo>
 <div class="container my-4">
     <div class="card mb-4 shadow-sm" *ngFor="let usuario of lista">
         <div class="card-body">

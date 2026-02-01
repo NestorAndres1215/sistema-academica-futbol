@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { DtUsuarioComponent } from '../dt-usuario/dt-usuario.component';
 import { MatDialog } from '@angular/material/dialog';
-import {  Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuario-administrador',
@@ -15,7 +15,14 @@ export class UsuarioAdministradorComponent implements OnInit {
   usuariosFiltrados: any[] = [];
   imagenUrlBase = 'data:image/jpeg;base64,';
 
-  constructor(private admin: AdminService, private dialog:  MatDialog, private router:Router) {}
+
+  botonesConfig = {
+    editar: false,
+    volver: true,
+
+  };
+
+  constructor(private admin: AdminService, private dialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
     // Llamar al servicio para obtener la lista de usuarios
@@ -49,13 +56,13 @@ export class UsuarioAdministradorComponent implements OnInit {
     );
   }
 
-  operar(perfil:any){
+  operar(perfil: any) {
     console.log(typeof perfil)
     const dialogRef = this.dialog.open(DtUsuarioComponent, {
       width: '400px',
       height: '480px',
       data: {
-          perfil
+        perfil
       }
     });
   }

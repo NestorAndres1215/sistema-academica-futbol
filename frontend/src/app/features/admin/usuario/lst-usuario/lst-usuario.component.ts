@@ -25,7 +25,11 @@ import { Respuesta } from 'src/app/core/model/respuesta';
   styleUrls: ['./lst-usuario.component.css']
 })
 export class LstUsuarioComponent implements OnInit {
+ botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
 
 
   user: any = null;
