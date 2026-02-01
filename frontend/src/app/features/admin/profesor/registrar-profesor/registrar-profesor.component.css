@@ -1,17 +1,4 @@
-.separator {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 20px;
-  padding: 10px;
-}
 
-.title {
-  margin: 0;
-  flex-grow: 1;
-  margin-right: 70px;
-}
 /* Estilo para el formulario en general */
 .full-width {
   width: 100%;
@@ -49,29 +36,18 @@ mat-input-element:focus {
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra sutil al enfocar */
 }
 
-mat-form-field.mat-focused mat-label {
-  color: #007bff; /* Color azul cuando el campo tiene foco */
-}
 
-/* Si el campo tiene error */
-mat-form-field.ng-invalid .mat-form-field-underline {
-  border-bottom: 2px solid red; /* Resaltar el borde en rojo si hay error */
-}
 
-mat-form-field.ng-valid .mat-form-field-underline {
-  border-bottom: 2px solid green; /* Resaltar el borde en verde si es válido */
-}
+
 
 /* Ajuste para el placeholder */
 input::placeholder {
-  color: #aaa; /* Color suave para el placeholder */
+  color: #aaa; 
 }
 
-/* Agregar un efecto de hover */
 mat-form-field:hover mat-input-element {
-  border-color: #007bff; /* Cambiar color al pasar el mouse */
+  border-color: #007bff; 
 }
-/* Estilo para los botones */
 .custom-btn {
   font-size: 16px;
   padding: 10px 20px;
@@ -81,24 +57,6 @@ mat-form-field:hover mat-input-element {
   width: 200px;
 }
 
-
-
-.button mat-icon {
-  height: 10px;
-  background: transparent;
-  border: none;
-  position: relative;
-}
-
-.volver-btn {
-  margin-left: 10px;
-  color: white;
-  background-color: red;
-  width: 40px;
-  height: 40px;
-  border-radius: 20%;
-}
-/* Header */
 .header h1 {
   color: #007bff;
   font-weight: 600;

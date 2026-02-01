@@ -23,6 +23,11 @@ import { Respuesta } from 'src/app/core/model/respuesta';
   styleUrls: ['./lst-profesores.component.css']
 })
 export class LstProfesoresComponent implements OnInit {
+ botonesConfig = {
+    editar: false,
+    volver: true,
+
+  };
 
   user: any = null;
   xd: any

@@ -21,12 +21,19 @@ import { SedeService } from 'src/app/core/services/sede.service';
   styleUrls: ['./registrar-profesor.component.css']
 })
 export class RegistrarProfesorComponent implements OnInit {
-  public formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
   cargos: any;
   nacionalidad: any;
   sedes: any
   genero: any
   tiposDocumento: any
+
+  botonesConfig = {
+    editar: false,
+    volver: true,
+
+  };
+
   constructor(
     private sede: SedeService,
     private generales: GeneralService,
@@ -59,7 +66,7 @@ export class RegistrarProfesorComponent implements OnInit {
     const today = new Date();
     const minYear = today.getFullYear() - 120; // Máximo 120 años atrás
     this.minDate = `1980-01-01`; // Fecha mínima permitida
-    this.maxDate = this.formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 20))); 
+    this.maxDate = this.formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 20)));
   }
 
   private formatDate(date: Date): string {
@@ -73,7 +80,7 @@ export class RegistrarProfesorComponent implements OnInit {
 
   initForm(): void {
     this.formulario = this.formBuilder.group({
-    
+
       cargo: [this.cargos, Validators.required],
       sede: [this.sedes, Validators.required],
       genero: [this.genero, Validators.required],

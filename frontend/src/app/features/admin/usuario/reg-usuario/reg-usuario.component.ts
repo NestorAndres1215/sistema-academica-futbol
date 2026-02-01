@@ -17,7 +17,7 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
 export class RegUsuarioComponent implements OnInit {
 
   public formulario: UntypedFormGroup;
- botonesConfig = {
+  botonesConfig = {
     editar: false,
     volver: true,
 
@@ -25,7 +25,7 @@ export class RegUsuarioComponent implements OnInit {
   constructor(
     private router: Router,
     private adminService: AdminService,
-    private historialService:HistorialService,
+    private historialService: HistorialService,
     private formBuilder: UntypedFormBuilder,
     private mensaje: MensajeService,
     private loginService: LoginService
@@ -33,7 +33,7 @@ export class RegUsuarioComponent implements OnInit {
   ) { }
   edad: number | null = null;
   ngOnInit(): void {
-this.validarFecha()
+    this.validarFecha()
     this.initForm(); // Llamamos al método que inicializa el formulario
   }
 
@@ -97,65 +97,65 @@ this.validarFecha()
     this.formulario.patchValue({ edad: this.edad }); // Actualiza el valor de edad
   }
 
-// Método para operar
-operar(): void {
-  console.log(this.loginService.getUser().username);
-  console.log(this.formulario.value);
+  // Método para operar
+  operar(): void {
+    console.log(this.loginService.getUser().username);
+    console.log(this.formulario.value);
 
-  if (this.formulario.valid) {
-    const objAdmin: Admin = {
-      primerNombre: this.formulario.get('primerNombre')?.value,
-      segundoNombre: this.formulario.get('segundoNombre')?.value,
-      apellidoPaterno: this.formulario.get('apellidoPaterno')?.value,
-      apellidoMaterno: this.formulario.get('apellidoMaterno')?.value,
-      correo: this.formulario.get('correo')?.value,
-      telefono: this.formulario.get('telefono')?.value,
-      dni: this.formulario.get('dni')?.value,
-      direccion: this.formulario.get('direccion')?.value,
-      nacionalidad: this.formulario.get('nacionalidad')?.value,
-      username: this.formulario.get('username')?.value,
-      password: this.formulario.get('password')?.value,
-      fechaNacimiento: this.formulario.get('fechaNacimiento')?.value,
-      edad: this.formulario.get('edad')?.value,
-      usuarioCreacion: this.loginService.getUser().username,
-    };
+    if (this.formulario.valid) {
+      const objAdmin: Admin = {
+        primerNombre: this.formulario.get('primerNombre')?.value,
+        segundoNombre: this.formulario.get('segundoNombre')?.value,
+        apellidoPaterno: this.formulario.get('apellidoPaterno')?.value,
+        apellidoMaterno: this.formulario.get('apellidoMaterno')?.value,
+        correo: this.formulario.get('correo')?.value,
+        telefono: this.formulario.get('telefono')?.value,
+        dni: this.formulario.get('dni')?.value,
+        direccion: this.formulario.get('direccion')?.value,
+        nacionalidad: this.formulario.get('nacionalidad')?.value,
+        username: this.formulario.get('username')?.value,
+        password: this.formulario.get('password')?.value,
+        fechaNacimiento: this.formulario.get('fechaNacimiento')?.value,
+        edad: this.formulario.get('edad')?.value,
+        usuarioCreacion: this.loginService.getUser().username,
+      };
 
-    console.log(objAdmin);
+      console.log(objAdmin);
 
-    this.adminService.guardarAdmin(objAdmin).subscribe(
-      response => {
-        this.mensaje.MostrarMensajeExito("SE REGISTRO USUARIO ADMINISTRADOR");
+      this.adminService.guardarAdmin(objAdmin).subscribe(
+        response => {
+          this.mensaje.MostrarMensajeExito("SE REGISTRO USUARIO ADMINISTRADOR");
 
-        // Registro de la acción en el historial
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username,
-          detalle: `El usuario ${this.loginService.getUser().username} registró al administrador con el código ${objAdmin.username}.`
-        };
+          // Registro de la acción en el historial
+          const historial: Historial = {
+            usuario: this.loginService.getUser().username,
+            detalle: `El usuario ${this.loginService.getUser().username} registró al administrador con el código ${objAdmin.username}.`
+          };
 
-        // Registrar el historial
-        this.historialService.registrar(historial).subscribe(
-          () => {
-            // Si se registra el historial con éxito, limpiar el formulario
-            this.formulario.reset();
-            Object.keys(this.formulario.controls).forEach(key => {
-              const control = this.formulario.get(key);
-              control?.markAsPristine();
-              control?.markAsUntouched();
-            });
-          },
-          error => {
-            this.mensaje.MostrarBodyError("Error al registrar el historial: " + error); // Manejar el error de historial
-          }
-        );
-      },
-      error => {
-        this.mensaje.MostrarBodyError(error);
-      }
-    );
-  } else {
-    this.mensaje.MostrarMensaje("FORMULARIO VACIO");
-    this.formulario.markAllAsTouched();
+          // Registrar el historial
+          this.historialService.registrar(historial).subscribe(
+            () => {
+              // Si se registra el historial con éxito, limpiar el formulario
+              this.formulario.reset();
+              Object.keys(this.formulario.controls).forEach(key => {
+                const control = this.formulario.get(key);
+                control?.markAsPristine();
+                control?.markAsUntouched();
+              });
+            },
+            error => {
+              this.mensaje.MostrarBodyError("Error al registrar el historial: " + error); // Manejar el error de historial
+            }
+          );
+        },
+        error => {
+          this.mensaje.MostrarBodyError(error);
+        }
+      );
+    } else {
+      this.mensaje.MostrarMensaje("FORMULARIO VACIO");
+      this.formulario.markAllAsTouched();
+    }
   }
-}
 
 }

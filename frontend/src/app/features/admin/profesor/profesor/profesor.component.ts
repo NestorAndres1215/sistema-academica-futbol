@@ -20,7 +20,11 @@ export class ProfesorComponent implements OnInit {
   listar: any[] = [];
   usuariosFiltrados: any[] = [];
   imagenUrlBase = 'data:image/jpeg;base64,';
+ botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
   constructor(private profesor: ProfesorService, private sede: SedeService, private cargo: CargoService,
     private dialog: MatDialog, private router: Router) { }
 

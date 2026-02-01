@@ -1,37 +1,4 @@
-.separator {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
-    padding: 10px;
-}
 
-.title {
-    margin: 0;
-    flex-grow: 1;
-    margin-right: 70px;
-}
-
-.button mat-icon {
-    height: 10px;
-    background: transparent;
-    border: none;
-    position: relative;
-}
-
-.volver-btn {
-    margin-left: 10px;
-    color: white;
-    background-color: red;
-    width: 40px;
-    height: 40px;
-    border-radius: 20%;
-}
-/* Contenedor principal */
-
-
-/* Barra de búsqueda */
 .search-container {
   display: flex;
   justify-content: center;
