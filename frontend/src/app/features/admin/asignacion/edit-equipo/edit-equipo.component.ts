@@ -125,7 +125,6 @@ export class EditEquipoComponent implements OnInit {
       };
       this.historialService.registrar(historial).subscribe(
         () => {
-          // Si el historial se registra correctamente, proceder con la actualización del estudiante
           this.equipoService.actualizar(objEquipo).subscribe(
             response => {
               this.mensaje.MostrarMensaje("SE ACTUALIZÓ PROFESOR");

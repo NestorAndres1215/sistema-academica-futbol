@@ -113,25 +113,18 @@
     }
 }
 
-.icono {
-    font-size: 30px;
-    color: #e63946;
-    /* Color del ícono */
-    margin-bottom: 10px;
-}
+
 
 h3 {
     font-size: 1.5rem;
     margin: 10px 0;
     color: #333;
-    /* Color del título */
 }
 
 p {
     font-size: 1rem;
     line-height: 1.5;
     color: #666;
-    /* Color del texto */
 }
 .container {
     display: flex;
@@ -141,10 +134,10 @@ p {
     padding: 20px;
 }
 
-/* Texto en una columna */
+
 .text-container {
     flex: 1;
-    max-width: 50%; /* Asegura que el texto no ocupe más de la mitad */
+    max-width: 50%; 
 }
 
 .text-container h1 {
@@ -157,7 +150,7 @@ p {
     line-height: 1.6;
 }
 
-/* Imagen en la otra columna */
+
 .image-container {
     flex: 1;
     max-width: 50%; /* Asegura que la imagen ocupe la mitad */
