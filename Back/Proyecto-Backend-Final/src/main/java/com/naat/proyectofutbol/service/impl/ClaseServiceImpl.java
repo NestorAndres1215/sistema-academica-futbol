@@ -96,18 +96,22 @@ public class ClaseServiceImpl implements ClaseService {
         Clase claseActualizada = Clase.builder()
                 .codigo(claseExistente.getCodigo())
                 .nombre(claseDTO.getNombre() != null ? claseDTO.getNombre() : claseExistente.getNombre())
-                .descripcion(claseDTO.getDescripcion())
+                .descripcion(claseDTO.getDescripcion() != null ? claseDTO.getDescripcion() : claseExistente.getDescripcion())
                 .inicio(claseDTO.getInicio())
                 .fin(claseDTO.getFin())
                 .horario(horario)
                 .dia(claseDTO.getDia())
-                .usuarioActualizacion(claseDTO.getUsuarioCreacion())
+                .usuarioCreacion(claseExistente.getUsuarioCreacion()) // importante: no sobrescribir
+                .usuarioActualizacion(claseDTO.getUsuarioCreacion() != null ? claseDTO.getUsuarioCreacion() : claseExistente.getUsuarioActualizacion())
+                .fechaCreacion(claseExistente.getFechaCreacion())
+                .horaCreacion(claseExistente.getHoraCreacion())
                 .fechaActualizacion(LocalDate.now())
                 .horaActualizacion(LocalTime.now())
                 .estado(true)
                 .equipo(claseExistente.getEquipo())
                 .build();
 
+System.out.println(claseActualizada);
         return claseRepository.save(claseActualizada);
     }
 

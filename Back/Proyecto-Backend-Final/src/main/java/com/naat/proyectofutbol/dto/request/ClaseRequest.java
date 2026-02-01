@@ -39,7 +39,7 @@ public class ClaseRequest {
     @NotNull(message = "La fecha de fin es obligatoria")
     private LocalDate fin;
 
-    @Size(max = 255, message = "La descripción no debe exceder 255 caracteres")
+
     private String descripcion;
 
 

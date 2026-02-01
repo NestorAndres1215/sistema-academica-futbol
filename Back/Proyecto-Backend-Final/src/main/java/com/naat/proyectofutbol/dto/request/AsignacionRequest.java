@@ -13,11 +13,7 @@ public class AsignacionRequest{
 
 
     private String codigo;
-
-    @NotBlank(message = "El profesor es obligatorio")
     private String profesor;
-
-    @NotBlank(message = "El estudiante es obligatorio")
     private String estudiante;
 
 }
