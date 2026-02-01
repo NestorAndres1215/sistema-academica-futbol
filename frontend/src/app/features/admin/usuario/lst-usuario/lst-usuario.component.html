@@ -1,26 +1,28 @@
-
 <app-titulo titulo="Mantenimiento de Usuario Administrador" [botonesConfig]="botonesConfig" (volver)="volver()">
 </app-titulo>
 
 <div class="card-body">
-  <div class="button-container">
-    <!-- Botón Excel -->
-    <button class="btn btn-excel" (click)="exportarExcel()">
-      <i class="fas fa-file-excel"></i> Exportar a Excel
-    </button>
-
-    <!-- Botón PDF -->
-    <button class="btn btn-pdf" (click)="exportarPDF()">
-      <i class="fas fa-file-pdf"></i> Exportar a PDF
-    </button>
-
-    <!-- Botón Imprimir -->
-    <button class="btn btn-print" (click)="exportarReporteAdministradores()">
-      <i class="fas fa-print"></i> Imprimir
-    </button>
+  <div class="row mb-4 g-2">
+    <div class="col-6 col-md-auto">
+      <app-button label="Exportar a Excel" icon="fas fa-file-excel" color="excel" (onClick)="exportarExcel()">
+      </app-button>
+    </div>
+    <div class="col-6 col-md-auto">
+      <app-button label="Exportar a PDF" icon="fas fa-file-pdf" color="pdf" (onClick)="exportarPDF()">
+      </app-button>
+    </div>
+    <div class="col-6 col-md-auto">
+      <app-button label="Imprimir" icon="fas fa-print" color="imprimir" (onClick)="exportarPrint()">
+      </app-button>
+    </div>
+    <div class="col-6 col-md-auto ms-md-auto">
+      <app-button label="Ver Desactivados" icon="fas fa-eye-slash" color="desactivar"
+        (onClick)="verUsuariosDesactivados()">
+      </app-button>
+    </div>
 
   </div>
-  <br>
+
   <table class="table table-striped">
     <thead>
       <tr>

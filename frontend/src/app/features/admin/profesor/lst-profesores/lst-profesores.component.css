@@ -97,57 +97,9 @@
   }
 
  
-  .button-container {
-    display: flex; 
-    justify-content: flex-start; /* Alinea los botones al principio */
-    gap: 15px; /* Ajusta el espacio entre los botones */
-  }
-
-    .btn {
-      display: flex; /* Alinea el icono y texto */
-      align-items: center; /* Centra el texto y el icono */
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #444; /* Color de fondo al hacer hover */
-    }
-
-    .btn i {
-      margin-right: 8px; /* Espacio entre el icono y el texto */
-    }
-
-    .btn-excel {
-      background-color: #4CAF50; /* Color de fondo de Excel */
-      color: white;
-    }
-
-    .btn-pdf {
-      background-color: #f44336; /* Color de fondo de PDF */
-      color: white;
-    }
-
-    .btn-print {
-      background-color: #008CBA; /* Color de fondo de Print */
-      color: white;
-    }
-
-    .btn-view-deactivated {
-      margin-left: auto; /* Esto mueve este botón hacia la derecha */
-      background-color: #ffc107; /* Amarillo */
-      color: white; /* Texto blanco para buen contraste */
-    }
 
     @media print {
-      /* Ocultar el botón de imprimir */
-      .btn-print {
-        display: none;
-      }
+
     
       /* Estilos para la tabla */
       #tablaAImprimir {
