@@ -28,7 +28,10 @@ export class HistorialPartidoAdminComponent implements OnInit {
   totalItems: number;
   pageSize = 5;
   listar: any
-
+   botonesConfig = {
+    editar: false,
+    volver: true,
+  };
   constructor(
 
     private partidoService: PartidoService,

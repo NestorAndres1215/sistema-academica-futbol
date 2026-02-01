@@ -52,7 +52,13 @@ export class DatosPersonalesComponent implements OnInit {
       this.lista = data;
     });
 
+    
   }
+   botonesConfig = {
+    editar: true,
+    volver: true,
+
+  };
   operar() {
     console.log(this.lista); // Verifica que lista tenga datos
 

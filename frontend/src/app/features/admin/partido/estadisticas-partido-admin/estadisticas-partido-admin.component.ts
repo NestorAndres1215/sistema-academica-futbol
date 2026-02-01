@@ -21,7 +21,10 @@ export class EstadisticasPartidoAdminComponent implements OnInit {
   volver() {
     throw new Error('Method not implemented.');
   }
-
+   botonesConfig = {
+    editar: false,
+    volver: true,
+  };
   // Atributos para los gráficos
   private chart1!: Chart;
   private chart2!: Chart;

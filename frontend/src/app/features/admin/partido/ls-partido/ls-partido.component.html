@@ -1,32 +1,24 @@
-<div class="separator">
-    <h1 style="font-family: monospace;"> Proximos de Partido</h1>
-    <div class="card-header position-sticky sticky-top">
-        <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
-            tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
-    </div>
-</div>
+<app-titulo titulo="Proximos de Partido" [botonesConfig]="botonesConfig" (volver)="volver()">
+</app-titulo>
+
 <div class="card-body">
-    <div class="button-container">
-        <!-- Botón Excel -->
-        <button class="btn btn-excel" (click)="exportarExcel()">
-            <i class="fas fa-file-excel"></i> Exportar a Excel
-        </button>
 
-        <!-- Botón PDF -->
-        <button class="btn btn-pdf" (click)="exportarPDF()">
-            <i class="fas fa-file-pdf"></i> Exportar a PDF
-        </button>
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+        <div class="d-flex gap-2">
+            <app-button label="Exportar a Excel" icon="fas fa-file-excel" color="excel" (onClick)="exportarExcel()">
+            </app-button>
 
-        <!-- Botón Imprimir -->
-        <button class="btn btn-print" (click)="exportarPrint()">
-            <i class="fas fa-print"></i> Imprimir
-        </button>
-        <button class="btn btn-view-save" (click)="registrar()">
-            <i class="fas fa-save"></i> Registrar
-        </button>
-        
+            <app-button label="Exportar a PDF" icon="fas fa-file-pdf" color="pdf" (onClick)="exportarPDF()">
+            </app-button>
+
+            <app-button label="Imprimir" icon="fas fa-print" color="imprimir" (onClick)="exportarPrint()">
+            </app-button>
+        </div>
+        <div class="d-flex gap-2">
+            <app-button label="Registro" icon="fas fa-plus-circle" color="registrar" (onClick)="registrar()">
+            </app-button>
+        </div>
     </div>
-    <br>
     <table class="table table-striped">
         <thead>
             <tr>
