@@ -66,41 +66,6 @@
     background-color: #f2f2f2;
 }
 
-.separator {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
-    padding: 10px;
-    /* Espacio uniforme alrededor del contenido */
-}
-
-.title {
-    margin: 0;
-    flex-grow: 1;
-    margin-right: 70px;
-    /* Agrega espacio a la derecha del título */
-}
-
-.button mat-icon {
-    height: 10px;
-    background: transparent;
-    border: none;
-    position: relative;
-}
-
-.volver-btn {
-    margin-left: 10px;
-    color: white;
-    background-color: red;
-    width: 40px;
-    /* Ancho del botón */
-    height: 40px;
-    /* Alto del botón */
-    border-radius: 20%;
-    /* Hace que los bordes sean circulares */
-}
 
 .card-body {
     margin: 0 auto;
@@ -191,45 +156,33 @@
 
 .btn-excel {
     background-color: #4CAF50;
-    /* Color de fondo de Excel */
     color: white;
 }
 
 .btn-pdf {
     background-color: #f44336;
-    /* Color de fondo de PDF */
     color: white;
 }
 
 .btn-print {
     background-color: #008CBA;
-    /* Color de fondo de Print */
     color: white;
 }
 
 .btn-view-deactivated {
     margin-left: auto;
-    /* Esto mueve este botón hacia la derecha */
     background-color: #ffc107;
-    /* Amarillo */
     color: white;
-    /* Texto blanco para buen contraste */
 }
 
 @media print {
-
-    /* Ocultar el botón de imprimir */
     .btn-print {
         display: none;
     }
-
-    /* Estilos para la tabla */
     #tablaAImprimir {
         width: 100%;
         border-collapse: collapse;
     }
-
-
     #tablaAImprimir th {
         background-color: #f2f2f2;
     }
@@ -238,9 +191,7 @@
 .btn-vista,
 .btn-eliminar {
     box-shadow: none !important;
-    /* Elimina cualquier sombra */
     outline: none !important;
-    /* Evita el contorno en el enfoque */
 }
 
 .btn-vista:focus,
@@ -250,5 +201,4 @@
 .btn-vista:active,
 .btn-eliminar:active {
     box-shadow: none !important;
-    /* Asegúrate de que tampoco haya sombra en otros estados */
 }

@@ -1,5 +1,5 @@
 <div class="container-fluid px-4 px-md-5 border-bottom py-3">
-    <div class="
+  <div class="
       d-flex
       flex-column
       flex-md-row
@@ -10,34 +10,26 @@
       gap-3
     ">
 
-        <h1 class="fw-bold m-0 fs-3 fs-md-1">
-            {{ titulo }}
-        </h1>
+    <h1 class="fw-bold m-0 fs-3 fs-md-1">
+      {{ titulo }}
+    </h1>
 
-        <div class="
+    <div class="
         d-flex
         gap-2
         justify-content-center
         ms-md-auto
       ">
-      <app-button
-        *ngIf="botonesConfig.editar"
-        label="Editar"
-        icon="fas fa-edit"
-        color="editar"
+      <app-button *ngIf="botonesConfig.editar" label="Editar" icon="fas fa-edit" color="editar"
         (onClick)="editar.emit()">
       </app-button>
 
-      <app-button
-        *ngIf="botonesConfig.volver"
-        label="Volver"
-        icon="fas fa-long-arrow-alt-left"
-        color="eliminar"
+      <app-button *ngIf="botonesConfig.volver" label="Volver" icon="fas fa-long-arrow-alt-left" color="eliminar"
         (onClick)="volver.emit()">
       </app-button>
 
 
-        </div>
-
     </div>
+
+  </div>
 </div>

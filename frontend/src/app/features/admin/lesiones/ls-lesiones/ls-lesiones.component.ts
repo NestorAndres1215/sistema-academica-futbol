@@ -14,7 +14,11 @@ import { VisorLesionComponent } from '../visor-lesion/visor-lesion.component';
 export class LsLesionesComponent implements OnInit {
 
   row: any;
+  botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
 
   volver() {
     throw new Error('Method not implemented.');
@@ -23,9 +27,8 @@ export class LsLesionesComponent implements OnInit {
   constructor(private equipoService: EquipoService,
     private lesionService: LesionService,
     private dialog: MatDialog,
-    private mensaje: MensajeService,
-
   ) { }
+
   equipoSeleccionada: string = '';
   ngOnInit(): void {
     this.listarEquipo()
@@ -40,7 +43,7 @@ export class LsLesionesComponent implements OnInit {
   asignacion: any
   estudiantes: any[] = [];
   profesores: any[] = [];
-  usuariosFiltrados: any[] = []; 
+  usuariosFiltrados: any[] = [];
   async listarDevEquipo() {
     this.equipoService.listarAsignacion().subscribe((data) => {
       this.estudiantes = data.filter(i => i.estudiante.codigo !== "0000")
@@ -56,21 +59,15 @@ export class LsLesionesComponent implements OnInit {
   filtrarUsuarios() {
 
     if (!this.equipoSeleccionada) {
-      //ver si esta bien es algo que se esta viendo
       this.estudiantesFiltrados = [...this.estudiantes];
- 
+
       return;
     }
 
-    // Filtrar los estudiantes
-    // Suponiendo que this.lesion es un array de códigos de estudiantes lesionados, por ejemplo: ['0058', '0062']
-    console.log(this.lesion);
-
-    // Filtrar los estudiantes
     this.estudiantesFiltrados = this.estudiantes.filter(est => {
       const coincideConEquipo = est.equipo && est.equipo.nombre === this.equipoSeleccionada;
       const estaLesionado = this.lesion.includes(est.estudiante.codigo);
-      return coincideConEquipo && estaLesionado; // Retorna solo estudiantes del equipo seleccionado y lesionados
+      return coincideConEquipo && estaLesionado;
     });
 
 
@@ -78,7 +75,7 @@ export class LsLesionesComponent implements OnInit {
       const lesionInfo = this.lesionCompleto.find(lesion => lesion.estudiante.codigo === est.estudiante.codigo);
       return {
         estudiante: est,
-        lesionado: lesionInfo ? lesionInfo : null 
+        lesionado: lesionInfo ? lesionInfo : null
       };
     });
 
@@ -88,9 +85,11 @@ export class LsLesionesComponent implements OnInit {
   get profesoresSeleccionados() {
     return this.profesores.filter(profesor => this.seleccionados[profesor.codigo]);
   }
+  
   get profesorevisor() {
     return Object.values(this.seleccionados).filter(value => value).length;
   }
+
   lesion: any[] = [];
   lesionCompleto: any;
   lesiones() {
@@ -98,9 +97,9 @@ export class LsLesionesComponent implements OnInit {
       this.lesion = data.map(i => i.estudiante.codigo);
       this.lesionCompleto = data
     });
-  }  
+  }
   virsor(row) {
-   console.log(row)
+    console.log(row)
     const dialogRef = this.dialog.open(VisorLesionComponent, {
       disableClose: true,
       width: '1020px',
