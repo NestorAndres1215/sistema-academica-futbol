@@ -40,10 +40,7 @@ import { RegistrarProfesorComponent } from './features/admin/profesor/registrar-
 import { LstUsuarioComponent } from './features/admin/usuario/lst-usuario/lst-usuario.component';
 import { RegUsuarioComponent } from './features/admin/usuario/reg-usuario/reg-usuario.component';
 import { UsuarioAdministradorComponent } from './features/admin/usuario/usuario-administrador/usuario-administrador.component';
-import { InicioComponent } from './features/auth/inicio/inicio.component';
 import { LoginComponent } from './features/auth/login/login.component';
-import { NosotrosComponent } from './features/auth/nosotros/nosotros.component';
-import { SedesComponent } from './features/auth/sedes/sedes.component';
 import { CalendarioEstudianteComponent } from './features/estudiante/calendario/calendario-estudiante/calendario-estudiante.component';
 import { DetalleClaseEstudianteComponent } from './features/estudiante/clases/detalle-clase-estudiante/detalle-clase-estudiante.component';
 import { DpEstduanteComponent } from './features/estudiante/datos-personales/dp-estduante/dp-estduante.component';
@@ -68,9 +65,7 @@ import { PrincipalProfesorComponent } from './features/profesor/principal-profes
 
 registerLocaleData(localeEs, 'es');
 const routes: Routes = [
-  { path: 'inicio', component: InicioComponent, pathMatch: 'full' },
-  { path: 'sedes', component: SedesComponent, pathMatch: 'full' },
-  { path: 'nosotros', component: NosotrosComponent, pathMatch: 'full' },
+
   { path: 'login', component: LoginComponent, pathMatch: 'full' },
   //ADMINISTRADOR
   {

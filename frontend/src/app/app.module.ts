@@ -130,10 +130,7 @@ import { LstUsuarioComponent } from './features/admin/usuario/lst-usuario/lst-us
 import { RegUsuarioComponent } from './features/admin/usuario/reg-usuario/reg-usuario.component';
 import { UsuarioAdministradorComponent } from './features/admin/usuario/usuario-administrador/usuario-administrador.component';
 import { VisorUsuarioComponent } from './features/admin/usuario/visor-usuario/visor-usuario.component';
-import { InicioComponent } from './features/auth/inicio/inicio.component';
 import { LoginComponent } from './features/auth/login/login.component';
-import { NosotrosComponent } from './features/auth/nosotros/nosotros.component';
-import { SedesComponent } from './features/auth/sedes/sedes.component';
 import { CalendarioEstudianteComponent } from './features/estudiante/calendario/calendario-estudiante/calendario-estudiante.component';
 import { AlumnosEstudianteComponent } from './features/estudiante/clases/alumnos-estudiante/alumnos-estudiante.component';
 import { ClaseDevEstudianteComponent } from './features/estudiante/clases/clase-dev-estudiante/clase-dev-estudiante.component';
@@ -188,9 +185,7 @@ import { TituloComponent } from './shared/titulo/titulo.component';
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
-    InicioComponent,
-    NosotrosComponent,
-    SedesComponent,
+
     LoginComponent,
     NavbarComponent,
     FooterComponent,
@@ -203,7 +198,7 @@ import { TituloComponent } from './shared/titulo/titulo.component';
     NavbarProfesorComponent,
     HomeProfesorComponent,
     PrincipalProfesorComponent,
-    SedesComponent,
+
     PrincipalComponent,
     AppComponent,
     RegUsuarioComponent,
