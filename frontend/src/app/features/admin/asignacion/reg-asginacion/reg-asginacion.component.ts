@@ -28,7 +28,11 @@ export class RegAsginacionComponent implements OnInit {
     this.cargos = ['Entrenador Principal', 'Entrenador Portero', 'Entrenador Asistente'];
 
   }
+   botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
   personas: any[] = [];
   personas1: any[] = [];
 

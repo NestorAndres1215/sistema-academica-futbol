@@ -12,7 +12,11 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
 })
 export class EquipoComponent implements OnInit {
   row: any;
+   botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
 
   volver() {
     throw new Error('Method not implemented.');

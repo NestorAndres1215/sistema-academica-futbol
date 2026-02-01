@@ -54,6 +54,7 @@
     background: linear-gradient(135deg, #0e7490, #38bdf8);
 }
 
+.limpiar,
 .actualizar {
     background: linear-gradient(135deg, #0f766e, #14b8a6);
 }
