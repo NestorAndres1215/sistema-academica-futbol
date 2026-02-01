@@ -103,5 +103,5 @@
     .celda-cargo {
       background-color: rgb(238, 92, 92) !important;
       color: white !important;
-      text-align: center; /* Para centrar el texto, opcional */
+      text-align: center; 
     }

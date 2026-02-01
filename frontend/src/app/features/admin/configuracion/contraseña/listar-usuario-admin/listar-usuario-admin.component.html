@@ -1,10 +1,5 @@
-<div class="separator">
-    <h1 style="font-family: monospace;">Modulos Usuarios</h1>
-    <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
-        tabindex="0">
-        <i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i>
-    </button>
-</div>
+<app-titulo titulo="Modulos Usuarios Contraseña" [botonesConfig]="botonesConfig" (volver)="volver()">
+</app-titulo>
 <div class="container">
     <mat-tab-group [(selectedIndex)]="activeTab1">
         <mat-tab label="Administrador">

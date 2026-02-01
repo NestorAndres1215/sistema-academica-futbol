@@ -24,10 +24,11 @@ import { Respuesta } from 'src/app/core/model/respuesta';
 })
 export class SedeComponent implements OnInit {
 
+   botonesConfig = {
+    editar: false,
+    volver: true,
 
-
-
-
+  };
 
   user: any = null;
   xd: any

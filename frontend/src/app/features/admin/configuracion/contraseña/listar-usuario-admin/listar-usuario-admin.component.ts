@@ -6,13 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./listar-usuario-admin.component.css']
 })
 export class ListarUsuarioAdminComponent implements OnInit {
-volver() {
-throw new Error('Method not implemented.');
-}
-activeTab1: number = 0; 
+  volver() {
+    throw new Error('Method not implemented.');
+  }
+  activeTab1: number = 0;
   constructor() { }
 
   ngOnInit(): void {
   }
+  botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
 }

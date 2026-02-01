@@ -14,6 +14,11 @@ export class ActividadesComponent implements OnInit {
 volver() {
 throw new Error('Method not implemented.');
 }
+
+   botonesConfig = {
+    editar: false,
+    volver: true,
+  };
   user: any = null;
   datosTabla: any[] = [];
   pagedData: any[] = [];
@@ -23,13 +28,10 @@ throw new Error('Method not implemented.');
   pageSize = 10;
 
   constructor(
-    private dialog: MatDialog,
     private loginService: LoginService,
     private historialService: HistorialService,
     private change: ChangeDetectorRef,
-    private route: Router
   ) {
-    // Inicializar paginación por defecto
     this.pageChanged({
       pageIndex: 0,
       pageSize: this.pageSize,
@@ -54,22 +56,14 @@ throw new Error('Method not implemented.');
   }
 
   async listarGeneral() {
-    console.log(this.loginService.getUser().ul_codigo);
 
     this.historialService.listar(this.loginService.getUser().ul_codigo).subscribe((data) => {
-      console.log(data);
 
-      // Ordenar los datos por fecha en orden descendente (si es necesario)
       this.datosTabla = data.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
-
-      // Actualizar los datos de la tabla
       this.totalItems = this.datosTabla.length;
       this.pagedData = this.datosTabla;
 
-      // Llamar a la paginación para establecer la vista inicial
       this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
-
-      // Marcar para detección de cambios
       this.change.markForCheck();
     });
   }

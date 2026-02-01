@@ -26,9 +26,16 @@ import { Respuesta } from 'src/app/core/model/respuesta';
   styleUrls: ['./ls-tabla-general.component.css']
 })
 export class LsTablaGeneralComponent implements OnInit {
-verUsuariosDesactivados() {
+
+
+   botonesConfig = {
+    editar: false,
+    volver: true,
+  };
+
+  verUsuariosDesactivados() {
     const dialogRef = this.dialog.open(LstDesTbGeneralComponent, {
-      disableClose: true ,
+      disableClose: true,
       width: '1050px',
       height: '650px',
     });
@@ -40,7 +47,7 @@ verUsuariosDesactivados() {
   volver(): void {
     this.route.navigate(['/administrador']);
   }
- operar() {
+  operar() {
 
     const dialogRef = this.dialog.open(RegTbGeneralComponent, {
       width: '550px',
@@ -68,8 +75,8 @@ verUsuariosDesactivados() {
   constructor(
     private generalService: GeneralService,
     private dialog: MatDialog,
-    private loginService:LoginService,
-    private historialService:HistorialService,
+    private loginService: LoginService,
+    private historialService: HistorialService,
 
     private change: ChangeDetectorRef,
     private mensjae: MensajeService,
@@ -116,7 +123,7 @@ verUsuariosDesactivados() {
     console.log(row)
 
     const dialogRef = this.dialog.open(VisorTbGeneralComponent, {
-      disableClose: true ,
+      disableClose: true,
       width: '550px',
       height: '550px',
       data: {
@@ -133,7 +140,7 @@ verUsuariosDesactivados() {
   editar(row: any) {
 
     const dialogRef = this.dialog.open(EditTbGeneralComponent, {
-      disableClose: true ,
+      disableClose: true,
       width: '550px',
       height: '550px',
       data: {
@@ -148,7 +155,7 @@ verUsuariosDesactivados() {
   }
   listado(row: any) {
     const dialogRef = this.dialog.open(LtDevComponent, {
-      disableClose: true ,
+      disableClose: true,
       width: '1050px',
       height: '650px',
       data: {
@@ -157,12 +164,12 @@ verUsuariosDesactivados() {
     });
     dialogRef.afterClosed().subscribe(result => {
 
-        this.listarGeneral
+      this.listarGeneral
 
     });
-  }  
- eliminar(row: any) {
-  console.log(row)
+  }
+  eliminar(row: any) {
+    console.log(row)
     const dialogEliminar = this.dialog.open(ModalEliminacionComponent, {
       width: '500px',
       data: {

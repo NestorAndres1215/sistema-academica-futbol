@@ -68,7 +68,6 @@ import { EditCargoComponent } from './features/admin/configuracion/cargo/edit-ca
 import { LstDesCargoComponent } from './features/admin/configuracion/cargo/lst-des-cargo/lst-des-cargo.component';
 import { RegCargoComponent } from './features/admin/configuracion/cargo/reg-cargo/reg-cargo.component';
 import { VisorCargoComponent } from './features/admin/configuracion/cargo/visor-cargo/visor-cargo.component';
-import { ContraAdminComponent } from './features/admin/configuracion/contra-admin/contra-admin.component';
 import { AdminContrasenaComponent } from './features/admin/configuracion/contraseña/admin-contrasena/admin-contrasena.component';
 import { EstudianteContrasenaComponent } from './features/admin/configuracion/contraseña/estudiante-contrasena/estudiante-contrasena.component';
 import { ListarUsuarioAdminComponent } from './features/admin/configuracion/contraseña/listar-usuario-admin/listar-usuario-admin.component';
@@ -309,7 +308,7 @@ import { TituloComponent } from './shared/titulo/titulo.component';
     ModuloLesionesComponent,
     RegLesionesComponent,
     DpEstduanteComponent,
-    ContraAdminComponent,
+
     EditPerfilEstudianteComponent,
     DetalleClaseEstudianteComponent,
     ClaseDevEstudianteComponent,
