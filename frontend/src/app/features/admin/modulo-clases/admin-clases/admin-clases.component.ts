@@ -14,7 +14,11 @@ export class AdminClasesComponent implements OnInit {
   volver() {
 
   }
+  botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
   constructor(
     private claseService: ClaseService,
     private loginService: LoginService,
