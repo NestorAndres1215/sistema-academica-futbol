@@ -12,6 +12,7 @@ import java.time.LocalTime;
 @Builder
 @Getter
 @Setter
+@ToString
 public class EquipoDev {
 
     @Id

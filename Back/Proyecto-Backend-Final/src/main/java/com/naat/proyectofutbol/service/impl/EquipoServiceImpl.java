@@ -226,8 +226,10 @@ public class EquipoServiceImpl implements EquipoService {
                 equipoRegistrado.add(equipoDev1);
             }
         }
-
-
+        evaluacionRepository.saveAll(evaluacionRegistrado);
+        evaluacionDevRepository.saveAll(detalleRegistrado);
+        equipoDevRepository.saveAll(equipoRegistrado);
+System.out.println(equipoRegistrado);
         return equipoRegistrado;
     }
 
