@@ -1,6 +1,6 @@
 <mat-tab-group [(selectedIndex)]="activeTab1">
-    <mat-tab>
-        <ng-template mat-tab-label>Historial Rendimiento</ng-template>
+    <mat-tab >
+        <ng-template mat-tab-label class="mt-4">Historial Rendimiento</ng-template>
         <div *ngIf="activeTab1 === 0">
          <app-historial-estudiante-evaluacion></app-historial-estudiante-evaluacion>
         </div>

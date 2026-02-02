@@ -14,7 +14,11 @@ import { RegLesionesComponent } from 'src/app/features/profesor/lesiones/reg-les
   styleUrls: ['./lesion-estudiante.component.css']
 })
 export class LesionEstudianteComponent implements OnInit {
+ botonesConfig = {
+    editar: false,
+    volver: false,
 
+  };
 registrar() {
     const dialogRef = this.dialog.open(RegLesionesComponent, {
       disableClose: true,

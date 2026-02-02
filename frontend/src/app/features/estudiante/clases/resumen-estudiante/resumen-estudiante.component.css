@@ -1,21 +1,4 @@
-.nombre-equipo {
-    font-size: 24px;
-    text-align: center;
-    margin-top: 30px;
-}
 
-.separador {
-    width: 100%;
-    margin: 20px auto;
-}
-.resumen-texto {
-    font-size: 15px;          /* Tamaño de letra adecuado */
-    line-height: 1.6;         /* Buen espaciado entre líneas */
-    margin: 10px 0;           /* Espaciado superior e inferior */
-    font-family: 'Arial', sans-serif;  /* Fuente limpia y legible */
-    color: #333;              /* Color de texto oscuro y profesional */
-    text-align: justify;      /* Alineación justificada para mayor profesionalismo */
-  }
   .mensaje-vacio {
     text-align: center;
     padding: 20px;
@@ -35,4 +18,48 @@
 .mensaje-vacio:hover .fas {
     transform: scale(1.1);
     transition: all 0.3s ease;
+}
+
+
+
+.card {
+    border-radius: 10px;
+
+}
+
+
+
+
+.card-body {
+    font-family: 'Arial', sans-serif;
+}
+
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1rem;
+}
+
+.card {
+    height: 400px;
+    overflow: hidden;
+}
+
+
+p {
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+.alert {
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+
+.alert-info {
+    background-color: #e7f5ff;
+    border-left: 4px solid #4dabf7;
 }

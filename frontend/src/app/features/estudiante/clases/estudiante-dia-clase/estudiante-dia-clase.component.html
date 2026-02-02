@@ -1,17 +1,25 @@
-<div class="container">
-    <br>
-    <!-- Si hay clases, muestra la lista -->
+<div class="container mt-4 mb-4 ">
     <div *ngIf="claseListar?.length > 0; else noClases">
-        <div *ngFor="let clase of claseListar" class="mb-6 p-4 border rounded-lg shadow-sm bg-gray-50">
-            <h1 class="text-2xl font-semibold text-gray-800">{{ clase.titulo }}</h1>
-            <hr class="my-2 border-gray-300">
-            <h2>📌 Descripción:</h2>
-            <p class="text-gray-600" [innerHTML]="formatTexto(clase.descripcion)"></p>
-            <h2>🎯 Objetivo:</h2>
-            <p class="text-gray-600 italic" [innerHTML]="formatTexto(clase.objetivo)"></p>
-            
+        <div *ngFor="let clase of claseListar" class="my-2 p-3 border rounded shadow-sm bg-light">
+            <app-titulo [titulo]="clase.titulo" class="mb-3">
+            </app-titulo>
+            <div class="container">
+                <h2 class="h5 mt-3 mb-2">
+                    <i class="fas fa-thumbtack me-2 "></i>
+                    Descripción
+                </h2>
+                <p class="text-muted mb-3 " [innerHTML]="formatTexto(clase.descripcion)"></p>
+
+                <h2 class="h5 mt-3 mb-2">
+                    <i class="fas fa-bullseye me-2 "></i>
+                    Objetivo
+                </h2>
+                <p class="text-muted mb-2" [innerHTML]="formatTexto(clase.objetivo)"></p>
+
+            </div>
             <!-- Si hay ejercicios, muéstralos -->
-            <div *ngIf="ejerciciosListar?.length > 0; else noEjercicios" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div *ngIf="ejerciciosListar?.length > 0; else noEjercicios"
+                class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div class="col" *ngFor="let ejercicio of ejerciciosListar">
                     <div class="card h-100">
                         <div class="card-body">
@@ -25,7 +33,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- Mensaje si no hay ejercicios -->
             <ng-template #noEjercicios>
                 <div class="alert alert-info mt-3">
@@ -34,7 +42,7 @@
             </ng-template>
         </div>
     </div>
-    
+
     <!-- Mensaje si no hay clases -->
     <ng-template #noClases>
         <div class=" text-center p-4">

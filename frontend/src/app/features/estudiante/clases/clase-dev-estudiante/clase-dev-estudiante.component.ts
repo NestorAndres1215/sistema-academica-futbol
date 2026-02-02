@@ -17,10 +17,7 @@ export class ClaseDevEstudianteComponent implements OnInit {
   ) { }
   codigo: string
   ngOnInit(): void {
-   // console.log(this.route.snapshot.params['codigo'])
-   // this.codigo = this.route.snapshot.params['codigo']
    this.listarEquipoDev()
-   // this.listaClases(this.codigo)
   }
   opciones: string[] = ['Clases', 'Alumnos', 'Información'];
   opcionSeleccionada: string = 'Clases';
@@ -42,27 +39,18 @@ export class ClaseDevEstudianteComponent implements OnInit {
         const diasArray: string[] = claseEncontrada.dia.split(' - ');
         console.log(diasArray);
         [this.primerDia, this.segundoDia, this.tercerDia] = diasArray;
-
-
-
       }
-      console.log(data)
+
       this.datosTabla = data;
     });
 
   }
   async listarEquipoDev(){
     this.equipoService.listarDev().subscribe((data) => {
-      console.log(data)
- 
-      
-      console.log(data
-        ?.filter(i => i.estudiante?.usuario?.codigo === this.loginService.getUser().ul_codigo) // Filtra por coincidencia de código
-        .map(i => i.equipo.nombre) // Mapea solo los códigos encontrados
-      );
+    
       const codigoT=data
       ?.filter(i => i.estudiante?.usuario?.codigo === this.loginService.getUser().ul_codigo) // Filtra por coincidencia de código
-      .map(i => i.equipo.codigo) // Mapea solo los códigos encontrados
+      .map(i => i.equipo.codigo) 
      this.codigo=codigoT
      this.listaClases(this.codigo)
     });

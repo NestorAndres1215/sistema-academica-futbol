@@ -11,7 +11,11 @@ import { LoginService } from 'src/app/core/services/login.service';
   styleUrls: ['./detalle-clase-estudiante.component.css']
 })
 export class DetalleClaseEstudianteComponent implements OnInit {
+ botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
   volver() {
     this.router.navigate(['/estudiante']);
   }

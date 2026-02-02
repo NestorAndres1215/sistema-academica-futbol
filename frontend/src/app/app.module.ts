@@ -135,7 +135,6 @@ import { CalendarioEstudianteComponent } from './features/estudiante/calendario/
 import { AlumnosEstudianteComponent } from './features/estudiante/clases/alumnos-estudiante/alumnos-estudiante.component';
 import { ClaseDevEstudianteComponent } from './features/estudiante/clases/clase-dev-estudiante/clase-dev-estudiante.component';
 import { DetalleClaseEstudianteComponent } from './features/estudiante/clases/detalle-clase-estudiante/detalle-clase-estudiante.component';
-import { DiaEstudianteComponent } from './features/estudiante/clases/dia-estudiante/dia-estudiante.component';
 import { EstudianteDiaClaseComponent } from './features/estudiante/clases/estudiante-dia-clase/estudiante-dia-clase.component';
 import { GraficoEstudianteEvaluacionComponent } from './features/estudiante/clases/evaluacion/grafico-estudiante-evaluacion/grafico-estudiante-evaluacion.component';
 import { HistorialEstudianteEvaluacionComponent } from './features/estudiante/clases/evaluacion/historial-estudiante-evaluacion/historial-estudiante-evaluacion.component';
@@ -309,7 +308,6 @@ import { TituloComponent } from './shared/titulo/titulo.component';
     ClaseDevEstudianteComponent,
     EstudianteDiaClaseComponent,
     ResumenEstudianteComponent,
-    DiaEstudianteComponent,
     AlumnosEstudianteComponent,
     ProfeEstudianteComponent,
     LesionEstudianteComponent,
