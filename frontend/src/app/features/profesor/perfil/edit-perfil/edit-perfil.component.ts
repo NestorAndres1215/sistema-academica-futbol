@@ -64,7 +64,7 @@ export class EditPerfilComponent implements OnInit {
     return this.lista.row[0].perfil ? this.imagenUrlBase + this.lista.row[0].perfil : '';
   }
 
-  defaultFileName: string = 'imagen.png'; // Nombre del archivo por defecto
+  defaultFileName: string = 'imagen.png';
 
   get selectedFileName(): string {
     return this.selectedFile ? this.selectedFile.name : this.defaultFileName;
@@ -81,23 +81,21 @@ export class EditPerfilComponent implements OnInit {
   defaultImageUrl: string = 'assets/image/components/icono-perfil.jpg';
 
 
-  imageUrl: string | null = null; // Variable para la URL de la imagen
+  imageUrl: string | null = null; 
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
 
     if (file) {
-      this.selectedFile = file; // Almacena el archivo seleccionado
+      this.selectedFile = file; 
       const reader = new FileReader();
       reader.onload = () => {
-        this.imageUrl = reader.result as string; // Actualiza la URL de la imagen
+        this.imageUrl = reader.result as string; 
       };
       reader.readAsDataURL(file);
     } else if (!this.selectedFile && this.logo) {
-      // Si no selecciona un archivo, mantener la imagen existente
       this.imageUrl = this.mostrarImagen(this.logo);
     } else {
-      // Usar la imagen por defecto si no hay archivo ni logo
       this.imageUrl = this.defaultImageUrl;
     }
   }
@@ -163,7 +161,7 @@ export class EditPerfilComponent implements OnInit {
         edad--;
       }
 
-      return ` ${edad}`; // Retornamos la edad como string
+      return ` ${edad}`;
     } else {
       return 'Por favor, ingresa una fecha de nacimiento válida.'; // Mensaje de error
     }
@@ -173,10 +171,10 @@ export class EditPerfilComponent implements OnInit {
 
 
     const logo = this.selectedFile
-      ? this.selectedFile // Imagen seleccionada
-      : this.logo         // Imagen actual (base64 desde el servidor)
-        ? new File([new Blob()], 'imagen_actual.jpeg', { type: 'image/jpeg' }) // Logo actual
-        : new File([new Blob()], 'imagen_defecto.jpeg', { type: 'image/jpeg' }); // Imagen por defecto
+      ? this.selectedFile 
+      : this.logo 
+        ? new File([new Blob()], 'imagen_actual.jpeg', { type: 'image/jpeg' })
+        : new File([new Blob()], 'imagen_defecto.jpeg', { type: 'image/jpeg' }); 
 
     formValues.logo = logo;
 
@@ -184,27 +182,25 @@ export class EditPerfilComponent implements OnInit {
       const registrar = {
         codigoAdmin: this.codigoAdmin,
         codigoUsuario: this.codigoUsuario,
-        usuario: formValues.usuario,        // Usuario ingresado por el usuario
-        primerNombre: formValues.primerNombre,   // Primer nombre del usuario
-        segundoNombre: formValues.segundoNombre, // Segundo nombre (si lo tiene)
-        apellidoPaterno: formValues.apellidoPaterno, // Apellido paterno
-        apellidoMaterno: formValues.apellidoMaterno, // Apellido materno
-        telefono: formValues.telefono,      // Teléfono de contacto
-        email: formValues.email,            // Correo electrónico
-        direccion: formValues.direccion,    // Dirección completa
+        usuario: formValues.usuario,        
+        primerNombre: formValues.primerNombre,   
+        segundoNombre: formValues.segundoNombre, 
+        apellidoPaterno: formValues.apellidoPaterno, 
+        apellidoMaterno: formValues.apellidoMaterno, 
+        telefono: formValues.telefono,     
+        email: formValues.email,          
+        direccion: formValues.direccion,  
         perfil: formValues.logo,
       };
-      console.log(registrar)
+
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
+        usuario: this.loginService.getUser().username, 
         detalle: `El usuario ${this.loginService.getUser().username} actualizó el administrador con el código ${this.codigoAdmin}.`
       };
 
-      // Registrar el historial primero
       this.historialService.registrar(historial).subscribe(
         () => {
-          // Si el historial se registra correctamente, proceder con la actualización del administrador
-          console.log(this.codigoAdmin)
+
           this.adminService.actualizarAdminImg(this.codigoAdmin, registrar).subscribe(
             () => {
               this.formulario.reset();
@@ -214,13 +210,11 @@ export class EditPerfilComponent implements OnInit {
               this.cdr.markForCheck();
             },
             (error) => {
-              // Manejo de errores si ocurre algún problema al guardar
               this.mensajeService.MostrarBodyError('Error al registrar el usuario: ' + error);
             }
           );
         },
         (error) => {
-          // Si hubo un error al registrar el historial, mostrar un mensaje de error
           this.mensajeService.MostrarBodyError('Error al registrar el historial: ' + error);
         }
       );

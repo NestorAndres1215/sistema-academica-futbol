@@ -63,14 +63,13 @@ export class HistorialPartidoProfesoresComponent implements OnInit {
         const marcadorLocal = parseInt(partido.marcadorLocal, 10);
         const marcadorVisita = parseInt(partido.marcadorVisita, 10);
 
-        let resultado = "🔄 Empate"; // Por defecto, empate
+        let resultado = "🔄 Empate"; 
         if (marcadorLocal > marcadorVisita) {
           resultado = "✅ Victoria";
         } else if (marcadorLocal < marcadorVisita) {
           resultado = "❌ Derrota";
         }
-
-        return { ...partido, resultado }; // Agrega la propiedad "resultado" al objeto partido
+        return { ...partido, resultado };
       });
 
       this.datosTabla = data;
@@ -103,9 +102,7 @@ export class HistorialPartidoProfesoresComponent implements OnInit {
     this.pagedData = this.datosTabla.slice(startIndex, endIndex);
   }
 
-  visor(row: any) {
 
-  }
   equipoSeleccionada: string = '';
   volver(): void {
     this.route.navigate(['/administrador']);
@@ -123,30 +120,24 @@ export class HistorialPartidoProfesoresComponent implements OnInit {
   async listarEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
 
-      const equipos = this.asignacion.map(i => i.equipo.nombre); // Array de nombres
-
-      const equiposFiltrados = data.filter(i => equipos.includes(i.nombre)); // Filtra los que coincidan
+      const equipos = this.asignacion.map(i => i.equipo.nombre); 
+      const equiposFiltrados = data.filter(i => equipos.includes(i.nombre)); 
 
       this.equipo = equiposFiltrados;
     });
   }
   estudiantesFiltrados = [...this.pagedData];
   filtrarUsuarios() {
-    console.log("Equipo seleccionado:", this.equipoSeleccionada); // Verifica el valor seleccionado
-
-    // Si no hay equipo seleccionado, mostrar todos los usuarios
     if (!this.equipoSeleccionada) {
-      this.estudiantesFiltrados = [...this.pagedData]; // Restaurar la lista original
+      this.estudiantesFiltrados = [...this.pagedData]; 
       return;
     }
 
-    // Verificar que pagedData esté definido antes de filtrar
     if (!this.pagedData || !Array.isArray(this.pagedData)) {
       this.estudiantesFiltrados = [];
       return;
     }
 
-    // Filtrar los estudiantes
     this.estudiantesFiltrados = this.pagedData.filter(estudiante => {
       if (!estudiante.equipo || !estudiante.equipo.nombre) {
 

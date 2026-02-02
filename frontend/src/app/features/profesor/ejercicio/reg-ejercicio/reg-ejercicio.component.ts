@@ -21,8 +21,6 @@ export class RegEjercicioComponent implements OnInit {
 
   operar() {
     const dia = this.data.dia;
-    console.log(dia)
-    // Por ejemplo: "LUNES Y MARTES"
     let codigo = '';
 
     switch (dia) {
@@ -56,11 +54,10 @@ export class RegEjercicioComponent implements OnInit {
       };
 
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+        usuario: this.loginService.getUser().username, 
         detalle: `El usuario ${this.loginService.getUser().username} registró al clase detalle ${objclase.nombre} y con el  dia  ${this.dia}.`
       };
 
-      // Registrar el historial
       this.ejercicioService.registrar(objclase).subscribe(
         () => {
           
@@ -77,7 +74,6 @@ export class RegEjercicioComponent implements OnInit {
           );
         },
         error => {
-          // Si hubo un error al registrar el historial, mostrar un mensaje de error
           this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
         }
       );
@@ -101,7 +97,6 @@ export class RegEjercicioComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private historialService: HistorialService,
-    private router: Router,
     private generalService: GeneralService,
     private dialogRe: MatDialogRef<AdminClaseDiaComponent>,
     private loginService: LoginService,
@@ -126,14 +121,9 @@ export class RegEjercicioComponent implements OnInit {
   @Input() dias: string = '';
 
 
-
-
-
-
   listarClase() {
     this.generalService.listarGeneralDevActivado("0008").subscribe((data) => {
-      console.log(data.descripcion1)
-      console.log(this.claseListar)
+
       const claseFiltrada = data.filter(item =>
         !this.claseListar.some(clase => clase === item.descripcion1)
       );
@@ -154,12 +144,10 @@ export class RegEjercicioComponent implements OnInit {
 
   listarClaseDetalle() {
     this.claseService.listarClaseDevActivado().subscribe((data) => {
-      console.log(data)
       const claseEncontrada = data
         .filter(index => index.clase.codigo == this.codigo)
         .map(index => index.titulo);
       this.claseListar = claseEncontrada
-      console.log(this.claseListar)
 
     })
   }

@@ -12,7 +12,11 @@ import { LoginService } from 'src/app/core/services/login.service';
 })
 export class DpEstduanteComponent implements OnInit {
 
- 
+    botonesConfig = {
+    editar: true,
+    volver: true,
+
+  };
   datos: any
   user: any
 

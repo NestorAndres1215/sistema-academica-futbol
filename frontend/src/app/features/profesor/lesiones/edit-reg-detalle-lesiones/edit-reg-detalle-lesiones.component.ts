@@ -24,7 +24,7 @@ export class EditRegDetalleLesionesComponent implements OnInit {
       responsable: this.formulario.value.responsable || '',
       observaciones: this.formulario.value.observaciones || ''
     };
-  
+
     console.log(objeto);
     this.lesionService.registrarDev(objeto).subscribe({
       next: (response) => {
@@ -35,30 +35,28 @@ export class EditRegDetalleLesionesComponent implements OnInit {
       },
       error: (error) => console.error('Error al registrar:', error)
     });
-    
+
   }
-  
- cerrar() {
+
+  cerrar() {
     this.dialogRe.close();
   }
- formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
   constructor(
-   
-    private estudianteService: EstudianteService, private historialService: HistorialService, private lesionService: LesionService,
+
+    private lesionService: LesionService,
     private formBuilder: UntypedFormBuilder,
-    private equipodevService: EquipoService,
     private mensaje: MensajeService,
-    private loginService: LoginService,
     private cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRe: MatDialogRef<ModuloLesionesComponent>,
     private dialog: MatDialog
   ) { }
-codigo:string
+  codigo: string
   ngOnInit(): void {
     console.log(this.data.lesionCompleto)
     console.log(this.data.row.lesionado.codigo)
-this.codigo=this.data.row.lesionado.codigo
+    this.codigo = this.data.row.lesionado.codigo
     this.formulario = this.formBuilder.group({
       tipoEvento: ['', Validators.required],
       descripcion: ['', [Validators.required,]],

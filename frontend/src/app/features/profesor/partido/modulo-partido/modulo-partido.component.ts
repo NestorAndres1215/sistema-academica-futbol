@@ -21,7 +21,7 @@ export class ModuloPartidoComponent implements OnInit {
       height: '450px',
       data: {
         row,
-        profesor:"profesor"
+        profesor: "profesor"
       },
     });
 
@@ -61,12 +61,11 @@ export class ModuloPartidoComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.loginService.getUser();
     this.listarEquipo();
-    //this.listarPartidos();  
 
   }
+
   async listarPartidos() {
     this.partidoService.listarPartidosActuales().subscribe((data) => {
-      console.log(data)
 
       this.user = this.loginService.getUser();
       const listadoNormalizado = this.listado.map(e => e.toLowerCase().trim());
@@ -74,9 +73,6 @@ export class ModuloPartidoComponent implements OnInit {
       const resultado = data.filter(i =>
         listadoNormalizado.includes(i.equipo.nombre.toLowerCase().trim())
       );
-
-      console.log(resultado);
-
 
       this.datosTabla = resultado;
       this.pagedData = data
@@ -89,7 +85,6 @@ export class ModuloPartidoComponent implements OnInit {
 
   async getUserInfo() {
     this.user = this.loginService.getUser();
-    const userID = this.user.id;
     const usuarios = this.datosTabla.filter(item => item.id === this.user.id);
     this.xd = usuarios
   }
@@ -117,9 +112,6 @@ export class ModuloPartidoComponent implements OnInit {
   async listarEquipo() {
     this.equipoService.listarAsignacion().subscribe((data) => {
 
-      console.log(data)
-
-      console.log(this.loginService.getUser().ul_codigo)
       data = data.filter(item => item.profesor.codigo != "0000");
 
       const filteredData = data.filter(item =>
