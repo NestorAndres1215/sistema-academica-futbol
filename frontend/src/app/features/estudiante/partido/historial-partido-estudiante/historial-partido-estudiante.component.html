@@ -1,11 +1,5 @@
-<div class="separator">
-
-    <h1 style="font-family: monospace;">Historial de Partido</h1>
-    <div class="card-header position-sticky sticky-top">
-        <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
-            tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
-    </div>
-</div>
+<app-titulo titulo="Historial de Partido" [botonesConfig]="botonesConfig" (volver)="volver()">
+</app-titulo>
 <div class="container">
     <!-- Estado vacío -->
     <div *ngIf="!pagedData?.length" class="empty-state text-center py-5">

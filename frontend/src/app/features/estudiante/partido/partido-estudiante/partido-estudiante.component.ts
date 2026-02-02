@@ -33,7 +33,11 @@ export class PartidoEstudianteComponent implements OnInit {
       this.listarPartidos()
     })
   }
+  botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
   user: any = null;
   xd: any
   datosTabla: any[] = [];

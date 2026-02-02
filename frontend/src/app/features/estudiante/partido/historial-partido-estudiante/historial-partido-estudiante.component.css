@@ -1,22 +1,4 @@
 
-
-.separator {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
-    padding: 10px;
-    /* Espacio uniforme alrededor del contenido */
-}
-
-.title {
-    margin: 0;
-    flex-grow: 1;
-    margin-right: 70px;
-    /* Agrega espacio a la derecha del título */
-}
-
 .empty-state {
     background-color: #f8f9fa;
     border-radius: 8px;

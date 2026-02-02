@@ -1,12 +1,5 @@
-<div class="separator">
-    <h1 style="font-family: monospace;">Próximos Partidos</h1>
-    <div class="card-header position-sticky sticky-top">
-        <button class="volver-btn" (click)="volver()" class="btn btn-danger button_close" tabindex="0">
-            <i class="fas fa-long-arrow-alt-left"></i>
-        </button>
-    </div>
-</div>
-
+<app-titulo titulo="Próximos Partidos" [botonesConfig]="botonesConfig" (volver)="volver()">
+</app-titulo>
 <div class="container">
     <!-- Si hay partidos, muestra la lista -->
     <div *ngIf="pagedData?.length > 0; else noPartidos" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">

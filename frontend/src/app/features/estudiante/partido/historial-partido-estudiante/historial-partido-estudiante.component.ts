@@ -11,7 +11,11 @@ import { PartidoService } from 'src/app/core/services/partido.service';
   styleUrls: ['./historial-partido-estudiante.component.css']
 })
 export class HistorialPartidoEstudianteComponent implements OnInit {
+  botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
 
   user: any = null;
   xd: any
