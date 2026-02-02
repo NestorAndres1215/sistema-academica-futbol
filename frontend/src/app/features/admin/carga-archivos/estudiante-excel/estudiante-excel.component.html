@@ -38,6 +38,7 @@
                 </tr>
             </thead>
             <tbody>
+
                 <tr *ngFor="let rowData of data">
                     <td *ngFor="let cell of rowData.row; let i = index" [ngClass]="{
                         'celda-roja': (rowData.isCorreoValido && i === 4), 

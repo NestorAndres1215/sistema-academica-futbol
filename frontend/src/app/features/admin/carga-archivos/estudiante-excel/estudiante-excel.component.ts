@@ -116,7 +116,7 @@ export class EstudianteExcelComponent implements OnInit {
 
     })
   }
-  data: any[];
+  data: any[]=[];
   seleccionarArchivo(): void {
     document.getElementById('fileInput')?.click();
   }

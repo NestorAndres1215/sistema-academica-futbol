@@ -23,7 +23,7 @@
 
                 <div class="calendar__grid">
                     <div *ngFor="let name of nameDay; let i = index; trackBy: trackByIndex" class="calendar__day-name"
-                        style="  background-color: lightsteelblue;">
+                        style="  background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white;">
                         {{ name }}
                     </div>
 
@@ -68,6 +68,7 @@
                 <div *ngIf="selectedDay">
                     <h2 class="card-title">{{ selectedDay.day + " " + currentMonthAndYear }}</h2>
                     <hr class="divider">
+
                 </div>
                 <div>
                     <table class="table table-striped">
