@@ -1,10 +1,9 @@
-<div class="separator">
-    <h1 style="font-family: monospace;">Calendario</h1>
-    <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
-        tabindex="0">
-        <i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i>
-    </button>
-</div>
+
+<app-titulo
+  titulo="Calendario de Clases y Partidos"
+ [botonesConfig]="botonesConfig"
+  (volver)="volver()">
+</app-titulo>
 <div class="container mt-4">
 
     <div class="row">
