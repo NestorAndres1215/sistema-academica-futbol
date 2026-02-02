@@ -12,7 +12,11 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class DatosPersonalesProfesoresComponent implements OnInit {
 
+  botonesConfig = {
+    editar: true,
+    volver: true,
 
+  };
  
   datos: any
   user: any
