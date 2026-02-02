@@ -2,59 +2,30 @@
 </app-titulo>
 
 <div class="card-body">
- <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
-        <div class="d-flex gap-2">
-            <app-button label="Exportar a Excel" icon="fas fa-file-excel" color="excel" (onClick)="exportarExcel()">
-            </app-button>
+  <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+    <div class="d-flex gap-2">
+      <app-button label="Exportar a Excel" icon="fas fa-file-excel" color="excel" (onClick)="exportarExcel()">
+      </app-button>
 
-            <app-button label="Exportar a PDF" icon="fas fa-file-pdf" color="pdf" (onClick)="exportarPDF()">
-            </app-button>
+      <app-button label="Exportar a PDF" icon="fas fa-file-pdf" color="pdf" (onClick)="exportarPDF()">
+      </app-button>
 
-            <app-button label="Imprimir" icon="fas fa-print" color="imprimir" (onClick)="exportarPrint()">
-            </app-button>
-        </div>
-        <div class="d-flex gap-2">
-
-            <app-button label="Registro" icon="fas fa-plus-circle" color="registrar" (onClick)="operar()">
-            </app-button>
-        </div>
-
+      <app-button label="Imprimir" icon="fas fa-print" color="imprimir" (onClick)="exportarPrint()">
+      </app-button>
     </div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Código</th>
-          <th>Nombre</th>
-          <th>Direccion</th>
-     
-          <th>Telefono</th>
-        
-          <th>Acción</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngIf="pagedData.length === 0">
-          <td colspan="5" style="text-align: center; color: grey;">
-            No hay datos disponibles.
-          </td>
-        </tr>
-        <tr *ngFor="let row of pagedData">
-          <td>{{ row.codigo }}</td>
-          <td>{{ row.nombre }}</td>
-          <td>{{ row.direccion }}</td>
-          <td>{{ row.telefono }}</td>
-          <td>
-            <button mat-icon-button class="btn-editar" (click)="editar(row)">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button class="btn-vista" (click)="visor(row)">
-              <mat-icon>visibility</mat-icon>
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-      (page)="pageChanged($event)">
-    </mat-paginator>
+    <div class="d-flex gap-2">
+
+      <app-button label="Registro" icon="fas fa-plus-circle" color="registrar" (onClick)="operar()">
+      </app-button>
+    </div>
+
   </div>
+
+
+  <app-tabla [columnas]="columnas" [datos]="pagedData" [botonesConfig]="botonesConfigTable"
+    [onActualizar]="editar.bind(this)" [onVer]="visor.bind(this)">
+  </app-tabla>
+  <app-pagination [totalItems]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+    (page)="pageChanged($event)">
+  </app-pagination>
+</div>

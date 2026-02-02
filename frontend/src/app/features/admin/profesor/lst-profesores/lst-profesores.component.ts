@@ -28,7 +28,20 @@ export class LstProfesoresComponent implements OnInit {
     volver: true,
 
   };
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Nombre', clave: 'primerNombre' },
+    { etiqueta: 'Usuario', clave: 'usuario.username' },
+    { etiqueta: 'Correo', clave: 'correo' },
+    { etiqueta: 'Teléfono', clave: 'telefono' },
+    { etiqueta: 'DNI', clave: 'dni' },
+    { etiqueta: 'Dirección', clave: 'direccion' }
+  ];
 
+  botonesConfigTable = {
+    actualizar: true,
+    ver: true,
+  };
   user: any = null;
   xd: any
   datosTabla: any[] = [];

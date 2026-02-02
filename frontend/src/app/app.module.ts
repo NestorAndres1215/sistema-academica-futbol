@@ -178,6 +178,10 @@ import { EditPerfilComponent } from './features/profesor/perfil/edit-perfil/edit
 import { PrincipalProfesorComponent } from './features/profesor/principal-profesor/principal-profesor.component';
 import { ButtonComponent } from './shared/button/button.component';
 import { TituloComponent } from './shared/titulo/titulo.component';
+import { TablaComponent } from './shared/tabla/tabla.component';
+import { SearchComponent } from './shared/search/search.component';
+import { FilterSelectComponent } from './shared/filter-select/filter-select.component';
+import { PaginationComponent } from './shared/pagination/pagination.component';
 
 
 @NgModule({
@@ -331,6 +335,10 @@ import { TituloComponent } from './shared/titulo/titulo.component';
     EditRegDetalleLesionesComponent,
     ButtonComponent,
     TituloComponent,
+    TablaComponent,
+    SearchComponent,
+    FilterSelectComponent,
+    PaginationComponent,
   ],
   imports: [
     BrowserModule,

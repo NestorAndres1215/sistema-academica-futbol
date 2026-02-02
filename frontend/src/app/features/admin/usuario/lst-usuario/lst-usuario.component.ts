@@ -6,9 +6,8 @@ import { LoginService } from 'src/app/core/services/login.service';
 import { VisorUsuarioComponent } from '../visor-usuario/visor-usuario.component';
 import { EditUsuarioComponent } from '../edit-usuario/edit-usuario.component';
 import { Router } from '@angular/router';
-import * as XLSX from 'xlsx';
-import { jsPDF } from 'jspdf';
-import 'jspdf-autotable';  // Asegúrate de que esté importado
+
+import 'jspdf-autotable';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
 import { ModalEliminacionComponent } from '../../../../shared/modal/modal-eliminacion/modal-eliminacion.component';
@@ -25,7 +24,7 @@ import { Respuesta } from 'src/app/core/model/respuesta';
   styleUrls: ['./lst-usuario.component.css']
 })
 export class LstUsuarioComponent implements OnInit {
- botonesConfig = {
+  botonesConfig = {
     editar: false,
     volver: true,
 
@@ -41,7 +40,20 @@ export class LstUsuarioComponent implements OnInit {
   totalItems: number;
   pageSize = 5;
   listar: any
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Nombre', clave: 'primerNombre' },
+    { etiqueta: 'Usuario', clave: 'usuario.username' },
+    { etiqueta: 'Correo', clave: 'correo' },
+    { etiqueta: 'Teléfono', clave: 'telefono' },
+    { etiqueta: 'DNI', clave: 'dni' },
+    { etiqueta: 'Dirección', clave: 'direccion' }
+  ];
 
+  botonesConfigTable = {
+    actualizar: true,
+    ver: true,
+  };
   constructor(
     private admin: AdminService,
     private dialog: MatDialog,
@@ -83,7 +95,6 @@ export class LstUsuarioComponent implements OnInit {
 
   async getUserInfo() {
     this.user = this.loginService.getUser();
-    const userID = this.user.id;
     const usuarios = this.datosTabla.filter(item => item.id === this.user.id);
     this.xd = usuarios
   }
@@ -130,7 +141,6 @@ export class LstUsuarioComponent implements OnInit {
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarUsuario()
     })
@@ -142,16 +152,16 @@ export class LstUsuarioComponent implements OnInit {
 
   // Método para exportar a Excel
   exportarExcel() {
-    // Crear el objeto de historial
+
     const historial: Historial = {
       usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de los administradores a un archivo Excel.`
     };
 
-    // Registrar el historial
+
     this.historialService.registrar(historial).subscribe(
       () => {
-        // Si el historial se registra correctamente, proceder con la exportación
+
         this.excel.descargarExcelAdmin().subscribe((data: Blob) => {
           const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
           const urlBlob = window.URL.createObjectURL(blob);

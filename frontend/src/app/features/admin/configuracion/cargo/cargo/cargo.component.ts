@@ -78,6 +78,15 @@ export class CargoComponent implements OnInit {
     this.route.navigate(['/administrador']);
   }
 
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Nombre', clave: 'nombre' },
+    { etiqueta: 'Descripción', clave: 'descripcion' },
+  ];
+  botonesConfigTable = {
+    actualizar: true,
+    ver: true,
+  };
 
 
   async listarCargo() {
@@ -114,7 +123,6 @@ export class CargoComponent implements OnInit {
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarCargo()
     })
@@ -130,28 +138,25 @@ export class CargoComponent implements OnInit {
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarCargo()
     })
   }
   exportarExcel() {
-    // Crear el historial antes de exportar el Excel
+
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} descargó el informe de cargos en formato Excel.`
     };
-  
-    // Registrar el historial
+
     this.historialService.registrar(historial).subscribe(
       () => {
-        // Si el historial se registra correctamente, proceder a exportar el archivo Excel
         this.excel.descargarExcelCargo().subscribe((data: Blob) => {
           const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
           const urlBlob = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = urlBlob;
-          a.download = 'datos_exportados_cargo.xlsx';  // Nombre del archivo Excel
+          a.download = 'datos_exportados_cargo.xlsx'; 
           a.style.display = 'none';
           document.body.appendChild(a);
           a.click();
@@ -164,7 +169,7 @@ export class CargoComponent implements OnInit {
       }
     );
   }
-  
+
 
 
 
@@ -202,7 +207,7 @@ export class CargoComponent implements OnInit {
   exportarPrint(): void {
     // Suponiendo que this.datosTabla es un array o un objeto que quieres imprimir
     const contenidoAImprimir = this.datosTabla;
-  
+
     if (contenidoAImprimir) {
       // Crear un iframe
       const iframe = document.createElement('iframe');
@@ -212,16 +217,16 @@ export class CargoComponent implements OnInit {
       iframe.style.border = 'none';
       iframe.style.visibility = 'hidden';
       document.body.appendChild(iframe);
-  
+
       const iframeDoc = iframe.contentWindow?.document;
-  
+
       // Encabezado del reporte
       const fechaReporte = new Date().toLocaleDateString('es-ES', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric'
       });
-  
+
       // Convertir los datos en formato HTML
       let contenidoHTML = `
       <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-family: 'Arial', sans-serif;">
@@ -233,7 +238,7 @@ export class CargoComponent implements OnInit {
           </tr>
         </thead>
         <tbody>`;
-  
+
       contenidoAImprimir.forEach((item: any) => {
         contenidoHTML += `
           <tr>
@@ -242,9 +247,9 @@ export class CargoComponent implements OnInit {
             <td style="padding: 10px; border: 1px solid #dee2e6;">${item.descripcion}</td>
           </tr>`;
       });
-  
+
       contenidoHTML += `</tbody></table>`;
-  
+
       // Escribir el contenido a imprimir en el iframe
       iframeDoc?.open();
       iframeDoc?.write(`
@@ -299,7 +304,7 @@ export class CargoComponent implements OnInit {
         </html>
       `);
       iframeDoc?.close();
-  
+
       // Ejecutar el comando de impresión en el iframe
       setTimeout(() => {
         iframe.contentWindow?.focus();
@@ -308,7 +313,7 @@ export class CargoComponent implements OnInit {
       }, 300);
     }
   }
-  
+
   eliminar(row: any) {
     const dialogEliminar = this.dialog.open(ModalEliminacionComponent, {
       width: '500px',

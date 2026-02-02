@@ -15,6 +15,7 @@ import { VisorEstudianteComponent } from '../../estudiante/visor-estudiante/viso
 import { VisorClaseComponent } from '../visor-clase/visor-clase.component';
 import { EditClaseComponent } from '../edit-clase/edit-clase.component';
 import { Historial } from 'src/app/core/model/historial';
+import { formatearHora } from 'src/app/core/utils/fechaValidator';
 
 @Component({
   selector: 'app-ls-clase',
@@ -23,7 +24,23 @@ import { Historial } from 'src/app/core/model/historial';
 })
 export class LsClaseComponent implements OnInit {
 
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Nombre', clave: 'nombre' },
+    { etiqueta: 'Equipo', clave: 'equipo.nombre' },
+    { etiqueta: 'Género', clave: 'equipo.genero' },
+    { etiqueta: 'Horario', clave: 'horarioRango' },
 
+    { etiqueta: 'Inicio', clave: 'inicio' },
+    { etiqueta: 'Fin', clave: 'fin' },
+    { etiqueta: 'Día', clave: 'dia' }
+  ];
+
+  botonesConfigTable = {
+    actualizar: true,
+    ver: true,
+  };
+  
   user: any = null;
   xd: any
   datosTabla: any[] = [];
@@ -34,7 +51,7 @@ export class LsClaseComponent implements OnInit {
   pageSize = 5;
   listar: any
 
-   botonesConfig = {
+  botonesConfig = {
     editar: false,
     volver: true,
 
@@ -61,25 +78,31 @@ export class LsClaseComponent implements OnInit {
     this.user = this.loginService.getUser();
     this.listarProdesor();
   }
+
   async listarProdesor() {
     this.claseService.listarClaseActivado().subscribe((data) => {
-      console.log(data)
+
       data = data.filter(item => item.codigo !== '0000');
       this.user = this.loginService.getUser();
 
-      console.log(data);
-      this.datosTabla = data;
-      this.pagedData = data
-      this.totalItems = this.datosTabla.length
+      this.datosTabla = data.map(item => ({
+        ...item,
+        horarioRango: item.horario
+          ? `${formatearHora(item.horario.inicioHora)} - ${formatearHora(item.horario.finHora)}`
+          : ''
+      }));
+
+      this.pagedData = this.datosTabla;
+      this.totalItems = this.datosTabla.length;
       this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
-      this.getUserInfo()
+      this.getUserInfo();
       this.change.markForCheck();
     });
   }
 
+
   async getUserInfo() {
     this.user = this.loginService.getUser();
-    const userID = this.user.id;
     const usuarios = this.datosTabla.filter(item => item.id === this.user.id);
     this.xd = usuarios
   }
@@ -91,7 +114,6 @@ export class LsClaseComponent implements OnInit {
 
 
   pageChanged(event: PageEvent) {
-    console.log(event)
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
@@ -116,6 +138,8 @@ export class LsClaseComponent implements OnInit {
     });
 
   }
+
+
   editar(row: any) {
     const dialogRef = this.dialog.open(EditClaseComponent, {
       width: '1090px',
@@ -126,27 +150,26 @@ export class LsClaseComponent implements OnInit {
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarProdesor()
     })
   }
+
   volver(): void {
     this.route.navigate(['/administrador']);
   }
 
 
   exportarExcel() {
-    // Crear el objeto del historial
+
     const historial: Historial = {
       usuario: this.loginService.getUser().username, // Usuario que realiza la acción
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo Excel.`,
     };
 
-    // Registrar el historial
+
     this.historialService.registrar(historial).subscribe(
       () => {
-        // Si el historial se registra correctamente, proceder con la exportación
         this.excel.descargarExcelClase().subscribe((data: Blob) => {
           const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
           const urlBlob = window.URL.createObjectURL(blob);
@@ -164,7 +187,6 @@ export class LsClaseComponent implements OnInit {
         // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
         this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
 
-        // Proceder con la exportación de datos
         this.excel.descargarExcelEstudiante().subscribe((data: Blob) => {
           const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
           const urlBlob = window.URL.createObjectURL(blob);
@@ -188,16 +210,15 @@ export class LsClaseComponent implements OnInit {
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo PDF.`,
     };
 
-    // Registrar el historial
     this.historialService.registrar(historial).subscribe(
       () => {
-        // Si el historial se registra correctamente, proceder con la exportación
+
         this.pdfService.descargarPDFClase().subscribe((data: Blob) => {
           const blob = new Blob([data], { type: 'application/pdf' });
           const urlBlob = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = urlBlob;
-          a.download = 'informe_estudiante.pdf'; // Nombre del archivo PDF
+          a.download = 'informe_estudiante.pdf';
           a.style.display = 'none';
           document.body.appendChild(a);
           a.click();
@@ -206,16 +227,15 @@ export class LsClaseComponent implements OnInit {
         });
       },
       error => {
-        // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
+
         this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
 
-        // Proceder con la exportación de datos
         this.pdfService.descargarPDFEstudiante().subscribe((data: Blob) => {
           const blob = new Blob([data], { type: 'application/pdf' });
           const urlBlob = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = urlBlob;
-          a.download = 'informe_estudiante.pdf'; // Nombre del archivo PDF
+          a.download = 'informe_estudiante.pdf';
           a.style.display = 'none';
           document.body.appendChild(a);
           a.click();
@@ -227,7 +247,7 @@ export class LsClaseComponent implements OnInit {
   }
 
   exportarPrint(): void {
-    // Suponiendo que this.datosTabla contiene los datos de las clases
+
     const contenidoAImprimir = this.datosTabla;
 
     if (contenidoAImprimir) {
@@ -250,7 +270,6 @@ export class LsClaseComponent implements OnInit {
       });
 
 
-      // Convertir los datos en formato HTML
       let contenidoHTML = `
  <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-family: 'Arial', sans-serif;">
    <thead>
@@ -292,7 +311,6 @@ export class LsClaseComponent implements OnInit {
 
       contenidoHTML += `</tbody></table>`;
 
-      // Escribir el contenido a imprimir en el iframe
       iframeDoc?.open();
       iframeDoc?.write(`
    <html>
@@ -351,7 +369,7 @@ export class LsClaseComponent implements OnInit {
         iframe.contentWindow?.print();
         document.body.removeChild(iframe);
       }, 300);
-      }
+    }
   }
 
 

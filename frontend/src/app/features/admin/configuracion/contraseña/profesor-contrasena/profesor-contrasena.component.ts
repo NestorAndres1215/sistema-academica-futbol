@@ -8,6 +8,7 @@ import { LoginService } from 'src/app/core/services/login.service';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
 import { ProfesorService } from 'src/app/core/services/profesor.service';
+import { NombreCompleto } from 'src/app/core/utils/nombreValidator';
 import { EditContraComponent } from 'src/app/features/profesor/configuracion/edit-contra/edit-contra.component';
 
 @Component({
@@ -16,7 +17,7 @@ import { EditContraComponent } from 'src/app/features/profesor/configuracion/edi
   styleUrls: ['./profesor-contrasena.component.css']
 })
 export class ProfesorContrasenaComponent implements OnInit {
- user: any = null;
+  user: any = null;
   xd: any
   datosTabla: any[] = [];
   pagedData: any[] = [];
@@ -25,16 +26,25 @@ export class ProfesorContrasenaComponent implements OnInit {
   totalItems: number;
   pageSize = 5;
   listar: any
-  
+
+
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Nombre Completo', clave: 'nombreCompleto' },
+    { etiqueta: 'Usuario', clave: 'usuario.username' },
+  ];
+
+  botonesConfigTable = {
+    actualizar: true,
+
+  };
+
+
   constructor(
     private admin: ProfesorService,
     private dialog: MatDialog,
-    private historialService:HistorialService,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private mensjae:MensajeService,
-    private excel: ExcelService,
-    private pdfService: PdfService,
     private route: Router
   ) {
     this.pageChanged({
@@ -49,14 +59,16 @@ export class ProfesorContrasenaComponent implements OnInit {
   }
   async listarProdesor() {
     this.admin.listarProfesorActivado().subscribe((data) => {
-      console.log(data)
-      data = data.filter(item => item.codigo !== '0000' );
+      const datosFiltrados = data.filter(item => item.codigo !== '0000');
       this.user = this.loginService.getUser();
 
-      console.log(data);
-      this.datosTabla = data;
-      this.pagedData = data
-      this.totalItems = this.datosTabla.length
+      this.datosTabla = datosFiltrados.map(item => ({
+        ...item,
+        nombreCompleto: NombreCompleto(item)
+      }));
+
+      this.pagedData = this.datosTabla;
+      this.totalItems = this.datosTabla.length;
       this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
       this.getUserInfo()
       this.change.markForCheck();
@@ -65,7 +77,6 @@ export class ProfesorContrasenaComponent implements OnInit {
 
   async getUserInfo() {
     this.user = this.loginService.getUser();
-    const userID = this.user.id;
     const usuarios = this.datosTabla.filter(item => item.id === this.user.id);
     this.xd = usuarios
   }
@@ -74,7 +85,7 @@ export class ProfesorContrasenaComponent implements OnInit {
     this.paginator.firstPage();
     this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
   }
-  
+
 
   pageChanged(event: PageEvent) {
     console.log(event)
@@ -84,14 +95,14 @@ export class ProfesorContrasenaComponent implements OnInit {
     this.pagedData = this.datosTabla.slice(startIndex, endIndex);
   }
 
-  
+
   editar(row: any) {
     console.log()
-    row=row.usuario
+    row = row.usuario
     console.log(row)
     const dialogRef = this.dialog.open(EditContraComponent, {
-   
-      disableClose: true ,
+
+      disableClose: true,
       width: '550px',
       height: '550px',
       data: {
@@ -99,12 +110,12 @@ export class ProfesorContrasenaComponent implements OnInit {
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarProdesor()
       this.pageSizeChanged()
     })
   }
+
   volver(): void {
     this.route.navigate(['/administrador']);
   }

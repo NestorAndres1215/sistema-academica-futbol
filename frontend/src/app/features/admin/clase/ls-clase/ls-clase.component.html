@@ -19,49 +19,11 @@
             </app-button>
         </div>
     </div>
+    <app-tabla [columnas]="columnas" [datos]="pagedData" [botonesConfig]="botonesConfigTable"
+        [onActualizar]="editar.bind(this)" [onVer]="visor.bind(this)">
+    </app-tabla>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Clase</th>
-                <th>Equipo</th>
-                <th>Genero</th>
-                <th>Hora</th>
-                <th>Fecha Inicial</th>
-                <th>Fecha Final</th>
-                <th>Dias</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngIf="pagedData.length === 0">
-                <td colspan="8" style="text-align: center; color: grey;">
-                    No hay datos disponibles.
-                </td>
-            </tr>
-            <tr *ngFor="let row of pagedData">
-                <td>{{ row.codigo }}</td>
-                <td>{{ row.nombre }}</td>
-                <td>{{ row.equipo.nombre }}</td>
-                <td>{{ row.equipo.genero }}</td>
-                <td>{{row.horario.inicioHora +" - "+row.horario.finHora}}</td>
-                <td>{{row.inicio}}</td>
-                <td>{{row.fin}}</td>
-                <td>{{row.dia}}</td>
-                <td>
-                    <button mat-icon-button class="btn-editar" (click)="editar(row)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button class="btn-vista" (click)="visor(row)">
-                        <mat-icon>visibility</mat-icon>
-                    </button>
-
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+    <app-pagination [totalItems]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
         (page)="pageChanged($event)">
-    </mat-paginator>
+    </app-pagination>
 </div>

@@ -23,7 +23,7 @@ import { Respuesta } from 'src/app/core/model/respuesta';
   styleUrls: ['./list-estudiante.component.css']
 })
 export class ListEstudianteComponent implements OnInit {
- botonesConfig = {
+  botonesConfig = {
     editar: false,
     volver: true,
 
@@ -32,7 +32,7 @@ export class ListEstudianteComponent implements OnInit {
   xd: any
   datosTabla: any[] = [];
   pagedData: any[] = [];
-  pageSizeOptions: number[] = [5, 10, 25, 100];
+  pageSizeOptions: number[] =    [5, 10, 15, 25, 100];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   totalItems: number;
   pageSize = 5;
@@ -43,34 +43,40 @@ export class ListEstudianteComponent implements OnInit {
     private dialog: MatDialog,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private mensjae: MensajeService,
+    private mensaje: MensajeService,
     private historialService: HistorialService,
     private excel: ExcelService,
     private pdfService: PdfService,
     private route: Router
-  ) {
-    this.pageChanged({
-      pageIndex: 0, pageSize: this.pageSize,
-      length: 0
-    });
-  }
+  ) { }
 
   ngOnInit(): void {
     this.user = this.loginService.getUser();
-    this.listarProdesor();
+    this.listarProfesor();
   }
-  async listarProdesor() {
-    this.admin.listarEstudianteActivado().subscribe((data) => {
-      console.log(data)
-      data = data.filter(item => item.codigo !== '0000' );
-      this.user = this.loginService.getUser();
 
-      console.log(data);
-      this.datosTabla = data;
-      this.pagedData = data
-      this.totalItems = this.datosTabla.length
-      this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
-      this.getUserInfo()
+  pageIndex = 0;
+
+
+  listarProfesor(): void {
+    this.admin.listarEstudianteActivado().subscribe((data: any[]) => {
+
+      // Filtrar
+      data = data.filter(item => item.codigo !== '0000');
+
+      // Preparar nombre completo
+      this.datosTabla = data.map(row => ({
+        ...row,
+        nombreCompleto: `${row.primerNombre} ${row.segundoNombre} ${row.apellidoPaterno} ${row.apellidoMaterno}`
+      }));
+
+      this.totalItems = this.datosTabla.length;
+
+      // Inicializar paginación
+      this.pageIndex = 0;
+      this.updatePagedData();
+
+      this.getUserInfo();
       this.change.markForCheck();
     });
   }
@@ -88,13 +94,19 @@ export class ListEstudianteComponent implements OnInit {
   }
 
 
-  pageChanged(event: PageEvent) {
-    console.log(event)
-    this.totalItems = this.datosTabla.length
-    const startIndex = event.pageIndex * event.pageSize;
-    const endIndex = startIndex + event.pageSize;
+
+  pageChanged(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.updatePagedData();
+  }
+
+  updatePagedData(): void {
+    const startIndex = this.pageIndex * this.pageSize;
+    const endIndex = startIndex + this.pageSize;
     this.pagedData = this.datosTabla.slice(startIndex, endIndex);
   }
+
 
   visor(row: any) {
     console.log(row)
@@ -127,7 +139,7 @@ export class ListEstudianteComponent implements OnInit {
 
     // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
-      this.listarProdesor()
+      this.listarProfesor()
       this.pageSizeChanged()
     })
   }
@@ -162,7 +174,7 @@ export class ListEstudianteComponent implements OnInit {
       },
       error => {
         // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
-        this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
+        this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
 
         // Proceder con la exportación de datos
         this.excel.descargarExcelEstudiante().subscribe((data: Blob) => {
@@ -180,6 +192,19 @@ export class ListEstudianteComponent implements OnInit {
       }
     );
   }
+  botonesConfigTable = {
+    actualizar: true,
+    ver: true,
+  };
+
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Nombre', clave: 'primerNombre' },
+    { etiqueta: 'Correo', clave: 'correo' },
+    { etiqueta: 'Teléfono', clave: 'telefono' },
+    { etiqueta: 'Nro Documento', clave: 'dni' },
+    { etiqueta: 'Sede', clave: 'sede.nombre' }
+  ];
 
   exportarPDF(): void {
     // Crear el objeto del historial
@@ -207,7 +232,7 @@ export class ListEstudianteComponent implements OnInit {
       },
       error => {
         // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
-        this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
+        this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
 
         // Proceder con la exportación de datos
         this.pdfService.descargarPDFEstudiante().subscribe((data: Blob) => {
@@ -345,7 +370,7 @@ export class ListEstudianteComponent implements OnInit {
         iframe.contentWindow?.print();
         document.body.removeChild(iframe);
       }, 300);
-      }
+    }
   }
 
 
@@ -373,17 +398,17 @@ export class ListEstudianteComponent implements OnInit {
           usuario: this.loginService.getUser().username, // Usuario que realiza la acción
           detalle: `El usuario ${this.loginService.getUser().username} eliminó al estudiante ${row.usuario.username} con el código ${row.codigo}.`
         };
-        this.mensjae.MostrarMensajeExito("Se desactivo correctamente el usuario")
+        this.mensaje.MostrarMensajeExito("Se desactivo correctamente el usuario")
         this.historialService.registrar(historial).subscribe(
           () => {
-            this.mensjae.MostrarMensaje("Se desactivó correctamente el estudiante.");
-            this.listarProdesor(); // Actualizar la lista de cargos
+            this.mensaje.MostrarMensaje("Se desactivó correctamente el estudiante.");
+            this.listarProfesor(); // Actualizar la lista de cargos
           },
           error => {
-            this.mensjae.MostrarBodyError(error); // Manejar error al registrar el historial
+            this.mensaje.MostrarBodyError(error); // Manejar error al registrar el historial
           }
         );
-        
+
       });
 
     })
@@ -397,7 +422,7 @@ export class ListEstudianteComponent implements OnInit {
       height: '650px',
     });
     dialogRef.afterClosed().subscribe(data => {
-      this.listarProdesor()
+      this.listarProfesor()
     })
   }
 

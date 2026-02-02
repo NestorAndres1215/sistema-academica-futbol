@@ -24,10 +24,20 @@ import { Respuesta } from 'src/app/core/model/respuesta';
 })
 export class SedeComponent implements OnInit {
 
-   botonesConfig = {
+  botonesConfig = {
     editar: false,
     volver: true,
 
+  };
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Nombre', clave: 'nombre' },
+    { etiqueta: 'Direccion', clave: 'direccion' },
+    { etiqueta: 'Telefono', clave: 'telefono' },
+  ];
+  botonesConfigTable = {
+    actualizar: true,
+    ver: true,
   };
 
   user: any = null;

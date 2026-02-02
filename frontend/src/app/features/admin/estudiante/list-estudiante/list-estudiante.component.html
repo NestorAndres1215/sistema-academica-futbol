@@ -20,46 +20,15 @@
 
     </div>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Nombre</th>
-                <th>Correo</th>
-                <th>Telefono</th>
-                <th>Nro Documento</th>
 
-                <th>Sede</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngIf="pagedData.length === 0">
-                <td colspan="8" style="text-align: center; color: grey;">
-                    No hay datos disponibles.
-                </td>
-            </tr>
-            <tr *ngFor="let row of pagedData">
-                <td>{{ row.codigo }}</td>
-                <td>{{ row.primerNombre + " " + row.segundoNombre+ " "+row.apellidoPaterno+" " +row.apellidoMaterno }}
-                </td>
-                <td>{{ row.correo }}</td>
-                <td>{{ row.telefono }}</td>
-                <td>{{ row.dni }}</td>
-                <td>{{ row.sede.nombre }}</td>
-                <td>
-                    <button mat-icon-button class="btn-editar" (click)="editar(row)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button class="btn-vista" (click)="visor(row)">
-                        <mat-icon>visibility</mat-icon>
-                    </button>
 
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-        (page)="pageChanged($event)">
-    </mat-paginator>
+    <app-tabla [columnas]="columnas" [datos]="pagedData" [botonesConfig]="botonesConfigTable"
+        [onActualizar]="editar.bind(this)" [onVer]="visor.bind(this)">
+    </app-tabla>
+<app-pagination
+  [totalItems]="totalItems"
+  [pageSizeOptions]="pageSizeOptions"
+  (page)="pageChanged($event)">
+</app-pagination>
+
 </div>

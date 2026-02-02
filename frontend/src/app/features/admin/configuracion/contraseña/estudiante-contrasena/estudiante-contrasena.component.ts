@@ -4,6 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { LoginService } from 'src/app/core/services/login.service';
+import { NombreCompleto } from 'src/app/core/utils/nombreValidator';
 import { EditContraComponent } from 'src/app/features/profesor/configuracion/edit-contra/edit-contra.component';
 
 @Component({
@@ -36,6 +37,17 @@ export class EstudianteContrasenaComponent implements OnInit {
     });
   }
 
+ columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Nombre Completo', clave: 'nombreCompleto' },
+    { etiqueta: 'Usuario', clave: 'usuario.username' },
+  ];
+ 
+  botonesConfigTable = {
+    actualizar: true,
+
+  };
+
   ngOnInit(): void {
     this.user = this.loginService.getUser();
     this.listarProdesor();
@@ -43,13 +55,16 @@ export class EstudianteContrasenaComponent implements OnInit {
   async listarProdesor() {
     this.admin.listarEstudianteActivado().subscribe((data) => {
       console.log(data)
-      data = data.filter(item => item.codigo !== '0000' );
+      const datosFiltrados = data.filter(item => item.codigo !== '0000' );
       this.user = this.loginService.getUser();
 
-      console.log(data);
-      this.datosTabla = data;
-      this.pagedData = data
-      this.totalItems = this.datosTabla.length
+      this.datosTabla = datosFiltrados.map(item => ({
+        ...item,
+        nombreCompleto: NombreCompleto(item)
+      }));
+
+      this.pagedData = this.datosTabla;
+      this.totalItems = this.datosTabla.length;
       this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
       this.getUserInfo()
       this.change.markForCheck();
