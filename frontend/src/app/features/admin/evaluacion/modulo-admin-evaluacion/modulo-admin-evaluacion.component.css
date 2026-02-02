@@ -1,13 +1,4 @@
-.nombre-equipo {
-    font-size: 24px;
-    text-align: center;
-    margin-top: 30px;
-}
 
-.separador {
-    width: 100%;
-    margin: 20px auto;
-}
 .resumen-texto {
     font-size: 15px;          /* Tamaño de letra adecuado */
     line-height: 1.6;         /* Buen espaciado entre líneas */
@@ -17,18 +8,6 @@
     text-align: justify;      /* Alineación justificada para mayor profesionalismo */
   }
   
-
-.separator {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
-    padding: 10px;
-    /* Espacio uniforme alrededor del contenido */
-}
-
-/* Estilos para la tabla */
 .table {
     width: 100%;
     border-collapse: collapse;
