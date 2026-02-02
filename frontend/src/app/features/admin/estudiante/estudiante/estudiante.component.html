@@ -1,9 +1,8 @@
-
-
 <app-titulo titulo="Estudiante" [botonesConfig]="botonesConfig" (volver)="volver()">
 </app-titulo>
-<div class="container usuarios-container">
-  <!-- Barra de búsqueda -->
+<div class="container mt-4 pb-4">
+
+
   <div class="search-container">
     <mat-form-field appearance="outline" class="custom-search">
       <mat-icon matPrefix>search</mat-icon>
@@ -11,8 +10,6 @@
         (input)="filtrarUsuarios()">
     </mat-form-field>
   </div>
-
-  <!-- Filtros de sede y género -->
   <div class="filters-container">
     <mat-form-field appearance="outline" class="filter-field">
       <mat-label>Sedes</mat-label>
