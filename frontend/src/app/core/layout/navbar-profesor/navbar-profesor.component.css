@@ -41,6 +41,14 @@
 }
 
 .sidenav-content {
-  height: 90vh;
+    height: 94vh;
 
+    background-color: #f0f7ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.content-wrapper {
+    height: 100%;
+    width: 100%;
 }
