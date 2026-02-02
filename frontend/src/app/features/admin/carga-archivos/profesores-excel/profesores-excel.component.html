@@ -16,43 +16,44 @@
             <input id="fileInput" type="file" (change)="importExcel($event)" style="display: none;" />
         </div>
     </div>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Primer Nombre</th>
-                <th>Segundo Nombre</th>
-                <th>Apellido Paterno</th>
-                <th>Apellido Materno</th>
-                <th>Correo</th>
-                <th>Teléfono</th>
-                <th>DNI</th>
-                <th>Dirección</th>
-                <th>Edad</th>
-                <th>Fecha de Nacimiento</th>
-                <th>Nacionalidad</th>
-                <th>Estado</th>
-                <th>Cargo</th>
+    <div class="table-responsive table-container mb-4">
+        <table class=" custom-table">
+            <thead>
+                <tr>
+                    <th>Primer Nombre</th>
+                    <th>Segundo Nombre</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>DNI</th>
+                    <th>Dirección</th>
+                    <th>Edad</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Nacionalidad</th>
+                    <th>Estado</th>
+                    <th>Cargo</th>
 
-                <th>Sede</th>
-                <th>Género</th>
-                <th>Tipo de Documento</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let rowData of data">
-                <td *ngFor="let cell of rowData.row; let i = index" [ngClass]="{
+                    <th>Sede</th>
+                    <th>Género</th>
+                    <th>Tipo de Documento</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let rowData of data">
+                    <td *ngFor="let cell of rowData.row; let i = index" [ngClass]="{
                         'celda-roja': (rowData.isCorreoValido && i === 4), 
                         'celda-azul': (rowData.isTelefonoValido && i === 5),
                         'celda-numero': (rowData.isNumeroValido && i === 6),
                         'celda-sede': (rowData.sedeNoExiste && i === 13)
                     }">
-                    {{ cell }}
-                </td>
-            </tr>
+                        {{ cell }}
+                    </td>
+                </tr>
 
 
-        </tbody>
-    </table>
-
+            </tbody>
+        </table>
+    </div>
 
 </div>
