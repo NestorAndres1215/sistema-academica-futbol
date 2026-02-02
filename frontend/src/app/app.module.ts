@@ -39,7 +39,6 @@ import { NavbarProfesorComponent } from './core/layout/navbar-profesor/navbar-pr
 import { ModalEliminacionComponent } from './shared/modal/modal-eliminacion/modal-eliminacion.component';
 import localeEs from '@angular/common/locales/es';
 import { ModalEventsComponent } from './shared/modal/modal-events/modal-events.component';
-import { DeleteComponent } from './shared/modal/delete/delete.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 registerLocaleData(localeEs, 'es');
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -259,7 +258,6 @@ import { TituloComponent } from './shared/titulo/titulo.component';
     VisorLesiondetComponent,
     CalendarioComponent,
     ModalEventsComponent,
-    DeleteComponent,
     HorarioComponent,
     VisorHorarioComponent,
     EditHorarioComponent,

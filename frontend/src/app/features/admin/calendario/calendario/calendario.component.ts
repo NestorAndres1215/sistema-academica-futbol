@@ -2,7 +2,7 @@ import { Component, inject, OnInit, TrackByFunction } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { ModalEventsService } from 'src/app/core/services/modal-events.service';
-import { DeleteComponent } from '../../../../shared/modal/delete/delete.component';
+
 import { Subscription } from 'rxjs';
 import { ClaseService } from 'src/app/core/services/clase.service';
 import { HorarioService } from 'src/app/core/services/horario.service';
