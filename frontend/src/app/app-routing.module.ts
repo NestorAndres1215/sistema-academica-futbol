@@ -1,12 +1,8 @@
 import { AdminGuard } from './core/guard/admin.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-//ADMINISTRADOR
-
 import { ProfesorGuard } from './core/guard/profesor.guard';
 import { EstudianteGuard } from './core/guard/estudiante.guard';
-
 import { registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
 import { EquipoComponent } from './features/admin/asignacion/equipo/equipo.component';
@@ -67,7 +63,6 @@ registerLocaleData(localeEs, 'es');
 const routes: Routes = [
 
   { path: 'login', component: LoginComponent, pathMatch: 'full' },
-  //ADMINISTRADOR
   {
     path: 'administrador', component: HomeAdminComponent,
     canActivate: [AdminGuard],
@@ -170,10 +165,6 @@ const routes: Routes = [
     ]
   },
 
-
-
-
-  // ESTUDIANTE
   {
     path: 'estudiante', component: HomeEstudianteComponent,
     canActivate: [EstudianteGuard],
@@ -219,7 +210,6 @@ const routes: Routes = [
       { path: 'det/registro-activades', component: RegActividadesComponent }
     ]
   },
-  // PROFESOR
   {
     path: 'profesor', component: HomeProfesorComponent,
     canActivate: [ProfesorGuard],
