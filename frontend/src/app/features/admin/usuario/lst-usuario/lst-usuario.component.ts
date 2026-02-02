@@ -6,12 +6,10 @@ import { LoginService } from 'src/app/core/services/login.service';
 import { VisorUsuarioComponent } from '../visor-usuario/visor-usuario.component';
 import { EditUsuarioComponent } from '../edit-usuario/edit-usuario.component';
 import { Router } from '@angular/router';
-
 import 'jspdf-autotable';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
 import { ModalEliminacionComponent } from '../../../../shared/modal/modal-eliminacion/modal-eliminacion.component';
-
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { LsDesUsuarioComponent } from '../ls-des-usuario/ls-des-usuario.component';
 import { HistorialService } from 'src/app/core/services/historial.service';
@@ -61,8 +59,6 @@ export class LstUsuarioComponent implements OnInit {
     private change: ChangeDetectorRef,
     private mensjae: MensajeService,
     private historialService: HistorialService,
-
-
     private excel: ExcelService,
     private pdfService: PdfService,
     private route: Router

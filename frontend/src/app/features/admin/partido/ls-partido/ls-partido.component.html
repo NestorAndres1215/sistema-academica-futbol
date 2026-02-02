@@ -19,44 +19,11 @@
             </app-button>
         </div>
     </div>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Equipo Local</th>
-                <th>Equipo Rival</th>
-                <th>Lugar</th>
-                <th>Fecha</th>
-                <th>Hora</th>
-                <th>Acciónes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngIf="pagedData.length === 0">
-                <td colspan="8" style="text-align: center; color: grey;">
-                    No hay datos disponibles.
-                </td>
-            </tr>
-            <tr *ngFor="let row of pagedData">
-                <td>{{ row.codigo }}</td>
-                <td>{{ row.equipo.nombre }}</td>
-                <td>{{ row.equipoRival }}</td>
-                <td>{{ row.lugar }}</td>
-                <td>{{ row.fecha }}</td>
-                <td>{{ row.hora }}</td>
-                <td>
-                    <button mat-icon-button class="btn-editar" (click)="editar(row)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button class="btn-vista" (click)="visor(row)">
-                        <mat-icon>visibility</mat-icon>
-                    </button>
 
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+    <app-tabla [columnas]="columnas" [datos]="pagedData" [botonesConfig]="botonesConfigTable"
+        [onActualizar]="editar.bind(this)" [onVer]="visor.bind(this)">
+    </app-tabla>
+    <app-pagination [totalItems]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
         (page)="pageChanged($event)">
-    </mat-paginator>
+    </app-pagination>
 </div>

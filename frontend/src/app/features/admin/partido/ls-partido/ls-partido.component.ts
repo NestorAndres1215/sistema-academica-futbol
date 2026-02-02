@@ -21,6 +21,21 @@ import { Historial } from 'src/app/core/model/historial';
   styleUrls: ['./ls-partido.component.css']
 })
 export class LsPartidoComponent implements OnInit {
+
+  botonesConfigTable = {
+    ver: true,
+    actualizar: true,
+  };
+columnas = [
+  { etiqueta: 'Código', clave: 'codigo' },
+  { etiqueta: 'Equipo Local', clave: 'equipo.nombre' },
+  { etiqueta: 'Equipo Rival', clave: 'equipoRival' },
+  { etiqueta: 'Lugar', clave: 'lugar' },
+  { etiqueta: 'Fecha', clave: 'fecha' },
+  { etiqueta: 'Hora', clave: 'hora' },
+];
+
+
   registrar() {
     const dialogRef = this.dialog.open(RegPartidoComponent, {
       width: '850px',
@@ -41,7 +56,7 @@ export class LsPartidoComponent implements OnInit {
   totalItems: number;
   pageSize = 5;
   listar: any
-   botonesConfig = {
+  botonesConfig = {
     editar: false,
     volver: true,
   };
@@ -346,7 +361,7 @@ export class LsPartidoComponent implements OnInit {
         iframe.contentWindow?.print();
         document.body.removeChild(iframe);
       }, 300);
-      }
+    }
   }
 
 
