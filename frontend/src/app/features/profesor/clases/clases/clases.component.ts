@@ -41,7 +41,11 @@ export class ClasesComponent implements OnInit {
     });
   }
   profesor: any[] = [];
+  botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
   async listarEquipo() {
     this.equipoService.listarAsignacion().subscribe((data) => {
 
