@@ -1,37 +1,7 @@
 <div class="text-center mt-4">
-  <app-titulo titulo="Evaluación de Estudiante"></app-titulo>
+    <app-titulo titulo="Evaluación de Estudiante"></app-titulo>
 </div>
 <div class="container py-4">
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th class="text-center">Código</th>
-            <th class="text-center">Nombre Completo</th>
-            <th class="text-center">Nota Final</th>
-        </tr>
-    </thead>
-    
-    <tbody>
-        <tr *ngIf="!evaluacion || evaluacion.length === 0">
-            <td colspan="10" style="text-align: center; color: grey;">
-                No hay datos disponibles.
-            </td>
-        </tr>
-        <tr *ngFor="let estudiante of evaluacion">
-            <td class="text-center">{{ estudiante.evaluacion.estudiante.usuario.username ?? 0 }}</td>
-            <td class="text-center">
-                <ng-container *ngIf="estudiante.evaluacion?.estudiante">
-                    {{ estudiante.evaluacion.estudiante.primerNombre }} 
-                    {{ estudiante.evaluacion.estudiante.apellidoPaterno }}
-                    {{ estudiante.evaluacion.estudiante.apellidoMaterno }}
-                </ng-container>
-            </td>
-            <td class="text-center">{{ estudiante.evaluacion.notaFinal ?? 0 }}</td>
-  
-
-            
-        </tr>
-    </tbody>
-</table>
+    <app-tabla [columnas]="columnas" [datos]="evaluacion">
+    </app-tabla>
 </div>
-

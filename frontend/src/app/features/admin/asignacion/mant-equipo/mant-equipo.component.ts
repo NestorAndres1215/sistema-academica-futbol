@@ -44,7 +44,19 @@ export class MantEquipoComponent implements OnInit {
     volver: true,
 
   };
-  
+    botonesConfigTable = {
+    actualizar: true,
+    ver: true,
+  };
+  columnas = [
+  { etiqueta: 'Código', clave: 'codigo' },
+  { etiqueta: 'Nombre', clave: 'nombre' },
+  { etiqueta: 'Categoría', clave: 'categoria' },
+  { etiqueta: 'Sede', clave: 'sede' },
+  { etiqueta: 'Género', clave: 'genero' },
+  { etiqueta: 'Acción', clave: 'acciones' } // Aquí puedes manejar los botones aparte
+];
+
   constructor(
     private equipoServuce: EquipoService,
     private dialog: MatDialog,

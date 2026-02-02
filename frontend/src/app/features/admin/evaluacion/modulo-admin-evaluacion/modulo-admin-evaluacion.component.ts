@@ -6,6 +6,7 @@ import { EvaluacionService } from 'src/app/core/services/evaluacion.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { NombreCompleto } from 'src/app/core/utils/nombreValidator';
 
 @Component({
   selector: 'app-modulo-admin-evaluacion',
@@ -13,6 +14,11 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
   styleUrls: ['./modulo-admin-evaluacion.component.css']
 })
 export class ModuloAdminEvaluacionComponent implements OnInit {
+  columnas = [
+    { etiqueta: 'Código', clave: 'evaluacion.estudiante.usuario.username' },
+    { etiqueta: 'Nombre Completo', clave: 'nombreCompleto' },
+    { etiqueta: 'Nota Final', clave: 'evaluacion.notaFinal' },
+  ];
 
 
   guardarDatos() {
@@ -36,13 +42,11 @@ export class ModuloAdminEvaluacionComponent implements OnInit {
     console.log(conteos);
 
 
-    console.log("Equipos:", equipos);
-    console.log("Conteos:", conteos);
 
     this.evaluacionService.desactivarEvaluaciones(equipos, conteos).subscribe(
       (response) => {
         this.mensajeService.MostrarMensajeExito("SE GUARDARON LAS EVALUACIONES");
-        console.log("Evaluaciones desactivadas con éxito:", response);
+
         this.listarEvaluacion(); // Debe estar dentro del éxito para ejecutarse después de guardar
       },
       (error) => {
@@ -56,14 +60,10 @@ export class ModuloAdminEvaluacionComponent implements OnInit {
   }
 
 
- 
-
   modoEdicion: boolean = false;
-  constructor(private route: ActivatedRoute, private historialService: HistorialService, private mensajeService: MensajeService,
-    private loginService: LoginService,
-    private evaluacionService: EvaluacionService,
-    private claseService: ClaseService,
-    private router: Router) { }
+  constructor(private route: ActivatedRoute, private mensajeService: MensajeService,
+
+    private evaluacionService: EvaluacionService,) { }
   codigo: string
   ngOnInit(): void {
     this.codigo = this.route.snapshot.params['codigo']
@@ -71,18 +71,28 @@ export class ModuloAdminEvaluacionComponent implements OnInit {
     this.listarEvaluacion();
   }
   evaluacion: any[] = [];
-  valoresPosibles: number[] = Array.from({ length: 11 }, (_, i) => i); // [0, 1, 2, ..., 10]
 
-  listarEvaluacion() {
-    this.evaluacionService.listarDetalleEvaluaciones().subscribe(
-      (data) => {
-     console.log(data)
-        this.evaluacion = data.filter(i => i.equipo == this.codigo && i.estado == true)
-      },
-      (error) => {
-        console.error('Error al listar evaluaciones:', error);
-      }
-    );
-  }
+
+listarEvaluacion() {
+  this.evaluacionService.listarDetalleEvaluaciones().subscribe(
+    (data) => {
+      // Filtrar por equipo y estado activo
+      this.evaluacion = data
+        .filter(i => i.equipo === this.codigo && i.estado === true)
+        .map(i => {
+          const estudiante = i.evaluacion?.estudiante;
+          return {
+            ...i,
+            nombreCompleto: estudiante ? NombreCompleto(estudiante) : ''
+          };
+        });
+    },
+    (error) => {
+      console.error('Error al listar evaluaciones:', error);
+    }
+  );
+}
+
+
 
 }

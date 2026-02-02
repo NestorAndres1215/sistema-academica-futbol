@@ -37,6 +37,8 @@
               (onClick)="onBloquear(fila)"></app-button>
             <app-button *ngIf="botonesConfig.imprimir" label="Imprimir" icon="fas fa-print" color="imprimir"
               (click)="onImprimir(fila)"></app-button>
+            <app-button *ngIf="botonesConfig.cancelar" label="Cancelar" icon="fas fa-times" color="cancelar"
+              (click)="onCancelar(fila)"></app-button>
 
           </div>
         </td>

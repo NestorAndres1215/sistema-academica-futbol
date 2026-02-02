@@ -1,10 +1,7 @@
-
 <app-titulo titulo="Detalle Equipo" [botonesConfig]="botonesConfig" (volver)="volver()">
 </app-titulo>
 <div class="container mb-4">
-
     <div class="d-flex align-items-center gap-3 mt-3">
-        <!-- Selección de equipo -->
         <mat-form-field class="custom-field flex-grow-1" appearance="fill">
             <mat-label>Equipo</mat-label>
             <mat-select [(ngModel)]="equipoSeleccionada" (selectionChange)="filtrarUsuarios()">
@@ -18,65 +15,23 @@
     <br>
     <div class="row">
         <!-- Profesores -->
-        <div class="col-lg-6 col-md-12" style="border: 2px solid #ccc; padding: 20px;">
-            <h3>Profesores</h3>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngIf="profesoresFiltrados.length === 0">
-                        <td colspan="6" style="text-align: center; color: grey;">
-                            No hay datos disponibles.
-                        </td>
-                    </tr>
-                    <tr *ngFor="let profesor of profesoresFiltrados">
-                        <td>{{profesor.profesor.primerNombre+" "+profesor.profesor.apellidoPaterno+" "+
-                            profesor.profesor.apellidoMaterno}}</td>
-                        <td> <button mat-icon-button class="btn-vista" style="color: #008CBA; margin-right: 8px;"
-                                (click)="visor(profesor)">
-                                <mat-icon>visibility</mat-icon>
-                            </button>
-                     
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-lg-6 col-md-12 mb-4" style="border: 2px solid #ccc; padding: 20px;">
+            <div class="mb-4">
+                <app-titulo titulo="Profesores">
+                </app-titulo>
+            </div>
+            <app-tabla [columnas]="columnasProfesores" [datos]="profesoresFiltrados"
+                [botonesConfig]="botonesConfigTableProfesor" [onVer]="visor.bind(this)">
+            </app-tabla>
         </div>
-
-        <!-- Estudiantes -->
-        <div class="col-lg-6 col-md-12" style="border: 2px solid #ccc; padding: 20px;">
-            <h3>Estudiantes</h3>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-
-                        <th>Nombre</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngIf="estudiantesFiltrados.length === 0">
-                        <td colspan="6" style="text-align: center; color: grey;">
-                            No hay datos disponibles.
-                        </td>
-                    </tr>
-                    <tr *ngFor="let estudiante of estudiantesFiltrados">
-
-                        <td>{{estudiante.estudiante.primerNombre+" "+estudiante.estudiante.apellidoPaterno+"
-                            "+estudiante.estudiante.apellidoMaterno}}</td>
-                        <td><button mat-icon-button class="btn-vista" style="color: #008CBA; margin-right: 8px;"
-                                (click)="visor(estudiante)">
-                                <mat-icon>visibility</mat-icon>
-                            </button>
-                       
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-lg-6 col-md-12 mb-4" style="border: 2px solid #ccc; padding: 20px;">
+            <div class="mb-4">
+                <app-titulo titulo="Estudiantes">
+                </app-titulo>
+            </div>
+            <app-tabla [columnas]="columnasEstudiantes" [datos]="estudiantesFiltrados"
+                [botonesConfig]="botonesConfigTableEstudiante" [onVer]="visor.bind(this)">
+            </app-tabla>
         </div>
     </div>
 

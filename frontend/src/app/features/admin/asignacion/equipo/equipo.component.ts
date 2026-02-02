@@ -4,6 +4,7 @@ import { EquipoPerfilComponent } from '../equipo-perfil/equipo-perfil.component'
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { NombreCompleto } from 'src/app/core/utils/nombreValidator';
 
 @Component({
   selector: 'app-equipo',
@@ -17,6 +18,24 @@ export class EquipoComponent implements OnInit {
     volver: true,
 
   };
+
+  botonesConfigTableEstudiante = {
+    ver: true,
+
+  };
+  botonesConfigTableProfesor = {
+    ver: true,
+
+  };
+  columnasEstudiantes = [
+    { etiqueta: 'Nombre', clave: 'nombreCompleto' },
+    { etiqueta: 'Acciones', clave: 'acciones' }
+  ];
+
+  columnasProfesores = [
+    { etiqueta: 'Nombre', clave: 'nombreCompleto' },
+    { etiqueta: 'Acciones', clave: 'acciones' }
+  ];
 
   volver() {
     throw new Error('Method not implemented.');
@@ -48,8 +67,20 @@ export class EquipoComponent implements OnInit {
   async listarDevEquipo() {
     this.equipoService.listarAsignacion().subscribe((data) => {
       console.log(data.filter(i => i.profesor.codigo !== "0000"))
-      this.profesores = data.filter(i => i.profesor.codigo !== "0000")
-      this.estudiantes = data.filter(i => i.estudiante.codigo !== "0000")
+      this.profesores = data
+        .filter(i => i.profesor.codigo !== "0000")
+        .map(p => ({
+          ...p,
+          nombreCompleto: NombreCompleto(p.profesor)
+        }));
+
+      // Estudiantes válidos
+      this.estudiantes = data
+        .filter(i => i.estudiante.codigo !== "0000")
+        .map(e => ({
+          ...e,
+          nombreCompleto: NombreCompleto(e.estudiante)
+        }));
       this.asignacion = data;
       this.usuariosFiltrados = [...this.asignacion];
     });

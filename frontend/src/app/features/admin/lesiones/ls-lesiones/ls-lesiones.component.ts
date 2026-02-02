@@ -1,10 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { LesionService } from 'src/app/core/services/lesion.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { VisorLesionComponent } from '../visor-lesion/visor-lesion.component';
+import { NombreCompleto } from 'src/app/core/utils/nombreValidator';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-ls-lesiones',
@@ -14,97 +14,134 @@ import { VisorLesionComponent } from '../visor-lesion/visor-lesion.component';
 export class LsLesionesComponent implements OnInit {
 
   row: any;
-  botonesConfig = {
-    editar: false,
-    volver: true,
+  equipo: any;
+  equipoSeleccionada: string = '';
 
-  };
+  asignacion: any;
+  estudiantes: any[] = [];
+  estudiantesFiltrados: any[] = [];
+  usuariosFiltrados: any[] = [];
+  lesion: any[] = [];
+  lesionCompleto: any;
 
-  volver() {
-    throw new Error('Method not implemented.');
-  }
-  equipo: any
-  constructor(private equipoService: EquipoService,
+  botonesConfig = { editar: false, volver: true };
+  botonesConfigTable = { ver: true };
+
+  columnas = [
+    { etiqueta: 'Código', clave: 'estudiante.codigo' },
+    { etiqueta: 'Nombre', clave: 'nombreCompleto' },
+    { etiqueta: 'Lesión', clave: 'lesionado.tipoLesion' },
+    { etiqueta: 'Fecha de la Lesión', clave: 'lesionado.fechaLesion' },
+    { etiqueta: 'Gravedad', clave: 'lesionado.gravedad' },
+    { etiqueta: 'Acción', clave: 'acciones' }
+  ];
+
+  // Paginación
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  pageSizeOptions: number[] = [5, 10, 25, 100];
+  pageSize = 5;
+  totalItems: number;
+  datosTabla: any[] = [];
+  pagedData: any[] = [];
+
+  constructor(
+    private equipoService: EquipoService,
     private lesionService: LesionService,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) { }
 
-  equipoSeleccionada: string = '';
   ngOnInit(): void {
-    this.listarEquipo()
-    this.listarDevEquipo()
-    this.lesiones()
+    this.listarEquipo();
+    this.listarDevEquipo();
+    this.lesiones();
   }
-  async listarEquipo() {
-    this.equipoService.listarActivado().subscribe((data) => {
+
+  volver() {
+    // Lógica de volver
+  }
+
+  listarEquipo() {
+    this.equipoService.listarActivado().subscribe(data => {
       this.equipo = data;
     });
   }
-  asignacion: any
-  estudiantes: any[] = [];
-  profesores: any[] = [];
-  usuariosFiltrados: any[] = [];
+
   async listarDevEquipo() {
-    this.equipoService.listarAsignacion().subscribe((data) => {
-      this.estudiantes = data.filter(i => i.estudiante.codigo !== "0000")
+    this.equipoService.listarAsignacion().subscribe(data => {
+
+      this.estudiantes = data
+        .filter(i => i.estudiante.codigo !== "0000")
+        .map(i => ({
+          ...i,
+          nombreCompleto: NombreCompleto(i.estudiante)
+        }));
+
       this.asignacion = data;
-      this.usuariosFiltrados = [...this.asignacion];
+
+      this.estudiantesFiltrados = this.estudiantes.filter(est =>
+        this.lesion.includes(est.estudiante.codigo)
+      ).map(est => {
+        const lesionInfo = this.lesionCompleto.find(l => l.estudiante.codigo === est.estudiante.codigo);
+        return {
+          ...est,
+          estudiante: est,
+          lesionado: lesionInfo ? lesionInfo : null
+        };
+      });
+
+      this.datosTabla = [...this.estudiantesFiltrados];
+      this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.datosTabla.length });
     });
   }
-  filtro: string = '';
 
-  profesoresFiltrados = [...this.profesores];
-  estudiantesFiltrados = [...this.estudiantes];
+
+  lesiones() {
+    this.lesionService.listarLesionActivado().subscribe(data => {
+      this.lesion = data.map(i => i.estudiante.codigo);
+      this.lesionCompleto = data;
+    });
+  }
 
   filtrarUsuarios() {
+    let filtrados: any[];
 
     if (!this.equipoSeleccionada) {
-      this.estudiantesFiltrados = [...this.estudiantes];
-
-      return;
+      filtrados = this.estudiantes.filter(est => this.lesion.includes(est.estudiante.codigo));
+    } else {
+      filtrados = this.estudiantes.filter(est => {
+        const coincideConEquipo = est.equipo && est.equipo.nombre === this.equipoSeleccionada;
+        const estaLesionado = this.lesion.includes(est.estudiante.codigo);
+        return coincideConEquipo && estaLesionado;
+      });
     }
 
-    this.estudiantesFiltrados = this.estudiantes.filter(est => {
-      const coincideConEquipo = est.equipo && est.equipo.nombre === this.equipoSeleccionada;
-      const estaLesionado = this.lesion.includes(est.estudiante.codigo);
-      return coincideConEquipo && estaLesionado;
-    });
-
-
-    this.estudiantesFiltrados = this.estudiantesFiltrados.map(est => {
+    this.estudiantesFiltrados = filtrados.map(est => {
       const lesionInfo = this.lesionCompleto.find(lesion => lesion.estudiante.codigo === est.estudiante.codigo);
       return {
+        ...est, 
         estudiante: est,
         lesionado: lesionInfo ? lesionInfo : null
       };
     });
 
+    this.datosTabla = [...this.estudiantesFiltrados];
+    this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.datosTabla.length });
   }
 
-  seleccionados: { [key: string]: boolean } = {};
-  get profesoresSeleccionados() {
-    return this.profesores.filter(profesor => this.seleccionados[profesor.codigo]);
-  }
-  
-  get profesorevisor() {
-    return Object.values(this.seleccionados).filter(value => value).length;
-  }
 
-  lesion: any[] = [];
-  lesionCompleto: any;
-  lesiones() {
-    this.lesionService.listarLesionActivado().subscribe((data) => {
-      this.lesion = data.map(i => i.estudiante.codigo);
-      this.lesionCompleto = data
-    });
-  }
-  virsor(row) {
-    console.log(row)
-    const dialogRef = this.dialog.open(VisorLesionComponent, {
+  virsor(row: any) {
+    this.dialog.open(VisorLesionComponent, {
       disableClose: true,
       width: '1020px',
       height: '520px',
       data: { row },
     });
+  }
+
+  pageChanged(event: PageEvent) {
+    const startIndex = event.pageIndex * event.pageSize;
+    const endIndex = startIndex + event.pageSize;
+    this.pagedData = this.datosTabla.slice(startIndex, endIndex);
+    this.totalItems = this.datosTabla.length;
   }
 }

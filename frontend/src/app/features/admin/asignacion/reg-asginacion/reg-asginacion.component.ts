@@ -15,6 +15,24 @@ import Swal from 'sweetalert2';
   styleUrls: ['./reg-asginacion.component.css']
 })
 export class RegAsginacionComponent implements OnInit {
+  botonesConfigTableEstudiante = {
+    cancelar: true,
+
+  };
+  botonesConfigTableProfesor = {
+    cancelar: true,
+
+  };
+  columnasEstudiantes = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Nombre', clave: 'nombre' },
+
+  ];
+  columnasProfesor = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Nombre', clave: 'nombre' },
+
+  ];
   limpiar() {
     this.formulario.reset();
     this.nombreEquipo = ""
@@ -28,7 +46,7 @@ export class RegAsginacionComponent implements OnInit {
     this.cargos = ['Entrenador Principal', 'Entrenador Portero', 'Entrenador Asistente'];
 
   }
-   botonesConfig = {
+  botonesConfig = {
     editar: false,
     volver: true,
 
@@ -135,10 +153,10 @@ export class RegAsginacionComponent implements OnInit {
   }
   roles: string[] = ['Estudiante', 'Profesor'];
 
-  rolSeleccionado: string = 'Estudiante'; 
+  rolSeleccionado: string = 'Estudiante';
   mostrarCamposEstudiante: boolean = true;
-  estudiantes: any[] = []; 
-  profesores: any[] = []; 
+  estudiantes: any[] = [];
+  profesores: any[] = [];
   cambiarRol() {
     const rol = this.formulario1.get('rol')?.value;
     if (rol === 'Profesor') {
@@ -165,7 +183,7 @@ export class RegAsginacionComponent implements OnInit {
         this.formulario1.get('profesor')?.disable();
         this.mensaje.MostrarMensaje("Estan llenos los cupos de profesores en este equipo")
         this.mostrarFormularioDetalle = true;
-        this.isFormEnabled = true; 
+        this.isFormEnabled = true;
         this.formulario1.get('rol')?.enable();
         this.formulario1.get('estudiante')?.enable();
         this.formulario1.get('cargo')?.disable();
@@ -210,7 +228,7 @@ export class RegAsginacionComponent implements OnInit {
 
   async listarProfesor() {
     const sedeSeleccionada = this.formulario.get('sede')?.value;
-  
+
     this.profesor.listarProfesorActivado().subscribe((data: any[]) => {
       data = data.filter(item => item.codigo !== '0000')
       this.listarProfe = data.filter(estudiante =>
@@ -219,11 +237,11 @@ export class RegAsginacionComponent implements OnInit {
       this.profe = data.filter(estudiante =>
         estudiante.sede.nombre === sedeSeleccionada
       );
-      
+
       const xd = this.cantidadPorfesores.filter(i => i.equipo.codigo === this.formulario.value.nombre.codigo);
       const nombresCargos = xd.map(i => i.profesor.cargo.nombre).join(', ');
       this.cargos = this.cargos.filter(cargo => !nombresCargos.includes(cargo));
-      
+
     });
   }
 
@@ -268,7 +286,7 @@ export class RegAsginacionComponent implements OnInit {
       console.log(this.profesores.length)
       this.cantidadPorfesores = data.filter(item => item.profesor.codigo !== "0000");
       this.profesoresActuales = data.map(item => item.profesor.codigo).filter(codigo => codigo !== '0000');
-      
+
       this.estudianteActuales = data.map(item => item.estudiante.codigo).filter(codigo => codigo !== '0000');  // Filtrar los códigos que no sean '0000'
     })
   }
@@ -281,50 +299,45 @@ export class RegAsginacionComponent implements OnInit {
 
   yaEstudianteRegistrado = false;
   profe: any
-  eliminarEstudiante(index: number): void {
+ eliminarEstudiante(estudianteEliminado: any): void {
+  if (!estudianteEliminado) return;
 
-    const estudianteEliminado = this.estudiantes[index];
-
-    const primerNombreEliminado = estudianteEliminado.nombre.split(' ')[0];
-
-    this.estudiantes.splice(index, 1);
+  const primerNombreEliminado = estudianteEliminado.nombre.split(' ')[0];
 
 
-    const estudianteExistente = this.estu.find(e => e.primerNombre === primerNombreEliminado);
+  this.estudiantes = this.estudiantes.filter(e => e !== estudianteEliminado);
 
-    if (estudianteExistente) {
-
-      this.listarEstu.push(estudianteExistente);
-      this.listarEstu = [...this.listarEstu];
-    }
+  const estudianteExistente = this.estu.find(e => e.primerNombre === primerNombreEliminado);
+  if (estudianteExistente) {
+    this.listarEstu.push(estudianteExistente);
+    this.listarEstu = [...this.listarEstu]; // refrescar lista
   }
-  eliminarProfesor(index: number): void {
 
-    const profesorEliminado = this.profesores[index];
- 
-    const primerNombreEliminado = profesorEliminado.nombre.split(' ')[0];
-    
-    this.profesores.splice(index, 1);
+  console.log('Estudiante eliminado:', estudianteEliminado.nombre);
+}
 
-    const profesorExistente = this.profe.find(e => e.primerNombre === primerNombreEliminado);
-    console.log(primerNombreEliminado)
-    if (profesorExistente) {
-    
-      this.listarProfe.push(profesorExistente);
-      const eliminado = profesorEliminado.cargo;
-   
-      this.cargos.push(eliminado)
-      const cargosUnicos = [];
+  eliminarProfesor(profesorEliminado: any): void {
+  if (!profesorEliminado) return;
 
-      this.cargos.forEach(cargo => {
-        if (!cargosUnicos.includes(cargo)) {
-          cargosUnicos.push(cargo); 
-        }
-      });
+  const primerNombreEliminado = profesorEliminado.nombre.split(' ')[0];
 
-      this.listarProfe = [...this.listarProfe];
-    }
+  // eliminar del arreglo profesores
+  this.profesores = this.profesores.filter(p => p !== profesorEliminado);
+
+  // buscar profesor en el otro arreglo
+  const profesorExistente = this.profe.find(e => e.primerNombre === primerNombreEliminado);
+  if (profesorExistente) {
+    this.listarProfe.push(profesorExistente);
+
+    // agregar cargo sin duplicados
+    this.cargos.push(profesorEliminado.cargo);
+    this.cargos = [...new Set(this.cargos)];
+
+    this.listarProfe = [...this.listarProfe]; // refrescar lista
   }
+
+  console.log('Profesor eliminado:', profesorEliminado.nombre);
+}
 
   registrar() {
     console.log(this.nombreEquipo)
@@ -337,7 +350,7 @@ export class RegAsginacionComponent implements OnInit {
     if (this.formulario1.valid) {
       const rolSeleccionado = this.formulario1.get('rol')?.value;
       const cargoSeleccionado = this.formulario1.get('cargo')?.value;
-      console.log(cargoSeleccionado)
+  
 
       if (this.profesores.length >= 2) {
         this.formulario1.get('cargo')?.disable();
@@ -356,10 +369,10 @@ export class RegAsginacionComponent implements OnInit {
 
         if (estudiante) {
           const nuevoRegistro = {
-            codigo: `E${this.estudiantes.length + 1}`, 
+            codigo: `E${this.estudiantes.length + 1}`,
             nombre: estudiante.primerNombre + ' ' + estudiante.apellidoPaterno + ' ' + estudiante.apellidoMaterno
           };
-       
+
           const existe = this.estudiantes.some(e => e.nombre === nuevoRegistro.nombre);
           if (!existe) {
             this.estudiantes.push(nuevoRegistro);
@@ -374,15 +387,15 @@ export class RegAsginacionComponent implements OnInit {
 
         if (!profesorValue) {
           this.mensaje.MostrarMensaje("El campo 'profesor' está vacío.");
-          return; 
+          return;
         }
 
         if (!cargoValue) {
           this.mensaje.MostrarMensaje("El campo 'cargo' está vacío.");
-          return; 
+          return;
         }
         this.cargos = this.cargos.filter(cargo => cargo !== cargoSeleccionado);
-       
+
         if (this.profesores.length >= 3) {
           this.mensaje.MostrarMensaje('Ya se han completado los espacios para profesores.');
           return;
@@ -421,7 +434,7 @@ export class RegAsginacionComponent implements OnInit {
     console.log(codigo);
 
     if (todos.length > 0) {
-   
+
       todos.forEach((persona) => {
         if (persona.codigo && persona.codigo.startsWith('P')) {
           console.log('Es Profesor');

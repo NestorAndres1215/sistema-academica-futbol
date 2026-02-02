@@ -16,11 +16,14 @@
 
 
 
-    <div class="row">
+    <div class="row ">
         <!-- Columna del Formulario (más grande) -->
         <div class="col-lg-6 col-md-12" style="border: 2px solid #ccc; padding: 20px;">
-            <h1 class="card-title display-4">Equipo Asignado</h1>
-            <hr>
+
+            <div class="mb-4">
+                <app-titulo titulo="Equipo Asignado">
+                </app-titulo>
+            </div>
             <form [formGroup]="formulario">
                 <div class="row">
                     <mat-form-field class="full-width custom-field" appearance="fill">
@@ -47,16 +50,19 @@
                 </div>
                 <div class="row">
                     <div class="col-md-3 mb-3">
-                        <app-button *ngIf="!formulario.disabled" label="Guardar" icon="fas fa-plus-circle" color="registrar" (onClick)="operar()">
+                        <app-button *ngIf="!formulario.disabled" label="Guardar" icon="fas fa-plus-circle"
+                            color="registrar" (onClick)="operar()">
                         </app-button>
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col-lg-6 col-md-12" style="border: 2px solid #ccc; padding: 20px;">
-            <h1 class="card-title display-4">Asignación</h1>
-            <hr>
-            <form [formGroup]="formulario1" (ngSubmit)="registrar()">
+        <div class="col-lg-6 col-md-12 " style="border: 2px solid #ccc; padding: 20px;">
+            <div class="mb-4">
+                <app-titulo titulo="Asignacion">
+                </app-titulo>
+            </div>
+            <form [formGroup]="formulario1">
 
                 <div class="row mb-4">
                     <div class="col-md-12">
@@ -111,16 +117,11 @@
                         </div>
                     </div>
                 </ng-container>
-
-                <!-- Nuevo campo de Cargo -->
-
-
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <button type="submit" class="btn btn-excel" *ngIf="mostrarFormularioDetalle">
-                            <mat-icon>save</mat-icon>
-                        </button>
-     
+                        <app-button *ngIf="mostrarFormularioDetalle" label="Guardar" icon="fas fa-plus-circle"
+                            color="registrar" (onClick)="registrar()">
+                        </app-button>
                     </div>
                 </div>
             </form>
@@ -129,76 +130,36 @@
 
 
 
-        <div class="col-lg-6 col-md-12" style="border: 2px solid #ccc; padding: 20px;">
+        <div class="col-lg-6 col-md-12 mb-4" style="border: 2px solid #ccc; padding: 20px;">
 
-            <h1 class="card-title display-4">Lista de Estudiantes</h1>
-            <hr>
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Codigo</th>
-                        <th>Nombre</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngIf="estudiantes.length === 0">
-                        <td colspan="8" style="text-align: center; color: grey;">
-                            No hay datos disponibles.
-                        </td>
-                    </tr>
-                    <tr *ngFor="let estudiante of estudiantes; let i = index">
-                        <td>{{ estudiante.codigo }}</td>
-                        <td>{{ estudiante.nombre }}</td>
-                        <td>
-                            <!-- Botón de eliminar -->
-                            <button mat-icon-button class="btn-eliminar" (click)="eliminarEstudiante(i)">
-                                <mat-icon>delete</mat-icon>
-                            </button>
+            <div class="mb-4">
+                <app-titulo titulo="Lista de Estudiante">
+                </app-titulo>
+            </div>
 
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <app-tabla [columnas]="columnasEstudiantes" [datos]="estudiantes" [botonesConfig]="botonesConfigTableEstudiante"
+                [onCancelar]="eliminarEstudiante.bind(this)">
+            </app-tabla>
 
         </div>
 
         <!-- Columna para la lista de profesores -->
-        <div class="col-lg-6 col-md-12" style="border: 2px solid #ccc; padding: 20px;">
+        <div class="col-lg-6 col-md-12 mb-4" style="border: 2px solid #ccc; padding: 20px;">
+            <div class="mb-4">
+                <app-titulo titulo="Lista de Profesores">
+                </app-titulo>
+            </div>
 
-            <h1 class="card-title display-4">Lista de Profesores</h1>
-            <hr>
-            <table class="table table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Codigo</th>
-                        <th>Nombre</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngIf="profesores.length === 0">
-                        <td colspan="8" style="text-align: center; color: grey;">
-                            No hay datos disponibles.
-                        </td>
-                    </tr>
-                    <tr *ngFor="let profesor of profesores; let i = index">
-                        <td>{{ profesor.codigo }}</td>
-                        <td>{{ profesor.nombre }}</td>
-                        <td>
-                            <!-- Botón de eliminar -->
-                            <button mat-icon-button class="btn-eliminar" (click)="eliminarProfesor(i)">
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <!-- Mostrar mensaje si el límite está completo -->
+            <app-tabla [columnas]="columnasProfesor" [datos]="profesores" [botonesConfig]="botonesConfigTableProfesor"
+                [onCancelar]="eliminarProfesor.bind(this)">
+            </app-tabla>
+      
             <div *ngIf="profesores.length >= 3" class="text-danger mt-3">
                 Ya se han completado los espacios para profesores.
             </div>
+
+
+
         </div>
     </div>
 </div>
