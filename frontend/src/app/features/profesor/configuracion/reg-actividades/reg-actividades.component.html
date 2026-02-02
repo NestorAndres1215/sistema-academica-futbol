@@ -1,13 +1,10 @@
-<div class="separator">
-    <h1 style="font-family: monospace;">Registro de Actividades</h1>
-    <div class="card-header position-sticky sticky-top">
-        <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
-            tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
-    </div>
-</div>
-<div class="container">
+
+<app-titulo titulo="Registro de Actividades" [botonesConfig]="botonesConfig" (volver)="volver()">
+</app-titulo>
+<div class="container ms-4 mt-4">
+
+
   <div class="row">
-    <!-- Columna 1: Cards -->
     <div class="col-md-8">
       <div class="row">
         <div class="col-12 mb-4" *ngFor="let usuario of pagedData">

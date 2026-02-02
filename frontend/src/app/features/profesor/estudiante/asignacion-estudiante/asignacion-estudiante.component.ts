@@ -29,7 +29,11 @@ export class AsignacionEstudianteComponent implements OnInit {
   estudiantesFiltrados = [...this.estudiantes];
   seleccionados: { [key: string]: boolean } = {};
   modoEdicion: boolean = false;
-  //posiciones: string[] = ['Portero', 'Defensa', 'Mediocampista', 'Delantero'];
+ botonesConfig = {
+    editar: false,
+    volver: true,
+
+  };
   posiciones = POSICIONES;
   numerosCamiseta: number[] = Array.from({ length: 100 }, (_, i) => i);
   capitanSeleccionado: boolean = false;
@@ -161,7 +165,6 @@ export class AsignacionEstudianteComponent implements OnInit {
   }
 
   async verificarSiHayCapitan() {
-    console.log(this.estudiantesFiltrados)
     this.capitanSeleccionado = this.estudiantesFiltrados.some(est => est.esCapitan);
   }
 

@@ -44,7 +44,11 @@ export class ModuloLesionesComponent implements OnInit {
       this.lesiones()
     })
   }
+ botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
 
 
   row: any;
@@ -57,8 +61,6 @@ export class ModuloLesionesComponent implements OnInit {
   constructor(private equipoService: EquipoService, private loginService: LoginService,
     private lesionService: LesionService,
     private dialog: MatDialog,
-    private mensaje: MensajeService,
-    private router: Router,
   ) { }
   equipoSeleccionada: string = '';
 
@@ -69,8 +71,8 @@ export class ModuloLesionesComponent implements OnInit {
 
   async listarEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
-      const equipos = this.asignacion.map(i => i.equipo.nombre); // Array de nombres
-      const equiposFiltrados = data.filter(i => equipos.includes(i.nombre)); // Filtra los que coincidan
+      const equipos = this.asignacion.map(i => i.equipo.nombre); 
+      const equiposFiltrados = data.filter(i => equipos.includes(i.nombre)); 
       this.equipo = equiposFiltrados;
     });
   }
@@ -105,7 +107,7 @@ export class ModuloLesionesComponent implements OnInit {
     this.estudiantesFiltrados = this.estudiantes.filter(est => {
       const coincideConEquipo = est.equipo && est.equipo.nombre === this.equipoSeleccionada;
       const estaLesionado = this.lesion.includes(est.estudiante.codigo);
-      return coincideConEquipo && estaLesionado; // Retorna solo estudiantes del equipo seleccionado y lesionados
+      return coincideConEquipo && estaLesionado; 
     });
 
 

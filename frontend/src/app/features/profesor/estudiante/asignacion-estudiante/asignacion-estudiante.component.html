@@ -1,14 +1,10 @@
-<div class="separator">
-    <h1 style="font-family: monospace;">Asignacion de Estudiante</h1>
-    <div class="card-header position-sticky sticky-top">
-        <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
-            tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
-    </div>
-</div>
-<div class="container">
+
+<app-titulo titulo="Asignacion de Estudiante" [botonesConfig]="botonesConfig" (volver)="volver()">
+</app-titulo>
+<div class="container ms-4 mt-4">
+
 
     <div class="d-flex align-items-center gap-3 mb-3">
-        <!-- Selección de equipo -->
         <mat-form-field class="custom-field flex-grow-1" appearance="fill">
             <mat-label>Equipo</mat-label>
             <mat-select [(ngModel)]="equipoSeleccionada" (selectionChange)="filtrarUsuarios()">
@@ -21,10 +17,6 @@
     </div>
     <br>
     <div class="row">
-        <!-- Estudiantes -->
-
-
-        <!-- Mostrar el botón solo si hay datos -->
         <div style="display: flex; justify-content: flex-end; margin-bottom: 15px;">
             <button *ngIf="estudiantesFiltrados.length > 0" mat-raised-button class="btn-save"
                 (click)="toggleEdicion()">
@@ -55,12 +47,9 @@
                         estudiante.estudiante.apellidoMaterno }}
                     </td>
                     <td class="text-center">
-                        <!-- Mostrar solo el capitán actual en modo lectura -->
                         <span *ngIf="!modoEdicion">
                             {{ estudiante.esCapitan ? 'Capitán' : '-' }}
                         </span>
-
-                        <!-- Modo edición -->
                         <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
                             <mat-select [(ngModel)]="estudiante.esCapitan"
                                 (selectionChange)="verificarCapitan(estudiante)">
@@ -71,8 +60,6 @@
                             </mat-select>
                         </mat-form-field>
                     </td>
-
-
                     <td class="text-center">
                         <span *ngIf="!modoEdicion">{{ estudiante.posicion }}</span>
                         <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
@@ -93,9 +80,6 @@
                             </mat-select>
                         </mat-form-field>
                     </td>
-
-
-
                     <td class="text-center">
                         <span>{{ estudiante.estado ? 'Habilitado' : 'Deshabilitado' }}</span>
                     </td>

@@ -1,12 +1,4 @@
 
-.separator {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
-    padding: 10px;
-  }
   .card-form {
     max-width: 400px;
     margin: 20px auto;

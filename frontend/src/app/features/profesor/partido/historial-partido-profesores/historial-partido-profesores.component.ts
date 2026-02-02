@@ -18,7 +18,11 @@ import { PdfService } from 'src/app/core/services/pdf.service';
   styleUrls: ['./historial-partido-profesores.component.css']
 })
 export class HistorialPartidoProfesoresComponent implements OnInit {
+  botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
   verDetalle(_t10: any) {
     throw new Error('Method not implemented.');
   }

@@ -1,12 +1,8 @@
-<div class="separator">
 
-    <h1 style="font-family: monospace;">Historial de Partido</h1>
-    <div class="card-header position-sticky sticky-top">
-        <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
-            tabindex="0"><i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
-    </div>
-</div>
-<div class="container">
+<app-titulo titulo="Historial de Partido" [botonesConfig]="botonesConfig" (volver)="volver()">
+</app-titulo>
+<div class="container ms-4 mt-4">
+
     <div class="d-flex align-items-center gap-3 mb-3">
         <!-- Selección de equipo -->
         <mat-form-field class="custom-field flex-grow-1" appearance="fill">

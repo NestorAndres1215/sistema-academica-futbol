@@ -12,7 +12,7 @@ import { EditContraComponent } from '../edit-contra/edit-contra.component';
   styleUrls: ['./actualizar-contra.component.css']
 })
 export class ActualizarContraComponent implements OnInit {
-editar(row: any) {
+  editar(row: any) {
     const dialogRef = this.dialog.open(EditContraComponent, {
       width: '550px',
       disableClose: true,
@@ -22,31 +22,34 @@ editar(row: any) {
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listar()
     })
   }
+  botonesConfig = {
+    editar: false,
+    volver: true,
 
-volver() {
-throw new Error('Method not implemented.');
-}
+  };
+  volver() {
+    throw new Error('Method not implemented.');
+  }
 
-  constructor(    private dialog: MatDialog,private loginService:LoginService,private fb: UntypedFormBuilder, private profesorService :ProfesorService,private usuarioService:UserService,    private cdRef: ChangeDetectorRef) { }
-usuario:any
-ngOnInit(): void {
-this.listar()
+  constructor(private dialog: MatDialog, private loginService: LoginService, private fb: UntypedFormBuilder, private profesorService: ProfesorService, private usuarioService: UserService, private cdRef: ChangeDetectorRef) { }
+  usuario: any
 
-}
+  ngOnInit(): void {
+    this.listar()
 
-async listar(){
-  this.usuarioService.findAll().subscribe({
-    next: (data) => {
-      this.usuario = data.filter(i => i.codigo === this.loginService.getUser().ul_codigo);
-      console.log(this.usuario)
-    },
-  });
-}
+  }
+
+  async listar() {
+    this.usuarioService.findAll().subscribe({
+      next: (data) => {
+        this.usuario = data.filter(i => i.codigo === this.loginService.getUser().ul_codigo);
+      },
+    });
+  }
 
 
 

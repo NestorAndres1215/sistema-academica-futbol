@@ -25,7 +25,6 @@ export class ModuloPartidoComponent implements OnInit {
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarPartidos()
     })
@@ -40,7 +39,11 @@ export class ModuloPartidoComponent implements OnInit {
   totalItems: number;
   pageSize = 5;
   listar: any
+  botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
   constructor(
     private equipoService: EquipoService,
     private partidoService: PartidoService,
