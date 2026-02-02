@@ -37,10 +37,11 @@
 .suspender {
     background: linear-gradient(135deg, #b45309, #f59e0b);
 }
-
+.listado,
 .bloquear {
     background: linear-gradient(135deg, #5b21b6, #8f63f5);
 }
+
 
 .inhabilitado {
     background: linear-gradient(135deg, #2aa9a1, #6fd3cb);

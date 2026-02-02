@@ -26,7 +26,18 @@ import { Respuesta } from 'src/app/core/model/respuesta';
   styleUrls: ['./ls-tabla-general.component.css']
 })
 export class LsTablaGeneralComponent implements OnInit {
+botonesConfigTable = {
+  actualizar: true,
+  ver: true,
+  desactivar: true,
+  listado: true  // <--- agregamos esta línea
+};
 
+columnas = [
+  { etiqueta: 'Código', clave: 'codigo' },
+  { etiqueta: 'Clave', clave: 'clave' },
+  { etiqueta: 'Descripción', clave: 'descripcion1' },
+];
 
    botonesConfig = {
     editar: false,

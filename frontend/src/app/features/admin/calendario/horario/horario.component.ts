@@ -17,6 +17,17 @@ import { LstDesHorarioComponent } from '../lst-des-horario/lst-des-horario.compo
   styleUrls: ['./horario.component.css']
 })
 export class HorarioComponent implements OnInit {
+
+  botonesConfigTable = {
+    actualizar: true,
+    ver: true
+  };
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Hora de Inicio', clave: 'inicioHora' },
+    { etiqueta: 'Hora de Finalización', clave: 'finHora' },
+  ];
+
   registar() {
 
     const dialogRef = this.dialog.open(RegHorarioComponent, {
@@ -139,7 +150,7 @@ export class HorarioComponent implements OnInit {
   volver(): void {
     this.route.navigate(['/administrador']);
   }
-   botonesConfig = {
+  botonesConfig = {
     editar: false,
     volver: true,
 

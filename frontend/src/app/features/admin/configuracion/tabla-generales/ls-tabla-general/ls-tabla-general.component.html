@@ -15,40 +15,11 @@
         </div>
     </div>
 
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Código</th>
-                <th>Clave</th>
-                <th>Descripcion</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let row of pagedData">
-                <td>{{ row.codigo }}</td>
-                <td>{{ row.clave }}</td>
-                <td>{{ row.descripcion1 }}</td>
-
-                <td>
-
-                    <button mat-icon-button class="btn-editar" (click)="editar(row)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-icon-button class="btn-vista" (click)="visor(row)">
-                        <mat-icon>visibility</mat-icon>
-                    </button>
-                    <button mat-icon-button class="btn-listar" (click)="listado(row)">
-                        <mat-icon>dashboard</mat-icon>
-                    </button>
-                    <button mat-icon-button class="btn-eliminar" (click)="eliminar(row)">
-                        <mat-icon>delete</mat-icon>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+    <app-tabla [columnas]="columnas" [datos]="pagedData" [botonesConfig]="botonesConfigTable"
+        [onActualizar]="editar.bind(this)" [onVer]="visor.bind(this)" [onListado]="listado.bind(this)"
+        [onDesactivar]="eliminar.bind(this)">
+    </app-tabla>
+    <app-pagination [totalItems]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
         (page)="pageChanged($event)">
-    </mat-paginator>
+    </app-pagination>
 </div>

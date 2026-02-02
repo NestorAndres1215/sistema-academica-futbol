@@ -28,10 +28,28 @@ export class HistorialPartidoAdminComponent implements OnInit {
   totalItems: number;
   pageSize = 5;
   listar: any
-   botonesConfig = {
+  botonesConfig = {
     editar: false,
     volver: true,
   };
+
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Equipo Local', clave: 'equipo.nombre' },
+    { etiqueta: 'Marcador', clave: 'marcador' },  // Lo combinamos en HTML
+    { etiqueta: 'Equipo Rival', clave: 'equipoRival' },
+    { etiqueta: 'Lugar', clave: 'lugar' },
+    { etiqueta: 'Fecha', clave: 'fecha' },
+    { etiqueta: 'Hora', clave: 'hora' },
+    { etiqueta: 'Resultado', clave: 'resultado' },
+  ];
+
+  botonesConfigTable = {
+    ver: true,
+    actualizar: true,
+
+  };
+
   constructor(
 
     private partidoService: PartidoService,
@@ -69,10 +87,12 @@ export class HistorialPartidoAdminComponent implements OnInit {
           resultado = "❌ Derrota";
         }
 
-        return { ...partido, resultado }; // Agrega la propiedad "resultado" al objeto partido
+        return {
+          ...partido,
+          resultado,
+          marcador: `${marcadorLocal} - ${marcadorVisita}`
+        };
       });
-      console.log(data);
-      //  this.datosTabla = data;
       this.pagedData = data
       this.totalItems = this.datosTabla.length
       this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
@@ -83,7 +103,6 @@ export class HistorialPartidoAdminComponent implements OnInit {
 
   async getUserInfo() {
     this.user = this.loginService.getUser();
-    const userID = this.user.id;
     const usuarios = this.datosTabla.filter(item => item.id === this.user.id);
     this.xd = usuarios
   }
@@ -129,8 +148,6 @@ export class HistorialPartidoAdminComponent implements OnInit {
         row,
       },
     });
-
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarPartidos()
     })
@@ -140,10 +157,7 @@ export class HistorialPartidoAdminComponent implements OnInit {
     this.route.navigate(['/administrador']);
   }
 
-
-
   exportarExcel() {
-    // Crear el objeto del historial
     const historial: Historial = {
       usuario: this.loginService.getUser().username, // Usuario que realiza la acción
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo Excel.`,
@@ -347,7 +361,7 @@ export class HistorialPartidoAdminComponent implements OnInit {
         iframe.contentWindow?.print();
         document.body.removeChild(iframe);
       }, 300);
-      }
+    }
   }
 
 
