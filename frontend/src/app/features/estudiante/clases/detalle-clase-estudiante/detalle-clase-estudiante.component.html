@@ -1,9 +1,4 @@
-
-
-<app-titulo
-  titulo="Modulos de Clases"
- [botonesConfig]="botonesConfig"
-  (volver)="volver()">
+<app-titulo titulo="Modulos de Clases" [botonesConfig]="botonesConfig" (volver)="volver()">
 </app-titulo>
 <div class="container mt-4">
     <div class="d-flex flex-column flex-sm-row align-items-center gap-3 mb-3">
@@ -19,7 +14,6 @@
     </div>
     <div *ngIf="opcionSeleccionada === 'Clases'">
         <app-clase-dev-estudiante></app-clase-dev-estudiante>
-        <!--        <app-clase-dev></app-clase-dev>-->
     </div>
     <div *ngIf="opcionSeleccionada === 'Alumnos'">
         <app-alumnos-estudiante></app-alumnos-estudiante>

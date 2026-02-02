@@ -12,7 +12,11 @@ export class AdminDevClassComponent implements OnInit {
  volver() {
     this.router.navigate(['/administrador']);
   }
+  botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
   constructor(
     private route: ActivatedRoute,
     private claseService: ClaseService,
