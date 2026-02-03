@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { Historial } from 'src/app/core/model/historial';
 import { CargoService } from 'src/app/core/services/cargo.service';
 import { EstudianteService } from 'src/app/core/services/estudiante.service';
@@ -18,87 +19,69 @@ import * as XLSX from 'xlsx';
 })
 export class EstudianteExcelComponent implements OnInit {
   nombre: string
-     botonesConfig = {
+  botonesConfig = {
     editar: false,
     volver: true,
 
   };
   cargarExcel() {
     console.log(this.data)
-    if (!this.data || this.data.length === 0) {  
+    if (!this.data || this.data.length === 0) {
       this.mensaje.MostrarMensaje("⚠️ LOS DATOS ESTÁN VACÍOS");
-      console.warn("❌ No hay datos disponibles.");
       return;
     }
     const result = this.data.map(item => {
-      const rowData = item.row; // Array de datos que está dentro de 'row'
-
-      // Obtener valores específicos
-      const sede = rowData[12];  // Sede, se encuentra en la posición 15
-      console.log(sede)
-      const cargo = rowData[12]; // Cargo, se encuentra en la posición 12
-
-      // Buscar la sede y el cargo en las listas correspondientes
+      const rowData = item.row;
+      const sede = rowData[12];
       const sedeExistente = this.sedes.find(s => s.nombre === sede);
-      const cargoExistente = this.cargos.find(c => c.nombre === cargo);
-
-      // Obtener el código de la sede y cargo si existen, o un valor por defecto
       const codigoSede = sedeExistente ? sedeExistente.codigo : 'Sede no válida';
-      const codigoCargo = cargoExistente ? cargoExistente.codigo : 'Cargo no válido';
+      const nacimientoRaw = rowData[9];
 
-      // Fecha de nacimiento (índice 9 en el array 'row')
-      const nacimientoRaw = rowData[9]; // '12/12/1900'
-
-      // Si la fecha está en formato string, podemos convertirla a un objeto Date
       let nacimiento: Date;
       if (nacimientoRaw && !isNaN(Date.parse(nacimientoRaw))) {
-        nacimiento = new Date(nacimientoRaw);  // Convertimos la fecha en formato string
+        nacimiento = new Date(nacimientoRaw);
       } else {
-        nacimiento = new Date();  // Valor por defecto si la fecha no es válida
+        nacimiento = new Date();
       }
       const usuario = "A" + rowData[6];
-      const apellidoPaterno = rowData[2]; // Obtén el valor
-      const primerCaracter = apellidoPaterno.charAt(0); // O también apellidoPaterno[0]
+      const apellidoPaterno = rowData[2];
+      const primerCaracter = apellidoPaterno.charAt(0);
       const contra = rowData[6] + primerCaracter
-      // Devolvemos el objeto con los datos procesados
-      return {
-        primerNombre: rowData[0],  // 'Juan'
-        segundoNombre: rowData[1], // 'Carlos'
-        apellidoPaterno: rowData[2], // 'Pérez'
-        apellidoMaterno: rowData[3], // 'Rodríguez'
-        correo: rowData[4], // 'juan.perez@mail.com'
-        telefono: rowData[5], // 987554377
-        dni: rowData[6], // 44345674
-        direccion: rowData[7], // 'Av. Siempre Viva 123'
-        edad: rowData[8], // 30
-        nacimiento: nacimiento,  // Fecha convertida
-        nacionalidad: rowData[10], // 'Perú'
 
-        username: usuario, // 'j_perez'
-        password: contra, // 'j_perez'
-        sede: codigoSede,  // Código de sede encontrado o valor por defecto
-        genero: rowData[13], // 'Masculino'
-        tipoDoc: rowData[14] // 'DNI'
+      return {
+        primerNombre: rowData[0],
+        segundoNombre: rowData[1],
+        apellidoPaterno: rowData[2],
+        apellidoMaterno: rowData[3],
+        correo: rowData[4],
+        telefono: rowData[5],
+        dni: rowData[6],
+        direccion: rowData[7],
+        edad: rowData[8],
+        nacimiento: nacimiento,
+        nacionalidad: rowData[10],
+        username: usuario,
+        password: contra,
+        sede: codigoSede,
+        genero: rowData[13],
+        tipoDoc: rowData[14]
       };
     });
-    console.log(result)
     const historial: Historial = {
       usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} registró un nuevo profesor.`
     };
-    console.log(result)
-    this.historialService.registrar(historial).subscribe(
-      () => {
-        this.estudiante.guardarProfesorExcel(result).subscribe(
-          response => {
-            this.mensaje.MostrarMensajeExito("SE REGISTRO ESTUDIANTE");
-            this.data = [];  // Limpiar los datos de la tabla
-          },
-          error => {
-            this.mensaje.MostrarBodyError(error);
-          }
-        );
-      })
+
+    this.estudiante.guardarProfesorExcel(result).subscribe({
+      next: async () => {
+        this.mensaje.MostrarMensajeExito('SE REGISTRÓ EL PROFESOR');
+        this.data = [];
+        await firstValueFrom(this.historialService.registrar(historial));
+      },
+      error: (error) => {
+        this.mensaje.MostrarBodyError(error);
+      }
+    });
   }
   sedes: any
   async listarSede() {
@@ -116,7 +99,7 @@ export class EstudianteExcelComponent implements OnInit {
 
     })
   }
-  data: any[]=[];
+  data: any[] = [];
   seleccionarArchivo(): void {
     document.getElementById('fileInput')?.click();
   }
@@ -230,7 +213,6 @@ export class EstudianteExcelComponent implements OnInit {
     private historialService: HistorialService,
     private sede: SedeService,
     private estudiante: EstudianteService,
-    private profesorService: ProfesorService,
     private cargo: CargoService,
     private mensaje: MensajeService) { }
 
@@ -240,9 +222,9 @@ export class EstudianteExcelComponent implements OnInit {
     this.listarProfesores()
   }
   profesoresActuales: any
+  
   async listarProfesores() {
     this.estudiante.listar().subscribe((data) => {
-      console.log(data)
       this.profesoresActuales = data;
 
     })

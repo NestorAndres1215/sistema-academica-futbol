@@ -12,6 +12,7 @@ import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { SedeService } from 'src/app/core/services/sede.service';
+import { calcularEdad, formatDate } from 'src/app/core/utils/fechaValidator';
 
 @Component({
   selector: 'app-reg-estudiante',
@@ -58,31 +59,18 @@ export class RegEstudianteComponent implements OnInit {
   minDate: string;
 
   async validarFecha() {
-    const today = new Date();
-    const minYear = today.getFullYear() - 120; // Máximo 120 años atrás
-    this.minDate = `1980-01-01`; // Fecha mínima permitida
-    this.maxDate = this.formatDate(new Date()); // Fecha actual
+    this.minDate = `1980-01-01`;
+    this.maxDate = formatDate(new Date()); 
   }
 
-  private formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Mes con dos dígitos
-    const day = String(date.getDate()).padStart(2, '0'); // Día con dos dígitos
-    return `${year}-${month}-${day}`;
-  }
 
   initForm(): void {
-
-
-
     this.formulario = this.formBuilder.group({
-
       sede: [this.sedes, Validators.required],
       genero: [this.genero, Validators.required],
       tipo: [this.tiposDocumento, Validators.required],
-
       primerNombre: ['', Validators.required],
-      segundoNombre: ['', Validators.required], // Corregido: Eliminar la coma extra
+      segundoNombre: ['', Validators.required], 
       apellidoPaterno: ['', Validators.required],
       apellidoMaterno: ['', Validators.required],
       correo: ['', Validators.required],
@@ -91,36 +79,19 @@ export class RegEstudianteComponent implements OnInit {
       direccion: ['', Validators.required],
       nacionalidad: ['', Validators.required],
       fechaNacimiento: ['', Validators.required],
-
       edad: [this.edad, [Validators.required, Validators.min(0)]],
     });
     this.formulario.get('edad')?.disable();
     this.formulario.get('fechaNacimiento')?.valueChanges.subscribe(date => {
       if (date) {
-        this.calcularEdad(date);
+        calcularEdad(date);
       }
     });
   }
 
-
   volver(): void {
     this.router.navigate(['/administrador']);
   }
-
-  calcularEdad(fechaNacimiento: string) {
-    const nacimiento = new Date(fechaNacimiento);
-    const hoy = new Date();
-    let edad = hoy.getFullYear() - nacimiento.getFullYear();
-    const m = hoy.getMonth() - nacimiento.getMonth();
-
-    if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
-      edad--;
-    }
-
-    this.edad = edad;
-    this.formulario.patchValue({ edad: this.edad }); // Actualiza el valor de edad
-  }
-
 
   operar(): void {
 
@@ -135,8 +106,8 @@ export class RegEstudianteComponent implements OnInit {
     const sede = this.formulario.value.sede;
     const tipo = this.formulario.value.tipo;
     const usuario = "E" + this.formulario.value.dni;
-    const apellidoPaterno = this.formulario.get('apellidoPaterno')?.value || ''; // Obtén el valor
-    const primerCaracter = apellidoPaterno.charAt(0); // O también apellidoPaterno[0]
+    const apellidoPaterno = this.formulario.get('apellidoPaterno')?.value || ''; 
+    const primerCaracter = apellidoPaterno.charAt(0); 
     const contra = this.formulario.value.dni + primerCaracter
     if (this.formulario.valid) {
       const objProfesor: Estudiante = {
@@ -156,21 +127,19 @@ export class RegEstudianteComponent implements OnInit {
         password: contra,
         usuarioCreacion: this.loginService.getUser().username,
         sede: sede,
-
         genero: genero,
         tipoDoc: tipo,
       };
-      console.log(objProfesor)
-      // Crear el objeto del historial
+
+
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+        usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} registró al estudiante ${objProfesor.primerNombre} ${objProfesor.apellidoPaterno}.`
       };
 
-      // Registrar el historial
       this.historialService.registrar(historial).subscribe(
         () => {
-          // Si el historial se registra correctamente, proceder con el registro del estudiante
+        
           this.estudiante.guardarEstudiante(objProfesor).subscribe(
             response => {
               this.mensaje.MostrarMensajeExito("SE REGISTRÓ ESTUDIANTE");
@@ -184,7 +153,6 @@ export class RegEstudianteComponent implements OnInit {
           );
         },
         error => {
-          // Si hubo un error al registrar el historial, mostrar un mensaje de error
           this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
         }
       );

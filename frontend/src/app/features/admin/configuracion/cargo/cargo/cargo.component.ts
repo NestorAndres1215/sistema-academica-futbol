@@ -40,6 +40,7 @@ export class CargoComponent implements OnInit {
   totalItems: number;
   pageSize = 5;
   listar: any
+
   constructor(
     private cargo: CargoService,
     private dialog: MatDialog,
@@ -83,15 +84,14 @@ export class CargoComponent implements OnInit {
     { etiqueta: 'Nombre', clave: 'nombre' },
     { etiqueta: 'Descripción', clave: 'descripcion' },
   ];
+
   botonesConfigTable = {
     actualizar: true,
     ver: true,
   };
 
-
   async listarCargo() {
     this.cargo.listarCargoActivado().subscribe((data) => {
-      console.log(data)
       this.datosTabla = data;
       this.pagedData = data
       this.totalItems = this.datosTabla.length

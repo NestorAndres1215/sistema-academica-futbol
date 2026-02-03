@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { Historial } from 'src/app/core/model/historial';
 
 import { CargoService } from 'src/app/core/services/cargo.service';
@@ -18,65 +19,59 @@ import * as XLSX from 'xlsx';
 export class ProfesoresExcelComponent implements OnInit {
   nombre: string
 
-  
-   botonesConfig = {
+
+  botonesConfig = {
     editar: false,
     volver: true,
 
   };
-  cargarExcel() :void{
-    if (!this.data || this.data.length === 0) {  
+  cargarExcel(): void {
+    if (!this.data || this.data.length === 0) {
       this.mensaje.MostrarMensaje("⚠️ LOS DATOS ESTÁN VACÍOS");
       return;
     }
     const result = this.data.map(item => {
-      const rowData = item.row; // Array de datos que está dentro de 'row'
+      const rowData = item.row;
+      const sede = rowData[12];
+      const cargo = rowData[11];
 
-      // Obtener valores específicos
-      const sede = rowData[12];  // Sede, se encuentra en la posición 15
-      const cargo = rowData[11]; // Cargo, se encuentra en la posición 12
-
-      // Buscar la sede y el cargo en las listas correspondientes
       const sedeExistente = this.sedes.find(s => s.nombre === sede);
       const cargoExistente = this.cargos.find(c => c.nombre === cargo);
 
-      // Obtener el código de la sede y cargo si existen, o un valor por defecto
       const codigoSede = sedeExistente ? sedeExistente.codigo : 'Sede no válida';
       const codigoCargo = cargoExistente ? cargoExistente.codigo : 'Cargo no válido';
 
-      // Fecha de nacimiento (índice 9 en el array 'row')
-      const nacimientoRaw = rowData[9]; // '12/12/1900'
+      const nacimientoRaw = rowData[9];
 
-      // Si la fecha está en formato string, podemos convertirla a un objeto Date
       let nacimiento: Date;
       if (nacimientoRaw && !isNaN(Date.parse(nacimientoRaw))) {
-        nacimiento = new Date(nacimientoRaw);  // Convertimos la fecha en formato string
+        nacimiento = new Date(nacimientoRaw);
       } else {
-        nacimiento = new Date();  // Valor por defecto si la fecha no es válida
+        nacimiento = new Date();
       }
-      const usuario = "P" +rowData[6];
-      const apellidoPaterno =  rowData[2]; // Obtén el valor
-      const primerCaracter = apellidoPaterno.charAt(0); // O también apellidoPaterno[0]
+      const usuario = "P" + rowData[6];
+      const apellidoPaterno = rowData[2];
+      const primerCaracter = apellidoPaterno.charAt(0);
       const contra = rowData[6] + primerCaracter
-      // Devolvemos el objeto con los datos procesados
+
       return {
-        primerNombre: rowData[0],  // 'Juan'
-        segundoNombre: rowData[1], // 'Carlos'
-        apellidoPaterno: rowData[2], // 'Pérez'
-        apellidoMaterno: rowData[3], // 'Rodríguez'
-        correo: rowData[4], // 'juan.perez@mail.com'
-        telefono: rowData[5], // 987554377
-        dni: rowData[6], // 44345674
-        direccion: rowData[7], // 'Av. Siempre Viva 123'
-        edad: rowData[8], // 30
-        nacimiento: nacimiento,  // Fecha convertida
-        nacionalidad: rowData[10], // 'Perú'
-        cargo: codigoCargo,  // Código de cargo encontrado o valor por defecto
-        username: usuario, // 'j_perez'
-        password:contra, // 'j_perez'
-        sede: codigoSede,  // Código de sede encontrado o valor por defecto
-        genero: rowData[13], // 'Masculino'
-        tipoDoc: rowData[14] // 'DNI'
+        primerNombre: rowData[0],
+        segundoNombre: rowData[1],
+        apellidoPaterno: rowData[2],
+        apellidoMaterno: rowData[3],
+        correo: rowData[4],
+        telefono: rowData[5],
+        dni: rowData[6],
+        direccion: rowData[7],
+        edad: rowData[8],
+        nacimiento: nacimiento,
+        nacionalidad: rowData[10],
+        cargo: codigoCargo,
+        username: usuario,
+        password: contra,
+        sede: codigoSede,
+        genero: rowData[13],
+        tipoDoc: rowData[14]
       };
     });
 
@@ -84,20 +79,20 @@ export class ProfesoresExcelComponent implements OnInit {
       usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} registró un nuevo profesor.`
     };
-    console.log(result)
-    this.historialService.registrar(historial).subscribe(
-      () => {
-        this.profesorService.guardarProfesorExcel(result).subscribe(
-          response => {
-            this.mensaje.MostrarMensajeExito("SE REGISTRO  PROFESOR");
-            this.data = [];  // Limpiar los datos de la tabla
-          },
-          error => {
-            this.mensaje.MostrarBodyError(error);
-          }
-        );
-      })
+
+    this.profesorService.guardarProfesorExcel(result).subscribe({
+      next: async () => {
+        this.mensaje.MostrarMensajeExito('SE REGISTRÓ EL PROFESOR');
+        this.data = [];
+        await firstValueFrom(this.historialService.registrar(historial));
+      },
+      error: (error) => {
+        this.mensaje.MostrarBodyError(error);
+      }
+    });
+
   }
+
   sedes: any
   async listarSede() {
     this.sede.listarSedeActivado().subscribe((data) => {
@@ -106,14 +101,14 @@ export class ProfesoresExcelComponent implements OnInit {
 
     })
   }
+
   cargos: any
   async listarCargo() {
     this.cargo.listarCargoActivado().subscribe((data) => {
-      console.log(data)
       this.cargos = data;
-
     })
   }
+
   data: any[];
   seleccionarArchivo(): void {
     document.getElementById('fileInput')?.click();
@@ -121,7 +116,6 @@ export class ProfesoresExcelComponent implements OnInit {
 
   importExcel(event: any): void {
     const file = event.target.files[0];
-
 
     if (file) {
       this.data = [];
@@ -218,12 +212,11 @@ export class ProfesoresExcelComponent implements OnInit {
       }
     }
 
-    ws['!cols'] = wscols; // Establecer el ancho de las columnas
+    ws['!cols'] = wscols;
 
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Datos');
 
-    // Descargar el archivo Excel
     XLSX.writeFile(wb, 'datos_generados.xlsx');
   }
   volver() {
@@ -244,10 +237,11 @@ export class ProfesoresExcelComponent implements OnInit {
     this.listarCargo()
     this.listarProfesores()
   }
+
   profesoresActuales: any
+
   async listarProfesores() {
     this.profesorService.listar().subscribe((data) => {
-      console.log(data)
       data = data.filter(item => item.codigo !== '0000');
       this.profesoresActuales = data;
 
