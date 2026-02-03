@@ -12,6 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Admin } from 'src/app/core/model/Admin';
 import { Historial } from 'src/app/core/model/historial';
+import { edadNacimiento, formatDate } from 'src/app/core/utils/fechaValidator';
 
 @Component({
   selector: 'app-edit-usuario',
@@ -22,7 +23,7 @@ export class EditUsuarioComponent implements OnInit {
 
 
   showPassword: false;
-  public formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
   lista: any;
   nombrePrimero: string
   nombreSegundo: string
@@ -60,10 +61,10 @@ export class EditUsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.lista = this.data
-    console.log(this.lista)
     this.listarEdiciones()
     this.listarUsuario()
   }
+
   listarEdiciones() {
     this.codigoUsuario = this.lista.row.usuario.codigo;
     this.codigoAdmin = this.lista.row.codigo;
@@ -78,7 +79,6 @@ export class EditUsuarioComponent implements OnInit {
     this.dni = this.lista.row.dni;
     this.direccion = this.lista.row.direccion;
     this.nacimiento = this.lista.row.fechaNacimiento;
-
     this.nacionalidad = this.lista.row.nacionalidad;
     this.usuarioCreacion = this.lista.row.usuarioCreacion;
     this.fechaCreacion = this.lista.row.fechaCreacion;
@@ -88,7 +88,6 @@ export class EditUsuarioComponent implements OnInit {
     this.horaActualizacion = this.lista.row.horaActualizacion;
     this.validarFecha()
     this.initForm()
-
     this.deshabilitar()
   }
 
@@ -106,19 +105,17 @@ export class EditUsuarioComponent implements OnInit {
       dni: [this.dni, Validators.required],
       direccion: [this.direccion, Validators.required],
       nacimiento: [this.nacimiento, Validators.required],
-
       nacionalidad: [this.nacionalidad, Validators.required],
     });
 
   }
-
-
 
   deshabilitar() {
     this.formulario.get('contra')?.disable();
     this.formulario.get('usuario')?.disable();
     this.formulario.get('nacionalidad')?.disable();
   }
+
   cerrar() {
     this.dialogRe.close();
   }
@@ -126,48 +123,18 @@ export class EditUsuarioComponent implements OnInit {
   minDate: string;
 
   async validarFecha() {
-    const today = new Date();
-    const minYear = today.getFullYear() - 120; // Máximo 120 años atrás
-    this.minDate = `1980-01-01`; // Fecha mínima permitida
-    this.maxDate = this.formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 20)));
-  }
-
-  private formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Mes con dos dígitos
-    const day = String(date.getDate()).padStart(2, '0'); // Día con dos dígitos
-    return `${year}-${month}-${day}`;
+    this.minDate = `1980-01-01`; 
+    this.maxDate = formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 20)));
   }
 
 
-
-  edadNacimiento(fechaNacimiento: string): string {
-    if (fechaNacimiento) {
-      const hoy = new Date();
-      const nacimiento = new Date(fechaNacimiento);
-
-      // Calcular edad
-      let edad = hoy.getFullYear() - nacimiento.getFullYear();
-      const mesDiferencia = hoy.getMonth() - nacimiento.getMonth();
-
-      // Ajustar si aún no ha cumplido años este año
-      if (mesDiferencia < 0 || (mesDiferencia === 0 && hoy.getDate() < nacimiento.getDate())) {
-        edad--;
-      }
-
-      return ` ${edad}`; // Retornamos la edad como string
-    } else {
-      return 'Por favor, ingresa una fecha de nacimiento válida.'; // Mensaje de error
-    }
-  }
   @Output() onActualizar: EventEmitter<boolean> = new EventEmitter();
   operar() {
-    console.log(this.formulario.value);
-    let edad: string | null; // Declaramos la variable
+
+    let edad: string | null; 
     const fechaNacimiento = this.formulario.get('nacimiento').value;
-    edad = this.edadNacimiento(fechaNacimiento); // Llamamos a la función para calcular la edad
-    console.log(edad)
-    console.log(this.codigoAdmin)
+    edad =edadNacimiento(fechaNacimiento); 
+    
     if (this.formulario.valid) {
       const objAdmin: Admin = {
         codigoUsuario: this.codigoUsuario,
@@ -188,30 +155,31 @@ export class EditUsuarioComponent implements OnInit {
         usuarioCreacion: this.usuarioCreacion,
         usuarioActualizacion: this.loginService.getUser().username,
       };
-      console.log(objAdmin)
+
+      
 
       const historial: Historial = {
         usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} actualizó los datos del administrador con código ${this.codigoAdmin}.`
       };
 
-      // Registrar el historial
+
       this.historialService.registrar(historial).subscribe(
         () => {
-          // Si el historial se registra correctamente, proceder a actualizar el administrador
+
           this.adminService.actualizarAdmin(objAdmin).subscribe(
             response => {
               this.mensaje.MostrarMensajeExito("SE ACTUALIZÓ USUARIO ");
-              this.dialog.closeAll(); // Cerrar el diálogo después de actualizar
-              this.cdr.detectChanges(); // Detectar cambios en el componente
+              this.dialog.closeAll();
+              this.cdr.detectChanges(); 
             },
             error => {
-              this.mensaje.MostrarBodyError(error); // Manejar el error si ocurre
+              this.mensaje.MostrarBodyError(error); 
             }
           );
         },
         error => {
-          this.mensaje.MostrarBodyError("Error al registrar el historial: " + error); // Manejar el error de historial
+          this.mensaje.MostrarBodyError("Error al registrar el historial: " + error); 
         }
       );
     }
@@ -219,20 +187,16 @@ export class EditUsuarioComponent implements OnInit {
       this.mensaje.MostrarMensaje("FORMULARIO VACIO")
       this.formulario.markAllAsTouched();
     }
-
-
   }
+
   usuarios: any;
   dataSource: MatTableDataSource<any>;
 
   async listarUsuario() {
     await this.adminService.listarAdmins().subscribe((r) => {
-      console.log(r)
       this.usuarios = r;
     });
   }
-
-
 
 }
 

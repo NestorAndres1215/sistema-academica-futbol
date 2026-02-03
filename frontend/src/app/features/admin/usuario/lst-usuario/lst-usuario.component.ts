@@ -38,6 +38,7 @@ export class LstUsuarioComponent implements OnInit {
   totalItems: number;
   pageSize = 5;
   listar: any
+  
   columnas = [
     { etiqueta: 'Código', clave: 'codigo' },
     { etiqueta: 'Nombre', clave: 'primerNombre' },
@@ -141,12 +142,12 @@ export class LstUsuarioComponent implements OnInit {
       this.listarUsuario()
     })
   }
+
   volver(): void {
     this.route.navigate(['/administrador']);
   }
 
 
-  // Método para exportar a Excel
   exportarExcel() {
 
     const historial: Historial = {
@@ -177,18 +178,17 @@ export class LstUsuarioComponent implements OnInit {
     );
   }
 
-  // Método para exportar a PDF
+
   exportarPDF(): void {
-    // Crear el objeto de historial
+
     const historial: Historial = {
       usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de los usuarios a un archivo PDF.`
     };
 
-    // Registrar el historial
     this.historialService.registrar(historial).subscribe(
       () => {
-        // Si el historial se registra correctamente, proceder con la exportación
+
         this.pdfService.descargarPDFUsuario().subscribe((data: Blob) => {
           const blob = new Blob([data], { type: 'application/pdf' });
           const urlBlob = window.URL.createObjectURL(blob);
@@ -208,77 +208,12 @@ export class LstUsuarioComponent implements OnInit {
     );
   }
 
-  exportarPrint(): void {
-    // Suponiendo que this.datostabla es un array o un objeto que quieres imprimir
-    const contenidoAImprimir = this.datosTabla;
-
-    if (contenidoAImprimir) {
-      // Crear un iframe
-      const iframe = document.createElement('iframe');
-      iframe.style.position = 'absolute';
-      iframe.style.width = '0px';
-      iframe.style.height = '0px';
-      iframe.style.border = 'none';
-      document.body.appendChild(iframe);
-
-      const iframeDoc = iframe.contentWindow?.document;
-
-      // Convertir los datos en formato HTML (esto puede variar dependiendo del formato de 'this.datostabla')
-      let contenidoHTML = '<table border="1"><tr><th>Primer Nombre</th><th>Segundo Nombre</th><th>Apellido Paterno</th><th>Apellido Materno</th><th>DNI</th><th>Teléfono</th><th>Correo</th><th>Dirección</th><th>Edad</th></tr>';
-
-      contenidoAImprimir.forEach((item: any) => {
-        contenidoHTML += `
-          <tr>
-            <td>${item.primerNombre}</td>
-            <td>${item.segundoNombre}</td>    
-            <td>${item.apellidoPaterno}</td>
-            <td>${item.apellidoMaterno}</td>
-            <td>${item.dni}</td>
-            <td>${item.telefono}</td>
-            <td>${item.correo}</td>
-            <td>${item.direccion}</td>
-            <td>${item.edad}</td>
-          </tr>`;
-      });
-
-      contenidoHTML += '</table>';
-
-      // Escribir el contenido a imprimir en el iframe
-      iframeDoc?.open();
-      iframeDoc?.write(`
-        <html>
-          <head>
-            <style>
-              /* Aquí puedes agregar estilos para la impresión si es necesario */
-              body { font-family: Arial, sans-serif; }
-              table { width: 100%; border-collapse: collapse; }
-              th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
-              h1 { text-align: center; }
-            </style>
-          </head>
-          <body>
-            <h1 style="text-align: center;">Detalles de los Usuarios</h1> <!-- Título -->
-            ${contenidoHTML}
-          </body>
-        </html>
-      `);
-      iframeDoc?.close();
-
-      // Ejecutar el comando de impresión en el iframe
-      iframe.contentWindow?.print();
-
-      // Eliminar el iframe después de la impresión
-      document.body.removeChild(iframe);
-    }
-  }
   exportarReporteAdministradores(): void {
-    // Verificar que existan datos para imprimir
     if (!this.datosTabla || this.datosTabla.length === 0) {
       console.warn('No hay datos disponibles para generar el reporte');
       return;
     }
 
-    // Crear iframe para la impresión
     const iframe = document.createElement('iframe');
     iframe.style.position = 'absolute';
     iframe.style.width = '0px';
@@ -289,14 +224,13 @@ export class LstUsuarioComponent implements OnInit {
 
     const iframeDoc = iframe.contentWindow?.document;
 
-    // Encabezado del reporte
     const fechaReporte = new Date().toLocaleDateString('es-ES', {
       day: '2-digit',
       month: '2-digit',
       year: 'numeric'
     });
 
-    // Generar tabla HTML con estilos profesionales
+
     let tablaHTML = `
     <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-family: 'Arial', sans-serif;">
         <thead>
@@ -310,7 +244,6 @@ export class LstUsuarioComponent implements OnInit {
         </thead>
         <tbody>`;
 
-    // Llenar la tabla con datos
     this.datosTabla.forEach((usuario: any, index: number) => {
       const nombreCompleto = `
             ${usuario.primerNombre} 
@@ -335,7 +268,6 @@ export class LstUsuarioComponent implements OnInit {
 
     tablaHTML += `</tbody></table>`;
 
-    // Contenido completo del documento
     const contenidoCompleto = `
     <html>
         <head>
@@ -398,6 +330,7 @@ export class LstUsuarioComponent implements OnInit {
       document.body.removeChild(iframe);
     }, 300);
   }
+
   eliminar(row: any) {
     console.log(row.codigo);
     console.log(this.user.us_codigo);
@@ -414,8 +347,6 @@ export class LstUsuarioComponent implements OnInit {
 
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton != 'CONFIRMAR') return;
-
-      // Primero desactivamos al usuario
       this.admin.desactivarAdmin(row.codigo).subscribe(result => {
         this.mensjae.MostrarMensajeExito("Se desactivó correctamente el usuario");
 
@@ -445,8 +376,6 @@ export class LstUsuarioComponent implements OnInit {
       width: '1050px',
       height: '650px',
     });
-
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarUsuario()
     })

@@ -11,10 +11,6 @@ export class DtUsuarioComponent implements OnInit {
 
   formulario: UntypedFormGroup;
   datos: any
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-  ) { }
-
   imagenUrlBase = 'data:image/jpeg;base64,';
   username: string
   email: string;
@@ -25,6 +21,9 @@ export class DtUsuarioComponent implements OnInit {
   direccion: string
   rol: string
 
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) { }
 
   ngOnInit(): void {
     const dataArray = Object.values(this.data);
@@ -35,5 +34,4 @@ export class DtUsuarioComponent implements OnInit {
     return perfil.perfil ? this.imagenUrlBase + perfil.perfil : '';
   }
 
-  cerrar() { }
 }

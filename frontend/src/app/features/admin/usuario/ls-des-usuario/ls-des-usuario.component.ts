@@ -37,7 +37,6 @@ export class LsDesUsuarioComponent implements OnInit {
     private loginService: LoginService,
     private dialog: MatDialog,
     private dialogRe: MatDialogRef<LstUsuarioComponent>,
-    private route: Router,
     private mensajeService: MensajeService
   ) { }
 
@@ -51,7 +50,7 @@ export class LsDesUsuarioComponent implements OnInit {
 
 
   pageChanged(event: PageEvent) {
-    console.log(event)
+
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
@@ -61,7 +60,6 @@ export class LsDesUsuarioComponent implements OnInit {
 
   async listarDesactivado() {
     this.adminService.listarAdminDesactivado().subscribe((data) => {
-      console.log(data)
       this.datosTabla = data;
       this.pagedData = data
       this.totalItems = this.datosTabla.length
@@ -85,6 +83,7 @@ export class LsDesUsuarioComponent implements OnInit {
         .includes(term)
     );
   }
+
   volver() {
     this.dialogRe.close();
   }
@@ -106,27 +105,21 @@ export class LsDesUsuarioComponent implements OnInit {
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton != 'CONFIRMAR') return;
 
-      // Primero activamos (restauramos) al usuario
       this.adminService.activarAdmin(row.codigo).subscribe(result => {
-        console.log(result);
         this.mensajeService.MostrarMensajeExito("Se restauró correctamente el usuario");
-
-        // Después de restaurar, registramos el historial
         const historial: Historial = {
           usuario: this.loginService.getUser().username,
           detalle: `El usuario ${this.loginService.getUser().username} restauró al usuario con el código ${row.codigo} y nombre de usuario ${row.usuario.username}.`
         };
 
-        // Registrar el historial
         this.historialService.registrar(historial).subscribe(
           () => {
-            // Si se registra el historial con éxito, refrescar la lista de usuarios desactivados
+
             this.listarDesactivado();
           },
           error => {
-            this.mensajeService.MostrarBodyError("Error al registrar el historial: " + error); // Manejar el error de historial
-          }
-        );
+            this.mensajeService.MostrarBodyError("Error al registrar el historial: " + error);
+          });
       });
     });
   }
@@ -143,9 +136,7 @@ export class LsDesUsuarioComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Elemento eliminado');
-      }
+
     });
 
   }
