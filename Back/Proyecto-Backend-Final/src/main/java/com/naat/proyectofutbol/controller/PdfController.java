@@ -1,6 +1,5 @@
 package com.naat.proyectofutbol.controller;
 
-
 import com.naat.proyectofutbol.service.pdf.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;

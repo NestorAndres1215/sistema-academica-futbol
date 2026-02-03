@@ -18,7 +18,7 @@ public class Equipo {
     @Id
     @Column(name = "eq_codigo", length = 4, nullable = false)
     private String codigo;
-    
+
     @Column(name = "eq_nombre")
     private String nombre;
 
@@ -32,7 +32,7 @@ public class Equipo {
     private String genero;
 
     @Column(name = "eq_estado")
-    private boolean estado;
+    private Boolean estado;
 
     @Column(name = "eq_fecha_creacion")
     private LocalDate fechaCreacion;

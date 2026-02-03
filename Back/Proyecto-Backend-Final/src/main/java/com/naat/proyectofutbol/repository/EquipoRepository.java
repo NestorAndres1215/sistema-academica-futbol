@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+
 public interface EquipoRepository extends JpaRepository<Equipo, String> {
     @Query(value = "SELECT MAX(eq_codigo) FROM Equipo", nativeQuery = true)
     String obtenerUltimoCodigo();

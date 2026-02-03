@@ -32,4 +32,12 @@ public interface GeneralService {
     GeneralDev guardarGeneralDev(GeneralDevRequest generalDTO);
 
     GeneralDev actualizarGeneralDev(GeneralDevRequest general);
+
+    List<General> listarPorClave(String clave);
+
+    List<General> listarPorDescripcion1(String descripcion1);
+
+    List<General> findByClaveAndEstadoTrue(String clave);
+
+    List<General> findByClaveAndEstadoFalse(String clave);
 }

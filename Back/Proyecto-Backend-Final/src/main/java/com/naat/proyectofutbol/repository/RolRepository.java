@@ -8,6 +8,7 @@ import java.util.Optional;
 
 
 public interface RolRepository  extends JpaRepository<Rol,String> {
-    Optional<Rol> findByCodigo(String codigo);;
+    Optional<Rol> findByCodigo(String codigo);
+
     Optional<Rol> findByRol(String nombre);
 }

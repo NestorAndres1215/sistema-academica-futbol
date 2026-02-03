@@ -10,6 +10,6 @@ import java.util.Optional;
 public interface MenuRepository extends JpaRepository<Menu, String> {
 
     List<Menu> findByRol(Optional<Rol> rol);
-    // List<Menu> findByRolAndTipo( Rol rol, String tipo);
+
     List<Menu> findByNivel(Integer menuNivel);
 }

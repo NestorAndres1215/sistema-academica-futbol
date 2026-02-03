@@ -59,7 +59,7 @@ public class Estudiante {
     private String nacionalidad;
 
     @Column(name = "es_estado")
-    private boolean estado;
+    private Boolean estado;
 
     @Column(name = "es_perfil")
     @Lob

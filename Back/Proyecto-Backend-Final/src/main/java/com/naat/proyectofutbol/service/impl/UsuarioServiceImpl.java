@@ -26,10 +26,6 @@ public class UsuarioServiceImpl implements UsuarioService {
     private final BCryptPasswordEncoder passwordEncoder;
 
 
-    @Override
-    public String obtenerUltimoCodigoUsuario() {
-        return usuarioRepository.obtenerUltimoCodigo();
-    }
 
     @Override
     public Usuario actualizar(String codigo, String username, String contrasena,String roles)  {

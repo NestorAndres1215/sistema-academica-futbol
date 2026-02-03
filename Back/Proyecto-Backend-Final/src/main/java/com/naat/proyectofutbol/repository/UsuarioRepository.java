@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface UsuarioRepository extends JpaRepository<Usuario, String> {
     Optional<Usuario> findByUsername(String username);
+
     boolean existsByUsername(String username);
 
     Usuario findByCodigo(String codigo);

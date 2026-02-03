@@ -134,4 +134,24 @@ public class LesionesServiceImpl implements LesionesService {
         return lesionesRepository.findByFechaRecuperacionBetween(inicio, fin);
     }
 
+    @Override
+    public List<Lesiones> listarPorGravedadActivas(String gravedad) {
+        return lesionesRepository.findByGravedadAndEstadoTrue(gravedad);
+    }
+
+    @Override
+    public List<Lesiones> listarPorGravedadInactivas(String gravedad) {
+        return lesionesRepository.findByGravedadAndEstadoFalse(gravedad);
+    }
+
+    @Override
+    public List<Lesiones> findByFechaRecuperacionAfter(LocalDate fecha) {
+        return lesionesRepository.findByFechaRecuperacionAfter(fecha);
+    }
+
+    @Override
+    public List<Lesiones> findByFechaRecuperacionBefore(LocalDate fecha) {
+        return  lesionesRepository.findByFechaRecuperacionBefore(fecha);
+    }
+
 }

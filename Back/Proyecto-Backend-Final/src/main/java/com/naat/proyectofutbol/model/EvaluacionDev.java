@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Setter
 public class EvaluacionDev {
     @Id
-    @Column(name = "de_codigo", length = 6)
+    @Column(name = "de_codigo")
     private String codigo;
 
     @ManyToOne

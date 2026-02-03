@@ -1,7 +1,6 @@
 package com.naat.proyectofutbol.controller;
 
 
-
 import com.naat.proyectofutbol.dto.DetalleLesionRequest;
 import com.naat.proyectofutbol.dto.request.LesionesRequest;
 import com.naat.proyectofutbol.model.Lesiones;
@@ -10,6 +9,7 @@ import com.naat.proyectofutbol.model.LesionesDev;
 import com.naat.proyectofutbol.service.LesionesService;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,12 +41,12 @@ public class LesionesController {
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity<Lesiones> registrar(@Valid  @RequestBody LesionesRequest lesionesDTO) {
+    public ResponseEntity<Lesiones> registrar(@Valid @RequestBody LesionesRequest lesionesDTO) {
         return ResponseEntity.ok(lesionesService.registrarLesiones(lesionesDTO));
     }
 
     @PostMapping("/dev/registrar")
-    public ResponseEntity<LesionesDev>registrarDetalle(@Valid @RequestBody DetalleLesionRequest lesionesDTO) {
+    public ResponseEntity<LesionesDev> registrarDetalle(@Valid @RequestBody DetalleLesionRequest lesionesDTO) {
         return ResponseEntity.ok(lesionesService.registrarLesionesDev(lesionesDTO));
     }
 
@@ -54,6 +54,7 @@ public class LesionesController {
     public ResponseEntity<Optional<Lesiones>> buscarPorCodigo(@PathVariable String codigo) {
         return ResponseEntity.ok(lesionesService.buscarPorCodigo(codigo));
     }
+
     @GetMapping("/gravedad/{gravedad}")
     public ResponseEntity<List<Lesiones>> listarPorGravedad(@PathVariable String gravedad) {
         return ResponseEntity.ok(lesionesService.listarPorGravedad(gravedad));
@@ -75,5 +76,25 @@ public class LesionesController {
         LocalDate fechaInicio = LocalDate.parse(inicio);
         LocalDate fechaFin = LocalDate.parse(fin);
         return ResponseEntity.ok(lesionesService.listarPorRangoRecuperacion(fechaInicio, fechaFin));
+    }
+
+    @GetMapping("/activas/{gravedad}")
+    public ResponseEntity<List<Lesiones>> listarActivas(@PathVariable String gravedad) {
+        return ResponseEntity.ok(lesionesService.listarPorGravedadActivas(gravedad));
+    }
+
+    @GetMapping("/inactivas/{gravedad}")
+    public ResponseEntity<List<Lesiones>> listarInactivas(@PathVariable String gravedad) {
+        return ResponseEntity.ok(lesionesService.listarPorGravedadInactivas(gravedad));
+    }
+
+    @GetMapping("/recuperacion/despues/{fecha}")
+    public ResponseEntity<List<Lesiones>> listarDespuesDeFecha(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
+        return ResponseEntity.ok(lesionesService.findByFechaRecuperacionAfter(fecha));
+    }
+
+    @GetMapping("/recuperacion/antes/{fecha}")
+    public ResponseEntity<List<Lesiones>> listarAntesDeFecha(@PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecha) {
+        return ResponseEntity.ok(lesionesService.findByFechaRecuperacionBefore(fecha));
     }
 }

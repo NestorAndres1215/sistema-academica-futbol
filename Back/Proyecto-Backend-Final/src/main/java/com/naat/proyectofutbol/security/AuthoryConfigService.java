@@ -27,7 +27,7 @@ public class AuthoryConfigService implements UserDetailsService {
         Login login = Optional.ofNullable(loginRepository.findByUsername(username))
                 .orElseThrow(() -> new UsernameNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
 
-        if (!login.isEstado()) {
+        if (!login.getEstado()) {
             throw new UsernameNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO);
         }
 

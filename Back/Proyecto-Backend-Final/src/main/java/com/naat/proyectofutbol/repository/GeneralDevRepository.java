@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+
 public interface GeneralDevRepository extends JpaRepository<GeneralDev,String> {
     @Query("SELECT g FROM GeneralDev g WHERE g.general.codigo = :generalCodigo")
     List<GeneralDev> findByGeneralCodigo(@Param("generalCodigo") String generalCodigo);
@@ -18,13 +18,6 @@ public interface GeneralDevRepository extends JpaRepository<GeneralDev,String> {
 
     @Query(value = "SELECT MAX(tl_codigo) FROM gendev", nativeQuery = true)
     String obtenerUltimoCodigo();
-
-    boolean existsByCodigo(String codigo);
-
-    boolean existsByClave(String clave);
-    boolean existsByClaveAndCodigo(String clave, String codigo);
-
-    boolean existsByDescripcion1(String descripcion1);
 
     List<GeneralDev> findByEstadoTrue();
 

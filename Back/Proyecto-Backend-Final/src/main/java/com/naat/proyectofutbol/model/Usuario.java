@@ -28,7 +28,7 @@ public class Usuario {
     private String password; 
 
     @Column(name = "us_estado", nullable = false)
-    private boolean estado;  
+    private Boolean estado;
 
     @Column(name = "us_fechacreacion")
     private LocalDate fechaCreacion;  

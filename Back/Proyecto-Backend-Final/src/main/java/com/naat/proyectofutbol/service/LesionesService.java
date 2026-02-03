@@ -35,4 +35,12 @@ public interface LesionesService {
     List<Lesiones> listarPorFechaRecuperacion(LocalDate fecha);
 
     List<Lesiones> listarPorRangoRecuperacion(LocalDate inicio, LocalDate fin);
+
+    List<Lesiones> listarPorGravedadActivas(String gravedad);
+
+    List<Lesiones> listarPorGravedadInactivas(String gravedad);
+
+    List<Lesiones> findByFechaRecuperacionAfter(LocalDate fecha);
+
+    List<Lesiones> findByFechaRecuperacionBefore(LocalDate fecha);
 }

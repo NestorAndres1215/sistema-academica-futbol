@@ -47,7 +47,7 @@ public class GeneralDev {
     private LocalTime horaActualizacion;
 
     @Column(name = "tl_estado")
-    private boolean estado;
+    private Boolean estado;
 
     @ManyToOne
     @JoinColumn(name = "tl_gen", referencedColumnName = "tl_codigo")

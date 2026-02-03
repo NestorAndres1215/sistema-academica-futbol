@@ -25,7 +25,7 @@ public class Cargo {
     private String nombre; 
 
     @Column(name = "cg_estado")
-    private boolean estado; 
+    private Boolean estado;
 
     @Column(name = "cg_fecha_creacion")
     private LocalDate fechaCreacion;

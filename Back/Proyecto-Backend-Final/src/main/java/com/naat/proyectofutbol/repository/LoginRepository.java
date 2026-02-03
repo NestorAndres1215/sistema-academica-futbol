@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.naat.proyectofutbol.model.Login;
 
-@Repository
+
 public interface LoginRepository extends JpaRepository<Login, String> {
 
      Login findByUsername(String username);

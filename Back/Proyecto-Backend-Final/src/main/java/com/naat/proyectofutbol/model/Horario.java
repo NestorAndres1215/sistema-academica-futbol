@@ -18,7 +18,7 @@ import lombok.*;
 public class Horario {
 
     @Id
-    @Column(name = "hor_codigo", length = 4, nullable = false)
+    @Column(name = "hor_codigo", length = 4)
     private String codigo;
 
     @Column(name = "hor_hora_inicio")
@@ -46,6 +46,6 @@ public class Horario {
     private String usuarioActualizacion;
     
     @Column(name = "hor_estado")
-    private boolean estado;
+    private Boolean estado;
 
 }

@@ -32,7 +32,7 @@ public class Lesiones {
     private String gravedad;
 
     @Column(name = "le_estado")
-    private boolean estado;
+    private Boolean estado;
 
     @Column(name = "le_tiempo_recuperacion")
     private Integer tiempoRecuperacion;

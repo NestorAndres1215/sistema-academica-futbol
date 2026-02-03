@@ -51,7 +51,7 @@ public class General {
     private LocalTime horaActualizacion;
 
     @Column(name = "tl_estado")
-    private boolean estado;
+    private Boolean estado;
 
 
 

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalTime;
 import java.util.List;
 
-@Repository
+
 public interface HorarioRepository extends JpaRepository<Horario, String> {
 
     @Query(value = "SELECT MAX(hor_codigo) FROM horario", nativeQuery = true)

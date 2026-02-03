@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
+
 public interface HistorialRepository extends JpaRepository<Historial,String> {
+
     @Query("SELECT h FROM Historial h WHERE h.usuario = :usuario")
     List<Historial> findByUsuario(Usuario usuario);
 

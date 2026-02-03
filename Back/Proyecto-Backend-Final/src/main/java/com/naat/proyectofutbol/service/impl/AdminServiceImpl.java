@@ -1,6 +1,7 @@
 package com.naat.proyectofutbol.service.impl;
 
 
+import com.naat.proyectofutbol.constants.AlreadyExistsMessages;
 import com.naat.proyectofutbol.constants.GlobalErrorMessages;
 import com.naat.proyectofutbol.constants.NotFoundMessages;
 import com.naat.proyectofutbol.constants.Roles;
@@ -183,19 +184,19 @@ public class AdminServiceImpl implements AdminService {
     private void validarAdmin(AdminRequest admin) {
 
         if (usuarioService.usuarioExistePorUsername(admin.getUsername())) {
-            throw new ResourceAlreadyExistsException("El usuario ya existe");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.USUARIO_YA_EXISTE);
         }
 
         if (ExistePorEmail(admin.getCorreo())) {
-            throw new ResourceAlreadyExistsException("El correo ya existe");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.CORREO_YA_EXISTE);
         }
 
         if (ExistePorDNI(admin.getDni())) {
-            throw new ResourceAlreadyExistsException("El DNI ya existe");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.DNI_YA_EXISTE);
         }
 
         if (ExistePorTelefono(admin.getTelefono())) {
-            throw new ResourceAlreadyExistsException("El teléfono ya existe");
+            throw new ResourceAlreadyExistsException(AlreadyExistsMessages.TELEFONO_YA_EXISTE);
         }
     }
 
@@ -258,6 +259,7 @@ public class AdminServiceImpl implements AdminService {
         Admin admin = adminRepository.findById(usuarioCodigo)
                 .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ADMIN_NO_ENCONTRADO));
         usuarioService.desactivarUsuario(admin.getUsuario().getCodigo());
+        loginService.desactivarUsuario(admin.getUsuario().getCodigo());
         admin.setEstado(false);
         return adminRepository.save(admin);
     }
@@ -268,6 +270,7 @@ public class AdminServiceImpl implements AdminService {
                 .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ADMIN_NO_ENCONTRADO));
 
         usuarioService.activar(admin.getUsuario().getCodigo());
+        loginService.activarUsuario(admin.getUsuario().getCodigo());
         admin.setEstado(true);
         return adminRepository.save(admin);
     }

@@ -171,6 +171,26 @@ public class GeneralServiceImpl implements GeneralService {
         return generalDevRepository.save(generalExist);
     }
 
+    @Override
+    public List<General> listarPorClave(String clave) {
+        return generalRepository.findByClave(clave);
+    }
+
+    @Override
+    public List<General> listarPorDescripcion1(String descripcion1) {
+        return generalRepository.findByDescripcion1(descripcion1);
+    }
+
+    @Override
+    public List<General> findByClaveAndEstadoTrue(String clave) {
+        return generalRepository.findByClaveAndEstadoTrue(clave);
+    }
+
+    @Override
+    public List<General> findByClaveAndEstadoFalse(String clave) {
+        return generalRepository.findByClaveAndEstadoFalse(clave);
+    }
+
     private void validarGeneralDev(GeneralDevRequest generalDTO) {
 
         if (existsByDescripcion(generalDTO.getDescripcionPrimero())) {

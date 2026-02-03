@@ -9,8 +9,6 @@ public interface UsuarioService {
 
     Usuario desactivarUsuario(String codigo);
 
-    String obtenerUltimoCodigoUsuario();
-
     Usuario actualizar(String codigo, String username, String contrasena, String roles);
 
     Usuario registrar(String codigo, String username, String contrasena, String roles);

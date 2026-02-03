@@ -50,7 +50,7 @@ public class ClaseDev {
     private LocalTime horaActualizacion;
 
     @Column(name = "cd_estado")
-    private boolean estado;
+    private Boolean estado;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cd_clase", referencedColumnName = "cl_codigo")

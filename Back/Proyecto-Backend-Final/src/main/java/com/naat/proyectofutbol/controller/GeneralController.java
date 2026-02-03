@@ -94,4 +94,23 @@ public class GeneralController {
         return ResponseEntity.ok(generalService.cambiarEstadoGen(codigo, true));
     }
 
+    @GetMapping("/clave/{clave}")
+    public ResponseEntity<List<General>> listarPorClave(@PathVariable String clave) {
+        return ResponseEntity.ok(generalService.listarPorClave(clave));
+    }
+
+    @GetMapping("/descripcion1/{descripcion1}")
+    public ResponseEntity<List<General>> listarPorDescripcion1(@PathVariable String descripcion1) {
+        return ResponseEntity.ok(generalService.listarPorDescripcion1(descripcion1));
+    }
+
+    @GetMapping("/clave/{clave}/activos")
+    public ResponseEntity<List<General>> listarPorClaveActivos(@PathVariable String clave) {
+        return ResponseEntity.ok(generalService.findByClaveAndEstadoTrue(clave));
+    }
+
+    @GetMapping("/clave/{clave}/inactivos")
+    public ResponseEntity<List<General>> listarPorClaveInactivos(@PathVariable String clave) {
+        return ResponseEntity.ok(generalService.findByClaveAndEstadoFalse(clave));
+    }
 }

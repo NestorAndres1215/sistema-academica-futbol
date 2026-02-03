@@ -25,11 +25,8 @@ public class EquipoServiceImpl implements EquipoService {
     private final SedeRepository sedeRepository;
     private final EquipoDevRepository equipoDevRepository;
     private final EstudianteRepository estudianteRepository;
-
     private final ProfesorRepository profesorRepository;
-
     private final EvaluacionRepository evaluacionRepository;
-
     private final EvaluacionDevRepository evaluacionDevRepository;
 
     @Override
@@ -229,7 +226,7 @@ public class EquipoServiceImpl implements EquipoService {
         evaluacionRepository.saveAll(evaluacionRegistrado);
         evaluacionDevRepository.saveAll(detalleRegistrado);
         equipoDevRepository.saveAll(equipoRegistrado);
-System.out.println(equipoRegistrado);
+
         return equipoRegistrado;
     }
 

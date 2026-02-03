@@ -38,7 +38,7 @@ public class Login implements UserDetails {
     private String ul_rol;
 
     @Column(name = "ul_estado", nullable = false)
-    private boolean estado;
+    private Boolean estado;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

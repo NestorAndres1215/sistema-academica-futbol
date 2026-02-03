@@ -32,7 +32,7 @@ public class Clase {
     private Horario horario;
 
     @Column(name = "cl_estado")
-    private boolean estado;
+    private Boolean estado;
 
     @Column(name = "cl_usuariocreacion")
     private String usuarioCreacion;
