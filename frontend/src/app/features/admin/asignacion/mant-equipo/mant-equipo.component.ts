@@ -48,6 +48,7 @@ export class MantEquipoComponent implements OnInit {
     actualizar: true,
     ver: true,
   };
+
   columnas = [
   { etiqueta: 'Código', clave: 'codigo' },
   { etiqueta: 'Nombre', clave: 'nombre' },
@@ -90,37 +91,28 @@ export class MantEquipoComponent implements OnInit {
       return;
     }
 
-    const term = this.filtro.toLowerCase(); // Convierte el texto del filtro a minúsculas
+    const term = this.filtro.toLowerCase(); 
 
     this.usuariosFiltrados = this.listar.filter((usuario) => {
-      // Filtrar por nombre
+  
       const coincideConTexto =
         (usuario.nombre && usuario.nombre.toLowerCase().includes(term));
 
-      // Filtrar por sede
       const coincideConSede =
         !this.sedeSeleccionada || (usuario.sede && usuario.sede.toLowerCase() === this.sedeSeleccionada.toLowerCase());
 
-      // Filtrar por género
       const coincideConGenero =
         !this.generoSeleccionado ||
         (this.generoSeleccionado === 'F' && usuario.genero.toLowerCase() === 'femenino') ||
         (this.generoSeleccionado === 'M' && usuario.genero.toLowerCase() === 'masculino');
 
-      // Imprimir información para depuración
-      console.log(usuario.genero);
-      console.log(coincideConGenero);
-      console.log(coincideConTexto, coincideConSede, coincideConGenero);
 
-      return coincideConTexto && coincideConSede && coincideConGenero; // Filtrar por texto, sede y género
+      return coincideConTexto && coincideConSede && coincideConGenero; 
     });
   }
   async listarProdesor() {
     this.equipoServuce.listarActivado().subscribe((data) => {
-      console.log(data)
-      this.user = this.loginService.getUser();
-
-      console.log(data);
+       this.user = this.loginService.getUser();
       this.datosTabla = data;
       this.pagedData = data
       this.listar = data
@@ -134,7 +126,6 @@ export class MantEquipoComponent implements OnInit {
 
   async getUserInfo() {
     this.user = this.loginService.getUser();
-    const userID = this.user.id;
     const usuarios = this.datosTabla.filter(item => item.id === this.user.id);
     this.xd = usuarios
   }
@@ -181,8 +172,6 @@ export class MantEquipoComponent implements OnInit {
         row,
       },
     });
-
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarProdesor()
     })
@@ -195,7 +184,6 @@ export class MantEquipoComponent implements OnInit {
       height: '500px',
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarProdesor()
     })
@@ -206,22 +194,20 @@ export class MantEquipoComponent implements OnInit {
 
 
   exportarExcel() {
-    // Crear el objeto del historial
+   
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo Excel.`,
     };
 
-    // Registrar el historial
     this.historialService.registrar(historial).subscribe(
       () => {
-        // Si el historial se registra correctamente, proceder con la exportación
         this.excel.descargarExcelEquipo().subscribe((data: Blob) => {
           const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
           const urlBlob = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx'; // Nombre del archivo Excel
+          a.download = 'datos_exportados.xlsx'; 
           a.style.display = 'none';
           document.body.appendChild(a);
           a.click();

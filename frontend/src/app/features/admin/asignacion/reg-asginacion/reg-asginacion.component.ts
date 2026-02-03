@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CARGOS } from 'src/app/core/constants/cargo';
+import { CATEGORIAS_EQUIPO } from 'src/app/core/constants/posiciones.constants';
 import { Asignacion } from 'src/app/core/model/Asignacion';
 
 import { EquipoService } from 'src/app/core/services/equipo.service';
@@ -43,9 +46,10 @@ export class RegAsginacionComponent implements OnInit {
     this.sedeSeleccionada = '';
     this.generoSeleccionado = '';
     this.formulario.enable();
-    this.cargos = ['Entrenador Principal', 'Entrenador Portero', 'Entrenador Asistente'];
+    this.cargos = CARGOS;
 
   }
+
   botonesConfig = {
     editar: false,
     volver: true,
@@ -55,12 +59,13 @@ export class RegAsginacionComponent implements OnInit {
   personas1: any[] = [];
 
   volver() {
-    throw new Error('Method not implemented.');
+    this.router.navigate(['/administrador']);
   }
   public formulario: UntypedFormGroup;
   public formulario1: UntypedFormGroup;
   constructor(private generales: GeneralService,
     private sede: SedeService,
+    private router: Router,
     private profesor: ProfesorService,
     private equipoService: EquipoService,
     private estudiante: EstudianteService,
@@ -129,16 +134,15 @@ export class RegAsginacionComponent implements OnInit {
   }
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
-      console.log(data)
       this.genero = data;
 
     })
   }
   datosTabla: any[] = [];
   posiciones: any
+  
   async listaPosicion() {
     this.generales.listarGeneralDevActivado("0005").subscribe((data) => {
-      console.log(data)
       this.posiciones = data;
 
     })
@@ -146,7 +150,6 @@ export class RegAsginacionComponent implements OnInit {
   listarcategoria: any
   async listaCategoria() {
     this.generales.listarGeneralDevActivado("0004").subscribe((data) => {
-      console.log(data)
       this.listarcategoria = data;
 
     })
@@ -157,6 +160,7 @@ export class RegAsginacionComponent implements OnInit {
   mostrarCamposEstudiante: boolean = true;
   estudiantes: any[] = [];
   profesores: any[] = [];
+
   cambiarRol() {
     const rol = this.formulario1.get('rol')?.value;
     if (rol === 'Profesor') {
@@ -167,17 +171,15 @@ export class RegAsginacionComponent implements OnInit {
       });
     }
   }
-  cargos = ['Entrenador Principal', 'Entrenador Portero', 'Entrenador Asistente'];
 
+  cargos = CARGOS;
   isFormEnabled = false;
+
   operar() {
     if (this.formulario.valid) {
-
       this.personas.push(this.formulario.value);
-      console.log(this.formulario.value.nombre.codigo)
-      console.log(this.cantidadPorfesores)
       const result = this.cantidadPorfesores.filter(i => i.equipo.codigo === this.formulario.value.nombre.codigo);
-      console.log(result);
+
       if (result.length > 2) {
 
         this.formulario1.get('profesor')?.disable();
@@ -191,7 +193,7 @@ export class RegAsginacionComponent implements OnInit {
         this.listarProfesor()
         this.formulario.disable();
       } else {
-        console.log("hola")
+
         this.mostrarFormularioDetalle = true;
         this.isFormEnabled = true;
         this.formulario1.get('rol')?.enable();
@@ -217,12 +219,11 @@ export class RegAsginacionComponent implements OnInit {
 
 
   filtrarProfesoresPorCargo() {
-    console.log(this.profesoresActuales)
     const cargoSeleccionado = this.formulario1.get('cargo')?.value;
-
     if (cargoSeleccionado) {
       this.listarProfe = this.profe.filter(item => item.cargo.nombre === cargoSeleccionado);
     }
+
   }
 
 
@@ -257,22 +258,22 @@ export class RegAsginacionComponent implements OnInit {
         estudiante.sede.nombre === sedeSeleccionada &&
         estudiante.genero === generoSeleccionado &&
         (
-          (categoriaSeleccionada === 'Sub-8' && (estudiante.edad === 7 || estudiante.edad === 8)) ||
-          (categoriaSeleccionada === 'Sub-10' && (estudiante.edad === 9 || estudiante.edad === 10)) ||
-          (categoriaSeleccionada === 'Sub-12' && (estudiante.edad === 11 || estudiante.edad === 12)) ||
-          (categoriaSeleccionada === 'Sub-16' && (estudiante.edad >= 13 && estudiante.edad <= 16)) ||
-          (categoriaSeleccionada === 'Sub-19' && (estudiante.edad >= 17 && estudiante.edad <= 19))
+          (categoriaSeleccionada === CATEGORIAS_EQUIPO.SUB_8 && (estudiante.edad === 7 || estudiante.edad === 8)) ||
+          (categoriaSeleccionada === CATEGORIAS_EQUIPO.SUB_10 && (estudiante.edad === 9 || estudiante.edad === 10)) ||
+          (categoriaSeleccionada === CATEGORIAS_EQUIPO.SUB_12 && (estudiante.edad === 11 || estudiante.edad === 12)) ||
+          (categoriaSeleccionada === CATEGORIAS_EQUIPO.SUB_16 && (estudiante.edad >= 13 && estudiante.edad <= 16)) ||
+          (categoriaSeleccionada === CATEGORIAS_EQUIPO.SUB_19 && (estudiante.edad >= 17 && estudiante.edad <= 19))
         )
       );
       this.listarEstu = data.filter(estudiante =>
         estudiante.sede.nombre === sedeSeleccionada &&
         estudiante.genero === generoSeleccionado &&
         (
-          (categoriaSeleccionada === 'Sub-8' && (estudiante.edad === 7 || estudiante.edad === 8)) ||
-          (categoriaSeleccionada === 'Sub-10' && (estudiante.edad === 9 || estudiante.edad === 10)) ||
-          (categoriaSeleccionada === 'Sub-12' && (estudiante.edad === 11 || estudiante.edad === 12)) ||
-          (categoriaSeleccionada === 'Sub-16' && (estudiante.edad >= 13 && estudiante.edad <= 16)) ||
-          (categoriaSeleccionada === 'Sub-19' && (estudiante.edad >= 17 && estudiante.edad <= 19))
+          (categoriaSeleccionada === CATEGORIAS_EQUIPO.SUB_8 && (estudiante.edad === 7 || estudiante.edad === 8)) ||
+          (categoriaSeleccionada === CATEGORIAS_EQUIPO.SUB_10 && (estudiante.edad === 9 || estudiante.edad === 10)) ||
+          (categoriaSeleccionada === CATEGORIAS_EQUIPO.SUB_12 && (estudiante.edad === 11 || estudiante.edad === 12)) ||
+          (categoriaSeleccionada === CATEGORIAS_EQUIPO.SUB_16 && (estudiante.edad >= 13 && estudiante.edad <= 16)) ||
+          (categoriaSeleccionada === CATEGORIAS_EQUIPO.SUB_19 && (estudiante.edad >= 17 && estudiante.edad <= 19))
         )
       );
     });
@@ -282,11 +283,8 @@ export class RegAsginacionComponent implements OnInit {
   estudianteActuales: any
   async listarDev() {
     this.equipoService.listarAsignacion().subscribe((data: any[]) => {
-
-      console.log(this.profesores.length)
       this.cantidadPorfesores = data.filter(item => item.profesor.codigo !== "0000");
       this.profesoresActuales = data.map(item => item.profesor.codigo).filter(codigo => codigo !== '0000');
-
       this.estudianteActuales = data.map(item => item.estudiante.codigo).filter(codigo => codigo !== '0000');  // Filtrar los códigos que no sean '0000'
     })
   }
@@ -299,50 +297,39 @@ export class RegAsginacionComponent implements OnInit {
 
   yaEstudianteRegistrado = false;
   profe: any
- eliminarEstudiante(estudianteEliminado: any): void {
-  if (!estudianteEliminado) return;
 
-  const primerNombreEliminado = estudianteEliminado.nombre.split(' ')[0];
+  eliminarEstudiante(estudianteEliminado: any): void {
+    if (!estudianteEliminado) return;
 
+    const primerNombreEliminado = estudianteEliminado.nombre.split(' ')[0];
+    this.estudiantes = this.estudiantes.filter(e => e !== estudianteEliminado);
+    const estudianteExistente = this.estu.find(e => e.primerNombre === primerNombreEliminado);
 
-  this.estudiantes = this.estudiantes.filter(e => e !== estudianteEliminado);
+    if (estudianteExistente) {
+      this.listarEstu.push(estudianteExistente);
+      this.listarEstu = [...this.listarEstu];
+    }
 
-  const estudianteExistente = this.estu.find(e => e.primerNombre === primerNombreEliminado);
-  if (estudianteExistente) {
-    this.listarEstu.push(estudianteExistente);
-    this.listarEstu = [...this.listarEstu]; // refrescar lista
   }
-
-  console.log('Estudiante eliminado:', estudianteEliminado.nombre);
-}
 
   eliminarProfesor(profesorEliminado: any): void {
-  if (!profesorEliminado) return;
+    if (!profesorEliminado) return;
 
-  const primerNombreEliminado = profesorEliminado.nombre.split(' ')[0];
+    const primerNombreEliminado = profesorEliminado.nombre.split(' ')[0];
+    this.profesores = this.profesores.filter(p => p !== profesorEliminado);
+    const profesorExistente = this.profe.find(e => e.primerNombre === primerNombreEliminado);
 
-  // eliminar del arreglo profesores
-  this.profesores = this.profesores.filter(p => p !== profesorEliminado);
-
-  // buscar profesor en el otro arreglo
-  const profesorExistente = this.profe.find(e => e.primerNombre === primerNombreEliminado);
-  if (profesorExistente) {
-    this.listarProfe.push(profesorExistente);
-
-    // agregar cargo sin duplicados
-    this.cargos.push(profesorEliminado.cargo);
-    this.cargos = [...new Set(this.cargos)];
-
-    this.listarProfe = [...this.listarProfe]; // refrescar lista
+    if (profesorExistente) {
+      this.listarProfe.push(profesorExistente);
+      this.cargos.push(profesorEliminado.cargo);
+      this.cargos = [...new Set(this.cargos)];
+      this.listarProfe = [...this.listarProfe];
+    }
   }
 
-  console.log('Profesor eliminado:', profesorEliminado.nombre);
-}
-
   registrar() {
-    console.log(this.nombreEquipo)
+
     const nombreEquipo = this.formulario.get('nombre')?.value;
-    console.log(nombreEquipo)
     if (!nombreEquipo) {
       return this.mensaje.MostrarMensajeExito("SE DEBE SELECCIONAR UN EQUIPO")
     }
@@ -350,7 +337,7 @@ export class RegAsginacionComponent implements OnInit {
     if (this.formulario1.valid) {
       const rolSeleccionado = this.formulario1.get('rol')?.value;
       const cargoSeleccionado = this.formulario1.get('cargo')?.value;
-  
+
 
       if (this.profesores.length >= 2) {
         this.formulario1.get('cargo')?.disable();
@@ -437,7 +424,7 @@ export class RegAsginacionComponent implements OnInit {
 
       todos.forEach((persona) => {
         if (persona.codigo && persona.codigo.startsWith('P')) {
-          console.log('Es Profesor');
+
           const objAsignacion: Asignacion = {
             codigo: codigo,
             profesor: persona.nombre,
@@ -447,7 +434,7 @@ export class RegAsginacionComponent implements OnInit {
           this.listaAsignaciones.push(objAsignacion);
 
         } else if (persona.codigo && persona.codigo.startsWith('E')) {
-          console.log('Es Estudiante');
+
           const objAsignacion1: Asignacion = {
             codigo: codigo,
             profesor: "",
@@ -472,7 +459,6 @@ export class RegAsginacionComponent implements OnInit {
           window.location.reload();
         },
         error: (err) => {
-          console.error("Error al registrar las asignaciones:", err);
           this.mensaje.MostrarMensajeError("Ocurrió un error al registrar las asignaciones");
         },
       });

@@ -10,8 +10,9 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class EquipoPerfilComponent implements OnInit {
 
  public formulario: UntypedFormGroup;
+
    datos: any
-   constructor(private formBuilder: UntypedFormBuilder,
+   constructor(
      @Inject(MAT_DIALOG_DATA) public data: any,
    ) { }
    imagenUrlBase = 'data:image/jpeg;base64,';
@@ -23,10 +24,9 @@ export class EquipoPerfilComponent implements OnInit {
    contra: string
    direccion: string
    rol: string
+
    ngOnInit(): void {
-     console.log(this.data)
      const dataArray = Object.values(this.data);
- 
      this.datos = dataArray;
    }
  
@@ -34,5 +34,4 @@ export class EquipoPerfilComponent implements OnInit {
      return perfil.perfil ? this.imagenUrlBase + perfil.perfil : '';
    }
  
-   cerrar() { }
 }

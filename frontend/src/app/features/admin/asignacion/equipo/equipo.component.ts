@@ -21,12 +21,13 @@ export class EquipoComponent implements OnInit {
 
   botonesConfigTableEstudiante = {
     ver: true,
-
   };
+
   botonesConfigTableProfesor = {
     ver: true,
 
   };
+
   columnasEstudiantes = [
     { etiqueta: 'Nombre', clave: 'nombreCompleto' },
     { etiqueta: 'Acciones', clave: 'acciones' }
@@ -41,6 +42,7 @@ export class EquipoComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
   equipo: any
+
   constructor(private equipoService: EquipoService,
     private dialog: MatDialog,
   ) { }
@@ -51,16 +53,18 @@ export class EquipoComponent implements OnInit {
     this.listarEquipo()
     this.listarDevEquipo()
   }
+
   async listarEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
       console.log(data)
       this.equipo = data;
     });
   }
-  asignacion: any
+
+  asignacion: any[] = [];
   estudiantes: any[] = [];
   profesores: any[] = [];
-  usuariosFiltrados: any[] = []; // Lista filtrada de usuarios
+  usuariosFiltrados: any[] = []; 
   async listarDevEquipo() {
     this.equipoService.listarAsignacion().subscribe((data) => {
       console.log(data.filter(i => i.profesor.codigo !== "0000"))
@@ -71,7 +75,6 @@ export class EquipoComponent implements OnInit {
           nombreCompleto: NombreCompleto(p.profesor)
         }));
 
-      // Estudiantes válidos
       this.estudiantes = data
         .filter(i => i.estudiante.codigo !== "0000")
         .map(e => ({
@@ -110,12 +113,6 @@ export class EquipoComponent implements OnInit {
   }
 
   seleccionados: { [key: string]: boolean } = {};
-  get profesoresSeleccionados() {
-    return this.profesores.filter(profesor => this.seleccionados[profesor.codigo]);
-  }
-  get profesorevisor() {
-    return Object.values(this.seleccionados).filter(value => value).length;
-  }
 
 
   visor(row: any) {
