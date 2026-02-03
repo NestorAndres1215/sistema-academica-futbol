@@ -33,7 +33,6 @@ export class LsLesionesComponent implements OnInit {
     { etiqueta: 'Lesión', clave: 'lesionado.tipoLesion' },
     { etiqueta: 'Fecha de la Lesión', clave: 'lesionado.fechaLesion' },
     { etiqueta: 'Gravedad', clave: 'lesionado.gravedad' },
-    { etiqueta: 'Acción', clave: 'acciones' }
   ];
 
   // Paginación

@@ -42,7 +42,6 @@ export class RegUsuarioComponent implements OnInit {
   minDate: string;
 
   async validarFecha() {
-
     this.minDate = `1980-01-01`;
     this.maxDate = formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 20)));
   }
@@ -78,53 +77,54 @@ export class RegUsuarioComponent implements OnInit {
 
   operar(): void {
 
-
-    if (this.formulario.valid) {
-      const objAdmin: Admin = {
-        primerNombre: this.formulario.get('primerNombre')?.value,
-        segundoNombre: this.formulario.get('segundoNombre')?.value,
-        apellidoPaterno: this.formulario.get('apellidoPaterno')?.value,
-        apellidoMaterno: this.formulario.get('apellidoMaterno')?.value,
-        correo: this.formulario.get('correo')?.value,
-        telefono: this.formulario.get('telefono')?.value,
-        dni: this.formulario.get('dni')?.value,
-        direccion: this.formulario.get('direccion')?.value,
-        nacionalidad: this.formulario.get('nacionalidad')?.value,
-        username: this.formulario.get('username')?.value,
-        password: this.formulario.get('password')?.value,
-        fechaNacimiento: this.formulario.get('fechaNacimiento')?.value,
-        edad: this.formulario.get('edad')?.value,
-        usuarioCreacion: this.loginService.getUser().username,
-      };
-
-      this.adminService.guardarAdmin(objAdmin).subscribe(
-        response => {
-          this.mensaje.MostrarMensajeExito("SE REGISTRO USUARIO ADMINISTRADOR");
-
-          const historial: Historial = {
-            usuario: this.loginService.getUser().username,
-            detalle: `El usuario ${this.loginService.getUser().username} registró al administrador con el código ${objAdmin.username}.`
-          };
-
-          this.historialService.registrar(historial).subscribe(
-            () => {
-
-              this.mensaje.MostrarMensajeExito("SE REGISTRÓ USUARIO");
-              this.formulario.reset();
-            },
-            error => {
-              this.mensaje.MostrarBodyError("Error al registrar el historial: " + error); // Manejar el error de historial
-            }
-          );
-        },
-        error => {
-          this.mensaje.MostrarBodyError(error);
-        }
-      );
-    } else {
-      this.mensaje.MostrarMensaje("FORMULARIO VACIO");
+    if (!this.formulario.valid) {
+      this.mensaje.MostrarMensaje("FORMULARIO VACÍO");
       this.formulario.markAllAsTouched();
+      return;
     }
+    
+    const objAdmin: Admin = {
+      primerNombre: this.formulario.get('primerNombre')?.value,
+      segundoNombre: this.formulario.get('segundoNombre')?.value,
+      apellidoPaterno: this.formulario.get('apellidoPaterno')?.value,
+      apellidoMaterno: this.formulario.get('apellidoMaterno')?.value,
+      correo: this.formulario.get('correo')?.value,
+      telefono: this.formulario.get('telefono')?.value,
+      dni: this.formulario.get('dni')?.value,
+      direccion: this.formulario.get('direccion')?.value,
+      nacionalidad: this.formulario.get('nacionalidad')?.value,
+      username: this.formulario.get('username')?.value,
+      password: this.formulario.get('password')?.value,
+      fechaNacimiento: this.formulario.get('fechaNacimiento')?.value,
+      edad: this.formulario.get('edad')?.value,
+      usuarioCreacion: this.loginService.getUser().username,
+    };
+
+    this.adminService.guardarAdmin(objAdmin).subscribe(
+      response => {
+        this.mensaje.MostrarMensajeExito("SE REGISTRO USUARIO ADMINISTRADOR");
+
+        const historial: Historial = {
+          usuario: this.loginService.getUser().username,
+          detalle: `El usuario ${this.loginService.getUser().username} registró al administrador con el código ${objAdmin.username}.`
+        };
+
+        this.historialService.registrar(historial).subscribe(
+          () => {
+
+            this.mensaje.MostrarMensajeExito("SE REGISTRÓ USUARIO");
+            this.formulario.reset();
+          },
+          error => {
+            this.mensaje.MostrarBodyError("Error al registrar el historial: " + error); // Manejar el error de historial
+          }
+        );
+      },
+      error => {
+        this.mensaje.MostrarBodyError(error);
+      }
+    );
+
   }
 
 }

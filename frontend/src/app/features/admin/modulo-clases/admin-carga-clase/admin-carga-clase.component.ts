@@ -10,7 +10,7 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { ClaseService } from 'src/app/core/services/clase.service';
 import { ClaseDev } from 'src/app/core/model/clasedev';
 import { Historial } from 'src/app/core/model/historial';
-import { SwalService } from 'src/app/core/services/swal.service';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 
 @Component({
@@ -73,7 +73,7 @@ export class AdminCargaClaseComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private historialService: HistorialService,
-    private swalService: SwalService,
+    private swalService: AlertService,
     private generalService: GeneralService,
     private dialogRe: MatDialogRef<AdminClaseDiaComponent>,
     private loginService: LoginService,

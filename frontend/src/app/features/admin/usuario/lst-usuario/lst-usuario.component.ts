@@ -38,7 +38,7 @@ export class LstUsuarioComponent implements OnInit {
   totalItems: number;
   pageSize = 5;
   listar: any
-  
+
   columnas = [
     { etiqueta: 'Código', clave: 'codigo' },
     { etiqueta: 'Nombre', clave: 'primerNombre' },
@@ -76,11 +76,9 @@ export class LstUsuarioComponent implements OnInit {
   }
   async listarUsuario() {
     this.admin.listarAdminActivado().subscribe((data) => {
-      console.log(data)
+
       this.user = this.loginService.getUser();
-      console.log(this.user.ul_codigo)
       data = data.filter(item => item.codigo !== this.user.ul_codigo);
-      console.log(data);
       this.datosTabla = data;
       this.pagedData = data
       this.totalItems = this.datosTabla.length
@@ -103,31 +101,25 @@ export class LstUsuarioComponent implements OnInit {
 
 
   pageChanged(event: PageEvent) {
-    console.log(event)
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
     this.pagedData = this.datosTabla.slice(startIndex, endIndex);
   }
 
-  visor(row: any) {
-    console.log(row)
 
-    const dialogRef = this.dialog.open(VisorUsuarioComponent, {
+  visor(row: any) {
+
+     const dialogRef = this.dialog.open(VisorUsuarioComponent, {
       disableClose: true,
       width: '1050px',
-      height: '550px',
+      height: '450px',
       data: {
         row,
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Elemento eliminado');
-      }
-    });
-
   }
+
   editar(row: any) {
     const dialogRef = this.dialog.open(EditUsuarioComponent, {
       disableClose: true,
@@ -164,7 +156,7 @@ export class LstUsuarioComponent implements OnInit {
           const urlBlob = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx';  // Nombre del archivo Excel
+          a.download = 'datos_exportados.xlsx'; 
           a.style.display = 'none';
           document.body.appendChild(a);
           a.click();

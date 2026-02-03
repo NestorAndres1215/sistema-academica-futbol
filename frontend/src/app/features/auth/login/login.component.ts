@@ -6,7 +6,7 @@ import { MENSAJES } from 'src/app/core/constants/messages';
 import { ROLES } from 'src/app/core/constants/roles';
 import { LoginService } from 'src/app/core/services/login.service';
 
-import { SwalService } from 'src/app/core/services/swal.service';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private swal: SwalService,
+    private swal: AlertService,
     private fb: FormBuilder,
     private router: Router,) { }
 
@@ -31,9 +31,11 @@ export class LoginComponent implements OnInit {
   formulario!: FormGroup;
   hidePassword = true;
   verContraActual = false;
+  
   togglePasswordVisibility() {
     this.hidePassword = !this.hidePassword;
   }
+
   initForm() {
     this.formulario = this.fb.group({
       username: ['', Validators.required],

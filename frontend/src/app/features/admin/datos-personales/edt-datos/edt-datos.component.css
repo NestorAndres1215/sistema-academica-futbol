@@ -51,42 +51,9 @@
     margin-top: 10px;
   }
   
-  .col-dos {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    /* Agregado para crear espacio entre columnas */
-    margin-top: 10px;
-    width: 100%;
-  }
+
   
-  .col-dos>div {
-    flex: 1;
-    /* Distribuir el espacio de manera uniforme entre las dos columnas */
-    margin-right: 0;
-    /* Eliminar el margen derecho para que las columnas estén juntas */
-  }
-  
-  
-  .dos {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    margin-top: 20px;
-    /* background-color: blueviolet;
-   color: brown; */
-  }
   .img-marca {
     width: 160px;
     height: 140px;
-  }
-  .dos .mat-form-field {
-    width: 100%;
-  }
-  
-  .dos li {
-    list-style: none;
-    all: none;
   }

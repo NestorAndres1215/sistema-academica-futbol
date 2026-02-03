@@ -10,9 +10,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 })
 export class VisorUsuarioComponent implements OnInit {
   showPassword: false;
-
-
-  public formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
   lista: any;
   nombrePrimero: string
   nombreSegundo: string
@@ -32,7 +30,15 @@ export class VisorUsuarioComponent implements OnInit {
   horaCreacion: string;
   usuarioActualizacion: string;
   fechaActualizacion: string;
-  horaActualizacion:string;
+  horaActualizacion: string;
+
+  botonesConfig = {
+    editar: false,
+    volver: true,
+
+  };
+
+
   constructor(
     private dialogRe: MatDialogRef<LstUsuarioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -41,9 +47,9 @@ export class VisorUsuarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.lista = this.data
-    console.log(this.lista)
     this.listarEdiciones()
   }
+
   listarEdiciones() {
     this.usuario = this.lista.row.usuario.username;
     this.contra = this.lista.row.usuario.password;
@@ -87,9 +93,11 @@ export class VisorUsuarioComponent implements OnInit {
       nacionalidad: [this.nacionalidad, Validators.required],
     });
   }
+
   deshabilitar() {
     this.formulario.disable();
   }
+  
   cerrar() {
     this.dialogRe.close();
   }
