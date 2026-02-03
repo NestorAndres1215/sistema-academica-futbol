@@ -10,7 +10,6 @@
   <div class="container">
     <form [formGroup]="formulario">
       <div class="row">
-        <!-- Primera columna -->
         <div class="col-6">
           <mat-form-field class="full-width" appearance="fill">
             <mat-label>Nombre de Clases</mat-label>
@@ -34,8 +33,6 @@
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
         </div>
-
-        <!-- Segunda columna -->
         <div class="col-6">
           <mat-form-field class="full-width custom-field" appearance="fill">
             <mat-label>Horario</mat-label>
@@ -52,7 +49,6 @@
             <mat-label>Dia</mat-label>
             <mat-select formControlName="dia" placeholder="Seleccione un día" [disabled]="!isFormEnabled">
               <mat-option value="">Todas los Días</mat-option>
-              <!-- Renderiza los días filtrados según isHorarioSelected -->
               <ng-container *ngFor="let dia of listarDia">
                 <mat-option [value]="dia.descripcion1" *ngIf="!isHorarioSelected(dia)">
                   {{ dia.descripcion1 }}
@@ -68,8 +64,6 @@
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
-
-
         </div>
         <mat-form-field class="col-12 custom-textarea" appearance="fill">
           <mat-label>Descripción</mat-label>
