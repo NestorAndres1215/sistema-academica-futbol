@@ -45,7 +45,6 @@ export class NavbarAdministradorComponent implements OnInit {
   async listarRolMenu() {
     this.menu.listarPorRol("ROL", "0001").subscribe(data => {
       this.rolMenu = data
-      console.log(this.rolMenu)
       this.listarMenuPrimero();
       this.listarMenuSegundo('');
     })

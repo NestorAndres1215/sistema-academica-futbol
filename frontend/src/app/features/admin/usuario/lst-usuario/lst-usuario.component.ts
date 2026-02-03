@@ -388,12 +388,10 @@ export class LstUsuarioComponent implements OnInit {
         </body>
     </html>`;
 
-    // Escribir el contenido en el iframe
     iframeDoc?.open();
     iframeDoc?.write(contenidoCompleto);
     iframeDoc?.close();
 
-    // Imprimir y limpiar
     setTimeout(() => {
       iframe.contentWindow?.focus();
       iframe.contentWindow?.print();
@@ -419,19 +417,16 @@ export class LstUsuarioComponent implements OnInit {
 
       // Primero desactivamos al usuario
       this.admin.desactivarAdmin(row.codigo).subscribe(result => {
-        console.log(result);
         this.mensjae.MostrarMensajeExito("Se desactivó correctamente el usuario");
 
-        // Después de desactivar, registramos el historial
         const historial: Historial = {
           usuario: this.loginService.getUser().username,
           detalle: `El usuario ${this.loginService.getUser().username} desactivó al usuario con el código ${row.codigo} y nombre de usuario ${row.username}.`
         };
 
-        // Registrar el historial
         this.historialService.registrar(historial).subscribe(
           () => {
-            // Si se registra el historial con éxito, refrescar la lista de usuarios
+
             this.listarUsuario();
           },
           error => {

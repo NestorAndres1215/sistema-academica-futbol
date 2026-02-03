@@ -45,7 +45,7 @@ export class NavbarProfesorComponent implements OnInit {
   async listarRolMenu() {
     this.menu.listarPorRol("ROL", "0003").subscribe(data => {
       this.rolMenu = data
-      console.log(this.rolMenu)
+
       this.listarMenuPrimero();
       this.listarMenuSegundo('');
     })
@@ -57,13 +57,11 @@ export class NavbarProfesorComponent implements OnInit {
     this.menu.listarmenuPrimero().subscribe(
       data => {
         this.menuxd = data
-        console.log(this.menuxd)
-        ///this.datosmenuPrimero = this.menuxd.filter((item: { tipo: string; }) => item.tipo === 'T'); 
-        this.datosmenuPrimero = this.menuxd.filter(
+   this.datosmenuPrimero = this.menuxd.filter(
           (item: { rol: { codigo: string } | null }) =>
             item.rol && (item.rol.codigo === 'ROL' || item.rol.codigo === '0003')
         );
-        console.log(this.datosmenuPrimero);
+
       }
     );
   }
@@ -72,7 +70,6 @@ export class NavbarProfesorComponent implements OnInit {
     menuItem.mostrarSubMenu = !menuItem.mostrarSubMenu;
 
     if (menuItem.mostrarSubMenu) {
-      console.log(menuItem.mostrarSubMenu)
       this.menu2FiltradoPorCategoria[menuItem.categoria] = this.menu2.filter((i: { categoria: any; }) => i.categoria === menuItem.categoria);
       if (this.menu2FiltradoPorCategoria[menuItem.categoria].length === 0) {
         this.router.navigate(['/profesor']);
@@ -86,7 +83,6 @@ export class NavbarProfesorComponent implements OnInit {
   async listarMenuSegundo(categoria: any) {
     this.menu.listarmenuSegundo(categoria).subscribe(
       data => {
-        console.log(data)
         this.menu2 = data
       }
     );

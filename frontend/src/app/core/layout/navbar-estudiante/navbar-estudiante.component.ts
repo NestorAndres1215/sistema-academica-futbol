@@ -46,7 +46,6 @@ export class NavbarEstudianteComponent implements OnInit {
   async listarRolMenu() {
     this.menu.listarPorRol("ROL", "0001").subscribe(data => {
       this.rolMenu = data
-      console.log(this.rolMenu)
       this.listarMenuPrimero();
       this.listarMenuSegundo('');
     })
@@ -58,12 +57,12 @@ export class NavbarEstudianteComponent implements OnInit {
     this.menu.listarmenuPrimero().subscribe(
       data => {
         this.menuxd = data
-        console.log(this.menuxd)
+
       this.datosmenuPrimero = this.menuxd.filter(
           (item: { rol: { codigo: string } | null }) =>
             item.rol && (item.rol.codigo === 'ROL' || item.rol.codigo === '0002')
         );
-        console.log(this.datosmenuPrimero);
+
       }
     );
   }
@@ -72,7 +71,7 @@ export class NavbarEstudianteComponent implements OnInit {
     menuItem.mostrarSubMenu = !menuItem.mostrarSubMenu;
 
     if (menuItem.mostrarSubMenu) {
-      console.log(menuItem.mostrarSubMenu)
+
       this.menu2FiltradoPorCategoria[menuItem.categoria] = this.menu2.filter((i: { categoria: any; }) => i.categoria === menuItem.categoria);
       if (this.menu2FiltradoPorCategoria[menuItem.categoria].length === 0) {
         this.router.navigate(['/admin']);
