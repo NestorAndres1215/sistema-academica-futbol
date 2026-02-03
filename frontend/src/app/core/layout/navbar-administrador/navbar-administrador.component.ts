@@ -18,8 +18,9 @@ export class NavbarAdministradorComponent implements OnInit {
   contenido: any;
   isRouteActive: boolean = true;
   rolMenu: any
-
-
+  datosmenuPrimero: any
+  menuxd: any
+  menu2FiltradoPorCategoria: { [categoria: string]: any[] } = {};
 
 
   constructor(
@@ -34,7 +35,7 @@ export class NavbarAdministradorComponent implements OnInit {
     this.isLoggedIn = this.login.isLoggedIn();
     this.user = this.login.getUser();
     this.login.loginStatusSubjec.asObservable().subscribe(
-      data => {
+      () => {
         this.isLoggedIn = this.login.isLoggedIn();
         this.user = this.login.getUser();
       }
@@ -50,8 +51,7 @@ export class NavbarAdministradorComponent implements OnInit {
     })
   }
 
-  datosmenuPrimero: any
-  menuxd: any
+
   async listarMenuPrimero() {
     this.menu.listarmenuPrimero().subscribe(
       data => {
@@ -65,7 +65,7 @@ export class NavbarAdministradorComponent implements OnInit {
       }
     );
   }
-  menu2FiltradoPorCategoria: { [categoria: string]: any[] } = {};
+
   toggleSubMenu(menuItem: any): void {
     menuItem.mostrarSubMenu = !menuItem.mostrarSubMenu;
 
@@ -97,6 +97,7 @@ export class NavbarAdministradorComponent implements OnInit {
   addToggle() {
     this.status = !this.status;
   }
+  
   @ViewChild(MatMenuTrigger) mainMenuTrigger!: MatMenuTrigger;
   closeMainMenu() {
     this.mainMenuTrigger.closeMenu();

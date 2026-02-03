@@ -10,14 +10,12 @@ import { ROLES } from '../constants/roles';
 })
 export class AdminGuard implements CanActivate {
 
-  constructor(private loginService:LoginService,private router:Router){
+  constructor(private loginService: LoginService, private router: Router) {
 
   }
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(this.loginService.isLoggedIn() && this.loginService.getUserRole() == ROLES.ROLE_ADMINISTRADOR){
+  canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    if (this.loginService.isLoggedIn() && this.loginService.getUserRole() == ROLES.ROLE_ADMINISTRADOR) {
       return true;
     }
 

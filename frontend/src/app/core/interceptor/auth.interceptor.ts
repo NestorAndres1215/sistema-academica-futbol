@@ -15,51 +15,50 @@ import Swal from 'sweetalert2';
 
 
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor{
+export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private loginService: LoginService, private router: Router) {}
+  constructor(private loginService: LoginService, private router: Router) { }
 
-intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-  let authReq = req;
-  const token = this.loginService.getToken();
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    let authReq = req;
+    const token = this.loginService.getToken();
 
-  if (token != null) {
-    authReq = authReq.clone({
-      setHeaders: { Authorization: `Bearer ${token}` },
-    });
+    if (token != null) {
+      authReq = authReq.clone({
+        setHeaders: { Authorization: `Bearer ${token}` },
+      });
+    }
+
+    return next.handle(authReq).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (
+          error.status === 401 &&
+          error.error.message === 'El token ha expirado, por favor inicia sesión nuevamente.'
+        ) {
+
+          this.loginService.logout();
+
+          Swal.fire({
+            title: 'Sesión expirada',
+            text: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
+            icon: 'warning',
+            confirmButtonText: 'Entendido',
+          }).then(() => {
+            // Redirigir al login cuando el usuario cierre la alerta
+            this.router.navigate(['/login']);
+          });
+        }
+
+        return throwError(error); // Propagar el error si no es un 401
+      })
+    );
   }
-
-  return next.handle(authReq).pipe(
-    catchError((error: HttpErrorResponse) => {
-      // Detectar si el token ha expirado (error 401)
-      if (
-        error.status === 401 &&
-        error.error.message === 'El token ha expirado, por favor inicia sesión nuevamente.'
-      ) {
-    
-        this.loginService.logout();
-
-        Swal.fire({
-          title: 'Sesión expirada',
-          text: 'Tu sesión ha expirado. Por favor, inicia sesión nuevamente.',
-          icon: 'warning',
-          confirmButtonText: 'Entendido',
-        }).then(() => {
-          // Redirigir al login cuando el usuario cierre la alerta
-          this.router.navigate(['/login']);
-        });
-      }
-
-      return throwError(error); // Propagar el error si no es un 401
-    })
-  );
-}
 }
 
 export const authInterceptorProviders = [
-{
-  provide : HTTP_INTERCEPTORS,
-  useClass : AuthInterceptor,
-  multi : true
-}
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }
 ]

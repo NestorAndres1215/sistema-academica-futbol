@@ -9,7 +9,6 @@ export class TituloComponent  {
 
   @Input() titulo: string = '';
 
-  // 🔥 Un solo objeto de configuración
   @Input() botonesConfig: {
     editar?: boolean;
     volver?: boolean;
@@ -17,6 +16,5 @@ export class TituloComponent  {
 
   @Output() editar = new EventEmitter<void>();
   @Output() volver = new EventEmitter<void>();
-
 
 }

@@ -23,7 +23,6 @@ export class NavbarProfesorComponent implements OnInit {
 
   constructor(
     public login: LoginService,
-    private dialog: MatDialog,
     private router: Router,
     private menu: MenuService) { }
 
@@ -88,9 +87,9 @@ export class NavbarProfesorComponent implements OnInit {
     );
   }
 
-  public logout() {
+  logout() {
     this.login.logout();
-    window.location.href = '/login';
+    this.router.navigate(['/login']);
   }
 
   status = false;
@@ -102,9 +101,4 @@ export class NavbarProfesorComponent implements OnInit {
     this.mainMenuTrigger.closeMenu();
   }
 
-
-
-  modo() {
-    this.router.navigate(['/modo']);
-  }
 }

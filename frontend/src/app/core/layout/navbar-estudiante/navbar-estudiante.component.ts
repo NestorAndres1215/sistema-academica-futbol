@@ -90,9 +90,9 @@ export class NavbarEstudianteComponent implements OnInit {
     );
   }
 
-  public logout() {
+  logout() {
     this.login.logout();
-    window.location.href = '/login';
+    this.router.navigate(['/login']);
   }
 
   status = false;

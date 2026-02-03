@@ -9,20 +9,18 @@ import { ROLES } from '../constants/roles';
 })
 export class EstudianteGuard implements CanActivate {
 
-  constructor(private loginService:LoginService,private router:Router){
+  constructor(private loginService: LoginService, private router: Router) {
 
   }
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      if(this.loginService.isLoggedIn() && this.loginService.getUserRole() == ROLES.ROLE_ESTUDIANTE){
-        return true;
-      }
+  canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    if (this.loginService.isLoggedIn() && this.loginService.getUserRole() == ROLES.ROLE_ESTUDIANTE) {
+      return true;
+    }
 
-      this.router.navigate(['ADMINISTRADOR']);
-    
-      return false;
+    this.router.navigate(['ADMINISTRADOR']);
+
+    return false;
   }
-  
+
 }
