@@ -68,13 +68,12 @@ export class AdminCargaEditClaseComponent implements OnInit {
         dia: this.dia
       };
       console.log(objclase)
-      // Crear el objeto del historial
+     
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+        usuario: this.loginService.getUser().username, 
         detalle: `El usuario ${this.loginService.getUser().username} registró al clase detalle ${objclase.titulo} y con el  dia  ${this.dia}.`
       };
 
-      // Registrar el historial
       this.claseService.actualizarDev(objclase).subscribe(
         () => {
 
@@ -91,7 +90,7 @@ export class AdminCargaEditClaseComponent implements OnInit {
           );
         },
         error => {
-          // Si hubo un error al registrar el historial, mostrar un mensaje de error
+  
           this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
         }
       );

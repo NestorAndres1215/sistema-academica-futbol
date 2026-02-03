@@ -26,6 +26,7 @@ export class LsPartidoComponent implements OnInit {
     ver: true,
     actualizar: true,
   };
+
 columnas = [
   { etiqueta: 'Código', clave: 'codigo' },
   { etiqueta: 'Equipo Local', clave: 'equipo.nombre' },
@@ -84,10 +85,8 @@ columnas = [
   }
   async listarPartidos() {
     this.partidoService.listarPartidosActuales().subscribe((data) => {
-      console.log(data)
+   
       this.user = this.loginService.getUser();
-
-      console.log(data);
       this.datosTabla = data;
       this.pagedData = data
       this.totalItems = this.datosTabla.length
@@ -98,8 +97,6 @@ columnas = [
   }
 
   async getUserInfo() {
-    this.user = this.loginService.getUser();
-    const userID = this.user.id;
     const usuarios = this.datosTabla.filter(item => item.id === this.user.id);
     this.xd = usuarios
   }
@@ -145,8 +142,6 @@ columnas = [
         row,
       },
     });
-
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarPartidos()
     })
@@ -159,22 +154,21 @@ columnas = [
 
 
   exportarExcel() {
-    // Crear el objeto del historial
+
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+      usuario: this.loginService.getUser().username, 
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo Excel.`,
     };
 
-    // Registrar el historial
     this.historialService.registrar(historial).subscribe(
       () => {
-        // Si el historial se registra correctamente, proceder con la exportación
+
         this.excel.descargarExcelPartidoActivo().subscribe((data: Blob) => {
           const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
           const urlBlob = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx'; // Nombre del archivo Excel
+          a.download = 'datos_exportados.xlsx'; 
           a.style.display = 'none';
           document.body.appendChild(a);
           a.click();
@@ -183,8 +177,7 @@ columnas = [
         });
       },
       error => {
-        // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
-        this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
+     this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
 
         // Proceder con la exportación de datos
         this.excel.descargarExcelEstudiante().subscribe((data: Blob) => {

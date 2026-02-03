@@ -60,7 +60,7 @@ export class RegEstudianteComponent implements OnInit {
 
   async validarFecha() {
     this.minDate = `1980-01-01`;
-    this.maxDate = formatDate(new Date()); 
+    this.maxDate = formatDate(new Date());
   }
 
 
@@ -70,7 +70,7 @@ export class RegEstudianteComponent implements OnInit {
       genero: [this.genero, Validators.required],
       tipo: [this.tiposDocumento, Validators.required],
       primerNombre: ['', Validators.required],
-      segundoNombre: ['', Validators.required], 
+      segundoNombre: ['', Validators.required],
       apellidoPaterno: ['', Validators.required],
       apellidoMaterno: ['', Validators.required],
       correo: ['', Validators.required],
@@ -106,8 +106,8 @@ export class RegEstudianteComponent implements OnInit {
     const sede = this.formulario.value.sede;
     const tipo = this.formulario.value.tipo;
     const usuario = "E" + this.formulario.value.dni;
-    const apellidoPaterno = this.formulario.get('apellidoPaterno')?.value || ''; 
-    const primerCaracter = apellidoPaterno.charAt(0); 
+    const apellidoPaterno = this.formulario.get('apellidoPaterno')?.value || '';
+    const primerCaracter = apellidoPaterno.charAt(0);
     const contra = this.formulario.value.dni + primerCaracter
     if (this.formulario.valid) {
       const objProfesor: Estudiante = {
@@ -139,13 +139,11 @@ export class RegEstudianteComponent implements OnInit {
 
       this.historialService.registrar(historial).subscribe(
         () => {
-        
+
           this.estudiante.guardarEstudiante(objProfesor).subscribe(
             response => {
               this.mensaje.MostrarMensajeExito("SE REGISTRÓ ESTUDIANTE");
               this.formulario.reset();
-              this.formulario.reset();
-
             },
             error => {
               this.mensaje.MostrarBodyError(error);

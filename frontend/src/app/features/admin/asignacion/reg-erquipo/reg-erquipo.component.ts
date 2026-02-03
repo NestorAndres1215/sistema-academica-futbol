@@ -33,12 +33,12 @@ export class RegERquipoComponent implements OnInit {
            usuarioRegistro: this.loginService.getUser().username,
          }
          const historial: Historial = {
-           usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+           usuario: this.loginService.getUser().username, 
            detalle: `El usuario ${this.loginService.getUser().username} actualizó al equipo ${objEquipo.nombre}`,
          };
          this.historialService.registrar(historial).subscribe(
            () => {
-             // Si el historial se registra correctamente, proceder con la actualización del estudiante
+           
              this.equipoService.registrar(objEquipo).subscribe(
                response => {
                  this.mensaje.MostrarMensajeExito("SE REGISTRO EQUIPO");

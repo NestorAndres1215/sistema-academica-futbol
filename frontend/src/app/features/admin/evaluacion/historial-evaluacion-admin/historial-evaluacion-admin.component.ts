@@ -13,24 +13,15 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
 })
 export class HistorialEvaluacionAdminComponent implements OnInit {
 
- constructor(private route: ActivatedRoute, private historialService: HistorialService, private mensajeService: MensajeService,
-    private loginService: LoginService,
-    private evaluacionService: EvaluacionService,
-    private claseService: ClaseService,
-    private router: Router) { }
+  constructor(private route: ActivatedRoute,
+  ) { }
   codigo: string
   ngOnInit(): void {
     this.codigo = this.route.snapshot.params['codigo']
-    console.log(this.codigo)
-  
   }
- 
 
   activeTab1: number = 0;
   evaluacion: any[] = [];
   estudiante: any[] = [];
-
-
-
 
 }

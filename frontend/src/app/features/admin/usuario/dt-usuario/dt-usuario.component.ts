@@ -9,9 +9,9 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class DtUsuarioComponent implements OnInit {
 
-  public formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
   datos: any
-  constructor(private formBuilder: UntypedFormBuilder,
+  constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
 
@@ -25,11 +25,9 @@ export class DtUsuarioComponent implements OnInit {
   direccion: string
   rol: string
 
-  
-  ngOnInit(): void {
-    console.log(this.data)
-    const dataArray = Object.values(this.data);
 
+  ngOnInit(): void {
+    const dataArray = Object.values(this.data);
     this.datos = dataArray;
   }
 

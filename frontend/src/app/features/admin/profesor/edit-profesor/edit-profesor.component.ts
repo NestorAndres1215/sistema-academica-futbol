@@ -14,6 +14,7 @@ import { HistorialService } from 'src/app/core/services/historial.service';
 import { switchMap } from 'rxjs';
 import { Historial } from 'src/app/core/model/historial';
 import { Profesor } from 'src/app/core/model/profesor';
+import { edadNacimiento, formatDate } from 'src/app/core/utils/fechaValidator';
 
 @Component({
   selector: 'app-edit-profesor',
@@ -74,7 +75,7 @@ export class EditProfesorComponent implements OnInit {
   ) {
 
   }
-  numdoc: string; // Valor predeterminado
+  numdoc: string;
   ngOnInit(): void {
     this.lista = this.data.row;
     console.log(this.data.row)
@@ -156,51 +157,22 @@ this.validarFecha()
   maxDate: string;
   minDate: string;
   async validarFecha() {
-    const today = new Date();
-    const minYear = today.getFullYear() - 120; // Máximo 120 años atrás
-    this.minDate = `1980-01-01`; // Fecha mínima permitida
-    this.maxDate = this.formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 20))); 
+    this.minDate = `1980-01-01`; 
+    this.maxDate = formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 20))); 
   }
-
-  private formatDate(date: Date): string {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Mes con dos dígitos
-    const day = String(date.getDate()).padStart(2, '0'); // Día con dos dígitos
-    return `${year}-${month}-${day}`;
-  }
-
 
 
   cerrar() {
     this.dialogRe.close();
   }
   cargoActual = String;
-  edadNacimiento(fechaNacimiento: string): string {
-    if (fechaNacimiento) {
-      const hoy = new Date();
-      const nacimiento = new Date(fechaNacimiento);
 
-      // Calcular edad
-      let edad = hoy.getFullYear() - nacimiento.getFullYear();
-      const mesDiferencia = hoy.getMonth() - nacimiento.getMonth();
 
-      // Ajustar si aún no ha cumplido años este año
-      if (mesDiferencia < 0 || (mesDiferencia === 0 && hoy.getDate() < nacimiento.getDate())) {
-        edad--;
-      }
-
-      return ` ${edad}`; // Retornamos la edad como string
-    } else {
-      return 'Por favor, ingresa una fecha de nacimiento válida.'; // Mensaje de error
-    }
-  }
   @Output() onActualizar: EventEmitter<boolean> = new EventEmitter();
   operar() {
     let edad: string | null; // Declaramos la variable
     const fechaNacimiento = this.formulario.get('fechaNacimiento').value;
-    edad = this.edadNacimiento(fechaNacimiento); // Llamamos a la función para calcular la edad
-    console.log(edad)
-    console.log(this.codigoAdmin)
+    edad = edadNacimiento(fechaNacimiento); // Llamamos a la función para calcular la edad
 
     if (this.formulario.valid) {
       const objAdmin: Profesor = {

@@ -1,5 +1,5 @@
 import { Time } from '@angular/common';
-import { ChangeDetectorRef, Component,  OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { EquipoService } from 'src/app/core/services/equipo.service';
@@ -17,12 +17,12 @@ import { Partido } from 'src/app/core/model/partido';
   styleUrls: ['./reg-partido.component.css']
 })
 export class RegPartidoComponent implements OnInit {
-  time: string = ''; // Define la variable con un valor inicial
+  time: string = '';
   operar() {
     console.log(this.formulario.value)
 
-if (this.formulario.valid) {
-      const objPartido:   Partido = {
+    if (this.formulario.valid) {
+      const objPartido: Partido = {
         codigo: this.codigoPartido,
         equipoRival: this.formulario.get('equipoRival')?.value,
         fecha: this.formulario.get('fecha')?.value,
@@ -34,14 +34,13 @@ if (this.formulario.valid) {
       console.log(objPartido)
 
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+        usuario: this.loginService.getUser().username, 
         detalle: `El usuario ${this.loginService.getUser().username} registro al partido ${objPartido.codigo} .`,
       };
 
-      // Registrar el historial
       this.partidoService.registrar(objPartido).subscribe(
         () => {
-          // Si el historial se registra correctamente, proceder con la actualización del estudiante
+          
           this.historialService.registrar(historial).subscribe(
             response => {
               this.mensaje.MostrarMensajeExito("SE REGISTRO ");
@@ -55,7 +54,6 @@ if (this.formulario.valid) {
           );
         },
         error => {
-          // Si hubo un error al registrar el historial, mostrar un mensaje de error
           console.error(error.error)
           this.mensaje.MostrarMensajeError(error.error);
         }
@@ -65,9 +63,6 @@ if (this.formulario.valid) {
       this.mensaje.MostrarMensaje("FORMULARIO VACIO")
       this.formulario.markAllAsTouched();
     }
-
-
-
   }
   cerrar() {
     this.dialogRe.close();
@@ -76,13 +71,13 @@ if (this.formulario.valid) {
 
 
   constructor(
-    private partidoService:PartidoService,
-    private mensaje:MensajeService,
+    private partidoService: PartidoService,
+    private mensaje: MensajeService,
     private formBuilder: UntypedFormBuilder,
-    private loginService:LoginService,
-        private cdr: ChangeDetectorRef,
-        private dialog: MatDialog,
-        private historialService: HistorialService,
+    private loginService: LoginService,
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
+    private historialService: HistorialService,
     private dialogRe: MatDialogRef<LsPartidoComponent>,
 
     private equipoService: EquipoService
@@ -96,7 +91,7 @@ if (this.formulario.valid) {
   hora: Time
   lugar: string
   tipoPartido: string
-codigoPartido:string
+  codigoPartido: string
   ngOnInit(): void {
 
     this.listaEquipo()
@@ -112,10 +107,8 @@ codigoPartido:string
   }
 
   initForm(): void {
-    const fechaUtc = new Date(this.fecha);
-    const fechaLocal = new Date(fechaUtc.getTime() + fechaUtc.getTimezoneOffset() * 60000);
     this.formulario = this.formBuilder.group({
-      equipo: [ this.equipo, Validators.required],
+      equipo: [this.equipo, Validators.required],
       equipoRival: ['', Validators.required],
       fecha: ['', Validators.required],
       hora: ['', Validators.required],

@@ -34,14 +34,8 @@ export class ModuloAdminEvaluacionComponent implements OnInit {
       return acc;
     }, []);
 
-    // Extraer arrays separados
     const equipos = resultado.map(item => item.equipo).join(",");
-    console.log(equipos);
-
     const conteos = resultado.map(item => item.conteo).join(",");
-    console.log(conteos);
-
-
 
     this.evaluacionService.desactivarEvaluaciones(equipos, conteos).subscribe(
       (response) => {
@@ -55,14 +49,10 @@ export class ModuloAdminEvaluacionComponent implements OnInit {
     );
 
   }
-  editar(arg0: any) {
-    throw new Error('Method not implemented.');
-  }
 
 
   modoEdicion: boolean = false;
   constructor(private route: ActivatedRoute, private mensajeService: MensajeService,
-
     private evaluacionService: EvaluacionService,) { }
   codigo: string
   ngOnInit(): void {
@@ -73,25 +63,25 @@ export class ModuloAdminEvaluacionComponent implements OnInit {
   evaluacion: any[] = [];
 
 
-listarEvaluacion() {
-  this.evaluacionService.listarDetalleEvaluaciones().subscribe(
-    (data) => {
-      // Filtrar por equipo y estado activo
-      this.evaluacion = data
-        .filter(i => i.equipo === this.codigo && i.estado === true)
-        .map(i => {
-          const estudiante = i.evaluacion?.estudiante;
-          return {
-            ...i,
-            nombreCompleto: estudiante ? NombreCompleto(estudiante) : ''
-          };
-        });
-    },
-    (error) => {
-      console.error('Error al listar evaluaciones:', error);
-    }
-  );
-}
+  listarEvaluacion() {
+    this.evaluacionService.listarDetalleEvaluaciones().subscribe(
+      (data) => {
+        // Filtrar por equipo y estado activo
+        this.evaluacion = data
+          .filter(i => i.equipo === this.codigo && i.estado === true)
+          .map(i => {
+            const estudiante = i.evaluacion?.estudiante;
+            return {
+              ...i,
+              nombreCompleto: estudiante ? NombreCompleto(estudiante) : ''
+            };
+          });
+      },
+      (error) => {
+        console.error('Error al listar evaluaciones:', error);
+      }
+    );
+  }
 
 
 

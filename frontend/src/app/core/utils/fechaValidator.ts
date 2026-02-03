@@ -23,3 +23,28 @@ export function formatDate(date: Date): string {
 
   return `${year}-${month}-${day}`;
 }
+
+export function edadNacimiento(fechaNacimiento: string | Date): string {
+  if (!fechaNacimiento) {
+    return 'Por favor, ingresa una fecha de nacimiento válida.';
+  }
+
+  const hoy = new Date();
+  const nacimiento = new Date(fechaNacimiento);
+
+  if (isNaN(nacimiento.getTime())) {
+    return 'Por favor, ingresa una fecha de nacimiento válida.';
+  }
+
+  let edad = hoy.getFullYear() - nacimiento.getFullYear();
+  const mesDiferencia = hoy.getMonth() - nacimiento.getMonth();
+
+  if (
+    mesDiferencia < 0 ||
+    (mesDiferencia === 0 && hoy.getDate() < nacimiento.getDate())
+  ) {
+    edad--;
+  }
+
+  return `${edad}`;
+}

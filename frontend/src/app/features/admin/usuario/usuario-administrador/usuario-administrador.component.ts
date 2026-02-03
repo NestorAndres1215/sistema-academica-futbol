@@ -25,16 +25,13 @@ export class UsuarioAdministradorComponent implements OnInit {
   constructor(private admin: AdminService, private dialog: MatDialog, private router: Router) { }
 
   ngOnInit(): void {
-    // Llamar al servicio para obtener la lista de usuarios
+
     this.admin.listarAdminActivado().subscribe(
       (data) => {
         this.listar = data;
-        this.usuariosFiltrados = [...this.listar]; // Inicializar la lista filtrada con todos los usuarios
+        this.usuariosFiltrados = [...this.listar];
         console.log(this.listar);
       },
-      (error) => {
-        console.error('Error al obtener los datos', error);
-      }
     );
   }
 
