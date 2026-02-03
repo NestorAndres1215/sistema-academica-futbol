@@ -4,13 +4,13 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
 import { LsClaseComponent } from '../ls-clase/ls-clase.component';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { HorarioService } from 'src/app/core/services/horario.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
-
 import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { ClaseService } from 'src/app/core/services/clase.service';
 import { Clase } from 'src/app/core/model/Clase';
 import { Historial } from 'src/app/core/model/historial';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { formatDate } from 'src/app/core/utils/fechaValidator';
 
 @Component({
   selector: 'app-edit-clase',
@@ -22,14 +22,14 @@ export class EditClaseComponent implements OnInit {
     console.log(this.formulario.value)
     if (this.formulario.valid) {
       const objetoClase: Clase = {
-        codigo:this.codigo,
+        codigo: this.codigo,
         nombre: this.formulario.get('nombre')?.value,
         equipo: this.formulario.get('equipo')?.value,
         horario: this.formulario.get('horario')?.value,
         dia: this.formulario.get('dia')?.value,
         inicio: this.formulario.get('fechaInicio')?.value,
         fin: this.formulario.get('fechaFin')?.value,
-        descripcion:this.formulario.get('genero')?.value,
+        descripcion: this.formulario.get('genero')?.value,
         usuarioCreacion: this.loginService.getUser().username,
       }
       const historial: Historial = {
@@ -40,7 +40,7 @@ export class EditClaseComponent implements OnInit {
       console.log(objetoClase)
       this.claseService.actualizar(objetoClase).subscribe(
         response => {
-          // Si el estudiante se registra correctamente, proceder con el registro del historial
+
           this.historialService.registrar(historial).subscribe(
             () => {
               this.mensaje.MostrarMensajeExito("SE ACTUALIZO  CLASE");
@@ -48,13 +48,11 @@ export class EditClaseComponent implements OnInit {
               this.dialog.closeAll();
             },
             error => {
-              // Si hubo un error al registrar el historial, mostrar un mensaje de error
               this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
             }
           );
         },
         error => {
-          // Si hubo un error al registrar el estudiante, mostrar un mensaje de error
           this.mensaje.MostrarBodyError(error);
         }
       );
@@ -82,8 +80,10 @@ export class EditClaseComponent implements OnInit {
   fechaInicio: Date;
   fechaFin: string;
   dia: string;
-
-  public formulario: UntypedFormGroup;
+  horarioListar: any = [];
+  maxDate: string;
+  minDate: string;
+  formulario: UntypedFormGroup;
 
   constructor(
     private formBuilder: FormBuilder, private loginService: LoginService, private historialService: HistorialService,
@@ -96,8 +96,6 @@ export class EditClaseComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data.row)
-    // Inicializar el formulario y cargar los datos  
     this.listarHorarios()
     this.listaEdiciones();
     this.validarFecha()
@@ -105,10 +103,9 @@ export class EditClaseComponent implements OnInit {
 
   }
 
-  // Simulación de datos (en lugar de recibirlos desde el backend)
   listaEdiciones() {
     const fechaLocal = new Date(this.data.row.inicio);
-    this.codigo=this.data.row.codigo;
+    this.codigo = this.data.row.codigo;
     this.nombre = this.data.row.nombre;
     this.equipo = this.data.row.equipo.nombre;
     this.genero = this.data.row.descripcion;
@@ -116,38 +113,31 @@ export class EditClaseComponent implements OnInit {
       this.fechaInicio = fechaLocal;
     this.fechaFin = this.data.row.fin;
     this.dia = this.data.row.dia;
-    console.log(this.data.row)
-
     this.initForm();
 
   }
-  maxDate: string;
-  minDate: string;
+
   async validarFecha() {
     const today = new Date();
-    console.log(today)
+
     const formattedDate = formatDate(today);
-    const minYear = today.getFullYear(); // Máximo 120 años atrás
     const maxYear = today.getFullYear() + 2;
-    this.minDate = formattedDate; // Fecha mínima permitida
-    this.maxDate = `${maxYear}-01-01`;//today.toISOString().split('T')[0]; // Fecha máxima: hoy
+    this.minDate = formattedDate;
+    this.maxDate = `${maxYear}-01-01`;
     console.log(this.minDate)
     console.log(this.maxDate)
   }
 
-  // Configuración del formulario con validaciones
   initForm() {
     this.formulario = this.formBuilder.group({
       nombre: [this.nombre, Validators.required],
       equipo: [{ value: this.equipo, disabled: true }, Validators.required],
-      genero: [ this.genero, Validators.required],
+      genero: [this.genero, Validators.required],
       horario: [this.horario, Validators.required],
       fechaInicio: [this.fechaInicio, Validators.required],
       fechaFin: [this.fechaFin, Validators.required],
       dia: [{ value: this.dia, disabled: true }, Validators.required] // Deshabilitado
     });
-    console.log(this.formulario.value)
-
   }
 
   listarDia: any = [];
@@ -158,7 +148,6 @@ export class EditClaseComponent implements OnInit {
 
     })
   }
-  horarioListar: any = [];
 
   async listarHorarios() {
     this.horarioService.listarHorarioActivado().subscribe((data) => {
@@ -166,10 +155,4 @@ export class EditClaseComponent implements OnInit {
 
     })
   }
-}
-function formatDate(date: Date): string {
-  const year = date.getFullYear(); // Año en formato YYYY
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Mes (0-11) -> Añadir 1 y formato MM
-  const day = String(date.getDate()).padStart(2, '0'); // Día en formato DD
-  return `${year}-${month}-${day}`;
 }

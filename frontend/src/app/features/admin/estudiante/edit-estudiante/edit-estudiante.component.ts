@@ -6,13 +6,14 @@ import { MatTableDataSource } from '@angular/material/table';
 import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { Router } from '@angular/router';
 import { SedeService } from 'src/app/core/services/sede.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { LoginService } from 'src/app/core/services/login.service';
 
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Estudiante } from 'src/app/core/model/estudiante';
 import { Historial } from 'src/app/core/model/historial';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { edadNacimiento } from 'src/app/core/utils/fechaValidator';
 
 @Component({
   selector: 'app-edit-estudiante',
@@ -122,7 +123,6 @@ export class EditEstudianteComponent implements OnInit {
       telefono: [this.telefono, [Validators.required, Validators.pattern('[0-9]*')]],
       correo: [this.correo, [Validators.required, Validators.email]],
       fechaNacimiento: [this.nacimiento, Validators.required],
-
       genero: [this.genero, Validators.required],
       nacionalidad: [this.nacionalidad, Validators.required],
       dni: [this.lista.dni, Validators.required],
@@ -150,30 +150,12 @@ export class EditEstudianteComponent implements OnInit {
     this.dialogRe.close();
   }
   cargoActual = String;
-  edadNacimiento(fechaNacimiento: string): string {
-    if (fechaNacimiento) {
-      const hoy = new Date();
-      const nacimiento = new Date(fechaNacimiento);
 
-      // Calcular edad
-      let edad = hoy.getFullYear() - nacimiento.getFullYear();
-      const mesDiferencia = hoy.getMonth() - nacimiento.getMonth();
-
-      // Ajustar si aún no ha cumplido años este año
-      if (mesDiferencia < 0 || (mesDiferencia === 0 && hoy.getDate() < nacimiento.getDate())) {
-        edad--;
-      }
-
-      return ` ${edad}`; // Retornamos la edad como string
-    } else {
-      return 'Por favor, ingresa una fecha de nacimiento válida.'; // Mensaje de error
-    }
-  }
   @Output() onActualizar: EventEmitter<boolean> = new EventEmitter();
   operar() {
     let edad: string | null; // Declaramos la variable
     const fechaNacimiento = this.formulario.get('fechaNacimiento').value;
-    edad = this.edadNacimiento(fechaNacimiento); // Llamamos a la función para calcular la edad
+    edad = edadNacimiento(fechaNacimiento); 
     console.log(edad)
     console.log(this.codigoAdmin)
 

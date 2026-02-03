@@ -5,7 +5,7 @@ import { LstProfesoresComponent } from '../lst-profesores/lst-profesores.compone
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { Router } from '@angular/router';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { LoginService } from 'src/app/core/services/login.service';
 import { CargoService } from 'src/app/core/services/cargo.service';
 import { SedeService } from 'src/app/core/services/sede.service';
@@ -15,6 +15,7 @@ import { switchMap } from 'rxjs';
 import { Historial } from 'src/app/core/model/historial';
 import { Profesor } from 'src/app/core/model/profesor';
 import { edadNacimiento, formatDate } from 'src/app/core/utils/fechaValidator';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 
 @Component({
   selector: 'app-edit-profesor',
@@ -60,7 +61,7 @@ export class EditProfesorComponent implements OnInit {
 
   constructor(
     private dialogRe: MatDialogRef<LstProfesoresComponent>,
-    private historialService:HistorialService,
+    private historialService: HistorialService,
     private router: Router,
     private profesorService: ProfesorService,
     private cdr: ChangeDetectorRef,
@@ -102,7 +103,7 @@ export class EditProfesorComponent implements OnInit {
     this.nacimiento = this.lista.fechaNacimiento;
     this.correo = this.lista.correo;
     this.usuario = this.lista.usuario.username;
-this.validarFecha() 
+    this.validarFecha()
 
     this.listaGenero();
 
@@ -157,8 +158,8 @@ this.validarFecha()
   maxDate: string;
   minDate: string;
   async validarFecha() {
-    this.minDate = `1980-01-01`; 
-    this.maxDate = formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 20))); 
+    this.minDate = `1980-01-01`;
+    this.maxDate = formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 20)));
   }
 
 
@@ -170,9 +171,9 @@ this.validarFecha()
 
   @Output() onActualizar: EventEmitter<boolean> = new EventEmitter();
   operar() {
-    let edad: string | null; // Declaramos la variable
+    let edad: string | null;
     const fechaNacimiento = this.formulario.get('fechaNacimiento').value;
-    edad = edadNacimiento(fechaNacimiento); // Llamamos a la función para calcular la edad
+    edad = edadNacimiento(fechaNacimiento);
 
     if (this.formulario.valid) {
       const objAdmin: Profesor = {
@@ -202,17 +203,17 @@ this.validarFecha()
       const historial: Historial = {
         usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
         detalle: `El usuario ${this.loginService.getUser().username} actualizó al profesor con el código ${this.codigoAdmin} ` +
-                 `con el nombre ${this.formulario.get('primerNombre')?.value} ${this.formulario.get('segundoNombre')?.value} ` +
-                 `${this.formulario.get('apellidoPaterno')?.value} ${this.formulario.get('apellidoMaterno')?.value}.`, // Crear el mensaje personalizado
+          `con el nombre ${this.formulario.get('primerNombre')?.value} ${this.formulario.get('segundoNombre')?.value} ` +
+          `${this.formulario.get('apellidoPaterno')?.value} ${this.formulario.get('apellidoMaterno')?.value}.`, // Crear el mensaje personalizado
 
       };
-      
-      
+
+
       console.log(historial);
-      
+
       console.log(objAdmin)
       this.profesorService.actualizarProfesor(objAdmin).pipe(
-        switchMap(response => 
+        switchMap(response =>
           this.historialService.registrar(historial) // Registrar historial solo si actualizarProfesor es exitoso
         )
       ).subscribe(
@@ -225,7 +226,7 @@ this.validarFecha()
           this.mensaje.MostrarBodyError(error); // Manejar errores de cualquiera de las llamadas
         }
       );
-      
+
     }
     else {
       this.mensaje.MostrarMensaje("FORMULARIO VACIO")

@@ -22,16 +22,16 @@ export class EditCargoComponent implements OnInit {
   constructor(
     private dialogRe: MatDialogRef<CargoComponent>,
     private cargo: CargoService,
-    private historialService:HistorialService,
- 
-   
+    private historialService: HistorialService,
+
+
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private mensaje: MensajeService,
     private loginService: LoginService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: UntypedFormBuilder,) { }
-  public formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
   ngOnInit(): void {
     this.lista = this.data
     this.listarEdiciones()
@@ -50,14 +50,12 @@ export class EditCargoComponent implements OnInit {
     this.codigo = this.lista.row.codigo
     this.nombre = this.lista.row.nombre;
     this.descripcion = this.lista.row.descripcion;
-
     this.usuarioCreacion = this.lista.row.usuarioCreacion;
     this.fechaCreacion = this.lista.row.fechaCreacion;
     this.horaCreacion = this.lista.row.horaCreacion;
     this.usuarioActualizacion = this.lista.row.usuarioActualizacion;
     this.fechaActualizacion = this.lista.row.fechaActualizacion;
     this.horaActualizacion = this.lista.row.horaActualizacion;
-
     this.initForm()
 
   }
@@ -65,8 +63,6 @@ export class EditCargoComponent implements OnInit {
     this.formulario = this.formBuilder.group({
       nombre: [this.nombre, Validators.required],
       descripcion: [this.descripcion, Validators.required],
-
-
     });
   }
 
@@ -81,30 +77,30 @@ export class EditCargoComponent implements OnInit {
         usuarioActualizacion: this.loginService.getUser().username,
       };
       console.log(objRegistrar)
-            const historial: Historial = {
-              usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
-              detalle: `El usuario ${this.loginService.getUser().username} actualizo un nuevo cargo ${this.formulario.get('nombre')?.value} ` 
-            };
-    
-            this.cargo.actualizarCargo(objRegistrar).subscribe(
-              response => {
-                // Registrar historial después de actualizar el cargo
-                this.historialService.registrar(historial).subscribe(
-                  () => {
-                    this.mensaje.MostrarMensajeExito("SE ACTUALIZÓ CARGO ");
-                    this.dialog.closeAll();
-                    this.cdr.detectChanges();
-                  },
-                  error => {
-                    this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
-                  }
-                );
-              },
-              error => {
-                this.mensaje.MostrarBodyError(error);
-              }
-            );
-            
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username, 
+        detalle: `El usuario ${this.loginService.getUser().username} actualizo un nuevo cargo ${this.formulario.get('nombre')?.value} `
+      };
+
+      this.cargo.actualizarCargo(objRegistrar).subscribe(
+        response => {
+        
+          this.historialService.registrar(historial).subscribe(
+            () => {
+              this.mensaje.MostrarMensajeExito("SE ACTUALIZÓ CARGO ");
+              this.dialog.closeAll();
+              this.cdr.detectChanges();
+            },
+            error => {
+              this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
+            }
+          );
+        },
+        error => {
+          this.mensaje.MostrarBodyError(error);
+        }
+      );
+
     }
     else {
       this.mensaje.MostrarMensaje("FORMULARIO VACIO")

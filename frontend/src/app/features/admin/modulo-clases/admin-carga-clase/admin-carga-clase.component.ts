@@ -4,7 +4,6 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { LoginService } from 'src/app/core/services/login.service';
 import { AdminClaseDiaComponent } from '../admin-clase-dia/admin-clase-dia.component';
 import { GeneralService } from 'src/app/core/services/general.service';
-import { Router } from '@angular/router';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 

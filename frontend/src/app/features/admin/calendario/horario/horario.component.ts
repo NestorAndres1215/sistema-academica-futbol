@@ -2,10 +2,10 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { HistorialService } from 'src/app/core/services/historial.service';
+
 import { HorarioService } from 'src/app/core/services/horario.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { VisorHorarioComponent } from '../visor-horario/visor-horario.component';
 import { EditHorarioComponent } from '../edit-horario/edit-horario.component';
 import { RegHorarioComponent } from '../reg-horario/reg-horario.component';
@@ -22,6 +22,7 @@ export class HorarioComponent implements OnInit {
     actualizar: true,
     ver: true
   };
+  
   columnas = [
     { etiqueta: 'Código', clave: 'codigo' },
     { etiqueta: 'Hora de Inicio', clave: 'inicioHora' },
@@ -29,7 +30,6 @@ export class HorarioComponent implements OnInit {
   ];
 
   registar() {
-
     const dialogRef = this.dialog.open(RegHorarioComponent, {
       disableClose: true,
       width: '550px',
@@ -40,6 +40,7 @@ export class HorarioComponent implements OnInit {
       this.listarHorario()
     })
   }
+
   verUsuariosDesactivados() {
     const dialogRef = this.dialog.open(LstDesHorarioComponent, {
       disableClose: true,
@@ -51,12 +52,11 @@ export class HorarioComponent implements OnInit {
     })
   }
 
-
-
   ngOnInit(): void {
     this.user = this.loginService.getUser();
     this.listarHorario()
   }
+
   user: any = null;
   xd: any
   datosTabla: any[] = [];
@@ -83,7 +83,6 @@ export class HorarioComponent implements OnInit {
 
   async listarHorario() {
     this.horarioService.listarHorarioActivado().subscribe((data) => {
-      console.log(data)
       data = data.filter(item => item.codigo !== '0000');
       this.user = this.loginService.getUser();
       this.datosTabla = data;
@@ -96,8 +95,6 @@ export class HorarioComponent implements OnInit {
   }
 
   async getUserInfo() {
-    this.user = this.loginService.getUser();
-    const userID = this.user.id;
     const usuarios = this.datosTabla.filter(item => item.id === this.user.id);
     this.xd = usuarios
   }
@@ -127,12 +124,10 @@ export class HorarioComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Elemento eliminado');
-      }
     });
 
   }
+
   editar(row: any) {
     console.log(row)
     const dialogRef = this.dialog.open(EditHorarioComponent, {
@@ -147,9 +142,11 @@ export class HorarioComponent implements OnInit {
       this.listarHorario()
     })
   }
+
   volver(): void {
     this.route.navigate(['/administrador']);
   }
+
   botonesConfig = {
     editar: false,
     volver: true,

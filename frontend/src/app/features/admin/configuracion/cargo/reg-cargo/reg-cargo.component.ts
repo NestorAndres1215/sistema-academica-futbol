@@ -28,7 +28,7 @@ export class RegCargoComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: UntypedFormBuilder,) { }
 
-  public formulario: UntypedFormGroup;
+   formulario: UntypedFormGroup;
 
   ngOnInit(): void {
     this.lista = this.data
@@ -79,11 +79,9 @@ export class RegCargoComponent implements OnInit {
         );
       },
       error => {
-        this.mensaje.MostrarBodyError(error); // Manejar error de registrar cargo
+        this.mensaje.MostrarBodyError(error); 
       }
     );
-
-
   }
 
   cerrar() {

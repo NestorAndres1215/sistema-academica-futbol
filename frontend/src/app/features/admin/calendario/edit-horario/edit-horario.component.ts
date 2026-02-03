@@ -7,9 +7,10 @@ import { LoginService } from 'src/app/core/services/login.service';
 import { HorarioService } from 'src/app/core/services/horario.service';
 
 import { HistorialService } from 'src/app/core/services/historial.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { Historial } from 'src/app/core/model/historial';
 import { Horario } from 'src/app/core/model/horario';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 
 @Component({
   selector: 'app-edit-horario',
@@ -32,7 +33,7 @@ export class EditHorarioComponent implements OnInit {
     private horarioService: HorarioService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: UntypedFormBuilder,) { }
-    lista: any
+  lista: any
 
   ngOnInit(): void {
     this.lista = this.data
@@ -47,7 +48,7 @@ export class EditHorarioComponent implements OnInit {
   usuarioActualizacion: string;
   fechaActualizacion: string;
   horaActualizacion: string;
-  public formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
   codigo: string
 
   listarEdiciones() {
@@ -64,6 +65,7 @@ export class EditHorarioComponent implements OnInit {
     this.initForm()
 
   }
+
   initForm() {
     this.formulario = this.formBuilder.group({
       inicio: [this.inicio, Validators.required],
@@ -88,7 +90,7 @@ export class EditHorarioComponent implements OnInit {
           return false;
         }
 
-        const diferenciaHoras = (fin.getTime() - inicio.getTime()) / (1000 * 3600);  // Convertir milisegundos a horas
+        const diferenciaHoras = (fin.getTime() - inicio.getTime()) / (1000 * 3600);
 
         if (diferenciaHoras < 1) {
           this.formulario.get('fin')?.setErrors({ minDuration: true });
@@ -102,11 +104,11 @@ export class EditHorarioComponent implements OnInit {
           return false;
         }
       }
-      return true; 
+      return true;
     };
 
     if (!validarHoras()) {
-      return;  
+      return;
     }
 
     if (this.formulario.valid) {
@@ -119,7 +121,7 @@ export class EditHorarioComponent implements OnInit {
       }
       console.log(objHorario)
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, 
+        usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} actualizó al horario con el codigo ${objHorario.codigo}`,
       };
       this.horarioService.actualizar(objHorario).subscribe(
@@ -139,8 +141,6 @@ export class EditHorarioComponent implements OnInit {
           this.mensaje.MostrarBodyError(error);
         }
       );
-    } else {
-
     }
   }
 }

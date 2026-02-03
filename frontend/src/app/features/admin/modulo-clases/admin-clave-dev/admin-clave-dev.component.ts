@@ -8,23 +8,21 @@ import { ClaseService } from 'src/app/core/services/clase.service';
   styleUrls: ['./admin-clave-dev.component.css']
 })
 export class AdminClaveDevComponent implements OnInit {
-  editar() {
-    throw new Error('Method not implemented.');
-  }
 
   constructor(
     private route: ActivatedRoute,
     private claseService: ClaseService,
-    private router: Router
   ) { }
+  
   codigo: string
-  @Input() dias: string = ''; // Recibe el segundo día
+  @Input() dias: string = '';
 
   ngOnInit(): void {
     console.log(this.route.snapshot.params['codigo'])
     this.codigo = this.route.snapshot.params['codigo']
     this.listaClases(this.codigo)
   }
+
   opciones: string[] = ['Clases', 'Alumnos', 'Información'];
   opcionSeleccionada: string = 'Clases';
   datosTabla: any[] = [];
@@ -36,20 +34,12 @@ export class AdminClaveDevComponent implements OnInit {
 
     console.log(codigo)
     this.claseService.listarClaseActivado().subscribe((data) => {
-
-
-      console.log(data.filter(index => index.codigo == codigo)); // Filtra por código
-
-      const claseEncontrada = data.find(index => index.codigo == codigo); // Encuentra la clase
+      const claseEncontrada = data.find(index => index.codigo == codigo); 
       if (claseEncontrada && claseEncontrada.dia) {
-        const diasArray: string[] = claseEncontrada.dia.split(' - '); // Divide los días
-        console.log(diasArray);
+        const diasArray: string[] = claseEncontrada.dia.split(' - '); 
         [this.primerDia, this.segundoDia, this.tercerDia] = diasArray;
-
-
-
       }
-      console.log(data)
+
       this.datosTabla = data;
     });
 

@@ -36,9 +36,9 @@ export class AdminDevClassComponent implements OnInit {
   tercerDia: string
   async listaClases(codigo: string) {
     this.claseService.listarClaseActivado().subscribe((data) => {
-      const claseEncontrada = data.find(index => index.codigo == codigo); // Encuentra la clase
+      const claseEncontrada = data.find(index => index.codigo == codigo); 
       if (claseEncontrada && claseEncontrada.dia) {
-        const diasArray: string[] = claseEncontrada.dia.split(' - '); // Divide los días
+        const diasArray: string[] = claseEncontrada.dia.split(' - '); 
         [this.primerDia, this.segundoDia, this.tercerDia] = diasArray;
       }
       this.datosTabla = data;

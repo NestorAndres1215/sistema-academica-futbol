@@ -3,13 +3,13 @@ import { MantEquipoComponent } from '../mant-equipo/mant-equipo.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { SedeService } from 'src/app/core/services/sede.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Equipo } from 'src/app/core/model/equipo';
 import { Historial } from 'src/app/core/model/historial';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 
 
 @Component({
@@ -60,7 +60,7 @@ export class RegERquipoComponent implements OnInit {
   }
 
 
-  public formulario: UntypedFormGroup;
+   formulario: UntypedFormGroup;
   constructor(
     private mensaje: MensajeService,
     private sedeService: SedeService,

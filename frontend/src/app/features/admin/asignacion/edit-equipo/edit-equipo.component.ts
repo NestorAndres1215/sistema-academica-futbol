@@ -4,12 +4,13 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SedeService } from 'src/app/core/services/sede.service';
 import { GeneralService } from 'src/app/core/services/general.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { Equipo } from 'src/app/core/model/equipo';
 import { Historial } from 'src/app/core/model/historial';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 
 
 @Component({
@@ -20,7 +21,7 @@ import { Historial } from 'src/app/core/model/historial';
 export class EditEquipoComponent implements OnInit {
 
 
-  public formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
   lista: any;
   nombre: string;
   categoria: string;
@@ -33,6 +34,7 @@ export class EditEquipoComponent implements OnInit {
   fechaActualizacion: string;
   horaActualizacion: string;
   codigo: string
+
   constructor(
     private mensaje: MensajeService,
     private sedeService: SedeService,
@@ -137,7 +139,7 @@ export class EditEquipoComponent implements OnInit {
           );
         },
         error => {
-      
+
           this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
         }
       );

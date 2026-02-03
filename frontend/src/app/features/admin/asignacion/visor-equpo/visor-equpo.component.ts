@@ -9,7 +9,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./visor-equpo.component.css']
 })
 export class VisorEqupoComponent implements OnInit {
-  public formulario: UntypedFormGroup;
+   formulario: UntypedFormGroup;
   lista: any;
   nombre: string;
   categoria: string;
@@ -62,7 +62,6 @@ export class VisorEqupoComponent implements OnInit {
   cerrar() {
     this.dialogRe.close();
   }
-
 
 }
 

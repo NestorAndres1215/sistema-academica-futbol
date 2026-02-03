@@ -3,3 +3,4 @@ export const ROLES = Object.freeze({
     ROLE_ADMINISTRADOR: 'ADMINISTRADOR',
     ROLE_PROFESOR: 'PROFESOR'
 });
+

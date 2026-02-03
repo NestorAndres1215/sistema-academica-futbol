@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { POSICIONES } from 'src/app/core/constants/posiciones.constants';
+import { POSICIONES } from 'src/app/core/constants/posiciones';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';

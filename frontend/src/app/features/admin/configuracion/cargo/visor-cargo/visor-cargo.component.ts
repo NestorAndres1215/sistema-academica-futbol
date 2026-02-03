@@ -9,31 +9,29 @@ import { CargoComponent } from '../cargo/cargo.component';
   styleUrls: ['./visor-cargo.component.css']
 })
 export class VisorCargoComponent implements OnInit {
-lista:any
-constructor(
+  lista: any
+  constructor(
     private dialogRe: MatDialogRef<CargoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: UntypedFormBuilder,) { }
-  public formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
   ngOnInit(): void {
-    this.lista=this.data
+    this.lista = this.data
     this.listarEdiciones()
   }
 
   nombre: string
   descripcion: string
- 
+
   usuarioCreacion: string
   fechaCreacion: string;
   horaCreacion: string;
   usuarioActualizacion: string;
   fechaActualizacion: string;
-  horaActualizacion:string;
+  horaActualizacion: string;
   listarEdiciones() {
     this.nombre = this.lista.row.nombre;
     this.descripcion = this.lista.row.descripcion;
-  
- 
     this.usuarioCreacion = this.lista.row.usuarioCreacion;
     this.fechaCreacion = this.lista.row.fechaCreacion;
     this.horaCreacion = this.lista.row.horaCreacion;
@@ -44,17 +42,18 @@ constructor(
     this.initForm()
     this.deshabilitar()
   }
-initForm() {
+
+  initForm() {
     this.formulario = this.formBuilder.group({
       nombre: [this.nombre, Validators.required],
       descripcion: [this.descripcion, Validators.required],
 
     });
   }
+
   deshabilitar() {
     this.formulario.disable();
   }
-
 
   cerrar() {
     this.dialogRe.close();

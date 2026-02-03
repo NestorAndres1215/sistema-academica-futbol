@@ -2,16 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CARGOS } from 'src/app/core/constants/cargo';
-import { CATEGORIAS_EQUIPO } from 'src/app/core/constants/posiciones.constants';
+import { CATEGORIAS_EQUIPO } from 'src/app/core/constants/posiciones';
+import { CODIGO_ROLE_USER } from 'src/app/core/constants/usuario';
 import { Asignacion } from 'src/app/core/model/Asignacion';
-
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { SedeService } from 'src/app/core/services/sede.service';
-import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-reg-asginacion',
   templateUrl: './reg-asginacion.component.html',
@@ -61,8 +61,9 @@ export class RegAsginacionComponent implements OnInit {
   volver() {
     this.router.navigate(['/administrador']);
   }
-  public formulario: UntypedFormGroup;
-  public formulario1: UntypedFormGroup;
+
+  formulario: UntypedFormGroup;
+  formulario1: UntypedFormGroup;
   constructor(private generales: GeneralService,
     private sede: SedeService,
     private router: Router,
@@ -102,11 +103,13 @@ export class RegAsginacionComponent implements OnInit {
       });
     }
   }
+
   categoriaSeleccionada: string = '';
   sedeSeleccionada: string = '';
   generoSeleccionado: string = '';
   sedes: any
   genero: any
+
   initForm() {
     this.formulario = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -139,21 +142,23 @@ export class RegAsginacionComponent implements OnInit {
     })
   }
   datosTabla: any[] = [];
-  posiciones: any
-  
+  posiciones: any[] = [];
+
   async listaPosicion() {
     this.generales.listarGeneralDevActivado("0005").subscribe((data) => {
       this.posiciones = data;
-
     })
   }
-  listarcategoria: any
+
+  listarcategoria: any[] = [];
+
   async listaCategoria() {
     this.generales.listarGeneralDevActivado("0004").subscribe((data) => {
       this.listarcategoria = data;
 
     })
   }
+
   roles: string[] = ['Estudiante', 'Profesor'];
 
   rolSeleccionado: string = 'Estudiante';
@@ -163,7 +168,7 @@ export class RegAsginacionComponent implements OnInit {
 
   cambiarRol() {
     const rol = this.formulario1.get('rol')?.value;
-    if (rol === 'Profesor') {
+    if (rol === CODIGO_ROLE_USER.PROFESOR) {
       this.formulario1.patchValue({
         capitan: '',
         numeroCamiseta: '',
@@ -213,9 +218,9 @@ export class RegAsginacionComponent implements OnInit {
 
 
   nombreEquipo: string
-  estu: any
-  listarEstu: any
-  listarProfe: any
+  estu: any[] = [];
+  listarEstu: any[] = [];
+  listarProfe: any[] = [];
 
 
   filtrarProfesoresPorCargo() {
@@ -278,9 +283,10 @@ export class RegAsginacionComponent implements OnInit {
       );
     });
   }
-  cantidadPorfesores: any
-  profesoresActuales: any
-  estudianteActuales: any
+  cantidadPorfesores: any[] = [];
+  profesoresActuales: any[] = [];
+  estudianteActuales: any[] = [];
+
   async listarDev() {
     this.equipoService.listarAsignacion().subscribe((data: any[]) => {
       this.cantidadPorfesores = data.filter(item => item.profesor.codigo !== "0000");
@@ -345,7 +351,7 @@ export class RegAsginacionComponent implements OnInit {
 
       }
 
-      if (rolSeleccionado === 'Estudiante') {
+      if (rolSeleccionado === CODIGO_ROLE_USER.ESTUDIANTE) {
         const estudianteSeleccionado = this.formulario1.get('estudiante')?.value;
         if (!estudianteSeleccionado || estudianteSeleccionado.trim() === "") {
           this.mensaje.MostrarMensaje("Se debe seleccionar un estudiante");
@@ -368,7 +374,7 @@ export class RegAsginacionComponent implements OnInit {
         }
       }
 
-      if (rolSeleccionado === 'Profesor') {
+      if (rolSeleccionado === CODIGO_ROLE_USER.PROFESOR) {
         const profesorValue = this.formulario1.get('profesor')?.value;
         const cargoValue = this.formulario1.get('cargo')?.value;
 
@@ -412,13 +418,10 @@ export class RegAsginacionComponent implements OnInit {
 
   listaAsignaciones: any[] = [];
   accionNuevo() {
-    console.log(this.estudiantes);
-    console.log(this.profesores);
-    console.log(this.formulario.value)
+
 
     const todos = [...this.estudiantes, ...this.profesores];
     const codigo = this.formulario.value.nombre?.codigo || 'Código no disponible';
-    console.log(codigo);
 
     if (todos.length > 0) {
 
@@ -450,12 +453,7 @@ export class RegAsginacionComponent implements OnInit {
 
       this.equipoService.registrarAsignacion(this.listaAsignaciones).subscribe({
         next: (data) => {
-          Swal.fire({
-            title: '¡Éxito!',
-            text: 'Las asignaciones se registraron correctamente.',
-            icon: 'success',
-            confirmButtonText: 'Aceptar'
-          });
+          this.mensaje.MostrarMensaje("Las asignaciones se registraron correctamente")
           window.location.reload();
         },
         error: (err) => {

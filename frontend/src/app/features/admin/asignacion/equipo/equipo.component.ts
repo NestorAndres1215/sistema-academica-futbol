@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { EquipoPerfilComponent } from '../equipo-perfil/equipo-perfil.component';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { NombreCompleto } from 'src/app/core/utils/nombreValidator';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-equipo',
@@ -38,12 +37,14 @@ export class EquipoComponent implements OnInit {
     { etiqueta: 'Acciones', clave: 'acciones' }
   ];
 
-  volver() {
-    throw new Error('Method not implemented.');
+  volver(): void {
+    this.router.navigate(['/administrador']);
   }
   equipo: any
 
-  constructor(private equipoService: EquipoService,
+  constructor(
+    private equipoService: EquipoService, 
+    private router: Router,
     private dialog: MatDialog,
   ) { }
 
@@ -64,10 +65,11 @@ export class EquipoComponent implements OnInit {
   asignacion: any[] = [];
   estudiantes: any[] = [];
   profesores: any[] = [];
-  usuariosFiltrados: any[] = []; 
+  usuariosFiltrados: any[] = [];
+  
   async listarDevEquipo() {
     this.equipoService.listarAsignacion().subscribe((data) => {
-      console.log(data.filter(i => i.profesor.codigo !== "0000"))
+
       this.profesores = data
         .filter(i => i.profesor.codigo !== "0000")
         .map(p => ({
@@ -88,7 +90,6 @@ export class EquipoComponent implements OnInit {
 
 
   filtro: string = '';
-
   profesoresFiltrados = [...this.profesores];
   estudiantesFiltrados = [...this.estudiantes];
 
@@ -100,6 +101,7 @@ export class EquipoComponent implements OnInit {
       this.estudiantesFiltrados = [];
       return;
     }
+
     this.profesoresFiltrados = this.profesores.filter(profesor => {
       const coincideConEquipo = profesor.equipo && profesor.equipo.nombre === this.equipoSeleccionada;
       return coincideConEquipo;

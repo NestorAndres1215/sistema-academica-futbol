@@ -24,9 +24,9 @@ export class DvEstPerfilComponent implements OnInit {
    direccion: string
    rol: string
    ngOnInit(): void {
-     console.log(this.data)
+
      const dataArray = Object.values(this.data);
- 
+
      this.datos = dataArray;
    }
  
@@ -34,5 +34,5 @@ export class DvEstPerfilComponent implements OnInit {
      return perfil.perfil ? this.imagenUrlBase + perfil.perfil : '';
    }
  
-   cerrar() { }
+
 }

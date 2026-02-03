@@ -29,7 +29,7 @@ export class RegDevComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private formBuilder: UntypedFormBuilder,) { }
-  public formulario: UntypedFormGroup;
+   formulario: UntypedFormGroup;
   ngOnInit(): void {
 
     this.codigo = this.data.codigo
@@ -60,10 +60,8 @@ export class RegDevComponent implements OnInit {
 
       this.generalService.registrarGeneralDev(objRegistrar).subscribe(
         response => {
-          // Mostrar mensaje de éxito
           this.mensaje.MostrarMensajeExito("SE REGISTRO TABLA GENERAL");
 
-          // Crear historial
           const historial: Historial = {
             usuario: this.loginService.getUser().username,
             detalle: `El usuario ${this.loginService.getUser().username} registró una nueva entrada en la tabla General con código ${this.codigo}.`
@@ -76,9 +74,6 @@ export class RegDevComponent implements OnInit {
               this.dialog.closeAll();
               this.cdr.detectChanges();
             },
-            error => {
-              this.mensaje.MostrarBodyError("Error al registrar el historial: " + error); // Manejar error en historial
-            }
           );
         },
         error => {

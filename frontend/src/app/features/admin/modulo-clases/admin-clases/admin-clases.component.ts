@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ClaseService } from 'src/app/core/services/clase.service';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { ProfesorService } from 'src/app/core/services/profesor.service';
 
 @Component({
   selector: 'app-admin-clases',
@@ -11,8 +11,8 @@ import { ProfesorService } from 'src/app/core/services/profesor.service';
 })
 export class AdminClasesComponent implements OnInit {
 
-  volver() {
-
+  volver(): void {
+    this.router.navigate(['/administrador']);
   }
   botonesConfig = {
     editar: false,
@@ -23,7 +23,7 @@ export class AdminClasesComponent implements OnInit {
     private claseService: ClaseService,
     private loginService: LoginService,
     private equipoService: EquipoService,
-    private profesorService: ProfesorService
+    private router: Router
   ) { }
   datosTabla: any[] = [];
   ngOnInit(): void {

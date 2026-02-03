@@ -9,15 +9,15 @@ import { LsClaseComponent } from '../ls-clase/ls-clase.component';
   styleUrls: ['./visor-clase.component.css']
 })
 export class VisorClaseComponent implements OnInit {
-usuarioCreacion: string;
-fechaCreacion:string;
-horaCreacion: string;
-usuarioActualizacion: string;
-fechaActualizacion: string;
-horaActualizacion: string;
-volver() {
-  this.dialogRe.close();
-}
+  usuarioCreacion: string;
+  fechaCreacion: string;
+  horaCreacion: string;
+  usuarioActualizacion: string;
+  fechaActualizacion: string;
+  horaActualizacion: string;
+  volver() {
+    this.dialogRe.close();
+  }
   codigo: string;
   nombre: string;
   equipo: string;
@@ -28,38 +28,32 @@ volver() {
   fechaFin: string;
   dia: string;
 
-  public formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
 
-  constructor(private formBuilder: FormBuilder, private dialogRe: MatDialogRef<LsClaseComponent>, @Inject(MAT_DIALOG_DATA) public data: any,) {}
+  constructor(private formBuilder: FormBuilder, private dialogRe: MatDialogRef<LsClaseComponent>, @Inject(MAT_DIALOG_DATA) public data: any,) { }
 
   ngOnInit(): void {
-   
-    // Inicializar el formulario y cargar los datos
     this.listaEdiciones();
   }
 
-  // Simulación de datos (en lugar de recibirlos desde el backend)
+
   listaEdiciones() {
     this.codigo = this.data.row.codigo;
     this.nombre = this.data.row.nombre;
     this.equipo = this.data.row.equipo.nombre;
-    this.genero =  this.data.row.equipo.genero;
-    this.inicioHora =  this.data.row.horario.inicioHora;
+    this.genero = this.data.row.equipo.genero;
+    this.inicioHora = this.data.row.horario.inicioHora;
     this.finHora = this.data.row.horario.finHora;
     this.fechaInicio = this.data.row.horario.fechaInicio;
     this.fechaFin = this.data.row.horario.fechaFin;
-    this.dia =  this.data.row.dia;
-this.usuarioCreacion=this.data.row.usuarioCreacion;
-this.fechaCreacion=this.data.row.fechaCreacion;
-this.horaCreacion=this.data.row.horaCreacion;
-    // Inicializar el formulario con los datos cargados
+    this.dia = this.data.row.dia;
+    this.usuarioCreacion = this.data.row.usuarioCreacion;
+    this.fechaCreacion = this.data.row.fechaCreacion;
+    this.horaCreacion = this.data.row.horaCreacion;
     this.initForm();
-
-    // Deshabilitar el formulario para que sea solo lectura
     this.deshabilitar();
   }
 
-  // Configuración del formulario con validaciones
   initForm() {
     this.formulario = this.formBuilder.group({
       codigo: [this.codigo, Validators.required],
@@ -74,7 +68,6 @@ this.horaCreacion=this.data.row.horaCreacion;
     });
   }
 
-  // Deshabilitar todos los campos del formulario
   deshabilitar() {
     this.formulario.disable();
   }

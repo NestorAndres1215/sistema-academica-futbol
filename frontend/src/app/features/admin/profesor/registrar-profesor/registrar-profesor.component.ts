@@ -11,6 +11,7 @@ import { GeneralService } from 'src/app/core/services/general.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { SedeService } from 'src/app/core/services/sede.service';
 import { calcularEdad, formatDate } from 'src/app/core/utils/fechaValidator';
@@ -62,9 +63,7 @@ export class RegistrarProfesorComponent implements OnInit {
   minDate: string;
 
   async validarFecha() {
-    const today = new Date();
-    const minYear = today.getFullYear() - 120; // Máximo 120 años atrás
-    this.minDate = `1980-01-01`; // Fecha mínima permitida
+    this.minDate = `1980-01-01`;
     this.maxDate = formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 20)));
   }
 
@@ -103,14 +102,18 @@ export class RegistrarProfesorComponent implements OnInit {
 
 
   operar(): void {
-
-
     const edad = this.formulario.value.edad;
 
-    if (edad < 0) {
-      this.mensaje.MostrarMensaje("NO DEBE SER NEGATIVO");
+    if (edad <= 0) {
+      this.mensaje.MostrarMensaje("LA EDAD DEBE SER POSITIVA");
       return;
     }
+
+    if (edad < 18) {
+      this.mensaje.MostrarMensaje("EL USUARIO DEBE SER MAYOR DE EDAD");
+      return;
+    }
+
 
     const genero = this.formulario.value.genero;
     const cargo = this.formulario.value.cargo;
@@ -118,7 +121,7 @@ export class RegistrarProfesorComponent implements OnInit {
     const tipo = this.formulario.value.tipo;
     const usuario = "P" + this.formulario.value.dni;
     const apellidoPaterno = this.formulario.get('apellidoPaterno')?.value || '';
-    const primerCaracter = apellidoPaterno.charAt(0); 
+    const primerCaracter = apellidoPaterno.charAt(0);
     const contra = this.formulario.value.dni + primerCaracter
 
     if (this.formulario.valid) {

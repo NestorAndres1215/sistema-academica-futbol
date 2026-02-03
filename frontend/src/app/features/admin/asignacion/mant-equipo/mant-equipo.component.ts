@@ -5,7 +5,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
@@ -18,6 +17,8 @@ import { SedeService } from 'src/app/core/services/sede.service';
 import { RegERquipoComponent } from '../reg-erquipo/reg-erquipo.component';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { CODIGO_GENERO, GENERO } from 'src/app/core/constants/usuario';
 
 @Component({
   selector: 'app-mant-equipo',
@@ -26,12 +27,12 @@ import { Respuesta } from 'src/app/core/model/respuesta';
 })
 export class MantEquipoComponent implements OnInit {
 
-  sedes: any[] = []; // Lista de sedes
-  generos: any[] = []; // Lista de sedes
-  sedeSeleccionada: string = ''; // Código de la sede seleccionada
+  sedes: any[] = [];
+  generos: any[] = [];
+  sedeSeleccionada: string = '';
   generoSeleccionado: string = '';
   user: any = null;
-  xd: any
+  xd: any[] = [];
   datosTabla: any[] = [];
   pagedData: any[] = [];
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -39,24 +40,25 @@ export class MantEquipoComponent implements OnInit {
   totalItems: number;
   pageSize = 5;
   listar: any
+
   botonesConfig = {
     editar: false,
     volver: true,
 
   };
-    botonesConfigTable = {
+  botonesConfigTable = {
     actualizar: true,
     ver: true,
   };
 
   columnas = [
-  { etiqueta: 'Código', clave: 'codigo' },
-  { etiqueta: 'Nombre', clave: 'nombre' },
-  { etiqueta: 'Categoría', clave: 'categoria' },
-  { etiqueta: 'Sede', clave: 'sede' },
-  { etiqueta: 'Género', clave: 'genero' },
-  { etiqueta: 'Acción', clave: 'acciones' } // Aquí puedes manejar los botones aparte
-];
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Nombre', clave: 'nombre' },
+    { etiqueta: 'Categoría', clave: 'categoria' },
+    { etiqueta: 'Sede', clave: 'sede' },
+    { etiqueta: 'Género', clave: 'genero' },
+    { etiqueta: 'Acción', clave: 'acciones' } // Aquí puedes manejar los botones aparte
+  ];
 
   constructor(
     private equipoServuce: EquipoService,
@@ -85,16 +87,16 @@ export class MantEquipoComponent implements OnInit {
   }
   filtro: string = '';
   filtrarUsuarios(): void {
-    console.log(this.listar);
+
     if (!this.listar || this.listar.length === 0) {
       this.usuariosFiltrados = [];
       return;
     }
 
-    const term = this.filtro.toLowerCase(); 
+    const term = this.filtro.toLowerCase();
 
     this.usuariosFiltrados = this.listar.filter((usuario) => {
-  
+
       const coincideConTexto =
         (usuario.nombre && usuario.nombre.toLowerCase().includes(term));
 
@@ -103,16 +105,18 @@ export class MantEquipoComponent implements OnInit {
 
       const coincideConGenero =
         !this.generoSeleccionado ||
-        (this.generoSeleccionado === 'F' && usuario.genero.toLowerCase() === 'femenino') ||
-        (this.generoSeleccionado === 'M' && usuario.genero.toLowerCase() === 'masculino');
+        (this.generoSeleccionado === CODIGO_GENERO.FEMENINO && usuario.genero.toLowerCase() === GENERO.FEMENINO) ||
+        (this.generoSeleccionado === CODIGO_GENERO.MASCULINO && usuario.genero.toLowerCase() === GENERO.MASCULINO);
 
 
-      return coincideConTexto && coincideConSede && coincideConGenero; 
+      return coincideConTexto && coincideConSede && coincideConGenero;
     });
   }
+
+
   async listarProdesor() {
     this.equipoServuce.listarActivado().subscribe((data) => {
-       this.user = this.loginService.getUser();
+      this.user = this.loginService.getUser();
       this.datosTabla = data;
       this.pagedData = data
       this.listar = data
@@ -137,7 +141,6 @@ export class MantEquipoComponent implements OnInit {
 
 
   pageChanged(event: PageEvent) {
-    console.log(event)
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
@@ -156,9 +159,7 @@ export class MantEquipoComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Elemento eliminado');
-      }
+
     });
 
   }
@@ -188,13 +189,14 @@ export class MantEquipoComponent implements OnInit {
       this.listarProdesor()
     })
   }
+
   volver(): void {
     this.route.navigate(['/administrador']);
   }
 
 
   exportarExcel() {
-   
+
     const historial: Historial = {
       usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo Excel.`,
@@ -207,7 +209,7 @@ export class MantEquipoComponent implements OnInit {
           const urlBlob = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx'; 
+          a.download = 'datos_exportados.xlsx';
           a.style.display = 'none';
           document.body.appendChild(a);
           a.click();
@@ -389,7 +391,7 @@ export class MantEquipoComponent implements OnInit {
         iframe.contentWindow?.print();
         document.body.removeChild(iframe);
       }, 300);
-      }
+    }
   }
 
 

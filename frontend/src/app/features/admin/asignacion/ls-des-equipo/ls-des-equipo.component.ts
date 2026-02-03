@@ -4,10 +4,9 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { HistorialService } from 'src/app/core/services/historial.service';
-import { ExcelService } from 'src/app/core/services/excel.service';
-import { PdfService } from 'src/app/core/services/pdf.service';
+
 import { Router } from '@angular/router';
 import { ListEstudianteComponent } from '../../estudiante/list-estudiante/list-estudiante.component';
 import { VisorEqupoComponent } from '../visor-equpo/visor-equpo.component';
@@ -15,15 +14,17 @@ import { GeneralService } from 'src/app/core/services/general.service';
 import { SedeService } from 'src/app/core/services/sede.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { CODIGO_GENERO, GENERO } from 'src/app/core/constants/usuario';
 @Component({
   selector: 'app-ls-des-equipo',
   templateUrl: './ls-des-equipo.component.html',
   styleUrls: ['./ls-des-equipo.component.css']
 })
 export class LsDesEquipoComponent implements OnInit {
-  sedes: any[] = []; // Lista de sedes
-  generos: any[] = []; // Lista de sedes
-  sedeSeleccionada: string = ''; // Código de la sede seleccionada
+  sedes: any[] = [];
+  generos: any[] = []; 
+  sedeSeleccionada: string = ''; 
   generoSeleccionado:string='';
   filtro: string = '';
   listar: any[] = [];
@@ -83,35 +84,32 @@ export class LsDesEquipoComponent implements OnInit {
 
 
   filtrarUsuarios(): void {
-    console.log(this.listar);
+
     if (!this.listar || this.listar.length === 0) {
       this.usuariosFiltrados = [];
       return;
     }
   
-    const term = this.filtro.toLowerCase(); // Convierte el texto del filtro a minúsculas
+    const term = this.filtro.toLowerCase(); 
   
     this.usuariosFiltrados = this.listar.filter((usuario) => {
-      // Filtrar por nombre
+
       const coincideConTexto =
         (usuario.nombre && usuario.nombre.toLowerCase().includes(term));
   
-      // Filtrar por sede
       const coincideConSede =
         !this.sedeSeleccionada || (usuario.sede && usuario.sede.toLowerCase() === this.sedeSeleccionada.toLowerCase());
   
-      // Filtrar por género
       const coincideConGenero =
         !this.generoSeleccionado ||
-        (this.generoSeleccionado === 'F' && usuario.genero.toLowerCase() === 'femenino') ||
-        (this.generoSeleccionado === 'M' && usuario.genero.toLowerCase() === 'masculino');
+        (this.generoSeleccionado === CODIGO_GENERO.FEMENINO && usuario.genero.toLowerCase() === GENERO.FEMENINO) ||
+        (this.generoSeleccionado === CODIGO_GENERO.FEMENINO && usuario.genero.toLowerCase() === GENERO.MASCULINO);
   
-      // Imprimir información para depuración
       console.log(usuario.genero);
       console.log(coincideConGenero);
       console.log(coincideConTexto, coincideConSede, coincideConGenero);
   
-      return coincideConTexto && coincideConSede && coincideConGenero; // Filtrar por texto, sede y género
+      return coincideConTexto && coincideConSede && coincideConGenero; 
     });
   }
   
@@ -139,17 +137,14 @@ export class LsDesEquipoComponent implements OnInit {
         console.log(result);
 
         const historial: Historial = {
-          usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+          usuario: this.loginService.getUser().username, 
           detalle: `El usuario ${this.loginService.getUser().username} eliminó al estudiante ${row.nombre} con el código ${row.codigo}.`
         };
         this.historialService.registrar(historial).subscribe(
           () => {
             this.mensajeService.MostrarMensaje("Se activar correctamente el estudiante.");
-            this.listarDesactivado();  // Actualizar la lista de cargos
+            this.listarDesactivado(); 
           },
-          error => {
-            this.mensajeService.MostrarBodyError(error); // Manejar error al registrar el historial
-          }
         );
       });
 
@@ -171,21 +166,20 @@ export class LsDesEquipoComponent implements OnInit {
       }
     });
   }
+
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
-      console.log(data)
       this.generos = data;
 
     })
   }
+
   listarSede(): void {
     this.sede.listarSedeActivado().subscribe(
       (data) => {
         this.sedes = data;
       },
-      (error) => {
-        console.error('Error al listar las sedes', error);
-      }
+
     );
   }
 }

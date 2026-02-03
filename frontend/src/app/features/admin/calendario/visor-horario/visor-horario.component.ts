@@ -16,12 +16,15 @@ export class VisorHorarioComponent implements OnInit {
     private dialogRe: MatDialogRef<HorarioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: UntypedFormBuilder,) { }
+
   lista: any
+
   ngOnInit(): void {
     this.lista = this.data
     console.log(this.lista)
     this.listarEdiciones()
   }
+  
   inicio: string
   final: string
   usuarioCreacion: string;
@@ -30,7 +33,7 @@ export class VisorHorarioComponent implements OnInit {
   usuarioActualizacion: string;
   fechaActualizacion: string;
   horaActualizacion: string;
-public formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
 
   listarEdiciones() {
     this.inicio = this.lista.row.inicioHora;
@@ -45,14 +48,14 @@ public formulario: UntypedFormGroup;
     this.initForm()
     this.deshabilitar()
   }
-   initForm() {
-      this.formulario = this.formBuilder.group({
-        inicio: [this.inicio, Validators.required],
-        fin: [this.final, Validators.required],
-     
-      });
-    }
-    deshabilitar() {
-      this.formulario.disable();
-    }
+  initForm() {
+    this.formulario = this.formBuilder.group({
+      inicio: [this.inicio, Validators.required],
+      fin: [this.final, Validators.required],
+
+    });
+  }
+  deshabilitar() {
+    this.formulario.disable();
+  }
 }

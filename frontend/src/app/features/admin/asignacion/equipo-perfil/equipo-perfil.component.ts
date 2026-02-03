@@ -9,12 +9,14 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class EquipoPerfilComponent implements OnInit {
 
- public formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
 
-   datos: any
+   
    constructor(
      @Inject(MAT_DIALOG_DATA) public data: any,
    ) { }
+
+   datos: any
    imagenUrlBase = 'data:image/jpeg;base64,';
    username: string
    email: string;

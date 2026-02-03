@@ -3,13 +3,14 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ClaseService } from 'src/app/core/services/clase.service';
-import { GeneralService } from 'src/app/core/services/general.service';
+
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { AdminClaseDiaComponent } from '../admin-clase-dia/admin-clase-dia.component';
 import { ClaseDev } from 'src/app/core/model/clasedev';
 import { Historial } from 'src/app/core/model/historial';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 
 
 @Component({
@@ -50,7 +51,7 @@ export class AdminCargaEditClaseComponent implements OnInit {
     this.formulario = this.formBuilder.group({
       descripcion: [this.descripcion, Validators.required],
       objetivo: [this.objetivo, Validators.required],
-      titulo: [{ value: this.titulo, disabled: true }, Validators.required], // Deshabilitado
+      titulo: [{ value: this.titulo, disabled: true }, Validators.required], 
     });
   }
 

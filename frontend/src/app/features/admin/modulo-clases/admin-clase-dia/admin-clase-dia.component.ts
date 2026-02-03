@@ -42,12 +42,11 @@ export class AdminClaseDiaComponent implements OnInit {
 
       },
     });
-
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
-this.listarClase()
+      this.listarClase()
     })
   }
+  
   @Input() dias: string = '';
   constructor(private claseService: ClaseService, private route: ActivatedRoute, private dialog: MatDialog) { }
   codigo: string
@@ -61,29 +60,24 @@ this.listarClase()
   objetivo: string
   descripcion: string
   codigoClase: string
- 
+
   async listarClase() {
     this.claseService.listarClaseDevActivado().subscribe((data) => {
-      data=data.filter(index => index.clase.codigo == this.codigo)
-      const claseEncontrada = data.filter(index => index.dia == this.dias); // Encuentra la clase
-      console.log(claseEncontrada)
-      console.log(this.dias)
+      data = data.filter(index => index.clase.codigo == this.codigo)
+      const claseEncontrada = data.filter(index => index.dia == this.dias);
+
       this.claseListar = claseEncontrada
-      const claseEncontrada2 = claseEncontrada.find(index => index.dia == this.dias); // Encuentra la clase
-      console.log(claseEncontrada2.titulo)
-      
+      const claseEncontrada2 = claseEncontrada.find(index => index.dia == this.dias);
       this.titulo = claseEncontrada2.titulo
       this.descripcion = claseEncontrada2.descripcion
       this.objetivo = claseEncontrada2.objetivo
       this.codigoClase = claseEncontrada2.codigo
     })
   }
-  formatDescripcion(descripcion: string): string {
-    return descripcion.replace(/\n/g, '<br>');
-  }
+
   formatTexto(texto: string): string {
     return texto.replace(/\n/g, '<br>');
   }
-  
-  
+
+
 }
