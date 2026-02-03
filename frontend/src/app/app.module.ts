@@ -31,8 +31,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSortModule } from '@angular/material/sort';
 import { authInterceptorProviders } from './core/interceptor/auth.interceptor';
 import { CommonModule, registerLocaleData } from '@angular/common';
-import { NavbarComponent } from './core/layout/public/navbar/navbar.component';
-import { FooterComponent } from './core/layout/public/footer/footer.component';
 import { NavbarAdministradorComponent } from './core/layout/navbar-administrador/navbar-administrador.component';
 import { NavbarEstudianteComponent } from './core/layout/navbar-estudiante/navbar-estudiante.component';
 import { NavbarProfesorComponent } from './core/layout/navbar-profesor/navbar-profesor.component';
@@ -189,8 +187,6 @@ import { PaginationComponent } from './shared/pagination/pagination.component';
   declarations: [
 
     LoginComponent,
-    NavbarComponent,
-    FooterComponent,
     NavbarAdministradorComponent,
     HomeAdminComponent,
     DatosPersonalesComponent,
@@ -200,7 +196,6 @@ import { PaginationComponent } from './shared/pagination/pagination.component';
     NavbarProfesorComponent,
     HomeProfesorComponent,
     PrincipalProfesorComponent,
-
     PrincipalComponent,
     AppComponent,
     RegUsuarioComponent,

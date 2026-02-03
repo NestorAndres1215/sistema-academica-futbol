@@ -8,6 +8,7 @@ import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Sede } from 'src/app/core/model/sede';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class EditSedeComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,) { }
 
   formulario: UntypedFormGroup
-  ;
+    ;
   ngOnInit(): void {
     this.lista = this.data
     this.listarEdiciones()
@@ -72,46 +73,39 @@ export class EditSedeComponent implements OnInit {
     });
   }
 
-  operar() {
-    if (this.formulario.valid) {
-
-      const objRegistrar: Sede = {
-        codigo: this.codigo,
-        nombre: this.formulario.get('nombre')?.value,
-        direccion: this.formulario.get('direccion')?.value,
-        telefono: this.formulario.get('telefono')?.value,
-        usuarioCreacion: this.usuarioCreacion,
-        usuarioActualizacion: this.loginService.getUser().username,
-      };
-
-      const historial: Historial = {
-        usuario: this.loginService.getUser().username,
-        detalle: `El usuario ${this.loginService.getUser().username} actualizó la sede ${objRegistrar.nombre} con el código ${objRegistrar.codigo}.`
-      };
-
-      this.historialService.registrar(historial).subscribe(
-        () => {
-          this.sede.actualizarSede(objRegistrar).subscribe(
-            response => {
-              // Mostrar mensaje de éxito
-              this.mensaje.MostrarMensajeExito("SE ACTUALIZÓ SEDE");
-
-              // Cerrar el modal
-              this.dialog.closeAll();
-
-              // Forzar detección de cambios
-              this.cdr.detectChanges();
-            },
-          );
-        },
-        error => {
-          this.mensaje.MostrarBodyError('Error al registrar el historial: ' + error);
-        }
-      );
-
-    } else {
+  async operar() {
+    
+    if (!this.formulario.valid) {
       this.mensaje.MostrarMensaje("FORMULARIO VACÍO");
       this.formulario.markAllAsTouched();
+      return;
+    }
+
+    const objRegistrar: Sede = {
+      codigo: this.codigo,
+      nombre: this.formulario.get('nombre')?.value,
+      direccion: this.formulario.get('direccion')?.value,
+      telefono: this.formulario.get('telefono')?.value,
+      usuarioCreacion: this.usuarioCreacion,
+      usuarioActualizacion: this.loginService.getUser().username,
+    };
+
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} actualizó la sede ${objRegistrar.nombre} con el código ${objRegistrar.codigo}.`
+    };
+
+    try {
+
+      await firstValueFrom(this.sede.actualizarSede(objRegistrar)); 
+      await firstValueFrom(this.historialService.registrar(historial));
+      this.mensaje.MostrarMensajeExito("SE ACTUALIZÓ SEDE");
+      this.dialog.closeAll();
+      this.cdr.detectChanges();
+
+    } catch (error) {
+      console.error(error);
+      this.mensaje.MostrarBodyError("Ocurrió un error al procesar la operación: " + error);
     }
   }
 
