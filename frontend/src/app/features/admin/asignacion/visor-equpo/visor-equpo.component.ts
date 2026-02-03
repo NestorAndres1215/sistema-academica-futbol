@@ -25,10 +25,9 @@ export class VisorEqupoComponent implements OnInit {
     private dialogRe: MatDialogRef<MantEquipoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: UntypedFormBuilder,) { }
+    
   ngOnInit(): void {
     this.lista = this.data
-
-    console.log(this.lista)
     this.listarEdiciones()
   }
 
@@ -55,9 +54,11 @@ export class VisorEqupoComponent implements OnInit {
       sede: [this.sede, Validators.required],
     });
   }
+
   deshabilitar() {
     this.formulario.disable();
   }
+  
   cerrar() {
     this.dialogRe.close();
   }

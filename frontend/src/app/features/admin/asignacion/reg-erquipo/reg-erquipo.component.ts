@@ -24,41 +24,42 @@ export class RegERquipoComponent implements OnInit {
 
   operar() {
     if (this.formulario.valid) {
-         const objEquipo: Equipo = {
+      const objEquipo: Equipo = {
 
-           nombre: this.formulario.get('nombre')?.value,
-           sede: this.formulario.get('sede')?.value,
-           categoria: this.formulario.get('categoria')?.value,
-           genero: this.formulario.get('genero')?.value,
-           usuarioRegistro: this.loginService.getUser().username,
-         }
-         const historial: Historial = {
-           usuario: this.loginService.getUser().username, 
-           detalle: `El usuario ${this.loginService.getUser().username} actualizó al equipo ${objEquipo.nombre}`,
-         };
-         this.historialService.registrar(historial).subscribe(
-           () => {
-           
-             this.equipoService.registrar(objEquipo).subscribe(
-               response => {
-                 this.mensaje.MostrarMensajeExito("SE REGISTRO EQUIPO");
-                 this.dialog.closeAll();
-                 this.cdr.detectChanges();
-               },
-               error => {
-                 this.mensaje.MostrarBodyError(error);
-               }
-             );
-           },
-           error => {
-             // Si hubo un error al registrar el historial, mostrar un mensaje de error
-             this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
-           }
-         );
-       } else {
-         this.mensaje.MostrarMensajeError("FORMULARIO VACIO")
-       }
+        nombre: this.formulario.get('nombre')?.value,
+        sede: this.formulario.get('sede')?.value,
+        categoria: this.formulario.get('categoria')?.value,
+        genero: this.formulario.get('genero')?.value,
+        usuarioRegistro: this.loginService.getUser().username,
+      }
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username,
+        detalle: `El usuario ${this.loginService.getUser().username} actualizó al equipo ${objEquipo.nombre}`,
+      };
+      this.historialService.registrar(historial).subscribe(
+        () => {
+
+          this.equipoService.registrar(objEquipo).subscribe(
+            response => {
+              this.mensaje.MostrarMensajeExito("SE REGISTRO EQUIPO");
+              this.dialog.closeAll();
+              this.cdr.detectChanges();
+            },
+            error => {
+              this.mensaje.MostrarBodyError(error);
+            }
+          );
+        },
+        error => {
+          this.mensaje.MostrarBodyError("Error al registrar el historial: " + error.message);
+        }
+      );
+    } else {
+      this.mensaje.MostrarMensajeError("FORMULARIO VACIO")
+    }
   }
+
+
   public formulario: UntypedFormGroup;
   constructor(
     private mensaje: MensajeService,
@@ -70,27 +71,27 @@ export class RegERquipoComponent implements OnInit {
     private dialog: MatDialog,
     private loginService: LoginService,
     private dialogRe: MatDialogRef<MantEquipoComponent>,
-
     private formBuilder: UntypedFormBuilder,) { }
-  ngOnInit(): void {
 
+  ngOnInit(): void {
     this.listarSede()
     this.listaGenero()
     this.listaPosicion()
-
-this.initForm()
+    this.initForm()
   }
-    initForm() {
-      this.formulario = this.formBuilder.group({
-        nombre: ['', Validators.required],
-        categoria: ['', Validators.required],
-        genero: ['', Validators.required],
-        sede: ['', Validators.required],
-      });
-    }
-  sedes: any[] = []; // Lista de sedes
-  generos: any[] = []; // Lista de sedes
-  categorias: any[] = []; // Lista de sedes
+
+  initForm() {
+    this.formulario = this.formBuilder.group({
+      nombre: ['', Validators.required],
+      categoria: ['', Validators.required],
+      genero: ['', Validators.required],
+      sede: ['', Validators.required],
+    });
+  }
+  sedes: any[] = []; 
+  generos: any[] = []; 
+  categorias: any[] = []; 
+
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
       console.log(data)
@@ -98,6 +99,7 @@ this.initForm()
 
     })
   }
+
   async listaPosicion() {
     this.generales.listarGeneralDevActivado("0004").subscribe((data) => {
       console.log(data)
@@ -105,14 +107,12 @@ this.initForm()
 
     })
   }
+
   listarSede(): void {
     this.sedeService.listarSedeActivado().subscribe(
       (data) => {
         this.sedes = data;
       },
-      (error) => {
-        console.error('Error al listar las sedes', error);
-      }
     );
   }
 
