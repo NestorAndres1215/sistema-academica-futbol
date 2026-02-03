@@ -13,7 +13,7 @@ import { NombreCompleto } from 'src/app/core/utils/nombreValidator';
 })
 export class EquipoComponent implements OnInit {
   row: any;
-   botonesConfig = {
+  botonesConfig = {
     editar: false,
     volver: true,
 
@@ -43,13 +43,10 @@ export class EquipoComponent implements OnInit {
   equipo: any
   constructor(private equipoService: EquipoService,
     private dialog: MatDialog,
-    private mensaje: MensajeService,
-    private router: Router,
-
-
-
   ) { }
+
   equipoSeleccionada: string = '';
+
   ngOnInit(): void {
     this.listarEquipo()
     this.listarDevEquipo()
@@ -85,41 +82,33 @@ export class EquipoComponent implements OnInit {
       this.usuariosFiltrados = [...this.asignacion];
     });
   }
+
+
   filtro: string = '';
-  //equipoSeleccionada: string = '';
+
   profesoresFiltrados = [...this.profesores];
   estudiantesFiltrados = [...this.estudiantes];
 
-  // Método para filtrar profesores y estudiantes según el equipo seleccionado
+
   filtrarUsuarios() {
-    console.log("Equipo seleccionado:", this.equipoSeleccionada); // Verifica el valor del equipo seleccionado
 
     if (!this.equipoSeleccionada) {
-      // Si no se selecciona un equipo, se muestran todos los usuarios
       this.profesoresFiltrados = [];
       this.estudiantesFiltrados = [];
       return;
     }
-
-    // Filtrar los profesores
     this.profesoresFiltrados = this.profesores.filter(profesor => {
-      console.log("Profesor:", profesor); // Muestra cada profesor
       const coincideConEquipo = profesor.equipo && profesor.equipo.nombre === this.equipoSeleccionada;
-      console.log("Coincide con equipo:", coincideConEquipo); // Muestra si hay coincidencia
       return coincideConEquipo;
     });
 
-    // Filtrar los estudiantes
+
     this.estudiantesFiltrados = this.estudiantes.filter(estudiante => {
-      console.log("Estudiante:", estudiante); // Muestra cada estudiante
       const coincideConEquipo = estudiante.equipo && estudiante.equipo.nombre === this.equipoSeleccionada;
-      console.log("Coincide con equipo:", coincideConEquipo); // Muestra si hay coincidencia
       return coincideConEquipo;
     });
   }
-  eliminar(row: any) {
-    throw new Error('Method not implemented.');
-  }
+
   seleccionados: { [key: string]: boolean } = {};
   get profesoresSeleccionados() {
     return this.profesores.filter(profesor => this.seleccionados[profesor.codigo]);
@@ -127,9 +116,9 @@ export class EquipoComponent implements OnInit {
   get profesorevisor() {
     return Object.values(this.seleccionados).filter(value => value).length;
   }
-  // Método para abrir el diálogo
-  visor(row: any) {
 
+
+  visor(row: any) {
     console.log(row)
     const dialogRef = this.dialog.open(EquipoPerfilComponent, {
       width: '400px',

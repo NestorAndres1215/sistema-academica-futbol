@@ -5,6 +5,7 @@ import { EquipoService } from 'src/app/core/services/equipo.service';
 import { LesionService } from 'src/app/core/services/lesion.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { NombreCompleto } from 'src/app/core/utils/nombreValidator';
 import { VisorLesionComponent } from 'src/app/features/admin/lesiones/visor-lesion/visor-lesion.component';
 import { RegLesionesComponent } from 'src/app/features/profesor/lesiones/reg-lesiones/reg-lesiones.component';
 
@@ -14,12 +15,22 @@ import { RegLesionesComponent } from 'src/app/features/profesor/lesiones/reg-les
   styleUrls: ['./lesion-estudiante.component.css']
 })
 export class LesionEstudianteComponent implements OnInit {
- botonesConfig = {
+  botonesConfig = {
     editar: false,
     volver: false,
 
   };
-registrar() {
+
+  columnas = [
+    { etiqueta: 'Código', clave: 'estudiante.codigo' },
+    { etiqueta: 'Nombre', clave: 'nombreCompleto' },
+    { etiqueta: 'Lesión', clave: 'lesionado.tipoLesion' },
+    { etiqueta: 'Fecha de la Lesión', clave: 'lesionado.fechaLesion' },
+    { etiqueta: 'Gravedad', clave: 'lesionado.gravedad' },
+    { etiqueta: 'Acción', clave: 'acciones' }
+  ];
+
+  registrar() {
     const dialogRef = this.dialog.open(RegLesionesComponent, {
       disableClose: true,
       width: '850px',
@@ -41,7 +52,7 @@ registrar() {
     throw new Error('Method not implemented.');
   }
   equipo: any
-  constructor(private equipoService: EquipoService,private loginService:LoginService,
+  constructor(private equipoService: EquipoService, private loginService: LoginService,
     private lesionService: LesionService,
     private dialog: MatDialog,
     private mensaje: MensajeService,
@@ -67,10 +78,15 @@ registrar() {
   asignacion: any
   estudiantes: any[] = [];
   profesores: any[] = [];
-  usuariosFiltrados: any[] = []; 
+  usuariosFiltrados: any[] = [];
   async listarDevEquipo() {
     this.equipoService.listarAsignacion().subscribe((data) => {
-      this.estudiantes = data.filter(i => i.estudiante.codigo !== "0000")
+       this.estudiantes = data
+             .filter(i => i.estudiante.codigo !== "0000")
+             .map(i => ({
+               ...i,
+               nombreCompleto: NombreCompleto(i.estudiante)
+             }));
       console.log(data)
 
       console.log(this.loginService.getUser().ul_codigo)
@@ -90,11 +106,11 @@ registrar() {
   estudiantesFiltrados = [...this.estudiantes];
 
   filtrarUsuarios() {
-console.log(this.equipoSeleccionada)
+    console.log(this.equipoSeleccionada)
     if (!this.equipoSeleccionada) {
       //ver si esta bien es algo que se esta viendo
       this.estudiantesFiltrados = [...this.estudiantes];
- 
+
       return;
     }
 
@@ -114,7 +130,7 @@ console.log(this.equipoSeleccionada)
       const lesionInfo = this.lesionCompleto.find(lesion => lesion.estudiante.codigo === est.estudiante.codigo);
       return {
         estudiante: est,
-        lesionado: lesionInfo ? lesionInfo : null 
+        lesionado: lesionInfo ? lesionInfo : null
       };
     });
 
@@ -134,9 +150,9 @@ console.log(this.equipoSeleccionada)
       this.lesion = data.map(i => i.estudiante.codigo);
       this.lesionCompleto = data
     });
-  }  
+  }
   virsor(row) {
-   console.log(row)
+    console.log(row)
     const dialogRef = this.dialog.open(VisorLesionComponent, {
       disableClose: true,
       width: '1020px',
