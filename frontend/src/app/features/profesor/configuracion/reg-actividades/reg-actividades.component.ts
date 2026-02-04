@@ -12,9 +12,6 @@ import { LoginService } from 'src/app/core/services/login.service';
 })
 export class RegActividadesComponent implements OnInit {
 
-
-
-
   user: any = null;
   datosTabla: any[] = [];
   pagedData: any[] = [];
@@ -29,11 +26,6 @@ export class RegActividadesComponent implements OnInit {
     private change: ChangeDetectorRef,
 
   ) {
-    this.pageChanged({
-      pageIndex: 0,
-      pageSize: this.pageSize,
-      length: 0
-    });
   }
 
   ngOnInit(): void {
@@ -46,23 +38,18 @@ export class RegActividadesComponent implements OnInit {
   }
 
   pageChanged(event: PageEvent) {
-    console.log(event);
+
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
     this.pagedData = this.datosTabla.slice(startIndex, endIndex);
   }
 
   async listarGeneral() {
-    console.log(this.loginService.getUser().ul_codigo);
-
     this.historialService.listar(this.loginService.getUser().ul_codigo).subscribe((data) => {
-
       this.datosTabla = data.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
-
       this.totalItems = this.datosTabla.length;
       this.pagedData = this.datosTabla;
       this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
-
       this.change.markForCheck();
     });
   }

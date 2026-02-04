@@ -3,13 +3,9 @@
 <div class="container mt-4 pb-4">
 
 
-  <div class="search-container">
-    <mat-form-field appearance="outline" class="custom-search">
-      <mat-icon matPrefix>search</mat-icon>
-      <input matInput type="text" placeholder="Buscar por nombre o apellidos" [(ngModel)]="filtro"
-        (input)="filtrarUsuarios()">
-    </mat-form-field>
-  </div>
+  <app-search [value]="filtro" placeholder="Buscar por nombre o apellidos" hint="Ingrese al menos 3 caracteres"
+    (valueChange)="filtro = $event; filtrarUsuarios()">
+  </app-search>
   <div class="filters-container">
     <mat-form-field appearance="outline" class="filter-field">
       <mat-label>Sedes</mat-label>

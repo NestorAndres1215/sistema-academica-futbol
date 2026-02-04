@@ -1,1 +1,9 @@
-<p>search works!</p>
+<div class="container mt-3 mb-3">
+    <div class="search-input">
+        <i class="fas fa-search"></i>
+        <input type="text" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="onChange($event)" />
+    </div>
+    <small *ngIf="hint" class="search-hint">
+        {{ hint }}
+    </small>
+</div>

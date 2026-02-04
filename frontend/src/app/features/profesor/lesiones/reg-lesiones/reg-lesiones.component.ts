@@ -17,6 +17,7 @@ import { Historial } from 'src/app/core/model/historial';
   styleUrls: ['./reg-lesiones.component.css']
 })
 export class RegLesionesComponent implements OnInit {
+
   operar() {
     const fechaLesion = new Date(this.formulario.get('fechaLesion')?.value);
     const fechaRecuperacion = new Date(this.formulario.get('fechaRecuperacion')?.value);
@@ -103,7 +104,6 @@ export class RegLesionesComponent implements OnInit {
     this.listarDevEquipo()
   }
 
-
   initForm(): void {
     this.formulario = this.formBuilder.group({
       estudiante: ['', Validators.required],
@@ -117,25 +117,11 @@ export class RegLesionesComponent implements OnInit {
 
   }
 
-
   estudiantes: any
+  
   async listarDevEquipo() {
     this.equipodevService.listarDev().subscribe((data) => {
       this.estudiantes = data.filter(i => i.estudiante.codigo !== "0000")
-
-
-      const usuariosCodigo = data
-        .filter(i => i.profesor && i.profesor.usuario && i.profesor.usuario.codigo === this.loginService.getUser().ul_codigo);
-      const equipos = usuariosCodigo.map(i => i.equipo.nombre);
-
-      const estudiantesFiltrados = this.estudiantes.filter(estudiante =>
-        equipos.includes(estudiante.equipo.nombre)
-      );
-
-      // Resultado
-      console.log(estudiantesFiltrados);
-      //   this.listarEquipo()
-
     });
   }
 }

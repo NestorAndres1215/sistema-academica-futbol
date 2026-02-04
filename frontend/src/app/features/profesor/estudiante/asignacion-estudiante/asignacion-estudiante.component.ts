@@ -29,7 +29,7 @@ export class AsignacionEstudianteComponent implements OnInit {
   estudiantesFiltrados = [...this.estudiantes];
   seleccionados: { [key: string]: boolean } = {};
   modoEdicion: boolean = false;
- botonesConfig = {
+  botonesConfig = {
     editar: false,
     volver: true,
 
@@ -40,13 +40,11 @@ export class AsignacionEstudianteComponent implements OnInit {
   numerosOcupados: Set<number> = new Set();
 
   constructor(
-    private equipoService: EquipoService, 
+    private equipoService: EquipoService,
     private historialService: HistorialService,
     private loginService: LoginService,
     private dialog: MatDialog,
   ) { }
-
-
 
   ngOnInit(): void {
 
@@ -58,8 +56,8 @@ export class AsignacionEstudianteComponent implements OnInit {
 
   async listarEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
-      const equipos = this.asignacion.map(i => i.equipo.nombre); // Array de nombres
-      const equiposFiltrados = data.filter(i => equipos.includes(i.nombre)); // Filtra los que coincidan
+      const equipos = this.asignacion.map(i => i.equipo.nombre);
+      const equiposFiltrados = data.filter(i => equipos.includes(i.nombre));
       this.equipo = equiposFiltrados;
     });
   }
@@ -91,15 +89,6 @@ export class AsignacionEstudianteComponent implements OnInit {
       return coincideConEquipo;
     });
     this.verificarSiHayCapitan();
-  }
-
-
-  get profesoresSeleccionados() {
-    return this.profesores.filter(profesor => this.seleccionados[profesor.codigo]);
-  }
-
-  get profesorevisor() {
-    return Object.values(this.seleccionados).filter(value => value).length;
   }
 
   visor(row: any) {

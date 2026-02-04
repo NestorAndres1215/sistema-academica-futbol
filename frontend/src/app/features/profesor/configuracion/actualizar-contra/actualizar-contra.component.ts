@@ -16,6 +16,7 @@ export class ActualizarContraComponent implements OnInit {
   botonesConfigTable = {
     actualizar: true,
   };
+
   columnas = [
     { etiqueta: 'Código', clave: 'codigo' },
     { etiqueta: 'Nombre', clave: 'username' },
@@ -60,10 +61,5 @@ export class ActualizarContraComponent implements OnInit {
       },
     });
   }
-
-
-
-
-
 
 }

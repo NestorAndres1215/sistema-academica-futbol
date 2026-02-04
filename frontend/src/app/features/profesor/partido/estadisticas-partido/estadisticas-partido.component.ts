@@ -24,7 +24,7 @@ export class EstadisticasPartidoComponent implements OnInit {
     volver: true,
 
   };
-  // Atributos para los gráficos
+
   private chart1!: Chart;
   private chart2!: Chart;
   public chart3: Chart;
@@ -34,10 +34,7 @@ export class EstadisticasPartidoComponent implements OnInit {
     private equipoService: EquipoService,
     private partidoService: PartidoService,
     private loginService: LoginService,
-
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.listarEquipo()
@@ -58,11 +55,11 @@ export class EstadisticasPartidoComponent implements OnInit {
 
     this.listaPartidosDashboard.forEach(partido => {
       if (partido.marcadorLocal > partido.marcadorVisita) {
-        resultados.push(1); // Victoria
+        resultados.push(1);
       } else if (partido.marcadorLocal < partido.marcadorVisita) {
-        resultados.push(-1); // Derrota
+        resultados.push(-1);
       } else {
-        resultados.push(0); // Empate
+        resultados.push(0);
       }
     });
 
@@ -98,7 +95,7 @@ export class EstadisticasPartidoComponent implements OnInit {
                 if (value === 1) return "Victoria";
                 if (value === 0) return "Empate";
                 if (value === -1) return "Derrota";
-                return ""; 
+                return "";
               }
 
             },
@@ -106,8 +103,8 @@ export class EstadisticasPartidoComponent implements OnInit {
               display: true,
               text: 'Resultado'
             },
-            min: -1, 
-            max: 1  
+            min: -1,
+            max: 1
           },
           x: {
             title: {
@@ -150,7 +147,7 @@ export class EstadisticasPartidoComponent implements OnInit {
       ],
       datasets: [{
         label: 'Resultados del Equipo',
-        data: [victorias, derrotas, empates], 
+        data: [victorias, derrotas, empates],
         backgroundColor: ['rgb(75, 192, 192)', 'rgb(255, 99, 132)', 'rgb(255, 205, 86)'],
         hoverOffset: 4
       }]
@@ -199,10 +196,11 @@ export class EstadisticasPartidoComponent implements OnInit {
       this.listarPartidos()
     })
   }
+  
   user: any = null;
   async listarPartidos() {
     this.partidoService.listarPartidoPasados().subscribe((data) => {
-   
+
 
       this.user = this.loginService.getUser();
       const listadoNormalizado = this.listado.map(e => e.toLowerCase().trim());
@@ -245,11 +243,11 @@ export class EstadisticasPartidoComponent implements OnInit {
       labels: ['Victorias', 'Empates', 'Derrotas'],
       datasets: [{
         label: 'Resultados',
-        data: [victorias, empates, derrotas], 
+        data: [victorias, empates, derrotas],
         backgroundColor: [
-          'rgba(75, 192, 192, 0.2)',  
-          'rgba(255, 205, 86, 0.2)', 
-          'rgba(255, 99, 132, 0.2)'  
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(255, 205, 86, 0.2)',
+          'rgba(255, 99, 132, 0.2)'
         ],
         borderColor: [
           'rgb(75, 192, 192)',
