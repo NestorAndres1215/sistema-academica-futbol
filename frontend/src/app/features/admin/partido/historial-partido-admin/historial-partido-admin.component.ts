@@ -159,20 +159,19 @@ export class HistorialPartidoAdminComponent implements OnInit {
 
   exportarExcel() {
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+      usuario: this.loginService.getUser().username, 
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo Excel.`,
     };
 
-    // Registrar el historial
     this.historialService.registrar(historial).subscribe(
       () => {
-        // Si el historial se registra correctamente, proceder con la exportación
+
         this.excel.descargarExcelPartidoDesactivo().subscribe((data: Blob) => {
           const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
           const urlBlob = window.URL.createObjectURL(blob);
           const a = document.createElement('a');
           a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx'; // Nombre del archivo Excel
+          a.download = 'datos_exportados.xlsx'; 
           a.style.display = 'none';
           document.body.appendChild(a);
           a.click();
@@ -181,10 +180,8 @@ export class HistorialPartidoAdminComponent implements OnInit {
         });
       },
       error => {
-        // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
+       
         this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
-
-        // Proceder con la exportación de datos
         this.excel.descargarExcelEstudiante().subscribe((data: Blob) => {
           const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
           const urlBlob = window.URL.createObjectURL(blob);
@@ -202,13 +199,12 @@ export class HistorialPartidoAdminComponent implements OnInit {
   }
 
   exportarPDF(): void {
-    // Crear el objeto del historial
+
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+      usuario: this.loginService.getUser().username, 
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo PDF.`,
     };
 
-    // Registrar el historial
     this.historialService.registrar(historial).subscribe(
       () => {
         // Si el historial se registra correctamente, proceder con la exportación
@@ -363,11 +359,5 @@ export class HistorialPartidoAdminComponent implements OnInit {
       }, 300);
     }
   }
-
-
-
-
-
-
 
 }

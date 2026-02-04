@@ -26,9 +26,9 @@ export class RegTbGeneralComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private formBuilder: UntypedFormBuilder,) { }
-  public formulario: UntypedFormGroup;
-  ngOnInit(): void {
+  formulario: UntypedFormGroup;
 
+  ngOnInit(): void {
     this.codigo = this.data.codigo
     this.initForm()
 
@@ -45,47 +45,42 @@ export class RegTbGeneralComponent implements OnInit {
   }
 
   operar() {
-    if (this.formulario.valid) {
-
-      const objRegistrar: General = {
-  
-        clave: this.formulario.get('clave')?.value,
-        descripcion1: this.formulario.get('descripcion')?.value,
-        usuarioCreacion: this.loginService.getUser().username,
-      };
-      console.log(objRegistrar);
-
-      this.generalService.registrarGeneral(objRegistrar).subscribe(
-        response => {
-          // Mostrar mensaje de éxito
-          this.mensaje.MostrarMensajeExito("SE REGISTRO TABLA GENERAL");
-
-          // Crear historial
-          const historial: Historial = {
-            usuario: this.loginService.getUser().username,
-            detalle: `El usuario ${this.loginService.getUser().username} registró una nueva entrada en la tabla General con código ${this.codigo}.`
-          };
-
-          // Registrar el historial
-          this.historialService.registrar(historial).subscribe(
-            () => {
-              // Si el historial se guarda correctamente, cerrar el modal y forzar la detección de cambios
-              this.dialog.closeAll();
-              this.cdr.detectChanges();
-            },
-            error => {
-              this.mensaje.MostrarBodyError("Error al registrar el historial: " + error); // Manejar error en historial
-            }
-          );
-        },
-        error => {
-          this.mensaje.MostrarBodyError(error); // Manejar error en registro
-        }
-      );
-    } else {
-      this.mensaje.MostrarMensaje("FORMULARIO VACIO");
+    if (!this.formulario.valid) {
+      this.mensaje.MostrarMensaje("FORMULARIO VACÍO");
       this.formulario.markAllAsTouched();
+      return;
     }
+
+    const objRegistrar: General = {
+      clave: this.formulario.get('clave')?.value,
+      descripcion1: this.formulario.get('descripcion')?.value,
+      usuarioCreacion: this.loginService.getUser().username,
+    };
+
+    this.generalService.registrarGeneral(objRegistrar).subscribe(
+      response => {
+        this.mensaje.MostrarMensajeExito("SE REGISTRO TABLA GENERAL");
+
+        const historial: Historial = {
+          usuario: this.loginService.getUser().username,
+          detalle: `El usuario ${this.loginService.getUser().username} registró una nueva entrada en la tabla General con código ${this.codigo}.`
+        };
+
+        this.historialService.registrar(historial).subscribe(
+          () => {
+            this.dialog.closeAll();
+            this.cdr.detectChanges();
+          },
+          error => {
+            this.mensaje.MostrarBodyError("Error al registrar el historial: " + error); // Manejar error en historial
+          }
+        );
+      },
+      error => {
+        this.mensaje.MostrarBodyError(error);
+      }
+    );
+
   }
 
   cerrar() {

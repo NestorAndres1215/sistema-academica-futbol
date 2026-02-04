@@ -19,12 +19,12 @@ import { Partido } from 'src/app/core/model/partido';
 })
 export class HistorialEditAdminComponent implements OnInit {
 
- time: string = ''; // Define la variable con un valor inicial
+  time: string = ''; 
   operar() {
     console.log(this.formulario.value)
 
-if (this.formulario.valid) {
-      const objPartido:   Partido = {
+    if (this.formulario.valid) {
+      const objPartido: Partido = {
         codigo: this.codigoPartido,
         equipoRival: this.formulario.get('equipoRival')?.value,
         fecha: this.formulario.get('fecha')?.value,
@@ -34,31 +34,28 @@ if (this.formulario.valid) {
         equipo: this.formulario.get('equipo')?.value,
         marcadorLocal: this.formulario.get('local')?.value,
         marcadorVisita: this.formulario.get('visita')?.value,
+        usuarioCreacion: this.loginService.getUser().username,
       };
       console.log(objPartido)
 
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+        usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} actualizó al partido ${objPartido.codigo} .`,
       };
 
-      // Registrar el historial
       this.partidoService.actualizarFalse(objPartido).subscribe(
         () => {
-          // Si el historial se registra correctamente, proceder con la actualización del estudiante
+
           this.historialService.registrar(historial).subscribe(
             response => {
               this.mensaje.MostrarMensajeExito("SE ACTUALIZÓ ");
               this.dialog.closeAll();
               this.cdr.detectChanges();
             },
-            error => {
-              this.mensaje.MostrarBodyError(error);
-            }
+
           );
         },
         error => {
-          // Si hubo un error al registrar el historial, mostrar un mensaje de error
           this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
         }
       );
@@ -67,9 +64,6 @@ if (this.formulario.valid) {
       this.mensaje.MostrarMensaje("FORMULARIO VACIO")
       this.formulario.markAllAsTouched();
     }
-
-
-
   }
   cerrar() {
     this.dialogRe.close();
@@ -78,56 +72,58 @@ if (this.formulario.valid) {
 
 
   constructor(
-    private partidoService:PartidoService,
-    private mensaje:MensajeService,
+    private partidoService: PartidoService,
+    private mensaje: MensajeService,
     private formBuilder: UntypedFormBuilder,
-    private loginService:LoginService,
-        private cdr: ChangeDetectorRef,
-        private dialog: MatDialog,
-        private historialService: HistorialService,
+    private loginService: LoginService,
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
+    private historialService: HistorialService,
     private dialogRe: MatDialogRef<LsPartidoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private equipoService: EquipoService
   ) { }
 
 
-  public formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
   equipoLocal: string
   equipoRival: string
   fecha: Date
   hora: Time
   lugar: string
   tipoPartido: string
-  marcadorLocal:string
-  marcadorVisita:string
-codigoPartido:string
+  marcadorLocal: string
+  marcadorVisita: string
+  codigoPartido: string
+
   ngOnInit(): void {
-    console.log(this.data.row)
-    this.codigoPartido=this.data.row.codigo
+
+    this.codigoPartido = this.data.row.codigo
     this.equipoLocal = this.data.row.equipo.codigo
     this.equipoRival = this.data.row.equipoRival
     this.fecha = this.data.row.fecha
     this.hora = this.data.row.hora
     this.lugar = this.data.row.lugar
     this.tipoPartido = this.data.row.tipoPartido
-    this.marcadorLocal=this.data.row.marcadorLocal
-    this.marcadorVisita=this.data.row.marcadorVisita
+    this.marcadorLocal = this.data.row.marcadorLocal
+    this.marcadorVisita = this.data.row.marcadorVisita
     console.log(this.hora)
     this.listaEquipo()
     this.initForm()
   }
   equipo: any
+
   listaEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
-      console.log(data)
       this.equipo = data
-
     })
   }
 
   initForm(): void {
+
     const fechaUtc = new Date(this.fecha);
     const fechaLocal = new Date(fechaUtc.getTime() + fechaUtc.getTimezoneOffset() * 60000);
+
     this.formulario = this.formBuilder.group({
       equipo: [{ value: this.equipoLocal, disabled: true }, Validators.required],
       equipoRival: [{ value: this.equipoRival, disabled: true }, Validators.required],

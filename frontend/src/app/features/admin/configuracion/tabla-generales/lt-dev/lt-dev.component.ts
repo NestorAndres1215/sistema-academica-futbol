@@ -25,6 +25,17 @@ import { Respuesta } from 'src/app/core/model/respuesta';
 })
 export class LtDevComponent implements OnInit {
 
+columnas = [
+  { etiqueta: 'Código', clave: 'codigo' },
+  { etiqueta: 'Clave', clave: 'clave' },
+  { etiqueta: 'Descripción', clave: 'descripcion1' },
+];
+botonesConfigTable = {
+  actualizar: true,
+  ver: true,
+  desactivar: true,
+
+};
 
 
   filtro: string = '';
