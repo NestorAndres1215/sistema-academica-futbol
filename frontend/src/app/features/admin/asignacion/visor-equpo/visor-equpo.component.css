@@ -10,12 +10,7 @@
     margin-left: 3px;
     margin-right: 5px;
   }
-  input{
-    font-family: monospace;
-  }
-  mat-label{
-    font-family: monospace;
-  }
+
   .btn-danger {
     float: right;
     height: max-content;
