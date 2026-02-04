@@ -1,11 +1,4 @@
-.login-panel {
-  flex: 1;
-  background: white;
-  padding: 50px 60px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+
 .title {
   font-size: 28px;
   font-weight: 700;
@@ -19,22 +12,3 @@ mat-icon {
   color:  #1e3a8a
 }
 
-.min-vh-75 {
-  min-height: 75vh;
-}
-
-.p-lg-6 {
-  padding: 4.5rem !important;
-}
-
-.welcome-panel {
-  background: linear-gradient(135deg, #1976d2, #0d47a1);
-}
-
-.welcome-panel::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: url('../../../../assets/img/inicio/Logo.png') center / contain no-repeat;
-  opacity: 0.12;
-}

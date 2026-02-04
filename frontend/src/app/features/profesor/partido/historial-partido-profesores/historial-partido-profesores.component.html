@@ -6,10 +6,8 @@
             (valueChange)="equipoSeleccionada = $event; filtrarUsuarios()">
         </app-filter-select>
 
-  <app-partidos-card
-      [equipoSeleccionada]="equipoSeleccionada"
-      [estudiantesFiltrados]="estudiantesFiltrados">
-  </app-partidos-card>
+        <app-partidos-card [equipoSeleccionada]="equipoSeleccionada" [estudiantesFiltrados]="estudiantesFiltrados">
+        </app-partidos-card>
 
         <!-- Lista de partidos -->
 

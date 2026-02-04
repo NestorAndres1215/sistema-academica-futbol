@@ -16,15 +16,8 @@ import { PdfService } from 'src/app/core/services/pdf.service';
   styleUrls: ['./estadisticas-partido.component.css']
 })
 export class EstadisticasPartidoComponent implements OnInit {
-  volver() {
-    throw new Error('Method not implemented.');
-  }
-  botonesConfig = {
-    editar: false,
-    volver: true,
 
-  };
-
+   opcionesEquipo: string[] = [];
   private chart1!: Chart;
   private chart2!: Chart;
   public chart3: Chart;
@@ -193,6 +186,7 @@ export class EstadisticasPartidoComponent implements OnInit {
         item.profesor.usuario.codigo === this.loginService.getUser().ul_codigo
       );
       this.listado = filteredData.map(i => i.equipo.nombre)
+       
       this.listarPartidos()
     })
   }

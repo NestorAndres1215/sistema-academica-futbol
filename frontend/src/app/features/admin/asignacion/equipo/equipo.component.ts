@@ -12,11 +12,7 @@ import { Router } from '@angular/router';
 })
 export class EquipoComponent implements OnInit {
   row: any;
-  botonesConfig = {
-    editar: false,
-    volver: true,
 
-  };
 
   botonesConfigTableEstudiante = {
     ver: true,
@@ -37,9 +33,7 @@ export class EquipoComponent implements OnInit {
     { etiqueta: 'Acciones', clave: 'acciones' }
   ];
 
-  volver(): void {
-    this.router.navigate(['/administrador']);
-  }
+
   equipo: any
 
   constructor(
@@ -54,11 +48,13 @@ export class EquipoComponent implements OnInit {
     this.listarEquipo()
     this.listarDevEquipo()
   }
+ opcionesEquipo: string[] = [];
 
   async listarEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
       console.log(data)
       this.equipo = data;
+        this.opcionesEquipo = this.equipo.map(s => s.nombre);
     });
   }
 
