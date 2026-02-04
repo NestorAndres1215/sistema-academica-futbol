@@ -23,6 +23,13 @@ export class UsuarioAdministradorComponent implements OnInit {
   };
 
   constructor(private admin: AdminService, private dialog: MatDialog, private router: Router) { }
+  columnas = [
+    { clave: 'perfil' },
+    { clave: 'primerNombre' },
+    { clave: 'segundoNombre' },
+    { clave: 'apellidoPaterno' },
+    { clave: 'apellidoMaterno' }
+  ];
 
   ngOnInit(): void {
 

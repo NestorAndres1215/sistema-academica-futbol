@@ -32,39 +32,7 @@
     </mat-form-field>
   </div>
 
-  <!-- Mensaje cuando no hay resultados -->
-  <div *ngIf="usuariosFiltrados.length === 0" class="no-results">
-    <mat-icon>search_off</mat-icon>
-    <p>No se encontraron resultados</p>
-  </div>
+  <app-user-card [datos]="usuariosFiltrados" [columnas]="columnas" (ver)="onVer($event)">
+  </app-user-card>
 
-  <!-- Grid de usuarios -->
-  <div class="row usuarios-grid g-4">
-    <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12" *ngFor="let usuario of usuariosFiltrados">
-      <div class="custom-card">
-        <mat-card class="user-card">
-          <div class="card-content-wrapper">
-            <!-- Imagen de perfil -->
-            <div class="user-avatar-wrapper">
-              <img *ngIf="mostrarImagen(usuario)" [src]="mostrarImagen(usuario)" alt="Foto de perfil"
-                class="user-avatar">
-              <img *ngIf="!mostrarImagen(usuario)" src="assets/img/perfil.png" alt="Foto de perfil predeterminada"
-                class="user-avatar">
-            </div>
-
-            <!-- Información del usuario -->
-            <div class="user-info">
-              <h3 class="user-name">
-                {{ usuario.primerNombre }} {{ usuario.segundoNombre }}
-                {{ usuario.apellidoPaterno }} {{ usuario.apellidoMaterno }}
-              </h3>
-              <button mat-stroked-button color="primary" class="detail-button" (click)="operar(usuario)">
-                <mat-icon>visibility</mat-icon> Ver detalle
-              </button>
-            </div>
-          </div>
-        </mat-card>
-      </div>
-    </div>
-  </div>
 </div>

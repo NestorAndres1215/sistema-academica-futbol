@@ -20,11 +20,10 @@
   padding: 12px 20px;
 }
 
-/* Filtros - Añadido margen inferior */
 .filters-container {
   display: flex;
   gap: 20px;
-  margin-bottom: 20px; /* Reducido de 30px a 20px */
+  margin-bottom: 20px; 
   flex-wrap: wrap;
 }
 
@@ -37,105 +36,6 @@
   padding-bottom: 0;
 }
 
-/* Tarjetas de usuario - Añadido margen inferior */
-.usuarios-grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-bottom: 10px; /* Añadido margen inferior */
-}
-
-.custom-card {
-  height: 100%;
-  transition: transform 0.3s ease;
-  margin-bottom: 10px; /* Añadido margen entre tarjetas */
-}
-
-.custom-card:hover {
-  transform: translateY(-5px);
-}
-
-.user-card {
-  height: 100%;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
-}
-
-.user-card:hover {
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-.card-content-wrapper {
-  display: flex;
-  padding: 15px;
-  align-items: center;
-  height: 100%;
-}
-
-.user-avatar-wrapper {
-  margin-right: 15px;
-}
-
-.user-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid white;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.user-info {
-  flex: 1;
-}
-
-.user-name {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 500;
-  color: #333;
-  margin: 0 0 10px 0;
-  font-size: 1rem;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.detail-button {
-  width: 100%;
-  margin-top: 8px;
-}
-
-/* Mensaje sin resultados - Añadido margen inferior */
-.no-results {
-  text-align: center;
-  padding: 40px;
-  color: #757575;
-  margin-bottom: 10px; /* Añadido margen inferior */
-}
-
-.no-results mat-icon {
-  font-size: 60px;
-  width: 60px;
-  height: 60px;
-  margin-bottom: 20px;
-}
-
-.no-results p {
-  font-size: 18px;
-}
-
-/* Responsive */
-@media (max-width: 1199px) {
-  .user-avatar {
-    width: 70px;
-    height: 70px;
-  }
-}
 
 @media (max-width: 767px) {
   .search-container {
@@ -145,19 +45,11 @@
   .filters-container {
     flex-direction: column;
     gap: 15px;
-    margin-bottom: 15px; /* Ajustado para móvil */
+    margin-bottom: 15px;
   }
   
   .filter-field {
     min-width: 100%;
   }
-  
-  .user-avatar {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .user-name {
-    font-size: 0.9rem;
-  }
+
 }

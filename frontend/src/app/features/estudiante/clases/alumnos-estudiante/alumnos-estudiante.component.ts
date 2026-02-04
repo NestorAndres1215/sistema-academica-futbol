@@ -14,6 +14,14 @@ export class AlumnosEstudianteComponent implements OnInit {
   operar(_t16: any) {
     
   }
+
+    columnas = [
+    { clave: 'perfil' },
+    { clave: 'primerNombre' },
+    { clave: 'segundoNombre' },
+    { clave: 'apellidoPaterno' },
+    { clave: 'apellidoMaterno' }
+  ];
   filtrarUsuarios() {
     console.log(this.estudianteListar);
     

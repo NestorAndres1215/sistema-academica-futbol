@@ -27,7 +27,13 @@ export class ProfesorComponent implements OnInit {
   };
   constructor(private profesor: ProfesorService, private sede: SedeService, private cargo: CargoService,
     private dialog: MatDialog, private router: Router) { }
-
+  columnas = [
+    { clave: 'perfil' },
+    { clave: 'primerNombre' },
+    { clave: 'segundoNombre' },
+    { clave: 'apellidoPaterno' },
+    { clave: 'apellidoMaterno' }
+  ];
   ngOnInit(): void {
     this.listarCargo();
     this.listarSede();

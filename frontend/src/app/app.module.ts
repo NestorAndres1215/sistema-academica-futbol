@@ -180,6 +180,7 @@ import { TablaComponent } from './shared/tabla/tabla.component';
 import { SearchComponent } from './shared/search/search.component';
 import { FilterSelectComponent } from './shared/filter-select/filter-select.component';
 import { PaginationComponent } from './shared/pagination/pagination.component';
+import { UserCardComponent } from './shared/user-card/user-card.component';
 
 
 @NgModule({
@@ -334,6 +335,7 @@ import { PaginationComponent } from './shared/pagination/pagination.component';
     SearchComponent,
     FilterSelectComponent,
     PaginationComponent,
+    UserCardComponent,
   ],
   imports: [
     BrowserModule,

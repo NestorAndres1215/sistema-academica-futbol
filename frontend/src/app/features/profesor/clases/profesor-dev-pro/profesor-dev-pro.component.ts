@@ -13,6 +13,14 @@ export class ProfesorDevProComponent implements OnInit {
   operar(_t16: any) {
     throw new Error('Method not implemented.');
   }
+
+    columnas = [
+    { clave: 'perfil' },
+    { clave: 'primerNombre' },
+    { clave: 'segundoNombre' },
+    { clave: 'apellidoPaterno' },
+    { clave: 'apellidoMaterno' }
+  ];
   filtrarUsuarios() {
     console.log(this.estudianteListar);
     
