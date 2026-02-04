@@ -17,20 +17,20 @@ import { Usuario } from 'src/app/core/model/User';
 export class EditContraComponent implements OnInit {
   operar() {
     if (this.formulario.valid) {
-  
-      const { usuario, contraActual, nuevaContra, confirmarContra } = this.formulario.value;
 
-    
+      const { nuevaContra, confirmarContra } = this.formulario.value;
+
+
       if (nuevaContra === this.contra) {
         this.mensaje.MostrarMensaje('La nueva contraseña no puede ser igual a la actual. Debe ser diferente.');
         return;
       }
-    
+
       if (nuevaContra !== confirmarContra) {
         this.mensaje.MostrarMensaje('Las contraseñas no coinciden. Verifica y vuelve a intentarlo.');
         return;
       }
-      console.log(usuario)
+
       const obj: Usuario = {
         ul_Codigo: this.codigo,
         username: this.usuario,
@@ -38,18 +38,18 @@ export class EditContraComponent implements OnInit {
       };
       this.usuarioService.actualizarUsuario(obj).subscribe(
         response => {
-        this.mensaje.MostrarMensaje("ACTUALIZO CONTRASEÑA")
-        this.dialog.closeAll();
-        this.cdr.detectChanges();
+          this.mensaje.MostrarMensaje("ACTUALIZO CONTRASEÑA")
+          this.dialog.closeAll();
+          this.cdr.detectChanges();
         },
         error => {
-       this.mensaje.MostrarBodyError(error)
+          this.mensaje.MostrarBodyError(error)
         }
       );
-      
+
 
       console.log(obj)
-   
+
     } else {
       console.error('Por favor, completa todos los campos correctamente.');
     }
@@ -57,25 +57,24 @@ export class EditContraComponent implements OnInit {
   cerrar() {
     this.dialogRe.close();
   }
+
   verContraActual = false;
   verNuevaContra = false;
   verConfirmarContra = false;
 
   constructor(private mensaje: MensajeService,
-    private formBuilder: UntypedFormBuilder,
-    private loginService: LoginService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
-    private usuarioService:UserService,
+    private usuarioService: UserService,
     private dialog: MatDialog,
-    private historialService: HistorialService,
     private dialogRe: MatDialogRef<ActualizarContraComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,) { }
 
   codigo: string
   usuario: string
   contra: string
-  public formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
+
   ngOnInit(): void {
     console.log(this.data.row)
     console.log(this.data.row.username)

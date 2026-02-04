@@ -12,13 +12,9 @@
     <p class="text-gray-600" [innerHTML]="formatTexto(clase.descripcion)"></p>
     <h2>🎯 Objetivo:</h2>
     <p class="text-gray-600 italic" [innerHTML]="formatTexto(clase.objetivo)"></p>
-
-    <!-- Title for Exercises with the 🎯 Icon -->
     <h2 class="text-xl font-semibold text-gray-800">
       💪 Ejercicios
     </h2>
-   
-      <!-- Mensaje cuando no hay ejercicios -->
       <div *ngIf="!ejerciciosListar?.length" class="col-12">
         <div class="d-flex justify-content-center align-items-center vh-80">
           <div class="text-center empty-exercises p-5">

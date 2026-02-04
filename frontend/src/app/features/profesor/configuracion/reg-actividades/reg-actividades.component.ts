@@ -12,15 +12,9 @@ import { LoginService } from 'src/app/core/services/login.service';
 })
 export class RegActividadesComponent implements OnInit {
 
-  volver() {
-    throw new Error('Method not implemented.');
-  }
 
-  botonesConfig = {
-    editar: false,
-    volver: true,
 
-  };
+
   user: any = null;
   datosTabla: any[] = [];
   pagedData: any[] = [];
