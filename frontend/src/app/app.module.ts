@@ -181,6 +181,7 @@ import { FilterSelectComponent } from './shared/filter-select/filter-select.comp
 import { PaginationComponent } from './shared/pagination/pagination.component';
 import { UserCardComponent } from './shared/user-card/user-card.component';
 import { RegistroActividadesComponent } from './shared/registro-actividades/registro-actividades.component';
+import { PartidosCardComponent } from './shared/partidos-card/partidos-card.component';
 
 
 @NgModule({
@@ -336,6 +337,7 @@ import { RegistroActividadesComponent } from './shared/registro-actividades/regi
     PaginationComponent,
     UserCardComponent,
     RegistroActividadesComponent,
+    PartidosCardComponent,
   ],
   imports: [
     BrowserModule,

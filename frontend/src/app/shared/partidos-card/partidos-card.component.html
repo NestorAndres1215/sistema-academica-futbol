@@ -1,0 +1,34 @@
+<div class="container  mb-6">
+    <div *ngIf="equipoSeleccionada && !estudiantesFiltrados?.length" class="empty-state text-center py-5">
+        <mat-icon class="empty-icon">sports_soccer</mat-icon>
+        <h3 class="mt-3">No hay partidos programados</h3>
+        <p class="text-muted">No se han asignado partidos para este equipo.</p>
+    </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 "
+        *ngIf="equipoSeleccionada && estudiantesFiltrados?.length">
+        <div class="col" *ngFor="let ejercicio of estudiantesFiltrados">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title mb-0">{{ ejercicio.tipoPartido }}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="match-team">
+                        <span class="team-name">{{ ejercicio.equipo.nombre }}</span>
+                        <span class="team-score">{{ ejercicio.marcadorLocal }}</span>
+                    </div>
+
+                    <div class="match-team">
+                        <span class="team-name">{{ ejercicio.equipoRival }}</span>
+                        <span class="team-score">{{ ejercicio.marcadorVisita }}</span>
+                    </div>
+
+                    <hr class="my-3">
+
+                    <div class="match-info">
+                        <p><strong>Lugar:</strong> {{ ejercicio.lugar }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

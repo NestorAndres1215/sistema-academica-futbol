@@ -104,9 +104,11 @@ export class HistorialPartidoProfesoresComponent implements OnInit {
 
 
   equipoSeleccionada: string = '';
+
   volver(): void {
     this.route.navigate(['/administrador']);
   }
+
   asignacion: any
   equipo: any[] = [];
   async listarEquipoDev() {
@@ -117,19 +119,23 @@ export class HistorialPartidoProfesoresComponent implements OnInit {
       this.listarEquipo()
     });
   }
+   opcionesEquipo: string[] = [];
+
+    
   async listarEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
 
       const equipos = this.asignacion.map(i => i.equipo.nombre); 
       const equiposFiltrados = data.filter(i => equipos.includes(i.nombre)); 
-
       this.equipo = equiposFiltrados;
+      this.opcionesEquipo = this.equipo.map(s => s.nombre);
     });
   }
+
   estudiantesFiltrados = [...this.pagedData];
   filtrarUsuarios() {
     if (!this.equipoSeleccionada) {
-      this.estudiantesFiltrados = [...this.pagedData]; 
+      this.estudiantesFiltrados = []; 
       return;
     }
 
@@ -140,13 +146,10 @@ export class HistorialPartidoProfesoresComponent implements OnInit {
 
     this.estudiantesFiltrados = this.pagedData.filter(estudiante => {
       if (!estudiante.equipo || !estudiante.equipo.nombre) {
-
         return false;
       }
-
       const coincideConEquipo =
         estudiante.equipo.nombre.trim().toLowerCase() === this.equipoSeleccionada.trim().toLowerCase();
-
       return coincideConEquipo;
     });
   }

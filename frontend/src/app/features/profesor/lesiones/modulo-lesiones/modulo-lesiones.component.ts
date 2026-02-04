@@ -60,16 +60,6 @@ export class ModuloLesionesComponent implements OnInit {
     })
   }
 
-  botonesConfig = {
-    editar: false,
-    volver: true,
-
-  };
-
-  volver() {
-    throw new Error('Method not implemented.');
-  }
-
   constructor(private equipoService: EquipoService, private loginService: LoginService,
     private lesionService: LesionService,
     private dialog: MatDialog,
@@ -81,6 +71,7 @@ export class ModuloLesionesComponent implements OnInit {
     this.lesiones()
   }
   opcionesEquipo: string[] = [];
+
   async listarEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
       const equipos = this.asignacion.map(i => i.equipo.nombre);
@@ -89,13 +80,15 @@ export class ModuloLesionesComponent implements OnInit {
       this.opcionesEquipo = this.equipo.map(s => s.nombre);
     });
   }
+
   columnas = [
     { etiqueta: 'Código', clave: 'estudiante.codigo' },
-  { etiqueta: 'Nombre', clave: 'estudiante.nombreCompleto' },
+    { etiqueta: 'Nombre', clave: 'estudiante.nombreCompleto' },
     { etiqueta: 'Lesión', clave: 'lesionado.tipoLesion' },
     { etiqueta: 'Fecha de la Lesión', clave: 'lesionado.fechaLesion' },
     { etiqueta: 'Gravedad', clave: 'lesionado.gravedad' },
   ];
+
   botonesConfigTable = { ver: true, editar: true };
 
   async listarDevEquipo() {
@@ -118,7 +111,7 @@ export class ModuloLesionesComponent implements OnInit {
   filtrarUsuarios() {
     console.log(this.equipoSeleccionada)
     if (!this.equipoSeleccionada) {
-      this.estudiantesFiltrados = []; // nada se muestra
+      this.estudiantesFiltrados = [];
       return;
     }
 
@@ -128,15 +121,14 @@ export class ModuloLesionesComponent implements OnInit {
       return coincideConEquipo && estaLesionado;
     });
 
-this.estudiantesFiltrados = this.estudiantesFiltrados.map(est => {
-  console.log(est)
-  const lesionInfo = this.lesionCompleto.find(lesion => lesion.estudiante.codigo === est.estudiante.codigo);
-  return {
-    estudiante: est,
-    lesionado: lesionInfo ? lesionInfo : null
-  };
-});
-console.log(this.estudiantesFiltrados)
+    this.estudiantesFiltrados = this.estudiantesFiltrados.map(est => {
+
+      const lesionInfo = this.lesionCompleto.find(lesion => lesion.estudiante.codigo === est.estudiante.codigo);
+      return {
+        estudiante: est,
+        lesionado: lesionInfo ? lesionInfo : null
+      };
+    });
   }
 
 
