@@ -11,6 +11,10 @@
       </div>
     </mat-form-field>
     <div class="dos">
+      <app-button icon="fas fa-eye-slash" color="registrar" (onClick)="close('CONFIRMAR')">
+      </app-button>
+       <app-button icon="fas fa-times" color="cancelar" (onClick)="close('CONFIRMAR')">
+      </app-button>
       <button type="button" class=" btn btn-success" (click)="close('CONFIRMAR')"><i class="fas fa-check"></i></button>
       <button type="button" class=" btn btn-danger" (click)="close('CANCELAR')"><i class="fas fa-times"></i></button>
     </div>
