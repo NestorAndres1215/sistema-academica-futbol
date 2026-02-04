@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -59,17 +61,22 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(
+            MethodArgumentNotValidException ex) {
 
-        String mensajeError = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(error -> error.getDefaultMessage())
-                .findFirst()
-                .orElse("Error de validación");
+        Map<String, String> errores = new HashMap<>();
 
-        return buildResponse(HttpStatus.BAD_REQUEST, GlobalErrorMessages.SOLICITUD_INVALIDA, mensajeError);
+        ex.getBindingResult().getFieldErrors().forEach(error -> {
+            errores.put(error.getField(), error.getDefaultMessage());
+        });
+
+        return buildResponse(
+                HttpStatus.BAD_REQUEST,
+                GlobalErrorMessages.SOLICITUD_INVALIDA,
+                errores
+        );
     }
+
 
 
 }

@@ -55,7 +55,7 @@ public class EquipoServiceImpl implements EquipoService {
 
         String ultimoCodigo = obtenerCodigo();
         String nuevoCodigo = Utilitarios.incrementarSecuencia(ultimoCodigo);
-        Sede sede = sedeRepository.findById(dto.getSede())
+        Sede sede = sedeRepository.findByNombre(dto.getSede())
                 .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));
 
         Equipo equipo = Equipo.builder()

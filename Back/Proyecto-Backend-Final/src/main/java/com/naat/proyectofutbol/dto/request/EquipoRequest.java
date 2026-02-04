@@ -25,9 +25,6 @@ public class EquipoRequest {
     @NotBlank(message = "El género es obligatorio")
     private String genero;
 
-    @NotNull(message = "El estado es obligatorio")
-    private Boolean estado;
-
     @NotBlank(message = "El usuario de registro es obligatorio")
     private String usuarioRegistro;
 
