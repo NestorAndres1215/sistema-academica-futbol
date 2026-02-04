@@ -1,31 +1,9 @@
-
-
 <app-titulo titulo="Actualizar Contraseña" [botonesConfig]="botonesConfig" (volver)="volver()">
 </app-titulo>
 <div class="container">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Código</th>
-<th>Usuario</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngIf="!usuario || usuario.length === 0">
-                <td colspan="7" class="text-center text-muted">
-                    No hay datos disponibles.
-                </td>
-            </tr>
-            <tr *ngFor="let row of usuario">
-                <td>{{ row.codigo }}</td><td>{{row.username}}</td>
-       
-                <td>
-                    <button mat-icon-button class="btn-editar" (click)="editar(row)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+
+    <app-tabla [columnas]="columnas" [datos]="usuario" [botonesConfig]="botonesConfigTable"
+        [onActualizar]="editar.bind(this)">
+    </app-tabla>
+
 </div>

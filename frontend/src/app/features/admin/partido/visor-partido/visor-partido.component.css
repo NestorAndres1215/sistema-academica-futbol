@@ -45,20 +45,6 @@
   .full-width {
     width: 100%;
   }
-
-
-  .full-width {
-    width: 100%;
-  }
-  
-  .mt20 {
-    margin-top: 20px;
-  }
-  
-  .w100 {
-    width: 100% !important;
-  }
-  
   .mat-form-field {
     width: 100%;
   }
@@ -66,7 +52,7 @@
   .mat-select {
     width: 100%;
   }
-  
+
   input[type="time"] {
     font-size:14px;
     padding: 0px;

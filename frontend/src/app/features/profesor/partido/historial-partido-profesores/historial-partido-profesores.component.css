@@ -186,64 +186,7 @@
     /* Espacio entre el icono y el texto */
 }
 
-.btn-excel {
-    background-color: #4CAF50;
-    /* Color de fondo de Excel */
-    color: white;
-}
 
-.btn-pdf {
-    background-color: #f44336;
-    /* Color de fondo de PDF */
-    color: white;
-}
-
-.btn-print {
-    background-color: #008CBA;
-    /* Color de fondo de Print */
-    color: white;
-}
-.btn-view-save{
-    margin-left: auto;
-    /* Esto mueve este botón hacia la derecha */
-    background-color: #025231;
-    /* Amarillo */
-    color: white;
-    /* Texto blanco para buen contraste */
-}
-.btn-view-deactivated {
-    margin-left: auto;
-    /* Esto mueve este botón hacia la derecha */
-    background-color: #ffc107;
-    /* Amarillo */
-    color: white;
-    /* Texto blanco para buen contraste */
-}
-
-@media print {
-
-    /* Ocultar el botón de imprimir */
-    .btn-print {
-        display: none;
-    }
-
-    /* Estilos para la tabla */
-    #tablaAImprimir {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    #tablaAImprimir th,
-    #tablaAImprimir td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: center;
-    }
-
-    #tablaAImprimir th {
-        background-color: #f2f2f2;
-    }
-}
 .button-container {
     display: flex;
     justify-content: flex-start;

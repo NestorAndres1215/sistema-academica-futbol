@@ -126,12 +126,6 @@
     margin-top: 20px;
     /* Puedes ajustar este valor según tu preferencia */
   }
-  input{
-    font-family: monospace;
-  }
-  mat-label{
-    font-family: monospace;
-  }
   .card-header {
     background-color: lightsteelblue;
     color: black;
@@ -146,50 +140,6 @@
     flex-direction: column;
   }
   
-  .campo {
-    display: grid;
-  
-  
-    margin-top: 10px;
-  }
-  
-  .col-dos {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    /* Agregado para crear espacio entre columnas */
-    margin-top: 10px;
-    width: 100%;
-  }
-  
-  .col-dos>div {
-    flex: 1;
-    /* Distribuir el espacio de manera uniforme entre las dos columnas */
-    margin-right: 0;
-    /* Eliminar el margen derecho para que las columnas estén juntas */
-  }
-  
-  
-  .dos {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    margin-top: 20px;
-    /* background-color: blueviolet;
-   color: brown; */
-  }
-  
-  .dos .mat-form-field {
-    width: 100%;
-  }
-  
-  .dos li {
-    list-style: none;
-    all: none;
-  }
-
 
 
   mat-form-field {

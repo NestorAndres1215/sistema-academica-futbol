@@ -12,6 +12,16 @@ import { EditContraComponent } from '../edit-contra/edit-contra.component';
   styleUrls: ['./actualizar-contra.component.css']
 })
 export class ActualizarContraComponent implements OnInit {
+
+  botonesConfigTable = {
+    actualizar: true,
+  };
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Nombre', clave: 'username' },
+
+  ];
+
   editar(row: any) {
     const dialogRef = this.dialog.open(EditContraComponent, {
       width: '550px',

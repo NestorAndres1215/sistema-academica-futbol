@@ -1,70 +1,58 @@
 .card {
-    overflow: auto;
-    height: 100%;
-  }
-  
-  .btn-success {
-    float: right;
-    height: max-content;
-    margin-top: 5px;
-    margin-left: 3px;
-    margin-right: 5px;
-  }
+  overflow: auto;
+  height: 100%;
+}
 
-  .btn-danger {
-    float: right;
-    height: max-content;
-    margin-top: 5px;
-    margin-right: 5px;
-  }
-  
-  .container {
-    margin-top: 20px;
-    /* Puedes ajustar este valor según tu preferencia */
-  }
-  
-  .card-header {
-    background-color: lightsteelblue;
-    color: black;
-    width: 100%;
-    padding: 16px 0;
-    right: 0;
-    justify-content: center;
-  }
-  
-  .card-body {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  
-  .full-width {
-    width: 100%;
-  }
- 
+.btn-success {
+  float: right;
+  height: max-content;
+  margin-top: 5px;
+  margin-left: 3px;
+  margin-right: 5px;
+}
 
-  .full-width {
-    width: 100%;
-  }
-  
-  .mt20 {
-    margin-top: 20px;
-  }
-  
-  .w100 {
-    width: 100% !important;
-  }
-  
-  .mat-form-field {
-    width: 100%;
-  }
-  
-  .mat-select {
-    width: 100%;
-  }
-  .custom-field textarea {
-    height: 120px; /* Ajusta la altura */
-    min-height: 80px; /* Altura mínima */
-    max-height: 200px; /* Altura máxima */
-    resize: vertical; /* Permite redimensionar solo en altura */
+.btn-danger {
+  float: right;
+  height: max-content;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+.container {
+  margin-top: 20px;
+}
+
+.card-header {
+  background-color: lightsteelblue;
+  color: black;
+  width: 100%;
+  padding: 16px 0;
+  right: 0;
+  justify-content: center;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.full-width {
+  width: 100%;
+}
+
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-select {
+  width: 100%;
+}
+
+.custom-field textarea {
+  height: 120px;
+  min-height: 80px;
+  max-height: 200px;
+  resize: vertical;
 }
