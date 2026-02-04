@@ -1,195 +1,48 @@
 .card {
-    overflow: auto;
-    height: 100%;
-  }
-  
-  .btn-success {
-    float: right;
-    height: max-content;
-    margin-top: 5px;
-    margin-left: 3px;
-    margin-right: 5px;
-  }
-  input{
-    font-family: monospace;
-  }
-  mat-label{
-    font-family: monospace;
-  }
-  .btn-danger {
-    float: right;
-    height: max-content;
-    margin-top: 5px;
-    margin-right: 5px;
-  }
-  
-  .container {
-    margin-top: 20px;
-    /* Puedes ajustar este valor según tu preferencia */
-  }
-  
-  .card-header {
-    background-color: lightsteelblue;
-    color: black;
-    width: 100%;
-    padding: 16px 0;
-    right: 0;
-    justify-content: center;
-  }
-  
-  .card-body {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .campo {
-    display: grid;
-  
-  
-    margin-top: 10px;
-  }
-  
-  .col-dos {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    /* Agregado para crear espacio entre columnas */
-    margin-top: 10px;
-    width: 100%;
-  }
-  
-  .col-dos>div {
-    flex: 1;
-    /* Distribuir el espacio de manera uniforme entre las dos columnas */
-    margin-right: 0;
-    /* Eliminar el margen derecho para que las columnas estén juntas */
-  }
-  
-  
-  .dos {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    margin-top: 20px;
-    /* background-color: blueviolet;
-   color: brown; */
-  }
-  
-  .dos .mat-form-field {
-    width: 100%;
-  }
-  
-  .dos li {
-    list-style: none;
-    all: none;
-  }
-  
-  .form-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 columnas de igual tamaño */
-    gap: 16px; /* Espacio entre los campos */
-  }
-  
-  .form-field {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .full-width {
-    width: 100%;
-  }
-  @media (max-width: 768px) {
-    .form-container {
-      grid-template-columns: 1fr 1fr; /* 2 columnas en pantallas pequeñas */
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .form-container {
-      grid-template-columns: 1fr; /* 1 columna en pantallas muy pequeñas */
-    }
-  }
-  
-
-  /* Estilos para la tabla */
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: Arial, sans-serif;
+  overflow: auto;
+  height: 100%;
 }
 
-
-
-.table th {
-  color: #000;
-  background-color: #b0c4de;
-  border: 1px solid #ddd;
-  padding: 12px;
-  text-align: left;
-  font-family: monospace;
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 1000 !important;
+.btn-success {
+  float: right;
+  height: max-content;
+  margin-top: 5px;
+  margin-left: 3px;
+  margin-right: 5px;
 }
 
-.table td {
-  border: 1px solid #ddd;
-  padding: 12px;
-  font-family: monospace;
+.btn-danger {
+  float: right;
+  height: max-content;
+  margin-top: 5px;
+  margin-right: 5px;
 }
 
-.table-striped tbody tr:nth-child(even) {
-  background-color: #b0c4de;
-  color: rgb(0, 0, 0);
+.container {
+  margin-top: 20px;
+  /* Puedes ajustar este valor según tu preferencia */
 }
 
-/* Estilos para los botones de acción */
-.btn-editar {
+.card-header {
+  background-color: lightsteelblue;
   color: black;
-  /* Color negro para el botón editar */
-  margin-right: 8px;
-  /* Agrega un poco de espacio a la derecha del botón */
-
+  width: 100%;
+  padding: 16px 0;
+  right: 0;
+  justify-content: center;
 }
 
-.btn-eliminar {
-  color: red;
-
-  margin-right: 8px;
-  /* Agrega un poco de espacio a la derecha del botón */
-}
-
-/* Estilos para el botón de vista */
-.btn-vista {
-  color: #007bff;
-  /* Color azul para el botón de vista */
-  margin-right: 8px;
-  /* Agrega un poco de espacio a la derecha del botón */
-}
-
-/* Estilos para las filas impares */
-.table-striped tbody tr:nth-child(odd) {
-  background-color: #ffffff;
-  color: #333;
-  /* Cambia el color del texto si es necesario */
-}
-
-/* Estilos para las filas impares */
-.table tbody tr:nth-child(odd) {
-  background-color: #f2f2f2;
-}
-
-.separator {
+.card-body {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 20px;
-  padding: 10px;
-  /* Espacio uniforme alrededor del contenido */
+  flex-direction: column;
 }
+
+
+.full-width {
+  width: 100%;
+}
+
+
 
 .title {
   margin: 0;
@@ -225,61 +78,7 @@
   /* Habilita el desplazamiento horizontal si es necesario */
 }
 
-.table {
-  width: 100%;
-  table-layout: auto;
-  /* Ajusta automáticamente el ancho de las columnas */
-}
 
-.table th,
-.table td {
-  text-align: left;
-  white-space: nowrap;
-  /* Evita que el texto se divida en varias líneas */
-}
-
-@media (max-width: 768px) {
-
-  .table th,
-  .table td {
-      font-size: 12px;
-      /* Reduce el tamaño del texto en pantallas pequeñas */
-      padding: 0.5rem;
-      /* Reduce el padding para mejor ajuste */
-  }
-}
-
-@media (max-width: 576px) {
-  .table {
-      font-size: 10px;
-      /* Aumenta el ajuste en pantallas muy pequeñas */
-  }
-
-  .table th,
-  .table td {
-      padding: 0.25rem;
-      /* Menor padding en pantallas muy pequeñas */
-  }
-
-  .btn-editar,
-  .btn-vista,
-  .btn-eliminar {
-      font-size: 14px;
-
-  }
-}
-
-.btn-save {
-  color: white;
-}
-
-.button-container {
-  display: flex;
-  justify-content: flex-start;
-  /* Alinea los botones al principio */
-  gap: 15px;
-  /* Ajusta el espacio entre los botones */
-}
 
 .btn {
   display: flex;
@@ -301,69 +100,6 @@
 
 .btn i {
   margin-right: 8px;
-  /* Espacio entre el icono y el texto */
+
 }
 
-.btn-excel {
-  background-color: #4CAF50;
-  /* Color de fondo de Excel */
-  color: white;
-}
-
-.btn-pdf {
-  background-color: #f44336;
-  /* Color de fondo de PDF */
-  color: white;
-}
-
-.btn-print {
-  background-color: #008CBA;
-  /* Color de fondo de Print */
-  color: white;
-}
-
-.btn-view-deactivated {
-  margin-left: auto;
-  /* Esto mueve este botón hacia la derecha */
-  background-color: #ffc107;
-  /* Amarillo */
-  color: white;
-  /* Texto blanco para buen contraste */
-}
-
-@media print {
-
-  /* Ocultar el botón de imprimir */
-  .btn-print {
-      display: none;
-  }
-
-  /* Estilos para la tabla */
-  #tablaAImprimir {
-      width: 100%;
-      border-collapse: collapse;
-  }
-
-
-  #tablaAImprimir th {
-      background-color: #f2f2f2;
-  }
-}
-
-.btn-vista,
-.btn-eliminar {
-  box-shadow: none !important;
-  /* Elimina cualquier sombra */
-  outline: none !important;
-  /* Evita el contorno en el enfoque */
-}
-
-.btn-vista:focus,
-.btn-eliminar:focus,
-.btn-vista:hover,
-.btn-eliminar:hover,
-.btn-vista:active,
-.btn-eliminar:active {
-  box-shadow: none !important;
-  /* Asegúrate de que tampoco haya sombra en otros estados */
-}
