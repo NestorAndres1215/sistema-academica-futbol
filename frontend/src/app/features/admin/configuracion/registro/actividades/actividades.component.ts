@@ -32,11 +32,7 @@ throw new Error('Method not implemented.');
     private historialService: HistorialService,
     private change: ChangeDetectorRef,
   ) {
-    this.pageChanged({
-      pageIndex: 0,
-      pageSize: this.pageSize,
-      length: 0
-    });
+
   }
 
   ngOnInit(): void {

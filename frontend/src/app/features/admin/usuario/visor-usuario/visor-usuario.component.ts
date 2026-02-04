@@ -38,7 +38,6 @@ export class VisorUsuarioComponent implements OnInit {
 
   };
 
-
   constructor(
     private dialogRe: MatDialogRef<LstUsuarioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,

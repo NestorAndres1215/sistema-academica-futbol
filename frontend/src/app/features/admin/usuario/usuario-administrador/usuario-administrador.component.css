@@ -59,14 +59,8 @@
 }
 
 @media (max-width: 575px) {
-  .usuarios-container {
-    padding: 10px;
-    margin-bottom: 10px; /* Mantenido para móvil */
-  }
-  
   .custom-search input {
     font-size: 14px;
     padding: 10px 15px;
   }
-
 }

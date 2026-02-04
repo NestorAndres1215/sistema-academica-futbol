@@ -8,7 +8,7 @@
     justify-content: space-between;
     border-bottom: 1px solid #ccc;
     margin-bottom: 20px;
-    padding: 10px; /* Espacio uniforme alrededor del contenido */
+    padding: 10px;
   }
   .table {
     width: 100%;
@@ -39,35 +39,35 @@
     background-color: #b0c4de;
     color: rgb(0, 0, 0);
   }
-  /* Estilos para los botones de acción */
+
 
   .btn-print{
     margin-right: 8px; 
     color: black;
   }
   .btn-editar {
-    color: black; /* Color negro para el botón editar */
-    margin-right: 8px; /* Agrega un poco de espacio a la derecha del botón */
+    color: black; 
+    margin-right: 8px; 
   
   }
   
   .btn-eliminar {
-    color: red; /* Color rojo para el botón eliminar */
-    margin-right: 8px; /* Agrega un poco de espacio a la derecha del botón */
+    color: red; 
+    margin-right: 8px; 
   }
-  /* Estilos para el botón de vista */
+
   .btn-vista {
-    color: #007bff; /* Color azul para el botón de vista */
-    margin-right: 8px; /* Agrega un poco de espacio a la derecha del botón */
+    color: #007bff; 
+    margin-right: 8px; 
   }
   
-  /* Estilos para las filas impares */
+
   .table-striped tbody tr:nth-child(odd) {
     background-color: #ffffff;
-    color: #333; /* Cambia el color del texto si es necesario */
+    color: #333;
   }
   
-  /* Estilos para las filas impares */
+
   .table tbody tr:nth-child(odd) {
     background-color: #f2f2f2;
   }
@@ -78,13 +78,13 @@
     justify-content: space-between;
     border-bottom: 1px solid #ccc;
     margin-bottom: 20px;
-    padding: 10px; /* Espacio uniforme alrededor del contenido */
+    padding: 10px;
   }
   
   .title {
     margin: 0;
     flex-grow: 1;
-    margin-right: 70px; /* Agrega espacio a la derecha del título */
+    margin-right: 70px; 
   }
   .button mat-icon {
     height: 10px;
@@ -97,9 +97,9 @@
     margin-left: 10px; 
     color: white;
     background-color: red;
-    width: 40px; /* Ancho del botón */
-    height: 40px; /* Alto del botón */
-    border-radius: 20%; /* Hace que los bordes sean circulares */
+    width: 40px; 
+    height: 40px; 
+    border-radius: 20%; 
   }
   
   .card {
@@ -124,7 +124,7 @@
   
   .container {
     margin-top: 20px;
-    /* Puedes ajustar este valor según tu preferencia */
+
   }
   .card-header {
     background-color: lightsteelblue;
@@ -146,7 +146,6 @@
     width: 100%;
   }
 
-  /* Asegura que el contenedor ocupe el espacio adecuado */
 .search-container {
     display: flex;
     justify-content: center;
@@ -154,35 +153,33 @@
     margin: 20px 0;
   }
   
-  /* Personalización del campo de búsqueda */
 .custom-search {
   width: 100%;
   height: 76px;
-  max-width: 600px; /* Limita el ancho del campo */
-  background: #fff; /* Fondo blanco */
-  border-radius: 8px; /* Bordes redondeados */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  max-width: 600px; 
+  background: #fff; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-  
-  /* Ícono de búsqueda */
+
   .custom-search mat-icon {
   
-    font-size: 24px; /* Tamaño del ícono */
+    font-size: 24px; 
   }
   
-  /* Personalización del input */
+
   .custom-search input {
-    font-size: 16px; /* Tamaño de fuente */
-    padding: 10px; /* Espaciado interno */
+    font-size: 16px; 
+    padding: 10px;
   }
   
-  /* Efecto de enfoque en el campo */
+
   .custom-search.mat-form-field-appearance-outline .mat-form-field-outline {
-    border-color: #3f51b5; /* Color del borde al enfocarse */
-    transition: all 0.3s ease-in-out; /* Transición suave */
+    border-color: #3f51b5; 
+    transition: all 0.3s ease-in-out; 
   }
   
   .custom-search.mat-form-field-appearance-outline:hover .mat-form-field-outline {
-    border-color: #5c6bc0; /* Color al pasar el mouse */
+    border-color: #5c6bc0; 
   }
   
