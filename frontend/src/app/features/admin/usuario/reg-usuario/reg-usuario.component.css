@@ -6,12 +6,6 @@
   padding: 20px;
 }
 
-
-
-.mat-form-field-invalid .mat-form-field-label {
-  color: red !important;
-}
-
 .full-width {
   width: 100%;
 }
@@ -32,32 +26,6 @@ mat-label {
   font-weight: bold;
   color: #555;
  
-}
-
-mat-input-element {
-  padding: 10px 15px;
-  font-size: 16px;
-  border-radius: 5px;
-  background-color: #f7f7f7;
-  border: 1px solid #ccc;
-
-}
-
-mat-input-element:focus {
-  border-color: #007bff;
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-mat-form-field.mat-focused mat-label {
-  color: #007bff;
-}
-
-mat-form-field.ng-invalid .mat-form-field-underline {
-  border-bottom: 2px solid red;
-}
-
-mat-form-field.ng-valid .mat-form-field-underline {
-  border-bottom: 2px solid green;
 }
 
 input::placeholder {
