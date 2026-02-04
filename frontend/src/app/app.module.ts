@@ -154,7 +154,6 @@ import { GraficoEvaluacionProfesorComponent } from './features/profesor/clases/e
 import { HistorialEvaluacionProfesorComponent } from './features/profesor/clases/evaluacion/historial-evaluacion-profesor/historial-evaluacion-profesor.component';
 import { HistorialEvaluacionComponent } from './features/profesor/clases/evaluacion/historial-evaluacion/historial-evaluacion.component';
 import { ModuloEvaluacionComponent } from './features/profesor/clases/evaluacion/modulo-evaluacion/modulo-evaluacion.component';
-import { InformacionComponent } from './features/profesor/clases/informacion/informacion.component';
 import { ProfesorDevProComponent } from './features/profesor/clases/profesor-dev-pro/profesor-dev-pro.component';
 import { ProfesorDiaClaseComponent } from './features/profesor/clases/profesor-dia-clase/profesor-dia-clase.component';
 import { ResumenClaProDevComponent } from './features/profesor/clases/resumen-cla-pro-dev/resumen-cla-pro-dev.component';
@@ -273,7 +272,6 @@ import { RegistroActividadesComponent } from './shared/registro-actividades/regi
     ClasesComponent,
     DetalleClaseComponent,
     ClaseDevComponent,
-    InformacionComponent,
     EstudianteDevProComponent,
     ResumenClaProDevComponent,
     ProfesorDevProComponent,

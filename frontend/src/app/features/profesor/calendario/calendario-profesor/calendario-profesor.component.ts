@@ -55,17 +55,14 @@ export class CalendarioProfesorComponent implements OnInit {
     if (day.day === null) {
       return; 
     }
-
-
-
+    this.mes = MESES.findIndex(m => m.toLowerCase() === this.año.toLowerCase());
     const selectedDate = new Date(this.date.getFullYear(), this.mes, day.day);
-
-
     const dayOfWeek = selectedDate.getDay();
-
     const dayName = this.nameDay[dayOfWeek];
 
-    const clasesConDiasSeparados = this.clases.map(clase => {
+
+
+   const clasesConDiasSeparados = this.clases.map(clase => {
       const diasInfo = clase.dia
         .split(' - ')
         .map((dia, index) => ({ [`dia ${index + 1}`]: dia.trim() }));
@@ -73,17 +70,11 @@ export class CalendarioProfesorComponent implements OnInit {
       const inicio = new Date(clase.inicio);
       const fin = new Date(clase.fin);
 
-      return {
-        ...clase,
-        dias: diasInfo,
-        inicio: inicio,
-        fin: fin
-      };
+      return { ...clase, dias: diasInfo, inicio: inicio, fin: fin };
     });
 
 
-
-    this.listarDato = clasesConDiasSeparados.filter(clase => {
+ this.listarDato = clasesConDiasSeparados.filter(clase => {
 
       if (isNaN(clase.inicio.getTime()) || isNaN(clase.fin.getTime())) {
         return false;
@@ -97,15 +88,12 @@ export class CalendarioProfesorComponent implements OnInit {
       }
 
       const fechaSeleccionada = new Date(selectedDate).toLocaleDateString();
-
       const esFeriado = this.feriado.map(feriado => {
-
         const [day, month, year] = feriado.fecha.split('/');
-
         const fecha = new Date(`${year}-${month}-${day}`);
-
         return fecha.toLocaleDateString();
       });
+
 
       if (esFeriado.includes(fechaSeleccionada)) {
 

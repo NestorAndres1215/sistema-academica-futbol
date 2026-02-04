@@ -20,7 +20,7 @@ export class ProfesorComponent implements OnInit {
   listar: any[] = [];
   usuariosFiltrados: any[] = [];
   imagenUrlBase = 'data:image/jpeg;base64,';
- botonesConfig = {
+  botonesConfig = {
     editar: false,
     volver: true,
 
@@ -45,15 +45,11 @@ export class ProfesorComponent implements OnInit {
         this.usuariosFiltrados = [...this.listar]; // Inicializar la lista filtrada con todos los usuarios
         console.log(this.listar);
       },
-      (error) => {
-        console.error('Error al obtener los datos', error);
-      }
+
     );
   }
 
-  mostrarImagen(perfil: any): string {
-    return perfil.perfil ? this.imagenUrlBase + perfil.perfil : '';
-  }
+
 
   filtrarUsuarios(): void {
     const filtroTexto = this.filtro.toLowerCase(); // Normalizamos el filtro de texto
@@ -87,19 +83,21 @@ export class ProfesorComponent implements OnInit {
   volver(): void {
     this.router.navigate(['/administrador']);
   }
+  opcionesSedes: string[] = [];
+  opcionesCargos: string[] = [];
   async listarSede() {
-    this.sede.listarSedeActivado().subscribe((data) => {
-      console.log(data)
-      this.sedes = data;
+  this.sede.listarSedeActivado().subscribe((data) => {
+    this.sedes = data;
+    this.opcionesSedes = this.sedes.map(s => s.nombre);
+  });
+}
 
-    })
-  }
-  async listarCargo() {
-    this.cargo.listarCargoActivado().subscribe((data) => {
-      console.log(data)
-      this.cargos = data;
+async listarCargo() {
+  this.cargo.listarCargoActivado().subscribe((data) => {
+    this.cargos = data;
+    this.opcionesCargos = this.cargos.map(s => s.nombre);
+  });
+}
 
-    })
-  }
 
 }

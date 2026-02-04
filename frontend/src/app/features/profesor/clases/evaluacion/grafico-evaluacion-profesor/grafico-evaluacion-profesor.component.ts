@@ -23,7 +23,7 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
   estudiante: any[] = [];
   equipoSeleccionada: string = '';
   estudiantesFiltrados: any[] = [];
-
+  opcionesEquipo: string[] = [];
   constructor(
     private route: ActivatedRoute,
     private evaluacionService: EvaluacionService,
@@ -58,12 +58,13 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
 
         console.log(estudiantesUnicos);
         this.estudiante = estudiantesUnicos
+        this.opcionesEquipo = this.estudiante.map(
+          e => e.primerNombre + ' ' + e.apellidoPaterno
+        );
         this.filtrarUsuarios(); // Aplicamos el filtro automáticamente
 
       },
-      (error) => {
-        console.error('Error al listar evaluaciones:', error);
-      }
+
     );
   }
 
@@ -74,9 +75,11 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
     if (!this.equipoSeleccionada) {
       this.estudiantesFiltrados = [];
     } else {
-      this.estudiantesFiltrados = this.evaluacion.filter(estudiante =>
-        estudiante.evaluacion.estudiante.codigo === this.equipoSeleccionada
-      ).map(i => i.evaluacion.estudiante);
+    this.estudiantesFiltrados = this.equipoSeleccionada
+      ? this.estudiante.filter(e =>
+        (e.primerNombre + ' ' + e.apellidoPaterno) === this.equipoSeleccionada
+      )
+      : [...this.estudiante];
     }
 
     this.actualizarGrafico();
@@ -143,7 +146,7 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
       { background: 'rgba(255, 250, 240, 0.2)', border: 'rgb(236, 7, 148)' }, // Flor de lino
       { background: 'rgba(240, 248, 255, 0.2)', border: 'rgb(233, 17, 17)' }  // Azul Alice
     ];
-    
+
 
     this.estudiantesFiltrados.forEach((estudiante, index) => {
       // Filtrar en lugar de encontrar un solo estudiante

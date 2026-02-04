@@ -1,25 +1,50 @@
-
-
-<app-titulo titulo="Modulo de Clases" [botonesConfig]="botonesConfig" (volver)="volver()">
+<app-titulo titulo="Modulos de Clases" [botonesConfig]="botonesConfig" (volver)="volver()">
 </app-titulo>
-<div class="container">
+<div class="container mt-4">
     <div class="row">
         <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex" *ngFor="let row of datosTabla">
-            <div class="card w-100"> 
-                <div class="card-body d-flex flex-column">  
-                    <h1 class="card-title text-center">{{row.nombre}}</h1>
-                    <div class="docente text-center">{{row.equipo.nombre}}</div>
-                    <div class="taller text-center">{{row.equipo.categoria}}</div>
-                    <hr>
-                    <ul class="lista list-unstyled flex-grow-1">
-                        <li> {{"Sede : " + row.equipo.sede}}</li>
-                        <li>{{"Genero : " + row.equipo.genero}} </li>
-                        <li>{{"Dia : " + row.dia}}</li>
-                        <li>{{ "Fecha Inicio : " + formatDate(row.inicio) }}</li>
-                        <li>{{ "Fecha Final : " + formatDate(row.fin) }}</li>
-                        <li>{{"Horario : " + row.horario.inicioHora + " - " + row.horario.finHora}}</li>
+            <div class="card w-100">
+                <div class="card-body d-flex flex-column">
+                    <h2 class="card-title text-center fw-bold mb-1">
+                        {{ row.nombre }}
+                    </h2>
+                    <div class="text-center text-muted small">
+                        {{ row.equipo.nombre }}
+                    </div>
+
+                    <div class="text-center text-secondary small mb-2">
+                        {{ row.equipo.categoria }}
+                    </div>
+
+                    <hr class="my-2">
+
+                    <ul class="list-unstyled flex-grow-1 mb-2">
+                        <li class="mb-1">
+                            <strong>Sede:</strong> {{ row.equipo.sede }}
+                        </li>
+                        <li class="mb-1">
+                            <strong>Género:</strong> {{ row.equipo.genero }}
+                        </li>
+                        <li class="mb-1">
+                            <strong>Día:</strong> {{ row.dia }}
+                        </li>
+                        <li class="mb-1">
+                            <strong>Fecha Inicio:</strong> {{ formatDate(row.inicio) }}
+                        </li>
+                        <li class="mb-1">
+                            <strong>Fecha Final:</strong> {{ formatDate(row.fin) }}
+                        </li>
+                        <li class="mb-1">
+                            <strong>Horario:</strong>
+                            {{ row.horario.inicioHora }} - {{ row.horario.finHora }}
+                        </li>
                     </ul>
-                    <a [routerLink]="['/clases/modulos', row.codigo]" class="btn btn-primary mt-auto">Ver Módulo</a>
+
+
+                    <app-button label="Ver Módulo" icon="fas fa-eye" color="modulo"
+                        [routerLink]="['/clases/modulos', row.codigo]">
+                    </app-button>
+
                 </div>
             </div>
         </div>

@@ -1,39 +1,28 @@
-<div class="separator">
-    <h1 style="font-family: monospace;">Modulos de Clases</h1>
-    <button _ngcontent-yfb-c88="" class="volver-btn" (click)="volver()" class="btn btn-danger button_close"
-        tabindex="0">
-        <i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i>
-    </button>
-</div>
-
+<app-titulo titulo="Modulos de Clases" [botonesConfig]="botonesConfig" (volver)="volver()">
+</app-titulo>
 
 <div class="container">
-    <div class="d-flex flex-column flex-sm-row align-items-center gap-3 mb-3">
-        <!-- Selección de opción -->
-        <mat-form-field class="custom-field flex-grow-1" appearance="fill">
-            <mat-label>Selecciona una opción</mat-label>
-            <mat-select [(value)]="opcionSeleccionada">
-                <mat-option *ngFor="let opcion of opciones" [value]="opcion">
-                    {{ opcion }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
+
+
+    <app-filter-select label="Clases" [showTodos]="false" [options]="opciones" [value]="opcionSeleccionada"
+        (valueChange)="opcionSeleccionada = $event; ">
+    </app-filter-select>
+    
     <div *ngIf="opcionSeleccionada === 'Clases'">
         <app-clase-dev></app-clase-dev>
     </div>
     <div *ngIf="opcionSeleccionada === 'Alumnos'">
-       <app-estudiante-dev-pro></app-estudiante-dev-pro>
+        <app-estudiante-dev-pro></app-estudiante-dev-pro>
     </div>
     <div *ngIf="opcionSeleccionada === 'Profesores'">
         <app-profesor-dev-pro></app-profesor-dev-pro>
-     </div>
+    </div>
     <div *ngIf="opcionSeleccionada === 'Evaluacion'">
-      <app-modulo-evaluacion></app-modulo-evaluacion>
+        <app-modulo-evaluacion></app-modulo-evaluacion>
     </div>
     <div *ngIf="opcionSeleccionada === 'Historial'">
-       <app-historial-evaluacion></app-historial-evaluacion>
-      </div>
+        <app-historial-evaluacion></app-historial-evaluacion>
+    </div>
 
     <br>
 

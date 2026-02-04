@@ -6,32 +6,22 @@
     <app-search [value]="filtro" placeholder="Buscar por nombre o apellidos" hint="Ingrese al menos 3 caracteres"
         (valueChange)="filtro = $event; filtrarUsuarios()">
     </app-search>
-    <!-- Filtros de sede y cargo -->
-    <div class="filters-container">
-        <mat-form-field appearance="outline" class="filter-field">
-            <mat-label>Sedes</mat-label>
-            <mat-select [(ngModel)]="sedeSeleccionada" (selectionChange)="filtrarUsuarios()">
-                <mat-option value="">Todas las sedes</mat-option>
-                <mat-option *ngFor="let sede of sedes" [value]="sede.nombre">
-                    {{ sede.nombre }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
 
-        <mat-form-field appearance="outline" class="filter-field">
-            <mat-label>Cargo</mat-label>
-            <mat-select [(ngModel)]="cargoSeleccionado" (selectionChange)="filtrarUsuarios()">
-                <mat-option value="">Todos los cargos</mat-option>
-                <mat-option *ngFor="let cargo of cargos" [value]="cargo.nombre">
-                    {{ cargo.nombre }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+
+    <div class="row g-3">
+        <div class="col-md-6 col-12">
+            <app-filter-select label="Sedes" [options]="opcionesSedes" [value]="sedeSeleccionada"
+                (valueChange)="sedeSeleccionada = $event; filtrarUsuarios()">
+            </app-filter-select>
+        </div>
+
+        <div class="col-md-6 col-12">
+            <app-filter-select label="Cargos" [options]="opcionesCargos" [value]="cargoSeleccionado"
+                (valueChange)="cargoSeleccionado = $event; filtrarUsuarios()">
+            </app-filter-select>
+        </div>
+
     </div>
-
-
-
-
     <app-user-card [datos]="usuariosFiltrados" [columnas]="columnas" (ver)="operar($event)">
     </app-user-card>
 </div>

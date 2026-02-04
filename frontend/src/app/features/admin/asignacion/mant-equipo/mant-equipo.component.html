@@ -16,32 +16,19 @@
             <app-button label="Registro" icon="fas fa-plus-circle" color="registrar" (onClick)="operar()">
             </app-button>
         </div>
-
     </div>
-    <div class="d-flex align-items-center gap-3 mb-3">
-        <!-- Selección de sede -->
-        <mat-form-field class="custom-field flex-grow-1" appearance="fill">
-            <mat-label>Sedes</mat-label>
-            <mat-select [(ngModel)]="sedeSeleccionada" (selectionChange)="filtrarUsuarios()">
-                <mat-option value="">Todas las sedes</mat-option>
-                <mat-option *ngFor="let sede of sedes" [value]="sede.nombre">
-                    {{ sede.nombre }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-
-        <!-- Selección de cargo -->
-        <mat-form-field class="custom-field flex-grow-1" appearance="fill">
-            <mat-label>Cargo</mat-label>
-            <mat-select [(ngModel)]="generoSeleccionado" (selectionChange)="filtrarUsuarios()">
-                <mat-option value="">Todos los genero</mat-option>
-                <mat-option *ngFor="let cargo of generos" [value]="cargo.clave">
-                    {{ cargo.descripcion1 }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+    <div class="row g-3">
+        <div class="col-md-6 col-12">
+            <app-filter-select label="Sedes" [options]="opcionesSedes" [value]="sedeSeleccionada"
+                (valueChange)="sedeSeleccionada = $event; filtrarUsuarios()">
+            </app-filter-select>
+        </div>
+        <div class="col-md-6 col-12">
+            <app-filter-select label="Género" [options]="opcionesGenero" [value]="generoSeleccionado"
+                (valueChange)="generoSeleccionado = $event; filtrarUsuarios()">
+            </app-filter-select>
+        </div>
     </div>
-
 
     <app-tabla [columnas]="columnas" [datos]="usuariosFiltrados" [botonesConfig]="botonesConfigTable"
         [onActualizar]="editar.bind(this)" [onVer]="visor.bind(this)">

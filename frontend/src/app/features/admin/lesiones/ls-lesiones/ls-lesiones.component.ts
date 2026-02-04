@@ -34,7 +34,7 @@ export class LsLesionesComponent implements OnInit {
     { etiqueta: 'Fecha de la Lesión', clave: 'lesionado.fechaLesion' },
     { etiqueta: 'Gravedad', clave: 'lesionado.gravedad' },
   ];
-
+  
   // Paginación
   @ViewChild(MatPaginator) paginator: MatPaginator;
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -58,10 +58,11 @@ export class LsLesionesComponent implements OnInit {
   volver() {
     // Lógica de volver
   }
-
+ opcionesEquipo: string[] = [];
   listarEquipo() {
     this.equipoService.listarActivado().subscribe(data => {
       this.equipo = data;
+       this.opcionesEquipo = this.equipo.map(s => s.nombre);
     });
   }
 

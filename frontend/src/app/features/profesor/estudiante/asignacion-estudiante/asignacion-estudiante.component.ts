@@ -53,12 +53,13 @@ export class AsignacionEstudianteComponent implements OnInit {
     this.capitanOriginal = this.estudiantesFiltrados.find(e => e.esCapitan) || null;
     this.capitanSeleccionado = !!this.capitanOriginal;
   }
-
+ opcionesEquipo: string[] = [];
   async listarEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
       const equipos = this.asignacion.map(i => i.equipo.nombre);
       const equiposFiltrados = data.filter(i => equipos.includes(i.nombre));
       this.equipo = equiposFiltrados;
+          this.opcionesEquipo = this.equipo.map(s => s.nombre);
     });
   }
 
@@ -75,6 +76,7 @@ export class AsignacionEstudianteComponent implements OnInit {
       this.listarEquipo()
     });
   }
+
 
 
   filtrarUsuarios() {

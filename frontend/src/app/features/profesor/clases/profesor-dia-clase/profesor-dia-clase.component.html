@@ -1,47 +1,66 @@
-<div class="container">
-  <div class="button-container">
-    <button *ngIf="(ejerciciosListar?.length || 0) < 5" class="btn btn-save" (click)="onRegistrarEjercicio()">
-      <i class="fas fa-save"></i> Registrar
-    </button>
-  </div><br>
+<div class="container mt-4 mb-4 ">
+  <div class="d-flex gap-2 my-3 justify-content-end">
+    <app-button *ngIf="(ejerciciosListar?.length || 0) < 5" label="Registrar" icon="fas fa-plus-circle"
+      color="registrar" (onClick)="onRegistrarEjercicio()">
+    </app-button>
+  </div>
 
   <div *ngFor="let clase of claseListar" class="mb-6 p-4 border rounded-lg shadow-sm bg-gray-50">
-    <h1 class="text-2xl font-semibold text-gray-800">{{ clase.titulo }}</h1>
-    <hr class="my-2 border-gray-300">
-    <h2>📌 Descripción:</h2>
-    <p class="text-gray-600" [innerHTML]="formatTexto(clase.descripcion)"></p>
-    <h2>🎯 Objetivo:</h2>
-    <p class="text-gray-600 italic" [innerHTML]="formatTexto(clase.objetivo)"></p>
-    <h2 class="text-xl font-semibold text-gray-800">
-      💪 Ejercicios
-    </h2>
+    <app-titulo [titulo]="clase.titulo" class="mb-3">
+    </app-titulo>
+
+    <div class="container">
+      <h2 class="h5 mt-3 mb-2">
+        <i class="fas fa-thumbtack me-2 "></i>
+        Descripción
+      </h2>
+      <p class="text-muted mb-3 " [innerHTML]="formatTexto(clase.descripcion)"></p>
+
+      <h2 class="h5 mt-3 mb-2">
+        <i class="fas fa-bullseye me-2 "></i>
+        Objetivo
+      </h2>
+      <p class="text-muted mb-2" [innerHTML]="formatTexto(clase.objetivo)"></p>
+
+      <h2 class="text-xl font-semibold text-gray-800">
+        <i class="fas fa-dumbbell mr-2"></i> Ejercicios
+      </h2>
+
       <div *ngIf="!ejerciciosListar?.length" class="col-12">
         <div class="d-flex justify-content-center align-items-center vh-80">
           <div class="text-center empty-exercises p-5">
-            <mat-icon class="empty-icon mb-4">fitness_center</mat-icon>
+            <!-- Icono FA en lugar de mat-icon -->
+            <i class="fas fa-dumbbell fa-3x mb-4"></i>
             <h3 class="mb-3">No hay ejercicios disponibles</h3>
             <p class="text-muted mb-4">Actualmente no existen ejercicios registrados para esta clase</p>
           </div>
         </div>
-      </div> <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-      <!-- Lista de ejercicios -->
-      <div class="col" *ngFor="let ejercicio of ejerciciosListar">
-        <div class="card ejercicio-card h-100 shadow-sm">
-          <div class="card-body">
-            <h3 class="card-title">{{ ejercicio.nombre }}</h3>
-            <p><strong>Descripción:</strong></p>
-            <p class="card-text" [innerHTML]="formatTexto(ejercicio.descripcion)"></p>
-            <p><strong>Duración:</strong> {{ ejercicio.duracion }}</p>
-            <p><strong>Tipo:</strong> {{ ejercicio.tipo }}</p>
-            <p><strong>Intensidad:</strong> {{ ejercicio.intensidad }}</p>
-          </div>
-          <div class="card-footer text-center">
-            <button mat-raised-button class="btn-save" (click)="verDetalle(ejercicio)">
-              <mat-icon>edit</mat-icon> Edición
-            </button>
+      </div>
+
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <!-- Lista de ejercicios -->
+        <div class="col" *ngFor="let ejercicio of ejerciciosListar">
+          <div class="card ejercicio-card h-100 shadow-sm">
+            <div class="card-body">
+              <h2 class="card-title">
+                {{ ejercicio.nombre }}
+              </h2>
+              <hr>
+              <p><strong>Descripción:</strong></p>
+              <p class="card-text" [innerHTML]="formatTexto(ejercicio.descripcion)"></p>
+              <p><strong>Duración:</strong> {{ ejercicio.duracion }}</p>
+              <p><strong>Tipo:</strong> {{ ejercicio.tipo }}</p>
+              <p><strong>Intensidad:</strong> {{ ejercicio.intensidad }}</p>
+            </div>
+            <div class="card-footer text-center">
+
+              <app-button label="Editar" icon="fas fa-save" color="editar" (onClick)="verDetalle(ejercicio)">
+              </app-button>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>

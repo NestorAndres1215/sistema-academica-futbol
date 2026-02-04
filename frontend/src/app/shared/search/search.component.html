@@ -1,9 +1,8 @@
 <div class="container mt-3 mb-3">
-    <div class="search-input">
-        <i class="fas fa-search"></i>
-        <input type="text" [placeholder]="placeholder" [ngModel]="value" (ngModelChange)="onChange($event)" />
-    </div>
-    <small *ngIf="hint" class="search-hint">
-        {{ hint }}
-    </small>
+    <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ placeholder }}</mat-label>
+        <input matInput type="text" [(ngModel)]="value" (ngModelChange)="onChange($event)" />
+        <mat-icon matPrefix>search</mat-icon>
+        <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+    </mat-form-field>
 </div>

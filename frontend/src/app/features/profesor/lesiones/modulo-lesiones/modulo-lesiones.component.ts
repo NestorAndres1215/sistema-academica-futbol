@@ -8,6 +8,7 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { RegLesionesComponent } from '../reg-lesiones/reg-lesiones.component';
 import { EditRegDetalleLesionesComponent } from '../edit-reg-detalle-lesiones/edit-reg-detalle-lesiones.component';
 import { VisorLesionComponent } from 'src/app/features/admin/lesiones/visor-lesion/visor-lesion.component';
+import { NombreCompleto } from 'src/app/core/utils/nombreValidator';
 
 @Component({
   selector: 'app-modulo-lesiones',
@@ -73,25 +74,39 @@ export class ModuloLesionesComponent implements OnInit {
     private lesionService: LesionService,
     private dialog: MatDialog,
   ) { }
-  
+
 
   ngOnInit(): void {
     this.listarDevEquipo()
     this.lesiones()
   }
-
+  opcionesEquipo: string[] = [];
   async listarEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
       const equipos = this.asignacion.map(i => i.equipo.nombre);
       const equiposFiltrados = data.filter(i => equipos.includes(i.nombre));
       this.equipo = equiposFiltrados;
+      this.opcionesEquipo = this.equipo.map(s => s.nombre);
     });
   }
-
+  columnas = [
+    { etiqueta: 'Código', clave: 'estudiante.codigo' },
+  { etiqueta: 'Nombre', clave: 'estudiante.nombreCompleto' },
+    { etiqueta: 'Lesión', clave: 'lesionado.tipoLesion' },
+    { etiqueta: 'Fecha de la Lesión', clave: 'lesionado.fechaLesion' },
+    { etiqueta: 'Gravedad', clave: 'lesionado.gravedad' },
+  ];
+  botonesConfigTable = { ver: true, editar: true };
 
   async listarDevEquipo() {
     this.equipoService.listarAsignacion().subscribe((data) => {
-      this.estudiantes = data.filter(i => i.estudiante.codigo !== "0000")
+      this.estudiantes = data
+        .filter(i => i.estudiante.codigo !== "0000")
+        .map(i => ({
+          ...i,
+          nombreCompleto: NombreCompleto(i.estudiante)
+        }));
+
       const usuariosCodigo = data
         .filter(i => i.profesor && i.profesor.usuario && i.profesor.usuario.codigo === this.loginService.getUser().ul_codigo);
       this.asignacion = usuariosCodigo;
@@ -101,9 +116,9 @@ export class ModuloLesionesComponent implements OnInit {
   }
 
   filtrarUsuarios() {
-
+    console.log(this.equipoSeleccionada)
     if (!this.equipoSeleccionada) {
-      this.estudiantesFiltrados = [...this.estudiantes];
+      this.estudiantesFiltrados = []; // nada se muestra
       return;
     }
 
@@ -113,13 +128,15 @@ export class ModuloLesionesComponent implements OnInit {
       return coincideConEquipo && estaLesionado;
     });
 
-    this.estudiantesFiltrados = this.estudiantesFiltrados.map(est => {
-      const lesionInfo = this.lesionCompleto.find(lesion => lesion.estudiante.codigo === est.estudiante.codigo);
-      return {
-        estudiante: est,
-        lesionado: lesionInfo ? lesionInfo : null
-      };
-    });
+this.estudiantesFiltrados = this.estudiantesFiltrados.map(est => {
+  console.log(est)
+  const lesionInfo = this.lesionCompleto.find(lesion => lesion.estudiante.codigo === est.estudiante.codigo);
+  return {
+    estudiante: est,
+    lesionado: lesionInfo ? lesionInfo : null
+  };
+});
+console.log(this.estudiantesFiltrados)
   }
 
 

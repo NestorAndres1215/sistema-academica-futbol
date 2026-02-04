@@ -1,93 +1,85 @@
-
 <app-titulo titulo="Asignacion de Estudiante" [botonesConfig]="botonesConfig" (volver)="volver()">
 </app-titulo>
-<div class="container ms-4 mt-4">
+<div class="container   py-5">
+
+  <app-filter-select label="Sedes" [options]="opcionesEquipo" [value]="equipoSeleccionada"
+    (valueChange)="equipoSeleccionada = $event; filtrarUsuarios()">
+  </app-filter-select>
 
 
-    <div class="d-flex align-items-center gap-3 mb-3">
-        <mat-form-field class="custom-field flex-grow-1" appearance="fill">
-            <mat-label>Equipo</mat-label>
-            <mat-select [(ngModel)]="equipoSeleccionada" (selectionChange)="filtrarUsuarios()">
-                <mat-option value="">Seleccionar equipo</mat-option>
-                <mat-option *ngFor="let sede of equipo" [value]="sede.nombre">
-                    {{ sede.nombre }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
-    <br>
     <div class="row">
         <div style="display: flex; justify-content: flex-end; margin-bottom: 15px;">
-            <button *ngIf="estudiantesFiltrados.length > 0" mat-raised-button class="btn-save"
-                (click)="toggleEdicion()">
-                <mat-icon style="margin-right: 5px;">edit</mat-icon>
-                {{ modoEdicion ? 'Guardar' : 'Editar' }}
-            </button>
+            <app-button *ngIf="estudiantesFiltrados.length > 0" [label]="modoEdicion ? 'Guardar' : 'Editar'"
+                [icon]="modoEdicion ? 'fas fa-save' : 'fas fa-edit'" [color]="modoEdicion ? 'registrar' : 'editar'"
+                (onClick)="toggleEdicion()">
+            </app-button>
         </div>
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Nombre Completo</th>
-                    <th>Rol</th>
-                    <th>Posición</th>
-                    <th>Número</th>
-                    <th>Activo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngIf="estudiantesFiltrados.length === 0">
-                    <td colspan="5" style="text-align: center; color: grey;">
-                        No hay datos disponibles.
-                    </td>
-                </tr>
-                <tr *ngFor="let estudiante of estudiantesFiltrados">
-                    <td>
-                        {{ estudiante.estudiante.primerNombre + " " + estudiante.estudiante.apellidoPaterno + " " +
-                        estudiante.estudiante.apellidoMaterno }}
-                    </td>
-                    <td class="text-center">
-                        <span *ngIf="!modoEdicion">
-                            {{ estudiante.esCapitan ? 'Capitán' : '-' }}
-                        </span>
-                        <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
-                            <mat-select [(ngModel)]="estudiante.esCapitan"
-                                (selectionChange)="verificarCapitan(estudiante)">
-                                <mat-option [value]="true" [disabled]="capitanSeleccionado && !estudiante.esCapitan">
-                                    Capitán
-                                </mat-option>
-                                <mat-option [value]="false">-</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </td>
-                    <td class="text-center">
-                        <span *ngIf="!modoEdicion">{{ estudiante.posicion }}</span>
-                        <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
-                            <mat-select [(ngModel)]="estudiante.posicion">
-                                <mat-option *ngFor="let pos of posiciones" [value]="pos">{{ pos }}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </td>
-                    <td class="text-center">
-                        <span *ngIf="!modoEdicion">{{ estudiante.numeroCamiseta }}</span>
+        <div class="table-responsive table-container mb-4">
+              <table class=" custom-table">
+                <thead>
+                    <tr>
+                        <th>Nombre Completo</th>
+                        <th>Rol</th>
+                        <th>Posición</th>
+                        <th>Número</th>
+                        <th>Activo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngIf="estudiantesFiltrados.length === 0">
+                        <td colspan="5" style="text-align: center; color: grey;">
+                            No hay datos disponibles.
+                        </td>
+                    </tr>
+                    <tr *ngFor="let estudiante of estudiantesFiltrados">
+                        <td>
+                            {{ estudiante.estudiante.primerNombre + " " + estudiante.estudiante.apellidoPaterno + " " +
+                            estudiante.estudiante.apellidoMaterno }}
+                        </td>
+                        <td class="text-center">
+                            <span *ngIf="!modoEdicion">
+                                {{ estudiante.esCapitan ? 'Capitán' : '-' }}
+                            </span>
+                            <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                                <mat-select [(ngModel)]="estudiante.esCapitan"
+                                    (selectionChange)="verificarCapitan(estudiante)">
+                                    <mat-option [value]="true"
+                                        [disabled]="capitanSeleccionado && !estudiante.esCapitan">
+                                        Capitán
+                                    </mat-option>
+                                    <mat-option [value]="false">-</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                        <td class="text-center">
+                            <span *ngIf="!modoEdicion">{{ estudiante.posicion }}</span>
+                            <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                                <mat-select [(ngModel)]="estudiante.posicion">
+                                    <mat-option *ngFor="let pos of posiciones" [value]="pos">{{ pos }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                        <td class="text-center">
+                            <span *ngIf="!modoEdicion">{{ estudiante.numeroCamiseta }}</span>
 
-                        <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
-                            <mat-select [(ngModel)]="estudiante.numeroCamiseta"
-                                (selectionChange)="verificarNumeroCamiseta(estudiante)">
-                                <mat-option *ngFor="let num of numerosDisponibles(estudiante)" [value]="num">
-                                    {{ num }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </td>
-                    <td class="text-center">
-                        <span>{{ estudiante.estado ? 'Habilitado' : 'Deshabilitado' }}</span>
-                    </td>
+                            <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                                <mat-select [(ngModel)]="estudiante.numeroCamiseta"
+                                    (selectionChange)="verificarNumeroCamiseta(estudiante)">
+                                    <mat-option *ngFor="let num of numerosDisponibles(estudiante)" [value]="num">
+                                        {{ num }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                        <td class="text-center">
+                            <span>{{ estudiante.estado ? 'Habilitado' : 'Deshabilitado' }}</span>
+                        </td>
 
-                </tr>
-            </tbody>
-        </table>
+                    </tr>
+                </tbody>
+            </table>
 
+        </div>
     </div>
-
-    <br><br><br>
+</div>

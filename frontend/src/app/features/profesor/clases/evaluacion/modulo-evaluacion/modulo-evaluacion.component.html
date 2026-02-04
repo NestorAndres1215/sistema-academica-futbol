@@ -1,147 +1,143 @@
-<h2 class="nombre-equipo">Evaluacion</h2>
-<hr class="separador">
+<div class="container mt-4 mb-4">
+  <app-titulo titulo="Evaluacion de Estudiante">
+  </app-titulo>
 
-<div class="row">
+  <div class="row">
 
-  <div style="display: inline-flex; justify-content: flex-start; margin-bottom: 15px; width: auto;">
-    <!-- Botón de Editar/Guardar -->
-    <button class="btn btn-excel" *ngIf="evaluacion.length > 0" (click)="toggleEdicion()">
-        <mat-icon style="margin-right: 5px;">edit</mat-icon>
-        {{ modoEdicion ? 'Guardar' : 'Editar' }}
-    </button>
-  
-    <!-- Botón de Guardar Datos (visible solo cuando no está en modo edición) -->
-    <button *ngIf="!modoEdicion" class="btn btn-pdf" (click)="guardarDatos()" style="margin-left: 40px;">
-        <mat-icon style="margin-right: 5px;">save</mat-icon>
-        Guardar Datos
-    </button>
-</div>
+    <div class="d-flex gap-2 mt-3 mb-3">
+      <app-button *ngIf="evaluacion?.length > 0" [label]="modoEdicion ? 'Guardar' : 'Editar'"
+        [icon]="modoEdicion ? 'fas fa-save' : 'fas fa-edit'" [color]="modoEdicion ? 'registrar' : 'editar'"
+        (onClick)="toggleEdicion()">
+      </app-button>
+      <app-button *ngIf="!modoEdicion" label="Registrar Datos" icon="fas fa-save" color="registrar"
+        (onClick)="guardarDatos()">
+      </app-button>
+    </div>
 
-  
-  
 
-    
-    <table class="table table-striped">
+
+    <div class="table-responsive table-container mb-4">
+    <table class=" custom-table">
         <thead>
-            <tr>
-                <th>Nombre Completo</th>
-                <th>Pases</th>
-                <th>Tiros</th>
-                <th>Posicionamiento</th>
-                <th>Visión de<br> Juego</th>
-                <th>Resistencia</th>
-                <th>Velocidad</th>
-                <th>Fuerza</th>
-                <th>Concentración</th>
-                <th>Toma de<br> Decisiones</th>
-                <th  *ngIf="!modoEdicion">Acciones</th>
-            </tr>
+          <tr>
+            <th>Nombre Completo</th>
+            <th>Pases</th>
+            <th>Tiros</th>
+            <th>Posicionamiento</th>
+            <th>Visión de<br> Juego</th>
+            <th>Resistencia</th>
+            <th>Velocidad</th>
+            <th>Fuerza</th>
+            <th>Concentración</th>
+            <th>Toma de<br> Decisiones</th>
+            <th *ngIf="!modoEdicion">Acciones</th>
+          </tr>
         </thead>
         <tbody>
-            <tr *ngIf="!evaluacion || evaluacion.length === 0">
-                <td colspan="11" style="text-align: center; color: grey;">
-                    No hay datos disponibles.
-                </td>
-            </tr>
-            <tr *ngFor="let estudiante of evaluacion">
-                <td>
-                    <ng-container *ngIf="estudiante.evaluacion?.estudiante">
-                        {{ estudiante.evaluacion.estudiante.primerNombre }} <br>
-                        {{ estudiante.evaluacion.estudiante.apellidoPaterno }}
-                        {{ estudiante.evaluacion.estudiante.apellidoMaterno }}
-                    </ng-container>
-                </td>
+          <tr *ngIf="!evaluacion || evaluacion.length === 0">
+            <td colspan="11" style="text-align: center; color: grey;">
+              No hay datos disponibles.
+            </td>
+          </tr>
+          <tr *ngFor="let estudiante of evaluacion">
+            <td>
+              <ng-container *ngIf="estudiante.evaluacion?.estudiante">
+                {{ estudiante.evaluacion.estudiante.primerNombre }} <br>
+                {{ estudiante.evaluacion.estudiante.apellidoPaterno }}
+                {{ estudiante.evaluacion.estudiante.apellidoMaterno }}
+              </ng-container>
+            </td>
 
-                <td class="text-center">
-                    <span *ngIf="!modoEdicion">{{ estudiante.pases ?? 0 }}</span>
-                    <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
-                      <mat-select [(ngModel)]="estudiante.pases">
-                        <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
-            
-                  <td class="text-center">
-                    <span *ngIf="!modoEdicion">{{ estudiante.tiros ?? 0 }}</span>
-                    <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
-                      <mat-select [(ngModel)]="estudiante.tiros">
-                        <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
-            
-                  <td class="text-center">
-                    <span *ngIf="!modoEdicion">{{ estudiante.posicionamiento ?? 0 }}</span>
-                    <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
-                      <mat-select [(ngModel)]="estudiante.posicionamiento">
-                        <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
-            
-                  <td class="text-center">
-                    <span *ngIf="!modoEdicion">{{ estudiante.visionJuego ?? 0 }}</span>
-                    <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
-                      <mat-select [(ngModel)]="estudiante.visionJuego">
-                        <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
-            
-                  <td class="text-center">
-                    <span *ngIf="!modoEdicion">{{ estudiante.resistencia ?? 0 }}</span>
-                    <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
-                      <mat-select [(ngModel)]="estudiante.resistencia">
-                        <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
-            
-                  <td class="text-center">
-                    <span *ngIf="!modoEdicion">{{ estudiante.velocidad ?? 0 }}</span>
-                    <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
-                      <mat-select [(ngModel)]="estudiante.velocidad">
-                        <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
-            
-                  <td class="text-center">
-                    <span *ngIf="!modoEdicion">{{ estudiante.fuerza ?? 0 }}</span>
-                    <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
-                      <mat-select [(ngModel)]="estudiante.fuerza">
-                        <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
-            
-                  <td class="text-center">
-                    <span *ngIf="!modoEdicion">{{ estudiante.concentracion ?? 0 }}</span>
-                    <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
-                      <mat-select [(ngModel)]="estudiante.concentracion">
-                        <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
-            
-                  <td class="text-center">
-                    <span *ngIf="!modoEdicion">{{ estudiante.tomaDecisiones ?? 0 }}</span>
-                    <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
-                      <mat-select [(ngModel)]="estudiante.tomaDecisiones">
-                        <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                  </td>
-                  <td *ngIf="!modoEdicion">
-                    <button mat-icon-button class="btn-editar" (click)="editar(estudiante)">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                </td>
-            </tr>
+            <td class="text-center">
+              <span *ngIf="!modoEdicion">{{ estudiante.pases ?? 0 }}</span>
+              <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                <mat-select [(ngModel)]="estudiante.pases">
+                  <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+
+            <td class="text-center">
+              <span *ngIf="!modoEdicion">{{ estudiante.tiros ?? 0 }}</span>
+              <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                <mat-select [(ngModel)]="estudiante.tiros">
+                  <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+
+            <td class="text-center">
+              <span *ngIf="!modoEdicion">{{ estudiante.posicionamiento ?? 0 }}</span>
+              <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                <mat-select [(ngModel)]="estudiante.posicionamiento">
+                  <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+
+            <td class="text-center">
+              <span *ngIf="!modoEdicion">{{ estudiante.visionJuego ?? 0 }}</span>
+              <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                <mat-select [(ngModel)]="estudiante.visionJuego">
+                  <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+
+            <td class="text-center">
+              <span *ngIf="!modoEdicion">{{ estudiante.resistencia ?? 0 }}</span>
+              <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                <mat-select [(ngModel)]="estudiante.resistencia">
+                  <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+
+            <td class="text-center">
+              <span *ngIf="!modoEdicion">{{ estudiante.velocidad ?? 0 }}</span>
+              <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                <mat-select [(ngModel)]="estudiante.velocidad">
+                  <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+
+            <td class="text-center">
+              <span *ngIf="!modoEdicion">{{ estudiante.fuerza ?? 0 }}</span>
+              <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                <mat-select [(ngModel)]="estudiante.fuerza">
+                  <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+
+            <td class="text-center">
+              <span *ngIf="!modoEdicion">{{ estudiante.concentracion ?? 0 }}</span>
+              <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                <mat-select [(ngModel)]="estudiante.concentracion">
+                  <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+
+            <td class="text-center">
+              <span *ngIf="!modoEdicion">{{ estudiante.tomaDecisiones ?? 0 }}</span>
+              <mat-form-field *ngIf="modoEdicion" class="small-select" appearance="outline">
+                <mat-select [(ngModel)]="estudiante.tomaDecisiones">
+                  <mat-option *ngFor="let valor of valoresPosibles" [value]="valor">{{ valor }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
+            <td *ngIf="!modoEdicion">
+              <button mat-icon-button class="btn-editar" (click)="editar(estudiante)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+          </tr>
         </tbody>
-    </table>
+      </table>
 
 
+    </div>
+  </div>
 </div>
-
-<br><br><br>

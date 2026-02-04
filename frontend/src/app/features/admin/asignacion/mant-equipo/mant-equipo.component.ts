@@ -86,34 +86,31 @@ export class MantEquipoComponent implements OnInit {
     this.listarProdesor();
   }
   filtro: string = '';
-  filtrarUsuarios(): void {
 
+  filtrarUsuarios(): void {
     if (!this.listar || this.listar.length === 0) {
       this.usuariosFiltrados = [];
       return;
     }
 
     const term = this.filtro.toLowerCase();
-
     this.usuariosFiltrados = this.listar.filter((usuario) => {
-
       const coincideConTexto =
-        (usuario.nombre && usuario.nombre.toLowerCase().includes(term));
+        (usuario.primerNombre + ' ' + usuario.segundoNombre + ' ' +
+          usuario.apellidoPaterno + ' ' + usuario.apellidoMaterno)
+          .toLowerCase()
+          .includes(term);
 
       const coincideConSede =
-        !this.sedeSeleccionada || (usuario.sede && usuario.sede.toLowerCase() === this.sedeSeleccionada.toLowerCase());
+        !this.sedeSeleccionada || (usuario.sede && usuario.sede.nombre === this.sedeSeleccionada);
+      const generoSeleccionadoLower = this.generoSeleccionado.toLowerCase();
+      const usuarioGeneroLower = usuario.genero.toLowerCase();
 
       const coincideConGenero =
-        !this.generoSeleccionado ||
-        (this.generoSeleccionado === CODIGO_GENERO.FEMENINO && usuario.genero.toLowerCase() === GENERO.FEMENINO) ||
-        (this.generoSeleccionado === CODIGO_GENERO.MASCULINO && usuario.genero.toLowerCase() === GENERO.MASCULINO);
-
-
+        !this.generoSeleccionado || usuarioGeneroLower === generoSeleccionadoLower;
       return coincideConTexto && coincideConSede && coincideConGenero;
     });
   }
-
-
   async listarProdesor() {
     this.equipoServuce.listarActivado().subscribe((data) => {
       this.user = this.loginService.getUser();
@@ -441,20 +438,18 @@ export class MantEquipoComponent implements OnInit {
 
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
-      console.log(data)
       this.generos = data;
-
+      this.opcionesGenero = this.generos.map(s => s.descripcion1);
     })
   }
-  listarSede(): void {
-    this.sede.listarSedeActivado().subscribe(
-      (data) => {
-        this.sedes = data;
-      },
-      (error) => {
-        console.error('Error al listar las sedes', error);
-      }
-    );
+
+  opcionesSedes: string[] = [];
+  opcionesGenero: string[] = [];
+  async listarSede() {
+    this.sede.listarSedeActivado().subscribe((data) => {
+      this.sedes = data;
+      this.opcionesSedes = this.sedes.map(s => s.nombre);
+    });
   }
 
 }

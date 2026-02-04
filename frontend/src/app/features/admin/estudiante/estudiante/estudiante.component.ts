@@ -19,13 +19,13 @@ export class EstudianteComponent implements OnInit {
     volver: true,
 
   };
-  filtro: string = ''; 
-  sedeSeleccionada: string = ''; 
+  filtro: string = '';
+  sedeSeleccionada: string = '';
   generoSeleccionado: string = '';
-  listar: any[] = []; 
+  listar: any[] = [];
   usuariosFiltrados: any[] = [];
-  sedes: any[] = []; 
-  generos: any[] = []; 
+  sedes: any[] = [];
+  generos: any[] = [];
 
   datos: any[];
   constructor(
@@ -44,9 +44,9 @@ export class EstudianteComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.listarSede(); 
+    this.listarSede();
     this.listaGenero()
-    this.cargarEstudiantes(); 
+    this.cargarEstudiantes();
   }
 
   cargarEstudiantes(): void {
@@ -55,55 +55,47 @@ export class EstudianteComponent implements OnInit {
         data = data.filter(item => item.codigo !== '0000');
         console.log(data)
         this.listar = data;
-        this.usuariosFiltrados = [...this.listar]; 
+        this.usuariosFiltrados = [...this.listar];
       },
 
     );
   }
 
-  listarSede(): void {
-    this.sede.listarSedeActivado().subscribe(
-      (data) => {
-        this.sedes = data;
-      },
-
-    );
+  opcionesSedes: string[] = [];
+  opcionesGenero: string[] = [];
+  async listarSede() {
+    this.sede.listarSedeActivado().subscribe((data) => {
+      this.sedes = data;
+      this.opcionesSedes = this.sedes.map(s => s.nombre);
+    });
   }
 
+  
   filtrarUsuarios(): void {
-    console.log(this.listar);
     if (!this.listar || this.listar.length === 0) {
       this.usuariosFiltrados = [];
       return;
     }
 
-    const term = this.filtro.toLowerCase(); // Convierte el texto del filtro a minúsculas
-
+    const term = this.filtro.toLowerCase();
     this.usuariosFiltrados = this.listar.filter((usuario) => {
       const coincideConTexto =
-        (usuario.primerNombre +
-          ' ' +
-          usuario.segundoNombre +
-          ' ' +
-          usuario.apellidoPaterno +
-          ' ' +
-          usuario.apellidoMaterno)
+        (usuario.primerNombre + ' ' + usuario.segundoNombre + ' ' +
+          usuario.apellidoPaterno + ' ' + usuario.apellidoMaterno)
           .toLowerCase()
           .includes(term);
 
       const coincideConSede =
         !this.sedeSeleccionada || (usuario.sede && usuario.sede.nombre === this.sedeSeleccionada);
+      const generoSeleccionadoLower = this.generoSeleccionado.toLowerCase();
+      const usuarioGeneroLower = usuario.genero.toLowerCase();
 
       const coincideConGenero =
-        !this.generoSeleccionado ||
-        (this.generoSeleccionado === CODIGO_GENERO.FEMENINO && usuario.genero.toLowerCase() === GENERO.FEMENINO) ||
-        (this.generoSeleccionado === CODIGO_GENERO.MASCULINO && usuario.genero.toLowerCase() === GENERO.MASCULINO);
-
-      console.log(usuario.genero)
-      console.log(coincideConGenero);
-      return coincideConTexto && coincideConSede && coincideConGenero; 
+        !this.generoSeleccionado || usuarioGeneroLower === generoSeleccionadoLower;
+      return coincideConTexto && coincideConSede && coincideConGenero;
     });
   }
+
 
   operar(perfil: any): void {
     const dialogRef = this.dialog.open(DvEstPerfilComponent, {
@@ -122,11 +114,11 @@ export class EstudianteComponent implements OnInit {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
       console.log(data)
       this.generos = data;
-
+      this.opcionesGenero = this.generos.map(s => s.descripcion1);
     })
-  }  
-  
+  }
+
   onVer($event: any) {
-    
+
   }
 }

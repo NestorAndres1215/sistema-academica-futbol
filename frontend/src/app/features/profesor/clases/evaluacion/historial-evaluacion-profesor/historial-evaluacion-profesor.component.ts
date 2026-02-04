@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ClaseService } from 'src/app/core/services/clase.service';
 import { EvaluacionService } from 'src/app/core/services/evaluacion.service';
-import { HistorialService } from 'src/app/core/services/historial.service';
-import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { calcularNotaFinal, calcularTotalNotaFinal } from 'src/app/core/utils/calculadorValidator';
 import { NombreCompleto } from 'src/app/core/utils/nombreValidator';
 
@@ -14,11 +10,16 @@ import { NombreCompleto } from 'src/app/core/utils/nombreValidator';
   styleUrls: ['./historial-evaluacion-profesor.component.css']
 })
 export class HistorialEvaluacionProfesorComponent implements OnInit {
+
   evaluacion: any[] = [];
   estudiantesFiltrados: any[] = [];
   estudiante: any[] = [];
-  equipoSeleccionada: string = '';
-  codigo: string;
+
+  equipoSeleccionada: string = '';  // código del estudiante seleccionado
+  opcionesEquipo: string[] = [];
+
+
+  codigo: string; // código del equipo
 
   columnas = [
     { etiqueta: 'Nombre Completo', clave: 'nombreCompleto' },
@@ -34,6 +35,8 @@ export class HistorialEvaluacionProfesorComponent implements OnInit {
     { etiqueta: 'Final', clave: 'notaFinal' },
   ];
 
+  total: number = 0;
+
   constructor(
     private route: ActivatedRoute,
     private evaluacionService: EvaluacionService,
@@ -44,55 +47,61 @@ export class HistorialEvaluacionProfesorComponent implements OnInit {
     this.codigo = this.route.snapshot.params['codigo'];
     this.listarEvaluacion();
   }
-  total: number = 0;     
+
   listarEvaluacion() {
-    this.evaluacionService.listarDetalleEvaluaciones().subscribe(
-      (data) => {
+    this.evaluacionService.listarDetalleEvaluaciones().subscribe((data) => {
 
-        const evaluacionesFiltradas = data.filter(
-          i => i.equipo === this.codigo && i.estado === false
-        );
-        const estudiantes = evaluacionesFiltradas.map(i => {
-          return {
-            ...i.evaluacion.estudiante,
-            pases: i.pases ?? 0,
-            tiros: i.tiros ?? 0,
-            posicionamiento: i.posicionamiento ?? 0,
-            visionJuego: i.visionJuego ?? 0,
-            resistencia: i.resistencia ?? 0,
-            velocidad: i.velocidad ?? 0,
-            fuerza: i.fuerza ?? 0,
-            concentracion: i.concentracion ?? 0,
-            tomaDecisiones: i.tomaDecisiones ?? 0,
-            notaFinal: calcularNotaFinal(i)
-          };
-        });
+      // Filtrar evaluaciones del equipo y que estén activas (estado=false)
+      const evaluacionesFiltradas = data.filter(
+        i => i.equipo === this.codigo && i.estado === false
+      );
 
-        const estudiantesUnicos = estudiantes.filter(
-          (est, idx, self) =>
-            idx === self.findIndex(e => e.codigo === est.codigo)
-        );
+      // Mapear a estudiantes con notas
+      const estudiantes = evaluacionesFiltradas.map(i => ({
+        ...i.evaluacion.estudiante,
+        pases: i.pases ?? 0,
+        tiros: i.tiros ?? 0,
+        posicionamiento: i.posicionamiento ?? 0,
+        visionJuego: i.visionJuego ?? 0,
+        resistencia: i.resistencia ?? 0,
+        velocidad: i.velocidad ?? 0,
+        fuerza: i.fuerza ?? 0,
+        concentracion: i.concentracion ?? 0,
+        tomaDecisiones: i.tomaDecisiones ?? 0,
+        notaFinal: calcularNotaFinal(i)
+      }));
 
-        this.estudiantesFiltrados = estudiantesUnicos.map(e => ({
-          ...e,
-          nombreCompleto: NombreCompleto(e)
-        }));
-this. total = calcularTotalNotaFinal(this.estudiantesFiltrados);
-        this.estudiante = this.estudiantesFiltrados;
-      }
-    );
+      // Quitar duplicados por código
+      const estudiantesUnicos = estudiantes.filter(
+        (est, idx, self) =>
+          idx === self.findIndex(e => e.codigo === est.codigo)
+      );
+
+      // Agregar nombre completo
+      this.estudiantesFiltrados = estudiantesUnicos.map(e => ({
+        ...e,
+        nombreCompleto: NombreCompleto(e)
+      }));
+
+      // Guardar lista original para filtrar
+      this.estudiante = [...this.estudiantesFiltrados];
+
+      // Calcular total de notas
+      this.total = calcularTotalNotaFinal(this.estudiantesFiltrados);
+
+      // Generar opciones para el select
+      this.opcionesEquipo = this.estudiante.map(
+        e => e.primerNombre + ' ' + e.apellidoPaterno
+      );
+    });
   }
 
   filtrarUsuarios() {
-    if (!this.equipoSeleccionada) {
-      this.estudiantesFiltrados = [...this.estudiante];
-      return;
-    }
-
-    this.estudiantesFiltrados = this.estudiante.filter(
-      estudiante => estudiante.codigo === this.equipoSeleccionada
-    );
+    this.estudiantesFiltrados = this.equipoSeleccionada
+      ? this.estudiante.filter(e =>
+        (e.primerNombre + ' ' + e.apellidoPaterno) === this.equipoSeleccionada
+      )
+      : [...this.estudiante];
   }
-
 
 }

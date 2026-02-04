@@ -6,26 +6,22 @@
   <app-search [value]="filtro" placeholder="Buscar por nombre o apellidos" hint="Ingrese al menos 3 caracteres"
     (valueChange)="filtro = $event; filtrarUsuarios()">
   </app-search>
-  <div class="filters-container">
-    <mat-form-field appearance="outline" class="filter-field">
-      <mat-label>Sedes</mat-label>
-      <mat-select [(ngModel)]="sedeSeleccionada" (selectionChange)="filtrarUsuarios()">
-        <mat-option value="">Todas las sedes</mat-option>
-        <mat-option *ngFor="let sede of sedes" [value]="sede.nombre">
-          {{ sede.nombre }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
 
-    <mat-form-field appearance="outline" class="filter-field">
-      <mat-label>Género</mat-label>
-      <mat-select [(ngModel)]="generoSeleccionado" (selectionChange)="filtrarUsuarios()">
-        <mat-option value="">Todos los géneros</mat-option>
-        <mat-option *ngFor="let genero of generos" [value]="genero.clave">
-          {{ genero.descripcion1 }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+  <div class="row g-3"> <!-- g-3 agrega un pequeño espacio entre columnas -->
+
+    <div class="col-md-6 col-12"> <!-- 2 columnas en desktop, 1 columna en móvil -->
+      <app-filter-select label="Sedes" [options]="opcionesSedes" [value]="sedeSeleccionada"
+        (valueChange)="sedeSeleccionada = $event; filtrarUsuarios()">
+      </app-filter-select>
+    </div>
+
+    <div class="col-md-6 col-12">
+      <app-filter-select label="Género" [options]="opcionesGenero" [value]="generoSeleccionado"
+        (valueChange)="generoSeleccionado = $event; filtrarUsuarios()">
+      </app-filter-select>
+    </div>
+
+
   </div>
 
   <app-user-card [datos]="usuariosFiltrados" [columnas]="columnas" (ver)="onVer($event)">

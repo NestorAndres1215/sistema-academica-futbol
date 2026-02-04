@@ -1,1 +1,13 @@
-<p>filter-select works!</p>
+<div class="container mt-3 mb-3">
+  <mat-form-field appearance="outline" class="custom-select">
+    <mat-label>{{ label }}</mat-label>
+    <mat-select [(value)]="value" (selectionChange)="onChange($event.value)">
+      <!-- Mostrar "Todos" solo si showTodos es true -->
+      <mat-option *ngIf="showTodos" value="">Todos {{ label }}</mat-option>
+
+      <mat-option *ngFor="let option of options" [value]="option">
+        {{ option }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>

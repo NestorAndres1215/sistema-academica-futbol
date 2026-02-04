@@ -27,6 +27,7 @@ export class AdminDevClassComponent implements OnInit {
     this.codigo = this.route.snapshot.params['codigo']
     this.listaClases(this.codigo)
   }
+  
   opciones: string[] = ['Clases', 'Alumnos', 'Profesores', 'Evaluacion','Historial'];
   opcionSeleccionada: string = 'Clases';
   datosTabla: any[] = [];

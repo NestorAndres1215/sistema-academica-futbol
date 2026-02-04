@@ -11,7 +11,11 @@ export class DetalleClaseComponent implements OnInit {
   volver() {
     this.router.navigate(['/profesor']);
   }
+ botonesConfig = {
+    editar: false,
+    volver: true,
 
+  };
   constructor(
     private route: ActivatedRoute,
     private claseService: ClaseService,

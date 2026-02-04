@@ -14,6 +14,7 @@ import { AdminCargaEditClaseComponent } from 'src/app/features/admin/modulo-clas
   styleUrls: ['./profesor-dia-clase.component.css']
 })
 export class ProfesorDiaClaseComponent implements OnInit {
+
   editar() {
     const dialogRef = this.dialog.open(AdminCargaEditClaseComponent, {
       width: '1050px',
@@ -37,10 +38,8 @@ export class ProfesorDiaClaseComponent implements OnInit {
 
   onRegistrarEjercicio(): void {
     if (!this.claseListar || this.claseListar.length === 0) {
-      // Aquí muestras un mensaje; puedes usar alert(), un toast, o algún otro mecanismo.
       this.mensajeService.MostrarMensaje("No se puede registrar ejercicio, no hay clases disponibles.");
     } else {
-      // Si todo está en orden, llamamos al método registrar()
       this.registrar();
     }
   }
@@ -57,13 +56,12 @@ export class ProfesorDiaClaseComponent implements OnInit {
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarClase()
       this.listarEjercicio()
     })
   }
-  // Este método se invoca al hacer clic en "Ver Detalle"
+
   verDetalle(ejercicio: any): void {
     console.log('Detalle del ejercicio:', ejercicio);
 
@@ -78,7 +76,7 @@ export class ProfesorDiaClaseComponent implements OnInit {
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
+
     dialogRef.afterClosed().subscribe(data => {
       this.listarClase()
       this.listarEjercicio()
@@ -104,11 +102,8 @@ export class ProfesorDiaClaseComponent implements OnInit {
     this.claseService.listarClaseDevActivado().subscribe((data) => {
       data = data.filter(index => index.clase.codigo == this.codigo)
       const claseEncontrada = data.filter(index => index.dia == this.dias); // Encuentra la clase
-      console.log(claseEncontrada)
-      console.log(this.dias)
       this.claseListar = claseEncontrada
       const claseEncontrada2 = claseEncontrada.find(index => index.dia == this.dias); // Encuentra la clase
-      console.log(claseEncontrada2.titulo)
 
       this.titulo = claseEncontrada2.titulo
       this.descripcion = claseEncontrada2.descripcion
@@ -116,35 +111,27 @@ export class ProfesorDiaClaseComponent implements OnInit {
       this.codigoClase = claseEncontrada2.codigo
     })
   }
+
   ejerciciosListar: any[] = []
   async listarEjercicio() {
     this.ejercicioService.listar().subscribe((data) => {
-      console.log(data)
-      console.log()
-      data = data.filter(index => index.clase.dia == this.dias)
-      console.log(this.dias)
-      this.ejerciciosListar = data
-      console.log(this.ejerciciosListar)
-      const filtrados = data.filter(item => {
-        // Verifica que item.clase y item.clase.dia no sean null o undefined
-        if (!item.clase || !item.clase.dia) {
-          return false;
-        }
-        return item.clase.dia.split(" - ").includes(this.dias);
-      });
 
-      //
-      console.log(this.dias)
-      console.log(filtrados);
-      console.log("")
-      //const claseEncontrada = data.filter(index => index.dia == this.dias); // Encuentra la clase
-      //this.claseListar = claseEncontrada
+      const filtrados = data.filter(item =>
+        item.claseDev &&
+        item.claseDev.clase.codigo.includes(this.codigo) &&
+        item.claseDev.clase.dia &&
+        item.claseDev.dia.split(" - ").includes(this.dias)
+      );
 
-    })
+      this.ejerciciosListar = filtrados;
+    });
   }
+
+
   formatDescripcion(descripcion: string): string {
     return descripcion.replace(/\n/g, '<br>');
   }
+
   formatTexto(texto: string): string {
     return texto.replace(/\n/g, '<br>');
   }
