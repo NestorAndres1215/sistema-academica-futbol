@@ -53,12 +53,13 @@ export class EditEquipoComponent implements OnInit {
     this.listarSede()
     this.listaGenero()
     this.listaPosicion()
-    console.log(this.lista)
     this.listarEdiciones()
   }
+
   sedes: any[] = [];
   generos: any[] = [];
   categorias: any[] = [];
+  
   listarEdiciones() {
     this.codigo = this.lista.row.codigo;
     this.nombre = this.lista.row.nombre;
@@ -72,7 +73,6 @@ export class EditEquipoComponent implements OnInit {
     this.fechaActualizacion = this.lista.row.fechaActualizacion;
     this.horaActualizacion = this.lista.row.horaActualizacion;
     this.initForm()
-
   }
 
   initForm() {
@@ -83,12 +83,15 @@ export class EditEquipoComponent implements OnInit {
       sede: [this.sede, Validators.required],
     });
   }
+
   deshabilitar() {
     this.formulario.disable();
   }
+
   cerrar() {
     this.dialogRe.close();
   }
+
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
       this.generos = data;
@@ -97,11 +100,10 @@ export class EditEquipoComponent implements OnInit {
   }
   async listaPosicion() {
     this.generales.listarGeneralDevActivado("0004").subscribe((data) => {
-
       this.categorias = data;
-
     })
   }
+
   listarSede(): void {
     this.sedeService.listarSedeActivado().subscribe(
       (data) => {

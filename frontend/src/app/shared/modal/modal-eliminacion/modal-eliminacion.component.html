@@ -1,22 +1,23 @@
 <div class="card">
-  <div class="card-header ">
-    <h2> {{titulo}}</h2>
-  </div>
+<div class="card-header text-center py-3">
+  <h2 class="fs-3">{{titulo}}</h2>
+</div>
+
+
   <div class="card-body">
-    <p style="text-align: center;
-        margin-bottom: 0;" [innerHTML]="getHTML()"></p>
-    <mat-form-field class="ancho-completo" *ngIf="razon != undefined && razon.trim() != ''">
-      <div>
-        <input #input [placeholder]="razon" />
-      </div>
-    </mat-form-field>
-    <div class="dos">
-      <app-button icon="fas fa-eye-slash" color="registrar" (onClick)="close('CONFIRMAR')">
-      </app-button>
-       <app-button icon="fas fa-times" color="cancelar" (onClick)="close('CONFIRMAR')">
-      </app-button>
-      <button type="button" class=" btn btn-success" (click)="close('CONFIRMAR')"><i class="fas fa-check"></i></button>
-      <button type="button" class=" btn btn-danger" (click)="close('CANCELAR')"><i class="fas fa-times"></i></button>
+    <div class="d-flex justify-content-center mb-3">
+      <h4 [innerHTML]="getHTML()" class="text-center w-100" style="max-width: 400px;"></h4>
     </div>
+    <div class="row g-2">
+      <div class="col">
+        <app-button icon="fas fa-eye-slash" (click)="close('CONFIRMAR')" label="Registrar" color="registrar" (onClick)="close('CONFIRMAR')">
+        </app-button>
+      </div>
+      <div class="col">
+        <app-button icon="fas fa-times" (click)="close('CANCELAR')"label="Cancelar" color="cancelar" (onClick)="close('CONFIRMAR')">
+        </app-button>
+      </div>
+    </div>
+
   </div>
 </div>

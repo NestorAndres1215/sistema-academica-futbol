@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ModalEventsService } from 'src/app/core/services/modal-events.service';
+
 import { HorarioService } from 'src/app/core/services/horario.service';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { GeneralService } from 'src/app/core/services/general.service';
@@ -9,7 +9,7 @@ import { ClaseService } from 'src/app/core/services/clase.service';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
-import { MatSelectChange } from '@angular/material/select';
+
 import { Events } from 'src/app/core/model/events';
 import { Clase } from 'src/app/core/model/Clase';
 import { Historial } from 'src/app/core/model/historial';

@@ -179,9 +179,9 @@ import { TablaComponent } from './shared/tabla/tabla.component';
 import { SearchComponent } from './shared/search/search.component';
 import { FilterSelectComponent } from './shared/filter-select/filter-select.component';
 import { PaginationComponent } from './shared/pagination/pagination.component';
-import { UserCardComponent } from './shared/user-card/user-card.component';
+import { UserCardComponent } from './shared/card/user-card/user-card.component';
 import { RegistroActividadesComponent } from './shared/registro-actividades/registro-actividades.component';
-import { PartidosCardComponent } from './shared/partidos-card/partidos-card.component';
+import { PartidosCardComponent } from './shared/card/partidos-card/partidos-card.component';
 
 
 @NgModule({
