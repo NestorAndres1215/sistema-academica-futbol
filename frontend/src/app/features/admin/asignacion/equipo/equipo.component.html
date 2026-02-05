@@ -12,7 +12,7 @@
                 </app-titulo>
             </div>
             <app-tabla [columnas]="columnasProfesores" [datos]="profesoresFiltrados"
-                [botonesConfig]="botonesConfigTableProfesor" [onVer]="visor.bind(this)">
+                [botonesConfig]="botonesConfigTableProfesor" [onVer]="visorProfesor.bind(this)">
             </app-tabla>
         </div>
         <div class="col-lg-6 col-md-12 mb-4" style="border: 2px solid #ccc; padding: 20px;">
@@ -21,7 +21,7 @@
                 </app-titulo>
             </div>
             <app-tabla [columnas]="columnasEstudiantes" [datos]="estudiantesFiltrados"
-                [botonesConfig]="botonesConfigTableEstudiante" [onVer]="visor.bind(this)">
+                [botonesConfig]="botonesConfigTableEstudiante" [onVer]="visorEstudiante.bind(this)">
             </app-tabla>
         </div>
     </div>

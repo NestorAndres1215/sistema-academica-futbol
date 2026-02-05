@@ -8,8 +8,7 @@ import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
-import { Router } from '@angular/router';
-import { VisorEqupoComponent } from '../visor-equpo/visor-equpo.component';
+
 
 import { LsDesEquipoComponent } from '../ls-des-equipo/ls-des-equipo.component';
 import { GeneralService } from 'src/app/core/services/general.service';
@@ -20,6 +19,7 @@ import { Respuesta } from 'src/app/core/model/respuesta';
 import { AlertService } from 'src/app/core/services/alert.service';
 import { firstValueFrom } from 'rxjs';
 import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
+import { VisorEqupoComponent } from '../visor-equpo/visor-equpo.component';
 
 
 @Component({

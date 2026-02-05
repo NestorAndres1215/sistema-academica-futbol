@@ -64,7 +64,7 @@ export class RegAsginacionComponent implements OnInit {
     this.router.navigate(['/administrador']);
   }
 
-  formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup; 
   formulario1: UntypedFormGroup;
   constructor(private generales: GeneralService,
     private sede: SedeService,
@@ -92,6 +92,7 @@ export class RegAsginacionComponent implements OnInit {
 
   }
   mostrarFormularioDetalle: boolean = false;
+
   onEquipoSeleccionado(equipo: any): void {
     if (equipo) {
       this.categoriaSeleccionada = equipo.categoria;
@@ -112,6 +113,28 @@ export class RegAsginacionComponent implements OnInit {
   sedes: any
   genero: any
 
+
+
+  datosTabla: any[] = [];
+  posiciones: any[] = [];
+  listarcategoria: any[] = [];
+  roles: string[] = ['Estudiante', 'Profesor'];
+  rolSeleccionado: string = 'Estudiante';
+  mostrarCamposEstudiante: boolean = true;
+  estudiantes: any[] = [];
+  profesores: any[] = [];
+  cargos = CARGOS;
+  isFormEnabled = false;
+  nombreEquipo: string
+  estu: any[] = [];
+  listarEstu: any[] = [];
+  listarProfe: any[] = [];
+  cantidadPorfesores: any[] = [];
+  profesoresActuales: any[] = [];
+  estudianteActuales: any[] = [];
+  yaEstudianteRegistrado = false;
+  profe: any
+  listaAsignaciones: any[] = [];
   initForm() {
     this.formulario = this.formBuilder.group({
       nombre: ['', Validators.required],
@@ -147,30 +170,17 @@ export class RegAsginacionComponent implements OnInit {
     })
   }
 
-  datosTabla: any[] = [];
-  posiciones: any[] = [];
-
   async listaPosicion() {
     this.generales.listarGeneralDevActivado("0005").subscribe((data) => {
       this.posiciones = data;
     })
   }
-
-  listarcategoria: any[] = [];
-
   async listaCategoria() {
     this.generales.listarGeneralDevActivado("0004").subscribe((data) => {
       this.listarcategoria = data;
 
     })
   }
-
-  roles: string[] = ['Estudiante', 'Profesor'];
-
-  rolSeleccionado: string = 'Estudiante';
-  mostrarCamposEstudiante: boolean = true;
-  estudiantes: any[] = [];
-  profesores: any[] = [];
 
   cambiarRol() {
     const rol = this.formulario1.get('rol')?.value;
@@ -182,9 +192,6 @@ export class RegAsginacionComponent implements OnInit {
       });
     }
   }
-
-  cargos = CARGOS;
-  isFormEnabled = false;
 
   operar() {
 
@@ -220,26 +227,15 @@ export class RegAsginacionComponent implements OnInit {
       this.listarProfesor()
       this.formulario.disable();
       this.nombreEquipo = this.formulario.get('nombre')?.value;
-
     }
-
   }
-
-
-  nombreEquipo: string
-  estu: any[] = [];
-  listarEstu: any[] = [];
-  listarProfe: any[] = [];
-
 
   filtrarProfesoresPorCargo() {
     const cargoSeleccionado = this.formulario1.get('cargo')?.value;
     if (cargoSeleccionado) {
       this.listarProfe = this.profe.filter(item => item.cargo.nombre === cargoSeleccionado);
     }
-
   }
-
 
   async listarProfesor() {
     const sedeSeleccionada = this.formulario.get('sede')?.value;
@@ -292,9 +288,7 @@ export class RegAsginacionComponent implements OnInit {
       );
     });
   }
-  cantidadPorfesores: any[] = [];
-  profesoresActuales: any[] = [];
-  estudianteActuales: any[] = [];
+
 
   async listarDev() {
     this.equipoService.listarAsignacion().subscribe((data: any[]) => {
@@ -309,9 +303,6 @@ export class RegAsginacionComponent implements OnInit {
       this.datosTabla = data;
     });
   }
-
-  yaEstudianteRegistrado = false;
-  profe: any
 
   eliminarEstudiante(estudianteEliminado: any): void {
     if (!estudianteEliminado) return;
@@ -400,7 +391,6 @@ export class RegAsginacionComponent implements OnInit {
 
         if (this.profesores.length >= 3) {
           this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.CUPOS_PROFESORES_LLENO);
-
           return;
         }
 
@@ -416,7 +406,6 @@ export class RegAsginacionComponent implements OnInit {
           const existe = this.profesores.some(p => p.nombre === nuevoRegistro.nombre);
           if (!existe) {
             this.profesores.push(nuevoRegistro);
-
             this.listarProfe = this.listarProfe.filter(p => p.codigo !== profesorValue); // Eliminar el profesor de la lista disponible
           }
         }
@@ -426,9 +415,8 @@ export class RegAsginacionComponent implements OnInit {
     }
   }
 
-  listaAsignaciones: any[] = [];
-  accionNuevo() {
 
+  accionNuevo() {
 
     const todos = [...this.estudiantes, ...this.profesores];
     const codigo = this.formulario.value.nombre?.codigo || 'Código no disponible';
@@ -472,7 +460,7 @@ export class RegAsginacionComponent implements OnInit {
       });
 
     } else {
-      this.alertService.error(TITULO_MESAJES.ERROR_TITULO,MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
+      this.alertService.error(TITULO_MESAJES.ERROR_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
     }
   }
 }

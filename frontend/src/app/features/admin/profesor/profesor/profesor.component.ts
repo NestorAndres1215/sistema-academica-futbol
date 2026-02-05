@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { DvProPerfilComponent } from '../dv-pro-perfil/dv-pro-perfil.component';
+
 import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SedeService } from 'src/app/core/services/sede.service';
 import { CargoService } from 'src/app/core/services/cargo.service';
+import { ModalPerfilComponent } from 'src/app/shared/modal/modal-perfil/modal-perfil.component';
 
 @Component({
   selector: 'app-profesor',
@@ -70,34 +71,44 @@ export class ProfesorComponent implements OnInit {
   }
 
 
+  columnasDetalle = [
+    { clave: 'usuario.username', etiqueta: 'Usuario' },
+    { clave: 'primerNombre', etiqueta: 'Nombre' },
+    { clave: 'apellidoPaterno', etiqueta: 'Apellido' },
+    { clave: 'correo', etiqueta: 'Correo', roles: ['admin'] },
+    { clave: 'telefono', etiqueta: 'Teléfono' },
+    { clave: 'sede', etiqueta: 'Sede' },
+    { clave: 'cargo', etiqueta: 'Cargo' }
+  ];
+  tipoUsuario: 'admin' | 'profesor' = 'admin';
   operar(perfil: any) {
     console.log(typeof perfil)
-    const dialogRef = this.dialog.open(DvProPerfilComponent, {
-      width: '430px',
-      height: '560px',
+    const dialogRef = this.dialog.open(ModalPerfilComponent, {
+      width: '400px',
+      height: '500px',
       data: {
-        perfil
+        perfiles: [perfil],
+        columnas: this.columnasDetalle,
+        tipoUsuario: this.tipoUsuario
       }
     });
   }
-  volver(): void {
-    this.router.navigate(['/administrador']);
-  }
   opcionesSedes: string[] = [];
   opcionesCargos: string[] = [];
-  async listarSede() {
-  this.sede.listarSedeActivado().subscribe((data) => {
-    this.sedes = data;
-    this.opcionesSedes = this.sedes.map(s => s.nombre);
-  });
-}
 
-async listarCargo() {
-  this.cargo.listarCargoActivado().subscribe((data) => {
-    this.cargos = data;
-    this.opcionesCargos = this.cargos.map(s => s.nombre);
-  });
-}
+  async listarSede() {
+    this.sede.listarSedeActivado().subscribe((data) => {
+      this.sedes = data;
+      this.opcionesSedes = this.sedes.map(s => s.nombre);
+    });
+  }
+
+  async listarCargo() {
+    this.cargo.listarCargoActivado().subscribe((data) => {
+      this.cargos = data;
+      this.opcionesCargos = this.cargos.map(s => s.nombre);
+    });
+  }
 
 
 }

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DvEstPerfilComponent } from '../dv-est-perfil/dv-est-perfil.component';
 import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SedeService } from 'src/app/core/services/sede.service';
 import { GeneralService } from 'src/app/core/services/general.service';
+import { ModalPerfilComponent } from 'src/app/shared/modal/modal-perfil/modal-perfil.component';
 
 
 @Component({
@@ -97,11 +97,26 @@ export class EstudianteComponent implements OnInit {
   }
 
 
-  operar(perfil: any): void {
-    const dialogRef = this.dialog.open(DvEstPerfilComponent, {
+  columnasDetalle = [
+    { clave: 'usuario.username', etiqueta: 'Usuario' },
+    { clave: 'primerNombre', etiqueta: 'Nombre' },
+    { clave: 'apellidoPaterno', etiqueta: 'Apellido' },
+    { clave: 'correo', etiqueta: 'Correo', roles: ['admin'] },
+    { clave: 'telefono', etiqueta: 'Teléfono' },
+    { clave: 'sede', etiqueta: 'Sede' },
+
+  ];
+  tipoUsuario: 'admin' | 'profesor' = 'admin';
+  operar(perfil: any) {
+    console.log(typeof perfil)
+    const dialogRef = this.dialog.open(ModalPerfilComponent, {
       width: '400px',
-      height: '520px',
-      data: { perfil },
+      height: '470px',
+      data: {
+        perfiles: [perfil],
+        columnas: this.columnasDetalle,
+        tipoUsuario: this.tipoUsuario
+      }
     });
   }
 
@@ -113,7 +128,5 @@ export class EstudianteComponent implements OnInit {
     })
   }
 
-  onVer($event: any) {
 
-  }
 }

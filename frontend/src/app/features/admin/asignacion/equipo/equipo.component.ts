@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { EquipoService } from 'src/app/core/services/equipo.service';
-import { EquipoPerfilComponent } from '../equipo-perfil/equipo-perfil.component';
+
 import { MatDialog } from '@angular/material/dialog';
 import { NombreCompleto } from 'src/app/core/utils/nombreValidator';
 import { Router } from '@angular/router';
+import { ModalPerfilComponent } from 'src/app/shared/modal/modal-perfil/modal-perfil.component';
 
 @Component({
   selector: 'app-equipo',
@@ -35,6 +36,7 @@ export class EquipoComponent implements OnInit {
 
 
   equipo: any
+
 
   constructor(
     private equipoService: EquipoService, 
@@ -111,14 +113,49 @@ export class EquipoComponent implements OnInit {
   }
 
   seleccionados: { [key: string]: boolean } = {};
+ columnasDetalleEstudiante = [
+    { clave: 'estudiante.usuario.username', etiqueta: 'Usuario' },
+    { clave: 'estudiante.primerNombre', etiqueta: 'Nombre' },
+    { clave: 'estudiante.apellidoPaterno', etiqueta: 'Apellido' },
+    { clave: 'estudiante.correo', etiqueta: 'Correo', },
+    { clave: 'estudiante.telefono', etiqueta: 'Teléfono' },
+    { clave: 'estudiante.sede.nombre', etiqueta: 'Sede' },
 
-
-  visor(row: any) {
-    console.log(row)
-    const dialogRef = this.dialog.open(EquipoPerfilComponent, {
+  ];
+  tipoUsuario: 'admin' | 'profesor' = 'admin';
+  visorEstudiante(perfil: any) {
+    console.log( perfil)
+    const dialogRef = this.dialog.open(ModalPerfilComponent, {
       width: '400px',
-      height: '520px',
-      data: { row },
+      height: '470px',
+      data: {
+        perfiles: [perfil],
+        columnas: this.columnasDetalleEstudiante,
+        tipoUsuario: this.tipoUsuario
+      }
+    });
+  }
+  
+  columnasDetalleProfesor = [
+    { clave: 'profesor.usuario.username', etiqueta: 'Usuario' },
+    { clave: 'profesor.primerNombre', etiqueta: 'Nombre' },
+    { clave: 'profesor.apellidoPaterno', etiqueta: 'Apellido' },
+    { clave: 'profesor.correo', etiqueta: 'Correo', },
+    { clave: 'profesor.telefono', etiqueta: 'Teléfono' },
+    { clave: 'profesor.sede.nombre', etiqueta: 'Sede' },
+
+  ];
+
+  visorProfesor(perfil: any) {
+    console.log( perfil)
+    const dialogRef = this.dialog.open(ModalPerfilComponent, {
+      width: '400px',
+      height: '470px',
+      data: {
+        perfiles: [perfil],
+        columnas: this.columnasDetalleProfesor,
+        tipoUsuario: this.tipoUsuario
+      }
     });
   }
 }

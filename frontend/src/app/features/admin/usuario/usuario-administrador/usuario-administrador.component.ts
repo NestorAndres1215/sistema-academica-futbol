@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from 'src/app/core/services/admin.service';
-import { DtUsuarioComponent } from '../dt-usuario/dt-usuario.component';
+
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ModalPerfilComponent } from 'src/app/shared/modal/modal-perfil/modal-perfil.component';
 
 @Component({
   selector: 'app-usuario-administrador',
@@ -13,14 +14,6 @@ export class UsuarioAdministradorComponent implements OnInit {
   filtro: string = '';
   listar: any[] = [];
   usuariosFiltrados: any[] = [];
-  imagenUrlBase = 'data:image/jpeg;base64,';
-
-
-  botonesConfig = {
-    editar: false,
-    volver: true,
-
-  };
 
   constructor(private admin: AdminService, private dialog: MatDialog, private router: Router) { }
   columnas = [
@@ -30,6 +23,7 @@ export class UsuarioAdministradorComponent implements OnInit {
     { clave: 'apellidoPaterno' },
     { clave: 'apellidoMaterno' }
   ];
+
 
   ngOnInit(): void {
 
@@ -42,9 +36,6 @@ export class UsuarioAdministradorComponent implements OnInit {
     );
   }
 
-  mostrarImagen(perfil: any): string {
-    return perfil.perfil ? this.imagenUrlBase + perfil.perfil : '';
-  }
 
   filtrarUsuarios() {
     if (!this.listar || this.listar.length === 0) {
@@ -59,18 +50,25 @@ export class UsuarioAdministradorComponent implements OnInit {
         .includes(term)
     );
   }
-
+  columnasDetalle = [
+    { clave: 'usuario.username', etiqueta: 'Usuario' },
+    { clave: 'primerNombre', etiqueta: 'Nombre' },
+    { clave: 'apellidoPaterno', etiqueta: 'Apellido' },
+    { clave: 'correo', etiqueta: 'Correo', roles: ['admin'] },
+    { clave: 'telefono', etiqueta: 'Teléfono' }
+  ];
+  tipoUsuario: 'admin' | 'profesor' = 'admin';
   operar(perfil: any) {
     console.log(typeof perfil)
-    const dialogRef = this.dialog.open(DtUsuarioComponent, {
+    const dialogRef = this.dialog.open(ModalPerfilComponent, {
       width: '400px',
-      height: '480px',
+      height: '445px',
       data: {
-        perfil
+        perfiles: [perfil],
+        columnas: this.columnasDetalle,
+        tipoUsuario: this.tipoUsuario
       }
     });
   }
-  volver(): void {
-    this.router.navigate(['/administrador']);
-  }
+
 }

@@ -6,7 +6,6 @@ import { EquipoService } from 'src/app/core/services/equipo.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { Historial } from 'src/app/core/model/historial';
-import { EquipoPerfilComponent } from 'src/app/features/admin/asignacion/equipo-perfil/equipo-perfil.component';
 
 
 @Component({
@@ -91,16 +90,6 @@ export class AsignacionEstudianteComponent implements OnInit {
       return coincideConEquipo;
     });
     this.verificarSiHayCapitan();
-  }
-
-  visor(row: any) {
-
-    console.log(row)
-    const dialogRef = this.dialog.open(EquipoPerfilComponent, {
-      width: '400px',
-      height: '520px',
-      data: { row },
-    });
   }
 
   editarEstudiante(estudiante: any) {

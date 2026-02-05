@@ -1,1 +1,28 @@
-<p>modal-perfil works!</p>
+<div class="row g-3">
+    <div class="col-12" *ngFor="let fila of datos">
+        <div class="card  shadow-sm">
+            <div class="card-header position-sticky sticky-top">
+
+                <div class="d-flex justify-content-center align-items-center mb-3 col-auto">
+                    <img *ngIf="getImagen(fila)" [src]="getImagen(fila)" alt="Imagen"
+                        class="img-marca rounded-circle img-fluid">
+                    <img *ngIf="!getImagen(fila)" src="assets/img/perfil.png" alt="Imagen predeterminada"
+                        class="img-marca rounded-circle img-fluid">
+                </div>
+            </div>
+            <div class="card-body text-center">
+        <h2 class="card-title text-center fw-bold mb-3" >
+          Datos de Usuario
+        </h2>
+
+           <ng-container *ngFor="let col of columnas">
+          <p *ngIf="!col.roles || col.roles.includes(tipoUsuario)" class="d-flex justify-content-between mb-2 px-2"
+             style="font-family: monospace;">
+            <span class="text-muted">{{ col.etiqueta }}</span>
+            <span class="fw-bold">{{ obtenerValor(fila, col.clave) }}</span>
+          </p>
+        </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

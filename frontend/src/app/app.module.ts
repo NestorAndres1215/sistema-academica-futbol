@@ -41,7 +41,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 registerLocaleData(localeEs, 'es');
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { EditEquipoComponent } from './features/admin/asignacion/edit-equipo/edit-equipo.component';
-import { EquipoPerfilComponent } from './features/admin/asignacion/equipo-perfil/equipo-perfil.component';
+
 import { EquipoComponent } from './features/admin/asignacion/equipo/equipo.component';
 import { LsDesEquipoComponent } from './features/admin/asignacion/ls-des-equipo/ls-des-equipo.component';
 import { MantEquipoComponent } from './features/admin/asignacion/mant-equipo/mant-equipo.component';
@@ -86,7 +86,6 @@ import { RegTbGeneralComponent } from './features/admin/configuracion/tabla-gene
 import { VisorTbGeneralComponent } from './features/admin/configuracion/tabla-generales/visor-tb-general/visor-tb-general.component';
 import { DatosPersonalesComponent } from './features/admin/datos-personales/datos-personales.component';
 import { EdtDatosComponent } from './features/admin/datos-personales/edt-datos/edt-datos.component';
-import { DvEstPerfilComponent } from './features/admin/estudiante/dv-est-perfil/dv-est-perfil.component';
 import { EditEstudianteComponent } from './features/admin/estudiante/edit-estudiante/edit-estudiante.component';
 import { EstudianteComponent } from './features/admin/estudiante/estudiante/estudiante.component';
 import { ListEstudianteComponent } from './features/admin/estudiante/list-estudiante/list-estudiante.component';
@@ -113,14 +112,14 @@ import { LsPartidoComponent } from './features/admin/partido/ls-partido/ls-parti
 import { RegPartidoComponent } from './features/admin/partido/reg-partido/reg-partido.component';
 import { VisorPartidoComponent } from './features/admin/partido/visor-partido/visor-partido.component';
 import { PrincipalComponent } from './features/admin/principal/principal.component';
-import { DvProPerfilComponent } from './features/admin/profesor/dv-pro-perfil/dv-pro-perfil.component';
+
 import { EditProfesorComponent } from './features/admin/profesor/edit-profesor/edit-profesor.component';
 import { LstDesProfesorComponent } from './features/admin/profesor/lst-des-profesor/lst-des-profesor.component';
 import { LstProfesoresComponent } from './features/admin/profesor/lst-profesores/lst-profesores.component';
 import { ProfesorComponent } from './features/admin/profesor/profesor/profesor.component';
 import { RegistrarProfesorComponent } from './features/admin/profesor/registrar-profesor/registrar-profesor.component';
 import { VisorProfesorComponent } from './features/admin/profesor/visor-profesor/visor-profesor.component';
-import { DtUsuarioComponent } from './features/admin/usuario/dt-usuario/dt-usuario.component';
+
 import { EditUsuarioComponent } from './features/admin/usuario/edit-usuario/edit-usuario.component';
 import { LsDesUsuarioComponent } from './features/admin/usuario/ls-des-usuario/ls-des-usuario.component';
 import { LstUsuarioComponent } from './features/admin/usuario/lst-usuario/lst-usuario.component';
@@ -206,7 +205,6 @@ import { ModalPerfilComponent } from './shared/modal/modal-perfil/modal-perfil.c
     LstUsuarioComponent,
     VisorUsuarioComponent,
     EditUsuarioComponent,
-    DtUsuarioComponent,
     EdtDatosComponent,
     ModalEliminacionComponent,
     LsDesUsuarioComponent,
@@ -234,14 +232,13 @@ import { ModalPerfilComponent } from './shared/modal/modal-perfil/modal-perfil.c
     LtDevComponent,
     EditDevComponent,
     RegDevComponent,
-    DvProPerfilComponent,
     RegEstudianteComponent,
     ListEstudianteComponent,
     LstDesEstudianteComponent,
     EditEstudianteComponent,
     VisorEstudianteComponent,
     EstudianteComponent,
-    DvEstPerfilComponent,
+    
     LstDesTbGeneralComponent,
     LstDesLtDevComponent,
     ActividadesComponent,
@@ -254,7 +251,7 @@ import { ModalPerfilComponent } from './shared/modal/modal-perfil/modal-perfil.c
     LsDesEquipoComponent,
     RegERquipoComponent,
     EquipoComponent,
-    EquipoPerfilComponent,
+   
     LsLesionesComponent,
     VisorLesionComponent,
     VisorLesiondetComponent,

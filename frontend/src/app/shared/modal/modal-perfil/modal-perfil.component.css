@@ -1,0 +1,15 @@
+.card-header{
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+}
+
+.title {
+    margin: 0;
+    flex-grow: 1;
+    margin-right: 70px;
+}
+
+
+  .img-marca {
+    width: 160px;
+    height: 140px;
+}
