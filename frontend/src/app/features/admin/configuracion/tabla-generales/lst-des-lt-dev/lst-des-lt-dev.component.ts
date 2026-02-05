@@ -5,13 +5,16 @@ import { GeneralService } from 'src/app/core/services/general.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { LsTablaGeneralComponent } from '../ls-tabla-general/ls-tabla-general.component';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { VisorTbGeneralComponent } from '../visor-tb-general/visor-tb-general.component';
 import { ModalEliminacionComponent } from '../../../../../shared/modal/modal-eliminacion/modal-eliminacion.component';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-lst-des-lt-dev',
@@ -20,7 +23,7 @@ import { Respuesta } from 'src/app/core/model/respuesta';
 })
 export class LstDesLtDevComponent implements OnInit {
 
-volver() {
+  volver() {
     this.dialogRe.close();
   }
 
@@ -40,18 +43,13 @@ volver() {
   constructor(
     private generalService: GeneralService,
     private dialog: MatDialog,
-    private loginService:LoginService,
-    private historialService:HistorialService,
+    private loginService: LoginService,
+    private historialService: HistorialService,
     private dialogRe: MatDialogRef<LsTablaGeneralComponent>,
     private change: ChangeDetectorRef,
-    private mensjae: MensajeService,
-
-    private route: Router
+    private alertService: AlertService,
   ) {
-    this.pageChanged({
-      pageIndex: 0, pageSize: this.pageSize,
-      length: 0
-    });
+
   }
 
   ngOnInit(): void {
@@ -87,7 +85,7 @@ volver() {
     console.log(row)
 
     const dialogRef = this.dialog.open(VisorTbGeneralComponent, {
-      disableClose: true ,
+      disableClose: true,
       width: '550px',
       height: '550px',
       data: {
@@ -103,8 +101,8 @@ volver() {
   }
 
 
- eliminar(row: any) {
-  console.log(row)
+  eliminar(row: any) {
+    console.log(row)
     const dialogEliminar = this.dialog.open(ModalEliminacionComponent, {
       width: '500px',
       data: {
@@ -114,33 +112,25 @@ volver() {
       },
 
     });
-    console.log(row)
+ 
 
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton !== 'CONFIRMAR') return;
-
-      this.generalService.activarGeneralGen(row.codigo).subscribe(result => {
-        // Crear el historial
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
-          detalle: `El usuario ${this.loginService.getUser().username} desactivó un cargo de ${row.nombre}`
-        };
-
-        console.log(historial);
-
-        // Registrar el historial
-        this.historialService.registrar(historial).subscribe(
-          () => {
-            this.mensjae.MostrarMensajeExito("Se desactivó correctamente las tabla general");
-            this.listarGeneral(); // Actualizar la lista de cargos
-          },
-          error => {
-            this.mensjae.MostrarBodyError(error); // Manejar error al registrar el historial
-          }
-        );
-      }, error => {
-        this.mensjae.MostrarBodyError(error); // Manejar error al desactivar el cargo
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username,
+        detalle: `El usuario ${this.loginService.getUser().username} desactivó un cargo de ${row.nombre}`
+      };
+      this.generalService.activarGeneralGen(row.codigo).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.alertService.advertencia(TITULO_MESAJES.ACTIVADO, MENSAJES.ACTIVADO);
+          this.listarGeneral(); 
+        },
+        error: error => {
+           this.alertService.error(TITULO_MESAJES.ERROR_TITULO,error.error.message);
+        }
       });
+
     });
 
   }

@@ -4,7 +4,6 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { CargoService } from 'src/app/core/services/cargo.service';
 import { ExcelService } from 'src/app/core/services/excel.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
 import { VisorCargoComponent } from '../visor-cargo/visor-cargo.component';
 import { EditCargoComponent } from '../edit-cargo/edit-cargo.component';
@@ -17,6 +16,9 @@ import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { firstValueFrom } from 'rxjs';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
 
 @Component({
   selector: 'app-cargo',
@@ -47,15 +49,12 @@ export class CargoComponent implements OnInit {
     private historialService: HistorialService,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private mensjae: MensajeService,
+    private alertService: AlertService,
     private excel: ExcelService,
     private pdfService: PdfService,
     private route: Router
   ) {
-    this.pageChanged({
-      pageIndex: 0, pageSize: this.pageSize,
-      length: 0
-    });
+
   }
 
   ngOnInit(): void {
@@ -75,9 +74,6 @@ export class CargoComponent implements OnInit {
     const endIndex = startIndex + event.pageSize;
     this.pagedData = this.datosTabla.slice(startIndex, endIndex);
   }
-  volver(): void {
-    this.route.navigate(['/administrador']);
-  }
 
   columnas = [
     { etiqueta: 'Código', clave: 'codigo' },
@@ -96,14 +92,11 @@ export class CargoComponent implements OnInit {
       this.pagedData = data
       this.totalItems = this.datosTabla.length
       this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
-
       this.change.markForCheck();
     })
   }
 
   visor(row: any) {
-    console.log(row)
-
     const dialogRef = this.dialog.open(VisorCargoComponent, {
       disableClose: true,
       width: '550px',
@@ -113,6 +106,7 @@ export class CargoComponent implements OnInit {
       }
     });
   }
+
   editar(row: any) {
     const dialogRef = this.dialog.open(EditCargoComponent, {
       disableClose: true,
@@ -142,6 +136,7 @@ export class CargoComponent implements OnInit {
       this.listarCargo()
     })
   }
+
   exportarExcel() {
 
     const historial: Historial = {
@@ -149,67 +144,99 @@ export class CargoComponent implements OnInit {
       detalle: `El usuario ${this.loginService.getUser().username} descargó el informe de cargos en formato Excel.`
     };
 
-    this.historialService.registrar(historial).subscribe(
-      () => {
-        this.excel.descargarExcelCargo().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'datos_exportados_cargo.xlsx'; 
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
+
+    this.excel.descargarExcelCargo().subscribe({
+      next: async (data: Blob) => {
+        const blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         });
+        await firstValueFrom(this.historialService.registrar(historial));
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'datos_exportados.xlsx';
+        a.click();
+
+        window.URL.revokeObjectURL(url);
       },
-      error => {
-        this.mensjae.MostrarBodyError('Error al registrar el historial: ' + error);
+      error: (err) => {
+        this.pdfService.descargarPDFProfesor().subscribe({
+          next: async (data: Blob) => {
+            await firstValueFrom(this.historialService.registrar(historial));
+            const blob = new Blob([data], { type: 'application/pdf' });
+            const urlBlob = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = urlBlob;
+            a.download = 'informe_datos.pdf';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(urlBlob);
+            document.body.removeChild(a);
+          },
+          error: (error) => {
+            this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+          }
+        });
       }
-    );
+    });
+
   }
 
 
 
 
   exportarPDF(): void {
-    // Crear el historial antes de exportar el PDF
+
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} descargó el informe de cargos en formato PDF.`
     };
 
-    // Registrar el historial
-    this.historialService.registrar(historial).subscribe(
-      () => {
-        // Si el historial se registra correctamente, proceder a descargar el PDF
-        this.pdfService.descargarPDFCargo().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/pdf' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'informe_cargo.pdf';
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        });
+    this.pdfService.descargarPDFCargo().subscribe({
+      next: async (data: Blob) => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const urlBlob = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = urlBlob;
+        a.download = 'informe_datos.pdf';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(urlBlob);
+        document.body.removeChild(a);
       },
-      error => {
-        this.mensjae.MostrarBodyError('Error al registrar el historial: ' + error);
+      error: (error) => {
+        this.pdfService.descargarPDFProfesor().subscribe({
+          next: async (data: Blob) => {
+            await firstValueFrom(this.historialService.registrar(historial));
+            const blob = new Blob([data], { type: 'application/pdf' });
+            const urlBlob = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = urlBlob;
+            a.download = 'informe_datos.pdf';
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(urlBlob);
+            document.body.removeChild(a);
+          },
+          error: (error) => {
+            this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+          }
+        });
       }
-    );
+    });
   }
 
 
   exportarPrint(): void {
-    // Suponiendo que this.datosTabla es un array o un objeto que quieres imprimir
+
     const contenidoAImprimir = this.datosTabla;
 
     if (contenidoAImprimir) {
-      // Crear un iframe
+
       const iframe = document.createElement('iframe');
       iframe.style.position = 'absolute';
       iframe.style.width = '0px';
@@ -220,14 +247,12 @@ export class CargoComponent implements OnInit {
 
       const iframeDoc = iframe.contentWindow?.document;
 
-      // Encabezado del reporte
       const fechaReporte = new Date().toLocaleDateString('es-ES', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric'
       });
 
-      // Convertir los datos en formato HTML
       let contenidoHTML = `
       <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-family: 'Arial', sans-serif;">
         <thead>
@@ -250,7 +275,6 @@ export class CargoComponent implements OnInit {
 
       contenidoHTML += `</tbody></table>`;
 
-      // Escribir el contenido a imprimir en el iframe
       iframeDoc?.open();
       iframeDoc?.write(`
         <html>
@@ -305,7 +329,6 @@ export class CargoComponent implements OnInit {
       `);
       iframeDoc?.close();
 
-      // Ejecutar el comando de impresión en el iframe
       setTimeout(() => {
         iframe.contentWindow?.focus();
         iframe.contentWindow?.print();
@@ -322,37 +345,23 @@ export class CargoComponent implements OnInit {
         titulo: 'Eliminar',
         subtitulo: `¿Deseas eliminar el sede ${row.nombre} con el codigo ${row.codigo} ? `
       },
-
     });
-    console.log(row)
 
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton !== 'CONFIRMAR') return;
 
-      this.cargo.desactivarCargo(row.codigo).subscribe(result => {
-        // Crear el historial
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
-          detalle: `El usuario ${this.loginService.getUser().username} desactivó un cargo de ${row.nombre}`
-        };
-
-        console.log(historial);
-
-        // Registrar el historial
-        this.historialService.registrar(historial).subscribe(
-          () => {
-            this.mensjae.MostrarMensajeExito("Se desactivó correctamente el cargo ");
-            this.listarCargo(); // Actualizar la lista de cargos
-          },
-          error => {
-            this.mensjae.MostrarBodyError(error); // Manejar error al registrar el historial
-          }
-        );
-      }, error => {
-        this.mensjae.MostrarBodyError(error); // Manejar error al desactivar el cargo
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username,
+        detalle: `El usuario ${this.loginService.getUser().username} desactivó un cargo de ${row.nombre}`
+      };
+      this.cargo.desactivarCargo(row.codigo).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.alertService.advertencia(TITULO_MESAJES.DESACTIVADO, MENSAJES.DESACTIVADO);
+          this.listarCargo();
+        },
       });
     });
-
   }
 
   verSedeDesactivados() {
@@ -360,8 +369,6 @@ export class CargoComponent implements OnInit {
       width: '1050px',
       height: '650px',
     });
-
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarCargo()
     })

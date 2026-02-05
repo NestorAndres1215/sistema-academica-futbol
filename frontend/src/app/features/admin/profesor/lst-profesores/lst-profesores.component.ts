@@ -8,13 +8,15 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { Router } from '@angular/router';
 import { EditProfesorComponent } from '../edit-profesor/edit-profesor.component';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { firstValueFrom } from 'rxjs';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
 
 
 @Component({
@@ -23,11 +25,7 @@ import { Respuesta } from 'src/app/core/model/respuesta';
   styleUrls: ['./lst-profesores.component.css']
 })
 export class LstProfesoresComponent implements OnInit {
- botonesConfig = {
-    editar: false,
-    volver: true,
 
-  };
   columnas = [
     { etiqueta: 'Código', clave: 'codigo' },
     { etiqueta: 'Nombre', clave: 'primerNombre' },
@@ -58,15 +56,12 @@ export class LstProfesoresComponent implements OnInit {
     private historialService: HistorialService,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private mensjae: MensajeService,
+    private alertService: AlertService,
     private excel: ExcelService,
     private pdfService: PdfService,
     private route: Router
   ) {
-    this.pageChanged({
-      pageIndex: 0, pageSize: this.pageSize,
-      length: 0
-    });
+
   }
 
   ngOnInit(): void {
@@ -156,72 +151,63 @@ export class LstProfesoresComponent implements OnInit {
       detalle: `El usuario ${usuario} descargó el informe de profesores en formato Excel.`
     };
 
-    // Registrar el historial
-    this.historialService.registrar(historial).subscribe(
-      () => {
-        // Si el historial se registra correctamente, proceder a descargar el Excel
-        this.excel.descargarExcelProfesor().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx';  // Nombre del archivo Excel
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        }, error => {
-          this.mensjae.MostrarBodyError('Error al descargar el archivo Excel: ' + error);
+    this.excel.descargarExcelProfesor().subscribe({
+      next: async (data: Blob) => {
+        const blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         });
+        await firstValueFrom(this.historialService.registrar(historial));
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'datos_exportados.xlsx';
+        a.click();
+
+        window.URL.revokeObjectURL(url);
       },
-      error => {
-        this.mensjae.MostrarBodyError('Error al registrar el historial: ' + error);
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-    );
+    });
+
   }
 
 
 
   exportarPDF(): void {
-    // Crear el historial antes de exportar el PDF
-    const usuario = this.loginService.getUser().username; // Obtener el nombre de usuario del servicio de login
+
+    const usuario = this.loginService.getUser().username;
     const historial: Historial = {
       usuario: usuario,
       detalle: `El usuario ${usuario} descargó el informe de cargos en formato PDF.`
     };
 
-    // Registrar el historial
-    this.historialService.registrar(historial).subscribe(
-      () => {
-        // Si el historial se registra correctamente, proceder a descargar el PDF
-        this.pdfService.descargarPDFProfesor().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/pdf' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'informe_cargo.pdf'; // Nombre del archivo PDF
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        }, error => {
-          this.mensjae.MostrarBodyError('Error al descargar el PDF: ' + error);
-        });
+    this.pdfService.descargarPDFProfesor().subscribe({
+      next: async (data: Blob) => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const urlBlob = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = urlBlob;
+        a.download = 'informe_datos.pdf';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(urlBlob);
+        document.body.removeChild(a);
       },
-      error => {
-        this.mensjae.MostrarBodyError('Error al registrar el historial: ' + error);
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-    );
+    });
+
   }
 
   exportarPrint(): void {
-    // Suponiendo que this.datostabla es un array o un objeto que quieres imprimir
     const contenidoAImprimir = this.datosTabla;
 
     if (contenidoAImprimir) {
-      // Crear un iframe
+
       const iframe = document.createElement('iframe');
       iframe.style.position = 'absolute';
       iframe.style.width = '0px';
@@ -239,8 +225,6 @@ export class LstProfesoresComponent implements OnInit {
         year: 'numeric'
       });
 
-
-      // Convertir los datos en formato HTML (esto puede variar dependiendo del formato de 'this.datostabla')
       let contenidoHTML = `
       <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-family: 'Arial', sans-serif;">
         <thead>
@@ -279,8 +263,6 @@ export class LstProfesoresComponent implements OnInit {
 
       contenidoHTML += `</tbody></table>`;
 
-
-      // Escribir el contenido a imprimir en el iframe
       iframeDoc?.open();
       iframeDoc?.write(`
   <html>
@@ -339,15 +321,11 @@ export class LstProfesoresComponent implements OnInit {
         iframe.contentWindow?.print();
         document.body.removeChild(iframe);
       }, 300);
-      }
+    }
   }
 
   eliminar(row: any) {
-    console.log(row.usuario.username)
-
-    console.log(row)
-
-
+ 
     const dialogEliminar = this.dialog.open(ModalEliminacionComponent, {
       disableClose: true,
       width: '500px',
@@ -358,29 +336,24 @@ export class LstProfesoresComponent implements OnInit {
       },
 
     });
+    
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton != 'CONFIRMAR') return;
-      this.admin.desactivarProfesor(row.codigo).subscribe(result => {
-        console.log(result);
 
-        // Crear el historial después de activar al usuario
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
-          detalle: `El usuario ${this.loginService.getUser().username} desactivo  al profesor ${row.usuario.username} con el código ${row.codigo}.`
-        };
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username,
+        detalle: `El usuario ${this.loginService.getUser().username} desactivo  al profesor ${row.usuario.username} con el código ${row.codigo}.`
+      };
 
-        // Registrar el historial
-        this.historialService.registrar(historial).subscribe(
-          () => {
-            this.mensjae.MostrarMensajeExito("Se restauró correctamente el usuario");
-            this.listarProdesor(); // Refrescar la lista de usuarios desactivados
-          },
-          error => {
-            this.mensjae.MostrarBodyError('Error al registrar el historial: ' + error);
-          }
-        );
-      }, error => {
-        this.mensjae.MostrarBodyError('Error al restaurar el usuario: ' + error);
+      this.admin.desactivarProfesor(row.codigo).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.alertService.advertencia(TITULO_MESAJES.DESACTIVADO, MENSAJES.DESACTIVADO);
+          this.listarProdesor();
+        },
+        error: error => {
+          this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+        }
       });
 
     })

@@ -4,7 +4,6 @@ import { LstUsuarioComponent } from '../lst-usuario/lst-usuario.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AdminService } from 'src/app/core/services/admin.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { LoginService } from 'src/app/core/services/login.service';
 
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,6 +12,9 @@ import { HistorialService } from 'src/app/core/services/historial.service';
 import { Admin } from 'src/app/core/model/Admin';
 import { Historial } from 'src/app/core/model/historial';
 import { edadNacimiento, formatDate } from 'src/app/core/utils/fechaValidator';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-edit-usuario',
@@ -52,7 +54,7 @@ export class EditUsuarioComponent implements OnInit {
     private adminService: AdminService,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private historialService: HistorialService,
     private loginService: LoginService,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -119,11 +121,12 @@ export class EditUsuarioComponent implements OnInit {
   cerrar() {
     this.dialogRe.close();
   }
+
   maxDate: string;
   minDate: string;
 
   async validarFecha() {
-    this.minDate = `1980-01-01`; 
+    this.minDate = `1980-01-01`;
     this.maxDate = formatDate(new Date(new Date().setFullYear(new Date().getFullYear() - 20)));
   }
 
@@ -131,62 +134,53 @@ export class EditUsuarioComponent implements OnInit {
   @Output() onActualizar: EventEmitter<boolean> = new EventEmitter();
   operar() {
 
-    let edad: string | null; 
+    let edad: string | null;
     const fechaNacimiento = this.formulario.get('nacimiento').value;
-    edad =edadNacimiento(fechaNacimiento); 
-    
-    if (this.formulario.valid) {
-      const objAdmin: Admin = {
-        codigoUsuario: this.codigoUsuario,
-        codigoAdmin: this.codigoAdmin,
-        primerNombre: this.formulario.get('primerNombre')?.value,
-        segundoNombre: this.formulario.get('segundoNombre')?.value,
-        apellidoPaterno: this.formulario.get('apellidoPaterno')?.value,
-        apellidoMaterno: this.formulario.get('apellidoMaterno')?.value,
-        correo: this.formulario.get('email')?.value,
-        telefono: this.formulario.get('telefono')?.value,
-        dni: this.formulario.get('dni')?.value,
-        direccion: this.formulario.get('direccion')?.value,
-        nacionalidad: this.formulario.get('nacionalidad')?.value,
-        username: this.formulario.get('usuario')?.value,
-        password: this.formulario.get('contra')?.value,
-        fechaNacimiento: this.formulario.get('nacimiento')?.value,
-        edad: edad,
-        usuarioCreacion: this.usuarioCreacion,
-        usuarioActualizacion: this.loginService.getUser().username,
-      };
-
-      
-
-      const historial: Historial = {
-        usuario: this.loginService.getUser().username,
-        detalle: `El usuario ${this.loginService.getUser().username} actualizó los datos del administrador con código ${this.codigoAdmin}.`
-      };
-
-
-      this.historialService.registrar(historial).subscribe(
-        () => {
-
-          this.adminService.actualizarAdmin(objAdmin).subscribe(
-            response => {
-              this.mensaje.MostrarMensajeExito("SE ACTUALIZÓ USUARIO ");
-              this.dialog.closeAll();
-              this.cdr.detectChanges(); 
-            },
-            error => {
-              this.mensaje.MostrarBodyError(error); 
-            }
-          );
-        },
-        error => {
-          this.mensaje.MostrarBodyError("Error al registrar el historial: " + error); 
-        }
-      );
-    }
-    else {
-      this.mensaje.MostrarMensaje("FORMULARIO VACIO")
+    edad = edadNacimiento(fechaNacimiento);
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       this.formulario.markAllAsTouched();
+      return;
     }
+    const objAdmin: Admin = {
+      codigoUsuario: this.codigoUsuario,
+      codigoAdmin: this.codigoAdmin,
+      primerNombre: this.formulario.get('primerNombre')?.value,
+      segundoNombre: this.formulario.get('segundoNombre')?.value,
+      apellidoPaterno: this.formulario.get('apellidoPaterno')?.value,
+      apellidoMaterno: this.formulario.get('apellidoMaterno')?.value,
+      correo: this.formulario.get('email')?.value,
+      telefono: this.formulario.get('telefono')?.value,
+      dni: this.formulario.get('dni')?.value,
+      direccion: this.formulario.get('direccion')?.value,
+      nacionalidad: this.formulario.get('nacionalidad')?.value,
+      username: this.formulario.get('usuario')?.value,
+      password: this.formulario.get('contra')?.value,
+      fechaNacimiento: this.formulario.get('nacimiento')?.value,
+      edad: edad,
+      usuarioCreacion: this.usuarioCreacion,
+      usuarioActualizacion: this.loginService.getUser().username,
+    };
+
+
+
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} actualizó los datos del administrador con código ${this.codigoAdmin}.`
+    };
+
+
+    this.adminService.actualizarAdmin(objAdmin).subscribe({
+      next: async () => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
+        this.dialog.closeAll();
+        this.cdr.markForCheck(); 
+      },
+      error: error => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+      }
+    });
   }
 
   usuarios: any;

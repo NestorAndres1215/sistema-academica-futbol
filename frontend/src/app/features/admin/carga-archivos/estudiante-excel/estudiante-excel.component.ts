@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
 import { Historial } from 'src/app/core/model/historial';
+import { AlertService } from 'src/app/core/services/alert.service';
 import { CargoService } from 'src/app/core/services/cargo.service';
 import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
-import { ProfesorService } from 'src/app/core/services/profesor.service';
+
 import { SedeService } from 'src/app/core/services/sede.service';
 import * as XLSX from 'xlsx';
 
@@ -19,15 +20,11 @@ import * as XLSX from 'xlsx';
 })
 export class EstudianteExcelComponent implements OnInit {
   nombre: string
-  botonesConfig = {
-    editar: false,
-    volver: true,
 
-  };
   cargarExcel() {
-    console.log(this.data)
+
     if (!this.data || this.data.length === 0) {
-      this.mensaje.MostrarMensaje("⚠️ LOS DATOS ESTÁN VACÍOS");
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       return;
     }
     const result = this.data.map(item => {
@@ -74,12 +71,12 @@ export class EstudianteExcelComponent implements OnInit {
 
     this.estudiante.guardarProfesorExcel(result).subscribe({
       next: async () => {
-        this.mensaje.MostrarMensajeExito('SE REGISTRÓ EL PROFESOR');
+        this.alertService.aceptacion(TITULO_MESAJES.REGISTRO_EXITOSO_TITULO, MENSAJES.REGISTRO_EXITOSO_MENSAJE);
         this.data = [];
         await firstValueFrom(this.historialService.registrar(historial));
       },
       error: (error) => {
-        this.mensaje.MostrarBodyError(error);
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
     });
   }
@@ -214,7 +211,7 @@ export class EstudianteExcelComponent implements OnInit {
     private sede: SedeService,
     private estudiante: EstudianteService,
     private cargo: CargoService,
-    private mensaje: MensajeService) { }
+    private alertService: AlertService) { }
 
   ngOnInit(): void {
     this.listarSede()
@@ -222,7 +219,7 @@ export class EstudianteExcelComponent implements OnInit {
     this.listarProfesores()
   }
   profesoresActuales: any
-  
+
   async listarProfesores() {
     this.estudiante.listar().subscribe((data) => {
       this.profesoresActuales = data;

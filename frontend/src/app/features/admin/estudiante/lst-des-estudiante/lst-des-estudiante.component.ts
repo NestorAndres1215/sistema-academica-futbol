@@ -6,12 +6,13 @@ import { ListEstudianteComponent } from '../list-estudiante/list-estudiante.comp
 import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
-
 import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-lst-des-estudiante',
@@ -33,12 +34,11 @@ export class LstDesEstudianteComponent implements OnInit {
   constructor(
     private estudianteService: EstudianteService,
     private change: ChangeDetectorRef,
-    private loginService:LoginService,
-    private historialService:HistorialService,
+    private loginService: LoginService,
+    private historialService: HistorialService,
     private dialog: MatDialog,
     private dialogRe: MatDialogRef<ListEstudianteComponent>,
-    private route: Router,
-    private mensajeService: MensajeService
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -91,9 +91,6 @@ export class LstDesEstudianteComponent implements OnInit {
 
 
   eliminar(row: any) {
-    console.log(row.usuario.username)
-
-    console.log(row)
 
 
     const dialogEliminar = this.dialog.open(ModalEliminacionComponent, {
@@ -108,22 +105,14 @@ export class LstDesEstudianteComponent implements OnInit {
     });
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton != 'CONFIRMAR') return;
-      this.estudianteService.activarEstudiante(row.codigo).subscribe(result => {
-        console.log(result);
-
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username, // Usuario que realiza la acción
-          detalle: `El usuario ${this.loginService.getUser().username} eliminó al estudiante ${row.usuario.username} con el código ${row.codigo}.`
-        };
-        this.historialService.registrar(historial).subscribe(
-          () => {
-            this.mensajeService.MostrarMensajeExito("Se activar correctamente el estudiante.");
-            this.listarDesactivado();  // Actualizar la lista de cargos
-          },
-          error => {
-            this.mensajeService.MostrarBodyError(error); // Manejar error al registrar el historial
-          }
-        );
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username,
+        detalle: `El usuario ${this.loginService.getUser().username} eliminó al estudiante ${row.usuario.username} con el código ${row.codigo}.`
+      };
+      this.estudianteService.activarEstudiante(row.codigo).subscribe(async () => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.alertService.advertencia(TITULO_MESAJES.ACTIVADO, MENSAJES.ACTIVADO);
+        this.listarDesactivado();
       });
 
     })

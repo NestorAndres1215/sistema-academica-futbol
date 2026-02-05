@@ -17,8 +17,10 @@ import { SedeService } from 'src/app/core/services/sede.service';
 import { RegERquipoComponent } from '../reg-erquipo/reg-erquipo.component';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
-import { CODIGO_GENERO, GENERO } from 'src/app/core/constants/usuario';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { firstValueFrom } from 'rxjs';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
+
 
 @Component({
   selector: 'app-mant-equipo',
@@ -57,7 +59,6 @@ export class MantEquipoComponent implements OnInit {
     { etiqueta: 'Categoría', clave: 'categoria' },
     { etiqueta: 'Sede', clave: 'sede' },
     { etiqueta: 'Género', clave: 'genero' },
-    { etiqueta: 'Acción', clave: 'acciones' } // Aquí puedes manejar los botones aparte
   ];
 
   constructor(
@@ -66,25 +67,21 @@ export class MantEquipoComponent implements OnInit {
     private generales: GeneralService, private sede: SedeService,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private mensjae: MensajeService,
+    private alertService: AlertService,
     private historialService: HistorialService,
     private excel: ExcelService,
     private pdfService: PdfService,
-    private route: Router
   ) {
-    this.pageChanged({
-      pageIndex: 0, pageSize: this.pageSize,
-      length: 0
-    });
   }
   usuariosFiltrados: any[] = [];
+
   ngOnInit(): void {
     this.user = this.loginService.getUser();
     this.listaGenero()
     this.listarSede()
-
     this.listarProdesor();
   }
+
   filtro: string = '';
 
   filtrarUsuarios(): void {
@@ -156,7 +153,6 @@ export class MantEquipoComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-
     });
 
   }
@@ -194,53 +190,51 @@ export class MantEquipoComponent implements OnInit {
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo Excel.`,
     };
 
-    this.historialService.registrar(historial).subscribe(
-      () => {
-        this.excel.descargarExcelEquipo().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx';
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
+    this.excel.descargarExcelEquipo().subscribe({
+      next: async (data: Blob) => {
+        const blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         });
+        await firstValueFrom(this.historialService.registrar(historial));
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'datos_exportados.xlsx';
+        a.click();
+        window.URL.revokeObjectURL(url);
       },
-      error => {
-        this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-    );
+    });
   }
 
   exportarPDF(): void {
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, 
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo PDF.`,
     };
 
-    this.historialService.registrar(historial).subscribe(
-      () => {
 
-        this.pdfService.descargarPDFEquipo().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/pdf' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'informe_datos.pdf'; // Nombre del archivo PDF
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        });
+    this.pdfService.descargarPDFEquipo().subscribe({
+      next: async (data: Blob) => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const urlBlob = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = urlBlob;
+        a.download = 'informe_datos.pdf';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(urlBlob);
+        document.body.removeChild(a);
       },
-      error => {
-      this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-    );
+    });
+
   }
 
   exportarPrint(): void {
@@ -366,24 +360,15 @@ export class MantEquipoComponent implements OnInit {
     });
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton != 'CONFIRMAR') return;
+
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+        detalle: `El usuario ${this.loginService.getUser().username} eliminó al estudiante ${row.nombre} con el código ${row.codigo}.`
+      };
       this.equipoServuce.desactivar(row.codigo).subscribe(result => {
-        console.log(result);
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username, // Usuario que realiza la acción
-          detalle: `El usuario ${this.loginService.getUser().username} eliminó al estudiante ${row.nombre} con el código ${row.codigo}.`
-        };
-        this.historialService.registrar(historial).subscribe(
-          () => {
-            this.mensjae.MostrarMensaje("Se desactivó correctamente el estudiante.");
-            this.listarProdesor();
-          },
-          error => {
-            this.mensjae.MostrarBodyError(error);
-          }
-        );
-
+        this.alertService.aceptacion(TITULO_MESAJES.DESACTIVADO, MENSAJES.DESACTIVADO);
+        this.listarProdesor();
       });
-
     })
   }
 

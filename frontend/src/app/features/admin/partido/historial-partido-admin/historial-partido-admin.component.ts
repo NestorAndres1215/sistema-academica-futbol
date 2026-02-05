@@ -5,13 +5,14 @@ import { Router } from '@angular/router';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { PartidoService } from 'src/app/core/services/partido.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
-import { EditPartidoComponent } from '../edit-partido/edit-partido.component';
 import { VisorPartidoComponent } from '../visor-partido/visor-partido.component';
 import { HistorialEditAdminComponent } from '../historial-edit-admin/historial-edit-admin.component';
 import { Historial } from 'src/app/core/model/historial';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { firstValueFrom } from 'rxjs';
+import { TITULO_MESAJES } from 'src/app/core/constants/messages';
 
 @Component({
   selector: 'app-historial-partido-admin',
@@ -56,7 +57,7 @@ export class HistorialPartidoAdminComponent implements OnInit {
     private dialog: MatDialog,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private mensjae: MensajeService,
+    private alertService: AlertService,
     private historialService: HistorialService,
     private excel: ExcelService,
     private pdfService: PdfService,
@@ -159,64 +160,56 @@ export class HistorialPartidoAdminComponent implements OnInit {
 
   exportarExcel() {
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, 
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo Excel.`,
     };
 
-    this.historialService.registrar(historial).subscribe(
-      () => {
-
-        this.excel.descargarExcelPartidoDesactivo().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx'; 
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
+    this.excel.descargarExcelPartidoDesactivo().subscribe({
+      next: async (data: Blob) => {
+        const blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         });
+        await firstValueFrom(this.historialService.registrar(historial));
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'datos_exportados.xlsx';
+        a.click();
+
+        window.URL.revokeObjectURL(url);
       },
-      error => {
-       
-        this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
-       
+      error: (err) => {
+        console.error('Error al descargar el Excel', err);
       }
-    );
+    });
+
   }
 
   exportarPDF(): void {
 
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, 
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo PDF.`,
     };
 
-    this.historialService.registrar(historial).subscribe(
-      () => {
-        // Si el historial se registra correctamente, proceder con la exportación
-        this.pdfService.descargarPDFPartidoDesactivado().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/pdf' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'informe_partido_activados.pdf'; // Nombre del archivo PDF
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        });
+    this.pdfService.descargarPDFProfesor().subscribe({
+      next: async (data: Blob) => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const urlBlob = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = urlBlob;
+        a.download = 'informe_datos.pdf';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(urlBlob);
+        document.body.removeChild(a);
       },
-      error => {
-        // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
-        this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
-
-     
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-    );
+    });
   }
 
   exportarPrint(): void {

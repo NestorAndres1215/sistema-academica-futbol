@@ -12,8 +12,11 @@ import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Estudiante } from 'src/app/core/model/estudiante';
 import { Historial } from 'src/app/core/model/historial';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { edadNacimiento } from 'src/app/core/utils/fechaValidator';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-edit-estudiante',
@@ -65,7 +68,7 @@ export class EditEstudianteComponent implements OnInit {
     private historialService: HistorialService,
     private sedeService: SedeService,
     private formBuilder: UntypedFormBuilder,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private generales: GeneralService,
     private loginService: LoginService,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -145,7 +148,7 @@ export class EditEstudianteComponent implements OnInit {
   }
 
 
-  
+
   cerrar() {
     this.dialogRe.close();
   }
@@ -153,11 +156,16 @@ export class EditEstudianteComponent implements OnInit {
 
   @Output() onActualizar: EventEmitter<boolean> = new EventEmitter();
   operar() {
-    let edad: string | null; // Declaramos la variable
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
+      this.formulario.markAllAsTouched();
+      return;
+    }
+
+    let edad: string | null;
     const fechaNacimiento = this.formulario.get('fechaNacimiento').value;
-    edad = edadNacimiento(fechaNacimiento); 
-    console.log(edad)
-    console.log(this.codigoAdmin)
+    edad = edadNacimiento(fechaNacimiento);
+
 
     if (this.formulario.valid) {
       const objAdmin: Estudiante = {
@@ -184,37 +192,26 @@ export class EditEstudianteComponent implements OnInit {
         genero: this.formulario.get('genero')?.value,
 
       };
-      console.log(objAdmin)
-      // Crear el objeto del historial
+
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+        usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} actualizó al estudiante ${objAdmin.primerNombre} ${objAdmin.apellidoPaterno}.`,
       };
 
-      // Registrar el historial
-      this.historialService.registrar(historial).subscribe(
-        () => {
-          // Si el historial se registra correctamente, proceder con la actualización del estudiante
-          this.estudianteService.actualizarEstudiante(objAdmin).subscribe(
-            response => {
-              this.mensaje.MostrarMensaje("SE ACTUALIZÓ PROFESOR");
-              this.dialog.closeAll();
-              this.cdr.detectChanges();
-            },
-            error => {
-              this.mensaje.MostrarBodyError(error);
-            }
-          );
+      this.estudianteService.actualizarEstudiante(objAdmin).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
+
+          this.dialog.closeAll();
+          this.cdr.detectChanges();
         },
-        error => {
-          // Si hubo un error al registrar el historial, mostrar un mensaje de error
-          this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
+        error: error => {
+          this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
         }
-      );
-    }
-    else {
-      this.mensaje.MostrarMensaje("FORMULARIO VACIO")
-      this.formulario.markAllAsTouched();
+      });
+
+
     }
 
   }

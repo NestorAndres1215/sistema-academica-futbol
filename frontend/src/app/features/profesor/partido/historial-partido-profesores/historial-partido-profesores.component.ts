@@ -1,16 +1,12 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { EquipoService } from 'src/app/core/services/equipo.service';
-import { ExcelService } from 'src/app/core/services/excel.service';
-import { HistorialService } from 'src/app/core/services/historial.service';
-import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
-import { PartidoService } from 'src/app/core/services/partido.service';
-import { PdfService } from 'src/app/core/services/pdf.service';
-// Necesitamos importar Chart desde chart.js/auto
 
+import { LoginService } from 'src/app/core/services/login.service';
+
+import { PartidoService } from 'src/app/core/services/partido.service';
 
 @Component({
   selector: 'app-historial-partido-profesores',

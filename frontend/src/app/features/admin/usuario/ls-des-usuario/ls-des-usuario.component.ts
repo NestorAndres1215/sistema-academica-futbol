@@ -3,15 +3,15 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { AdminService } from 'src/app/core/services/admin.service';
 import { VisorUsuarioComponent } from '../visor-usuario/visor-usuario.component';
-import { Router } from '@angular/router';
 import { ModalEliminacionComponent } from '../../../../shared/modal/modal-eliminacion/modal-eliminacion.component';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { LstUsuarioComponent } from '../lst-usuario/lst-usuario.component';
-
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { Respuesta } from 'src/app/core/model/respuesta';
 import { Historial } from 'src/app/core/model/historial';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 @Component({
   selector: 'app-ls-des-usuario',
@@ -35,9 +35,9 @@ export class LsDesUsuarioComponent implements OnInit {
     private change: ChangeDetectorRef,
     private historialService: HistorialService,
     private loginService: LoginService,
-    private dialog: MatDialog,
+    private dialog: MatDialog,private alertService: AlertService,
     private dialogRe: MatDialogRef<LstUsuarioComponent>,
-    private mensajeService: MensajeService
+
   ) { }
 
   ngOnInit(): void {
@@ -104,22 +104,17 @@ export class LsDesUsuarioComponent implements OnInit {
 
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton != 'CONFIRMAR') return;
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username,
+        detalle: `El usuario ${this.loginService.getUser().username} restauró al usuario con el código ${row.codigo} y nombre de usuario ${row.usuario.username}.`
+      };
 
-      this.adminService.activarAdmin(row.codigo).subscribe(result => {
-        this.mensajeService.MostrarMensajeExito("Se restauró correctamente el usuario");
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username,
-          detalle: `El usuario ${this.loginService.getUser().username} restauró al usuario con el código ${row.codigo} y nombre de usuario ${row.usuario.username}.`
-        };
-
-        this.historialService.registrar(historial).subscribe(
-          () => {
-
-            this.listarDesactivado();
-          },
-          error => {
-            this.mensajeService.MostrarBodyError("Error al registrar el historial: " + error);
-          });
+      this.adminService.activarAdmin(row.codigo).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.alertService.advertencia(TITULO_MESAJES.ACTIVADO, MENSAJES.ACTIVADO);
+          this.listarDesactivado();
+        },
       });
     });
   }

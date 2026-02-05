@@ -7,14 +7,14 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { EquipoService } from 'src/app/core/services/equipo.service';
-import { GeneralService } from 'src/app/core/services/general.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
-import { SedeService } from 'src/app/core/services/sede.service';
 import { ClaseService } from 'src/app/core/services/clase.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-lis-des-clase',
@@ -24,14 +24,14 @@ import { Respuesta } from 'src/app/core/model/respuesta';
 export class LisDesClaseComponent implements OnInit {
   constructor(
     private equipo: EquipoService,
-    private claseService:ClaseService,
+    private claseService: ClaseService,
     private change: ChangeDetectorRef,
-    private loginService:LoginService,
-    private historialService:HistorialService,
+    private loginService: LoginService,
+    private historialService: HistorialService,
     private dialog: MatDialog,
     private dialogRe: MatDialogRef<LsClaseComponent>,
     private route: Router,
-    private mensajeService: MensajeService
+    private alertService: AlertService
   ) { }
 
   listar: any[] = [];
@@ -67,7 +67,7 @@ export class LisDesClaseComponent implements OnInit {
       this.datosTabla = data;
       this.pagedData = data
       this.listar = data;
-      this.usuariosFiltrados = [...this.listar]; 
+      this.usuariosFiltrados = [...this.listar];
       this.totalItems = this.datosTabla.length
       this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
 
@@ -76,15 +76,13 @@ export class LisDesClaseComponent implements OnInit {
   }
 
 
-  
+
   volver() {
     this.dialogRe.close();
   }
 
 
   eliminar(row: any) {
-
-
     const dialogEliminar = this.dialog.open(ModalEliminacionComponent, {
       disableClose: true,
       width: '500px',
@@ -93,28 +91,22 @@ export class LisDesClaseComponent implements OnInit {
         titulo: 'Restaurar',
         subtitulo: `¿Deseas restaurar el usuario ${row.nombre} con el codigo ${row.codigo} ? `
       },
-
     });
+
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton != 'CONFIRMAR') return;
-      this.equipo.activar(row.codigo).subscribe(result => {
-        console.log(result);
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+        detalle: `El usuario ${this.loginService.getUser().username} eliminó al estudiante ${row.nombre} con el código ${row.codigo}.`
+      };
 
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username, // Usuario que realiza la acción
-          detalle: `El usuario ${this.loginService.getUser().username} eliminó al estudiante ${row.nombre} con el código ${row.codigo}.`
-        };
-        this.historialService.registrar(historial).subscribe(
-          () => {
-            this.mensajeService.MostrarMensajeExito("Se activar correctamente el estudiante.");
-            this.listarDesactivado();  // Actualizar la lista de cargos
-          },
-          error => {
-            this.mensajeService.MostrarBodyError(error); // Manejar error al registrar el historial
-          }
-        );
+      this.equipo.activar(row.codigo).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.alertService.advertencia(TITULO_MESAJES.ACTIVADO, MENSAJES.ACTIVADO);
+          this.listarDesactivado();
+        },
       });
-
     })
   }
 

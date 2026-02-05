@@ -9,8 +9,9 @@ import { EquipoService } from 'src/app/core/services/equipo.service';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Equipo } from 'src/app/core/model/equipo';
 import { Historial } from 'src/app/core/model/historial';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
-
+import { firstValueFrom } from 'rxjs';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
 
 @Component({
   selector: 'app-reg-erquipo',
@@ -23,46 +24,43 @@ export class RegERquipoComponent implements OnInit {
   }
 
   operar() {
-    if (this.formulario.valid) {
-      const objEquipo: Equipo = {
-
-        nombre: this.formulario.get('nombre')?.value,
-        sede: this.formulario.get('sede')?.value,
-        categoria: this.formulario.get('categoria')?.value,
-        genero: this.formulario.get('genero')?.value,
-        usuarioRegistro: this.loginService.getUser().username,
-      }
-      const historial: Historial = {
-        usuario: this.loginService.getUser().username,
-        detalle: `El usuario ${this.loginService.getUser().username} actualizó al equipo ${objEquipo.nombre}`,
-      };
-      this.historialService.registrar(historial).subscribe(
-        () => {
-
-          this.equipoService.registrar(objEquipo).subscribe(
-            response => {
-              this.mensaje.MostrarMensajeExito("SE REGISTRO EQUIPO");
-              this.dialog.closeAll();
-              this.cdr.detectChanges();
-            },
-            error => {
-              this.mensaje.MostrarBodyError(error);
-            }
-          );
-        },
-        error => {
-          this.mensaje.MostrarBodyError("Error al registrar el historial: " + error.message);
-        }
-      );
-    } else {
-      this.mensaje.MostrarMensajeError("FORMULARIO VACIO")
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
+      this.formulario.markAllAsTouched();
+      return;
     }
+
+    const objEquipo: Equipo = {
+      nombre: this.formulario.get('nombre')?.value,
+      sede: this.formulario.get('sede')?.value,
+      categoria: this.formulario.get('categoria')?.value,
+      genero: this.formulario.get('genero')?.value,
+      usuarioRegistro: this.loginService.getUser().username,
+    }
+
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} actualizó al equipo ${objEquipo.nombre}`,
+    };
+
+    this.equipoService.registrar(objEquipo).subscribe({
+      next: async () => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.alertService.aceptacion(TITULO_MESAJES.REGISTRO_EXITOSO_TITULO, MENSAJES.REGISTRO_EXITOSO_MENSAJE);
+        this.dialog.closeAll();
+        this.cdr.detectChanges();
+      },
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.message)
+      }
+    });
+
   }
 
 
-   formulario: UntypedFormGroup;
+  formulario: UntypedFormGroup;
   constructor(
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private sedeService: SedeService,
     private historialService: HistorialService,
     private equipoService: EquipoService,
@@ -88,9 +86,9 @@ export class RegERquipoComponent implements OnInit {
       sede: ['', Validators.required],
     });
   }
-  sedes: any[] = []; 
-  generos: any[] = []; 
-  categorias: any[] = []; 
+  sedes: any[] = [];
+  generos: any[] = [];
+  categorias: any[] = [];
 
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {

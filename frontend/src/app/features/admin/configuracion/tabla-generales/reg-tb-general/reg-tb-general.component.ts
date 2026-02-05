@@ -4,10 +4,13 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { GeneralService } from 'src/app/core/services/general.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { LtDevComponent } from '../lt-dev/lt-dev.component';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { General } from 'src/app/core/model/General';
 import { Historial } from 'src/app/core/model/historial';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-reg-tb-general',
   templateUrl: './reg-tb-general.component.html',
@@ -19,7 +22,7 @@ export class RegTbGeneralComponent implements OnInit {
   constructor(
     private dialogRe: MatDialogRef<LtDevComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private loginService: LoginService,
     private historialService: HistorialService,
     private generalService: GeneralService,
@@ -46,7 +49,7 @@ export class RegTbGeneralComponent implements OnInit {
 
   operar() {
     if (!this.formulario.valid) {
-      this.mensaje.MostrarMensaje("FORMULARIO VACÍO");
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       this.formulario.markAllAsTouched();
       return;
     }
@@ -56,30 +59,22 @@ export class RegTbGeneralComponent implements OnInit {
       descripcion1: this.formulario.get('descripcion')?.value,
       usuarioCreacion: this.loginService.getUser().username,
     };
-
-    this.generalService.registrarGeneral(objRegistrar).subscribe(
-      response => {
-        this.mensaje.MostrarMensajeExito("SE REGISTRO TABLA GENERAL");
-
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username,
-          detalle: `El usuario ${this.loginService.getUser().username} registró una nueva entrada en la tabla General con código ${this.codigo}.`
-        };
-
-        this.historialService.registrar(historial).subscribe(
-          () => {
-            this.dialog.closeAll();
-            this.cdr.detectChanges();
-          },
-          error => {
-            this.mensaje.MostrarBodyError("Error al registrar el historial: " + error); // Manejar error en historial
-          }
-        );
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} registró una nueva entrada en la tabla General con código ${this.codigo}.`
+    };
+    this.generalService.registrarGeneral(objRegistrar).subscribe({
+      next: async () => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.alertService.aceptacion(TITULO_MESAJES.REGISTRO_EXITOSO_TITULO, MENSAJES.REGISTRO_EXITOSO_MENSAJE);
+        this.dialog.closeAll();
+        this.cdr.markForCheck(); 
       },
-      error => {
-        this.mensaje.MostrarBodyError(error);
+      error: error => {
+       this.alertService.error(TITULO_MESAJES.ERROR_TITULO,error.error.message);
       }
-    );
+    });
+
 
   }
 

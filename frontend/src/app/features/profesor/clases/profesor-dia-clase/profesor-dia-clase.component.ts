@@ -4,9 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { ClaseService } from 'src/app/core/services/clase.service';
 import { RegEjercicioComponent } from '../../ejercicio/reg-ejercicio/reg-ejercicio.component';
 import { EjercicioService } from 'src/app/core/services/ejercicio.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { EditEjecicioComponent } from '../../ejercicio/edit-ejecicio/edit-ejecicio.component';
 import { AdminCargaEditClaseComponent } from 'src/app/features/admin/modulo-clases/admin-carga-edit-clase/admin-carga-edit-clase.component';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
 
 @Component({
   selector: 'app-profesor-dia-clase',
@@ -38,7 +40,7 @@ export class ProfesorDiaClaseComponent implements OnInit {
 
   onRegistrarEjercicio(): void {
     if (!this.claseListar || this.claseListar.length === 0) {
-      this.mensajeService.MostrarMensaje("No se puede registrar ejercicio, no hay clases disponibles.");
+      this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA,MENSAJES.SIN_CLASES_DISPONIBLES);
     } else {
       this.registrar();
     }
@@ -63,7 +65,7 @@ export class ProfesorDiaClaseComponent implements OnInit {
   }
 
   verDetalle(ejercicio: any): void {
-    console.log('Detalle del ejercicio:', ejercicio);
+
 
     const dialogRef = this.dialog.open(EditEjecicioComponent, {
       width: '1050px',
@@ -84,7 +86,7 @@ export class ProfesorDiaClaseComponent implements OnInit {
 
   }
   @Input() dias: string = '';
-  constructor(private mensajeService: MensajeService, private ejercicioService: EjercicioService, private claseService: ClaseService, private route: ActivatedRoute, private dialog: MatDialog) { }
+  constructor(private alertService: AlertService, private ejercicioService: EjercicioService, private claseService: ClaseService, private route: ActivatedRoute, private dialog: MatDialog) { }
   codigo: string
   ngOnInit(): void {
     console.log(this.dias)

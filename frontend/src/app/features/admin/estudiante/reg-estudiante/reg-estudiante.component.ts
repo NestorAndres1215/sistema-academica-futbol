@@ -2,14 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
 import { Estudiante } from 'src/app/core/model/estudiante';
 import { Historial } from 'src/app/core/model/historial';
+import { AlertService } from 'src/app/core/services/alert.service';
 import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
-
 import { SedeService } from 'src/app/core/services/sede.service';
 import { calcularEdad, formatDate } from 'src/app/core/utils/fechaValidator';
 
@@ -38,15 +39,14 @@ export class RegEstudianteComponent implements OnInit {
     private router: Router,
     private estudiante: EstudianteService,
     private formBuilder: UntypedFormBuilder,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private historialService: HistorialService,
     private loginService: LoginService
 
   ) { }
   edad: number | null = null;
+
   ngOnInit(): void {
-
-
     this.listarSede()
     this.listaNacionalidad()
     this.listaGenero()
@@ -54,6 +54,7 @@ export class RegEstudianteComponent implements OnInit {
     this.validarFecha()
     this.initForm();
   }
+
   maxDate: string;
   minDate: string;
 
@@ -88,16 +89,19 @@ export class RegEstudianteComponent implements OnInit {
     });
   }
 
-  volver(): void {
-    this.router.navigate(['/administrador']);
-  }
 
   operar(): void {
+
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
+      this.formulario.markAllAsTouched();
+      return;
+    }
 
     const edad = this.formulario.value.edad;
 
     if (edad < 0) {
-      this.mensaje.MostrarMensaje("NO DEBE SER NEGATIVO");
+      this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.EDAD_NEGATIVA);
       return;
     }
 
@@ -108,86 +112,67 @@ export class RegEstudianteComponent implements OnInit {
     const apellidoPaterno = this.formulario.get('apellidoPaterno')?.value || '';
     const primerCaracter = apellidoPaterno.charAt(0);
     const contra = this.formulario.value.dni + primerCaracter
-    if (this.formulario.valid) {
-      const objProfesor: Estudiante = {
 
-        primerNombre: this.formulario.get('primerNombre')?.value,
-        segundoNombre: this.formulario.get('segundoNombre')?.value,
-        apellidoPaterno: this.formulario.get('apellidoPaterno')?.value,
-        apellidoMaterno: this.formulario.get('apellidoMaterno')?.value,
-        telefono: this.formulario.get('telefono')?.value,
-        dni: this.formulario.get('dni')?.value,
-        direccion: this.formulario.get('direccion')?.value,
-        correo: this.formulario.get('correo')?.value,
-        edad: this.formulario.get('edad')?.value,
-        nacimiento: this.formulario.get('fechaNacimiento')?.value,
-        nacionalidad: this.formulario.get('nacionalidad')?.value,
-        username: usuario,
-        password: contra,
-        usuarioCreacion: this.loginService.getUser().username,
-        sede: sede,
-        genero: genero,
-        tipoDoc: tipo,
-      };
+    const objProfesor: Estudiante = {
 
+      primerNombre: this.formulario.get('primerNombre')?.value,
+      segundoNombre: this.formulario.get('segundoNombre')?.value,
+      apellidoPaterno: this.formulario.get('apellidoPaterno')?.value,
+      apellidoMaterno: this.formulario.get('apellidoMaterno')?.value,
+      telefono: this.formulario.get('telefono')?.value,
+      dni: this.formulario.get('dni')?.value,
+      direccion: this.formulario.get('direccion')?.value,
+      correo: this.formulario.get('correo')?.value,
+      edad: this.formulario.get('edad')?.value,
+      nacimiento: this.formulario.get('fechaNacimiento')?.value,
+      nacionalidad: this.formulario.get('nacionalidad')?.value,
+      username: usuario,
+      password: contra,
+      usuarioCreacion: this.loginService.getUser().username,
+      sede: sede,
+      genero: genero,
+      tipoDoc: tipo,
+    };
 
-      const historial: Historial = {
-        usuario: this.loginService.getUser().username,
-        detalle: `El usuario ${this.loginService.getUser().username} registró al estudiante ${objProfesor.primerNombre} ${objProfesor.apellidoPaterno}.`
-      };
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} registró al estudiante ${objProfesor.primerNombre} ${objProfesor.apellidoPaterno}.`
+    };
 
-      this.historialService.registrar(historial).subscribe(
-        () => {
-
-          this.estudiante.guardarEstudiante(objProfesor).subscribe(
-            response => {
-              this.mensaje.MostrarMensajeExito("SE REGISTRÓ ESTUDIANTE");
-              this.formulario.reset();
-            },
-            error => {
-              this.mensaje.MostrarBodyError(error);
-            }
-          );
-        },
-        error => {
-          this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
-        }
-      );
-    }
-    else {
-      console.log("formulario vacio")
-      this.mensaje.MostrarMensaje("FORMULARIO VACIO")
-      this.formulario.markAllAsTouched();
-    }
+    this.estudiante.guardarEstudiante(objProfesor).subscribe({
+      next: async () => {
+        this.alertService.aceptacion(TITULO_MESAJES.REGISTRO_EXITOSO_TITULO, MENSAJES.REGISTRO_EXITOSO_MENSAJE);
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.formulario.reset();
+      },
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+      }
+    });
   }
-
 
   async listaNacionalidad() {
     this.generales.listarGeneralDevActivado("0003").subscribe((data) => {
-      console.log(data)
       this.nacionalidad = data;
-
     })
   }
+
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
-      console.log(data)
       this.genero = data;
-
     })
   }
+
   async listaDoc() {
     this.generales.listarGeneralDevActivado("0001").subscribe((data) => {
-      console.log(data)
       this.tiposDocumento = data;
-
     })
   }
+
   async listarSede() {
     this.sede.listarSedeActivado().subscribe((data) => {
-      console.log(data)
       this.sedes = data;
-
     })
   }
+
 }

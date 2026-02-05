@@ -1,12 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Router } from '@angular/router';
-import { ExcelService } from 'src/app/core/services/excel.service';
-import { HistorialService } from 'src/app/core/services/historial.service';
+
+
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
-import { PdfService } from 'src/app/core/services/pdf.service';
+
 import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { NombreCompleto } from 'src/app/core/utils/nombreValidator';
 import { EditContraComponent } from 'src/app/features/profesor/configuracion/edit-contra/edit-contra.component';
@@ -36,27 +34,21 @@ export class ProfesorContrasenaComponent implements OnInit {
 
   botonesConfigTable = {
     actualizar: true,
-
   };
-
 
   constructor(
     private admin: ProfesorService,
     private dialog: MatDialog,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private route: Router
   ) {
-    this.pageChanged({
-      pageIndex: 0, pageSize: this.pageSize,
-      length: 0
-    });
   }
 
   ngOnInit(): void {
     this.user = this.loginService.getUser();
     this.listarProdesor();
   }
+
   async listarProdesor() {
     this.admin.listarProfesorActivado().subscribe((data) => {
       const datosFiltrados = data.filter(item => item.codigo !== '0000');
@@ -97,9 +89,7 @@ export class ProfesorContrasenaComponent implements OnInit {
 
 
   editar(row: any) {
-    console.log()
     row = row.usuario
-    console.log(row)
     const dialogRef = this.dialog.open(EditContraComponent, {
 
       disableClose: true,
@@ -114,10 +104,6 @@ export class ProfesorContrasenaComponent implements OnInit {
       this.listarProdesor()
       this.pageSizeChanged()
     })
-  }
-
-  volver(): void {
-    this.route.navigate(['/administrador']);
   }
 
 }

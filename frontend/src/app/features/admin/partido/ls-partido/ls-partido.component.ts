@@ -1,19 +1,19 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { LstDesEstudianteComponent } from '../../estudiante/lst-des-estudiante/lst-des-estudiante.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
 import { PartidoService } from 'src/app/core/services/partido.service';
 import { EditPartidoComponent } from '../edit-partido/edit-partido.component';
 import { VisorPartidoComponent } from '../visor-partido/visor-partido.component';
 import { RegPartidoComponent } from '../reg-partido/reg-partido.component';
 import { Historial } from 'src/app/core/model/historial';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { firstValueFrom } from 'rxjs';
+import { TITULO_MESAJES } from 'src/app/core/constants/messages';
 
 @Component({
   selector: 'app-ls-partido',
@@ -27,15 +27,14 @@ export class LsPartidoComponent implements OnInit {
     actualizar: true,
   };
 
-columnas = [
-  { etiqueta: 'Código', clave: 'codigo' },
-  { etiqueta: 'Equipo Local', clave: 'equipo.nombre' },
-  { etiqueta: 'Equipo Rival', clave: 'equipoRival' },
-  { etiqueta: 'Lugar', clave: 'lugar' },
-  { etiqueta: 'Fecha', clave: 'fecha' },
-  { etiqueta: 'Hora', clave: 'hora' },
-];
-
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Equipo Local', clave: 'equipo.nombre' },
+    { etiqueta: 'Equipo Rival', clave: 'equipoRival' },
+    { etiqueta: 'Lugar', clave: 'lugar' },
+    { etiqueta: 'Fecha', clave: 'fecha' },
+    { etiqueta: 'Hora', clave: 'hora' },
+  ];
 
   registrar() {
     const dialogRef = this.dialog.open(RegPartidoComponent, {
@@ -48,6 +47,7 @@ columnas = [
       this.listarPartidos()
     });
   }
+
   user: any = null;
   xd: any
   datosTabla: any[] = [];
@@ -57,21 +57,16 @@ columnas = [
   totalItems: number;
   pageSize = 5;
   listar: any
-  botonesConfig = {
-    editar: false,
-    volver: true,
-  };
-  constructor(
 
+  constructor(
     private partidoService: PartidoService,
     private dialog: MatDialog,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private mensjae: MensajeService,
+    private alertService: AlertService,
     private historialService: HistorialService,
     private excel: ExcelService,
     private pdfService: PdfService,
-    private route: Router
   ) {
     this.pageChanged({
       pageIndex: 0, pageSize: this.pageSize,
@@ -83,9 +78,9 @@ columnas = [
     this.user = this.loginService.getUser();
     this.listarPartidos();
   }
+
   async listarPartidos() {
     this.partidoService.listarPartidosActuales().subscribe((data) => {
-   
       this.user = this.loginService.getUser();
       this.datosTabla = data;
       this.pagedData = data
@@ -108,7 +103,6 @@ columnas = [
 
 
   pageChanged(event: PageEvent) {
-    console.log(event)
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
@@ -116,7 +110,6 @@ columnas = [
   }
 
   visor(row: any) {
-    console.log(row)
 
     const dialogRef = this.dialog.open(VisorPartidoComponent, {
       width: '850px',
@@ -147,83 +140,67 @@ columnas = [
     })
   }
 
-  volver(): void {
-    this.route.navigate(['/administrador']);
-  }
-
-
-
   exportarExcel() {
 
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, 
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo Excel.`,
     };
 
-    this.historialService.registrar(historial).subscribe(
-      () => {
-
-        this.excel.descargarExcelPartidoActivo().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx'; 
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
+    this.excel.descargarExcelPartidoActivo().subscribe({
+      next: async (data: Blob) => {
+        const blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         });
-      },
-      error => {
-     this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
+        await firstValueFrom(this.historialService.registrar(historial));
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'datos_exportados.xlsx';
+        a.click();
 
-        // Proceder con la exportación de datos
-       
+        window.URL.revokeObjectURL(url);
+      },
+      error: (err) => {
+        console.error('Error al descargar el Excel', err);
       }
-    );
+    });
+
   }
 
   exportarPDF(): void {
-    // Crear el objeto del historial
+ 
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo PDF.`,
     };
 
-    // Registrar el historial
-    this.historialService.registrar(historial).subscribe(
-      () => {
-        // Si el historial se registra correctamente, proceder con la exportación
-        this.pdfService.descargarPDFPartidoActivado().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/pdf' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'informe_partido_activados.pdf'; // Nombre del archivo PDF
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        });
+    this.pdfService.descargarPDFPartidoActivado().subscribe({
+      next: async (data: Blob) => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const urlBlob = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = urlBlob;
+        a.download = 'informe_datos.pdf';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(urlBlob);
+        document.body.removeChild(a);
       },
-      error => {
-        // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
-        this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
-
-     
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-    );
+    });
   }
 
   exportarPrint(): void {
-    // Obtener los datos de partidos desactivados
+  
     const contenidoAImprimir = this.datosTabla;
 
     if (contenidoAImprimir) {
-      // Crear un iframe
+
       const iframe = document.createElement('iframe');
       iframe.style.position = 'absolute';
       iframe.style.width = '0px';
@@ -240,22 +217,20 @@ columnas = [
         year: 'numeric'
       });
 
-
-      // Construir el HTML de la tabla con los datos de los partidos
       let contenidoHTML = `
- <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-family: 'Arial', sans-serif;">
-   <thead>
-          <tr>
-            <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Código</th>
-            <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Equipo</th>
-            <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Marcador</th>
-            <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Equipo Rival</th>
-            <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Tipo de Partido</th>
-            <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Lugar</th>
-            <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Fecha</th>
-            <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Hora</th>
-          </tr></thead>
-   <tbody>`;
+        <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-family: 'Arial', sans-serif;">
+          <thead>
+                  <tr>
+                    <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Código</th>
+                    <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Equipo</th>
+                    <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Marcador</th>
+                    <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Equipo Rival</th>
+                    <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Tipo de Partido</th>
+                    <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Lugar</th>
+                    <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Fecha</th>
+                    <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Hora</th>
+                  </tr></thead>
+          <tbody>`;
 
       contenidoAImprimir.forEach((partido: any) => {
         contenidoHTML += `
@@ -272,58 +247,57 @@ columnas = [
       });
 
       contenidoHTML += `</tbody></table>`;
-      // Escribir el contenido en el iframe con estilos centrados
       iframeDoc?.open();
       iframeDoc?.write(`
-    <html>
-     <head>
-       <style>
-         @page {
-           size: A4;
-           margin: 2cm;
-         }
-         body {
-           font-family: 'Arial', sans-serif;
-           color: #333;
-           line-height: 1.6;
-         }
-         .header {
-           text-align: center;
-           margin-bottom: 20px;
-           border-bottom: 2px solid #007bff;
-           padding-bottom: 10px;
-         }
-         .titulo-reporte {
-           color: #007bff;
-           margin-bottom: 5px;
-         }
-         .fecha-reporte {
-           color: #6c757d;
-           font-size: 0.9em;
-         }
-         .footer {
-           text-align: center;
-           margin-top: 30px;
-           font-size: 0.8em;
-           color: #6c757d;
-           border-top: 1px solid #dee2e6;
-           padding-top: 10px;
-         }
-       </style>
-     </head>
-     <body>
-       <div class="header">
-         <h1 class="titulo-reporte">Reporte de Proximos Partidos</h1>
-         <div class="fecha-reporte">Generado el ${fechaReporte}</div>
-       </div>
-       
-       ${contenidoHTML}
-       
-       <div class="footer">
-         Academia Santos FC © ${new Date().getFullYear()}
-       </div>
-     </body>
-   </html>
+        <html>
+        <head>
+          <style>
+            @page {
+              size: A4;
+              margin: 2cm;
+            }
+            body {
+              font-family: 'Arial', sans-serif;
+              color: #333;
+              line-height: 1.6;
+            }
+            .header {
+              text-align: center;
+              margin-bottom: 20px;
+              border-bottom: 2px solid #007bff;
+              padding-bottom: 10px;
+            }
+            .titulo-reporte {
+              color: #007bff;
+              margin-bottom: 5px;
+            }
+            .fecha-reporte {
+              color: #6c757d;
+              font-size: 0.9em;
+            }
+            .footer {
+              text-align: center;
+              margin-top: 30px;
+              font-size: 0.8em;
+              color: #6c757d;
+              border-top: 1px solid #dee2e6;
+              padding-top: 10px;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1 class="titulo-reporte">Reporte de Proximos Partidos</h1>
+            <div class="fecha-reporte">Generado el ${fechaReporte}</div>
+          </div>
+          
+          ${contenidoHTML}
+          
+          <div class="footer">
+            Academia Santos FC © ${new Date().getFullYear()}
+          </div>
+        </body>
+      </html>
       `);
       iframeDoc?.close();
       setTimeout(() => {
@@ -333,12 +307,5 @@ columnas = [
       }, 300);
     }
   }
-
-
-
-
-
-
-
 
 }

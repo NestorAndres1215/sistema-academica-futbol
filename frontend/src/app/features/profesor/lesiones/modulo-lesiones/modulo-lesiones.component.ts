@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { LesionService } from 'src/app/core/services/lesion.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { RegLesionesComponent } from '../reg-lesiones/reg-lesiones.component';
 import { EditRegDetalleLesionesComponent } from '../edit-reg-detalle-lesiones/edit-reg-detalle-lesiones.component';
 import { VisorLesionComponent } from 'src/app/features/admin/lesiones/visor-lesion/visor-lesion.component';

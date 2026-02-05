@@ -8,14 +8,14 @@ import { Router } from '@angular/router';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
-import { EditEstudianteComponent } from '../../estudiante/edit-estudiante/edit-estudiante.component';
-import { VisorEstudianteComponent } from '../../estudiante/visor-estudiante/visor-estudiante.component';
 import { VisorClaseComponent } from '../visor-clase/visor-clase.component';
 import { EditClaseComponent } from '../edit-clase/edit-clase.component';
 import { Historial } from 'src/app/core/model/historial';
 import { formatearHora } from 'src/app/core/utils/fechaValidator';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { firstValueFrom } from 'rxjs';
+import { TITULO_MESAJES } from 'src/app/core/constants/messages';
 
 @Component({
   selector: 'app-ls-clase',
@@ -30,7 +30,6 @@ export class LsClaseComponent implements OnInit {
     { etiqueta: 'Equipo', clave: 'equipo.nombre' },
     { etiqueta: 'Género', clave: 'equipo.genero' },
     { etiqueta: 'Horario', clave: 'horarioRango' },
-
     { etiqueta: 'Inicio', clave: 'inicio' },
     { etiqueta: 'Fin', clave: 'fin' },
     { etiqueta: 'Día', clave: 'dia' }
@@ -40,7 +39,7 @@ export class LsClaseComponent implements OnInit {
     actualizar: true,
     ver: true,
   };
-  
+
   user: any = null;
   xd: any
   datosTabla: any[] = [];
@@ -51,27 +50,18 @@ export class LsClaseComponent implements OnInit {
   pageSize = 5;
   listar: any
 
-  botonesConfig = {
-    editar: false,
-    volver: true,
-
-  };
-
   constructor(
     private claseService: ClaseService,
     private dialog: MatDialog,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private mensjae: MensajeService,
+    private alertService: AlertService,
     private historialService: HistorialService,
     private excel: ExcelService,
     private pdfService: PdfService,
     private route: Router
   ) {
-    this.pageChanged({
-      pageIndex: 0, pageSize: this.pageSize,
-      length: 0
-    });
+
   }
 
   ngOnInit(): void {
@@ -155,9 +145,7 @@ export class LsClaseComponent implements OnInit {
     })
   }
 
-  volver(): void {
-    this.route.navigate(['/administrador']);
-  }
+
 
 
   exportarExcel() {
@@ -167,56 +155,53 @@ export class LsClaseComponent implements OnInit {
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo Excel.`,
     };
 
-
-    this.historialService.registrar(historial).subscribe(
-      () => {
-        this.excel.descargarExcelClase().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx'; // Nombre del archivo Excel
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
+    this.excel.descargarExcelClase().subscribe({
+      next: async (data: Blob) => {
+        const blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         });
+        await firstValueFrom(this.historialService.registrar(historial));
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'datos_exportados.xlsx';
+        a.click();
+
+        window.URL.revokeObjectURL(url);
       },
-      error => {
-        // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
-        this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-    );
+    });
+
+
   }
 
   exportarPDF(): void {
-    // Crear el objeto del historial
+
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo PDF.`,
     };
 
-    this.historialService.registrar(historial).subscribe(
-      () => {
-
-        this.pdfService.descargarPDFClase().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/pdf' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'informe_estudiante.pdf';
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        });
+    this.pdfService.descargarPDFClase().subscribe({
+      next: async (data: Blob) => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const urlBlob = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = urlBlob;
+        a.download = 'informe_datos.pdf';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(urlBlob);
+        document.body.removeChild(a);
       },
-      error => {
-        this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-    );
+    });
   }
 
   exportarPrint(): void {

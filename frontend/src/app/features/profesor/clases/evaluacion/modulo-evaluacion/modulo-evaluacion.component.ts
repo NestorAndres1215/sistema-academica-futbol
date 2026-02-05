@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
 import { Historial } from 'src/app/core/model/historial';
+import { AlertService } from 'src/app/core/services/alert.service';
 
 import { ClaseService } from 'src/app/core/services/clase.service';
 import { EvaluacionService } from 'src/app/core/services/evaluacion.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 
 @Component({
   selector: 'app-modulo-evaluacion',
@@ -27,31 +30,23 @@ export class ModuloEvaluacionComponent implements OnInit {
       return acc;
     }, []);
 
-    // Extraer arrays separados
     const equipos = resultado.map(item => item.equipo).join(",");
-    console.log(equipos);
 
     const conteos = resultado.map(item => item.conteo).join(",");
-    console.log(conteos);
 
-
-    console.log("Equipos:", equipos);
-    console.log("Conteos:", conteos);
 
     this.evaluacionService.desactivarEvaluaciones(equipos, conteos).subscribe(
-      (response) => {
-        this.mensajeService.MostrarMensajeExito("SE GUARDARON LAS EVALUACIONES");
-        console.log("Evaluaciones desactivadas con éxito:", response);
-        this.listarEvaluacion(); // Debe estar dentro del éxito para ejecutarse después de guardar
+      response => {
+        this.alertService.aceptacion(TITULO_MESAJES.REGISTRO_EXITOSO_TITULO, MENSAJES.REGISTRO_EXITOSO_MENSAJE);
+
+        this.listarEvaluacion();
       },
-      (error) => {
-        console.error("Error al desactivar evaluaciones:", error);
+      error => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
     );
 
-  }
-  editar(arg0: any) {
-    throw new Error('Method not implemented.');
+
   }
 
 
@@ -91,44 +86,36 @@ export class ModuloEvaluacionComponent implements OnInit {
           (est.concentracion ?? 0) +
           (est.tomaDecisiones ?? 0)
         ) / 9,
-      
+
       }));
 
-      console.log(estudiantesAActualizar1)
+
       const historial: Historial = {
         usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} actualizo evaluacion.`
       };
-this.evaluacionService.actualizar(estudiantesAActualizar1)
+
+      this.evaluacionService.actualizar(estudiantesAActualizar1)
       this.evaluacionService.actualizarEvaluaciones(estudiantesAActualizar).subscribe({
-        next: (data) => {
-          this.historialService.registrar(historial).subscribe({
-            next: () => {
-              this.listarEvaluacion();
-            },
-            error: (err) => {
-              console.error("Error al registrar el historial:", err);
-            }
-          });
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.listarEvaluacion();
         },
         error: (err) => {
           console.error("Error al actualizar la asignación:", err);
         }
       });
-
-
-
     }
     this.modoEdicion = !this.modoEdicion;
   }
 
 
   modoEdicion: boolean = false;
-  constructor(private route: ActivatedRoute, private historialService: HistorialService, private mensajeService: MensajeService,
+  constructor(private route: ActivatedRoute, private historialService: HistorialService,
     private loginService: LoginService,
     private evaluacionService: EvaluacionService,
-    private claseService: ClaseService,
-    private router: Router) { }
+    private alertService: AlertService,
+  ) { }
   codigo: string
   ngOnInit(): void {
     this.codigo = this.route.snapshot.params['codigo']
@@ -141,8 +128,8 @@ this.evaluacionService.actualizar(estudiantesAActualizar1)
   listarEvaluacion() {
     this.evaluacionService.listarDetalleEvaluaciones().subscribe(
       (data) => {
-console.log(data)
-console.log(this.codigo)
+        console.log(data)
+        console.log(this.codigo)
         this.evaluacion = data.filter(i => i.equipo == this.codigo && i.estado == true)
         console.log(this.evaluacion)
       },

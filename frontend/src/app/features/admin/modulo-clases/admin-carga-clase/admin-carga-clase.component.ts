@@ -5,12 +5,12 @@ import { LoginService } from 'src/app/core/services/login.service';
 import { AdminClaseDiaComponent } from '../admin-clase-dia/admin-clase-dia.component';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
-
 import { ClaseService } from 'src/app/core/services/clase.service';
 import { ClaseDev } from 'src/app/core/model/clasedev';
 import { Historial } from 'src/app/core/model/historial';
 import { AlertService } from 'src/app/core/services/alert.service';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -24,11 +24,10 @@ export class AdminCargaClaseComponent implements OnInit {
   operar() {
 
     if (!this.formulario.valid) {
-      this.swalService.advertencia("Formulario vacío", "Por favor completa todos los campos obligatorios.");
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       this.formulario.markAllAsTouched();
       return;
     }
-
     const objClase: ClaseDev = {
       titulo: this.formulario.get('titulo')?.value,
       descripcion: this.formulario.get('descripcion')?.value,
@@ -45,35 +44,32 @@ export class AdminCargaClaseComponent implements OnInit {
 
 
     this.claseService.registrarDev(objClase).subscribe({
-      next: () => {
-        this.historialService.registrar(historial).subscribe({
-          next: () => {
-            this.mensaje.MostrarMensajeExito("Se registró correctamente");
-            this.formulario.reset();
-            this.dialog.closeAll();
-            this.cdr.detectChanges();
-          },
-          error: err => this.swalService.error("ERROR", err.error.message)
-        });
+      next: async () => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.alertService.aceptacion(TITULO_MESAJES.REGISTRO_EXITOSO_TITULO, MENSAJES.REGISTRO_EXITOSO_MENSAJE);
+        this.formulario.reset();
+        this.dialog.closeAll();
+        this.cdr.detectChanges();
       },
-      error: err => this.swalService.error("ERROR", err.error.message)
+      error: error => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+      }
     });
-
-
   }
+
   cerrar() {
     this.dialogRe.close();
   }
+
   dia: string
   formulario: UntypedFormGroup;
   constructor(
     private formBuilder: UntypedFormBuilder,
     private claseService: ClaseService,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private historialService: HistorialService,
-    private swalService: AlertService,
     private generalService: GeneralService,
     private dialogRe: MatDialogRef<AdminClaseDiaComponent>,
     private loginService: LoginService,
@@ -89,6 +85,7 @@ export class AdminCargaClaseComponent implements OnInit {
     this.listarClase()
     this.initForm()
   }
+
   claseListar: any
   titulo: string
   objetivo: string
@@ -103,9 +100,9 @@ export class AdminCargaClaseComponent implements OnInit {
         !this.claseListar.some(clase => clase === item.descripcion1)
       );
       this.tituloClase = claseFiltrada;
-
     })
   }
+  
   initForm(): void {
     this.formulario = this.formBuilder.group({
       descripcion: ['', Validators.required],

@@ -4,9 +4,7 @@ import { EditDevComponent } from '../edit-dev/edit-dev.component';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
-import { ExcelService } from 'src/app/core/services/excel.service';
-import { PdfService } from 'src/app/core/services/pdf.service';
+
 import { Router } from '@angular/router';
 import { ModalEliminacionComponent } from '../../../../../shared/modal/modal-eliminacion/modal-eliminacion.component';
 import { LsTablaGeneralComponent } from '../ls-tabla-general/ls-tabla-general.component';
@@ -17,6 +15,9 @@ import { HistorialService } from 'src/app/core/services/historial.service';
 import { LstDesLtDevComponent } from '../lst-des-lt-dev/lst-des-lt-dev.component';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-lt-dev',
@@ -25,18 +26,17 @@ import { Respuesta } from 'src/app/core/model/respuesta';
 })
 export class LtDevComponent implements OnInit {
 
-columnas = [
-  { etiqueta: 'Código', clave: 'codigo' },
-  { etiqueta: 'Clave', clave: 'clave' },
-  { etiqueta: 'Descripción', clave: 'descripcion1' },
-];
-botonesConfigTable = {
-  actualizar: true,
-  ver: true,
-  desactivar: true,
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Clave', clave: 'clave' },
+    { etiqueta: 'Descripción', clave: 'descripcion1' },
+  ];
+  botonesConfigTable = {
+    actualizar: true,
+    ver: true,
+    desactivar: true,
 
-};
-
+  };
 
   filtro: string = '';
   listar: any[] = [];
@@ -51,14 +51,12 @@ botonesConfigTable = {
   constructor(
     private generales: GeneralService,
     private change: ChangeDetectorRef,
-    private mensaje: MensajeService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private loginService: LoginService,
     private historialService: HistorialService,
     private dialog: MatDialog,
     private dialogRe: MatDialogRef<LsTablaGeneralComponent>,
-    private route: Router,
-    private mensajeService: MensajeService
+    private alertService: AlertService
   ) { }
   codigo: string
   descripcion: string
@@ -128,29 +126,23 @@ botonesConfigTable = {
 
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton !== 'CONFIRMAR') return;
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username, 
+        detalle: `El usuario ${this.loginService.getUser().username} desactivó un cargo de ${row.nombre}`
+      };
+      this.generales.desactivarGeneralGen(row.codigo).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.DESACTIVADO);
 
-      this.generales.desactivarGeneralGen(row.codigo).subscribe(result => {
-        // Crear el historial
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
-          detalle: `El usuario ${this.loginService.getUser().username} desactivó un cargo de ${row.nombre}`
-        };
 
-        console.log(historial);
-
-        // Registrar el historial
-        this.historialService.registrar(historial).subscribe(
-          () => {
-            this.mensajeService.MostrarMensajeExito("Se desactivó correctamente las tabla general");
-            this.listarDesactivado(); // Actualizar la lista de cargos
-          },
-          error => {
-            this.mensaje.MostrarBodyError(error); // Manejar error al registrar el historial
-          }
-        );
-      }, error => {
-        this.mensaje.MostrarBodyError(error); // Manejar error al desactivar el cargo
+          this.listarDesactivado(); 
+        },
+        error: error => {
+          this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+        }
       });
+
     });
 
   }
@@ -207,14 +199,14 @@ botonesConfigTable = {
     })
   }
   Ver() {
-   const dialogRef = this.dialog.open(LstDesLtDevComponent, {
-         disableClose: true ,
-         width: '1050px',
-         height: '650px',
-       });
-   
-       dialogRef.afterClosed().subscribe(data => {
-         this.listarDesactivado()
-       })
+    const dialogRef = this.dialog.open(LstDesLtDevComponent, {
+      disableClose: true,
+      width: '1050px',
+      height: '650px',
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      this.listarDesactivado()
+    })
   }
 }

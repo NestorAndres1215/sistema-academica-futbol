@@ -10,7 +10,10 @@ import { HistorialService } from 'src/app/core/services/historial.service';
 
 import { Historial } from 'src/app/core/model/historial';
 import { Horario } from 'src/app/core/model/horario';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
+import { AlertService } from 'src/app/core/services/alert.service';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-edit-horario',
@@ -27,7 +30,7 @@ export class EditHorarioComponent implements OnInit {
     private dialogRe: MatDialogRef<HorarioComponent>,
     private loginService: LoginService,
     private historialService: HistorialService,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private horarioService: HorarioService,
@@ -86,7 +89,7 @@ export class EditHorarioComponent implements OnInit {
 
         if (inicio >= fin) {
           this.formulario.get('fin')?.setErrors({ invalidTime: true });
-          this.mensaje.MostrarMensaje('La hora de inicio debe ser menor que la hora de fin.');
+          this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.HORA_INICIO_MAYOR_FIN);
           return false;
         }
 
@@ -94,13 +97,13 @@ export class EditHorarioComponent implements OnInit {
 
         if (diferenciaHoras < 1) {
           this.formulario.get('fin')?.setErrors({ minDuration: true });
-          this.mensaje.MostrarMensaje('La duración debe ser mayor a 1 hora.');
+          this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.DURACION_MINIMA);
           return false;
         }
 
         if (diferenciaHoras > 4) {
           this.formulario.get('fin')?.setErrors({ maxDuration: true });
-          this.mensaje.MostrarMensaje('La duración no puede ser mayor a 4 horas.');
+          this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.DURACION_MAXIMA);
           return false;
         }
       }
@@ -110,37 +113,36 @@ export class EditHorarioComponent implements OnInit {
     if (!validarHoras()) {
       return;
     }
-
-    if (this.formulario.valid) {
-      const objHorario: Horario = {
-        codigo: this.codigo,
-        finHora: this.formulario.get('fin')?.value,
-        inicioHora: this.formulario.get('inicio')?.value,
-        usuarioRegistro: this.usuarioCreacion,
-        usuarioActualizacion: this.loginService.getUser().username,
-      }
-      console.log(objHorario)
-      const historial: Historial = {
-        usuario: this.loginService.getUser().username,
-        detalle: `El usuario ${this.loginService.getUser().username} actualizó al horario con el codigo ${objHorario.codigo}`,
-      };
-      this.horarioService.actualizar(objHorario).subscribe(
-        () => {
-          this.historialService.registrar(historial).subscribe(
-            response => {
-              this.mensaje.MostrarMensajeExito("SE ACTUALIZÓ HORARIO");
-              this.dialog.closeAll();
-              this.cdr.detectChanges();
-            },
-            error => {
-              this.mensaje.MostrarBodyError(error);
-            }
-          );
-        },
-        error => {
-          this.mensaje.MostrarBodyError(error);
-        }
-      );
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
+      this.formulario.markAllAsTouched();
+      return;
     }
+
+    const objHorario: Horario = {
+      codigo: this.codigo,
+      finHora: this.formulario.get('fin')?.value,
+      inicioHora: this.formulario.get('inicio')?.value,
+      usuarioRegistro: this.usuarioCreacion,
+      usuarioActualizacion: this.loginService.getUser().username,
+    }
+    console.log(objHorario)
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} actualizó al horario con el codigo ${objHorario.codigo}`,
+    };
+    this.horarioService.actualizar(objHorario).subscribe({
+      next: async () => {
+        await firstValueFrom(this.historialService.registrar(historial));
+       this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
+        this.dialog.closeAll();
+        this.cdr.markForCheck(); 
+      },
+      error: (error) => {
+       this.alertService.error(TITULO_MESAJES.ERROR_TITULO,error.error.message);
+      }
+    });
+
   }
+
 }

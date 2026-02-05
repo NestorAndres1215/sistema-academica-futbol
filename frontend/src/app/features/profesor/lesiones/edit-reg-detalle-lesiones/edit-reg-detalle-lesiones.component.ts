@@ -1,9 +1,15 @@
 import { ChangeDetectorRef, Component, Inject, InjectionToken, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { LesionService } from 'src/app/core/services/lesion.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { ModuloLesionesComponent } from '../modulo-lesiones/modulo-lesiones.component';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { LoginService } from 'src/app/core/services/login.service';
+import { Historial } from 'src/app/core/model/historial';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { firstValueFrom } from 'rxjs';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
 
 @Component({
   selector: 'app-edit-reg-detalle-lesiones',
@@ -21,14 +27,22 @@ export class EditRegDetalleLesionesComponent implements OnInit {
     };
 
     console.log(objeto);
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} actualizo un nuevo lesion ${this.formulario.get('nombre')?.value} `
+    };
+
     this.lesionService.registrarDev(objeto).subscribe({
-      next: (response) => {
-        console.log('Registro exitoso:', response);
+      next: async () => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
         this.dialog.closeAll();
         this.cdr.detectChanges();
-        this.mensaje.MostrarMensajeExito("SE ACTUALIZO DETALLE DE LESION");
+
       },
-      error: (error) => console.error('Error al registrar:', error)
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+      }
     });
 
   }
@@ -41,13 +55,15 @@ export class EditRegDetalleLesionesComponent implements OnInit {
   constructor(
     private lesionService: LesionService,
     private formBuilder: UntypedFormBuilder,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private cdr: ChangeDetectorRef,
+    private loginService: LoginService,
+    private historialService: HistorialService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRe: MatDialogRef<ModuloLesionesComponent>,
     private dialog: MatDialog
   ) { }
-  
+
   codigo: string
   ngOnInit(): void {
     console.log(this.data.lesionCompleto)

@@ -4,9 +4,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LoginService } from 'src/app/core/services/login.service';
-
 import { HistorialService } from 'src/app/core/services/historial.service';
-
 import { Router } from '@angular/router';
 import { ListEstudianteComponent } from '../../estudiante/list-estudiante/list-estudiante.component';
 import { VisorEqupoComponent } from '../visor-equpo/visor-equpo.component';
@@ -14,8 +12,11 @@ import { GeneralService } from 'src/app/core/services/general.service';
 import { SedeService } from 'src/app/core/services/sede.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { CODIGO_GENERO, GENERO } from 'src/app/core/constants/usuario';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { firstValueFrom } from 'rxjs';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
+
 @Component({
   selector: 'app-ls-des-equipo',
   templateUrl: './ls-des-equipo.component.html',
@@ -23,9 +24,9 @@ import { CODIGO_GENERO, GENERO } from 'src/app/core/constants/usuario';
 })
 export class LsDesEquipoComponent implements OnInit {
   sedes: any[] = [];
-  generos: any[] = []; 
-  sedeSeleccionada: string = ''; 
-  generoSeleccionado:string='';
+  generos: any[] = [];
+  sedeSeleccionada: string = '';
+  generoSeleccionado: string = '';
   filtro: string = '';
   listar: any[] = [];
   usuariosFiltrados: any[] = [];
@@ -38,14 +39,13 @@ export class LsDesEquipoComponent implements OnInit {
 
   constructor(
     private equipo: EquipoService,
-      private generales:GeneralService,    private sede: SedeService,
+    private generales: GeneralService, private sede: SedeService,
     private change: ChangeDetectorRef,
-    private loginService:LoginService,
-    private historialService:HistorialService,
+    private loginService: LoginService,
+    private historialService: HistorialService,
     private dialog: MatDialog,
     private dialogRe: MatDialogRef<ListEstudianteComponent>,
-    private route: Router,
-    private mensajeService: MensajeService
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -74,7 +74,7 @@ export class LsDesEquipoComponent implements OnInit {
       this.datosTabla = data;
       this.pagedData = data
       this.listar = data;
-      this.usuariosFiltrados = [...this.listar]; 
+      this.usuariosFiltrados = [...this.listar];
       this.totalItems = this.datosTabla.length
       this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
 
@@ -89,38 +89,32 @@ export class LsDesEquipoComponent implements OnInit {
       this.usuariosFiltrados = [];
       return;
     }
-  
-    const term = this.filtro.toLowerCase(); 
-  
+
+    const term = this.filtro.toLowerCase();
+
     this.usuariosFiltrados = this.listar.filter((usuario) => {
 
       const coincideConTexto =
         (usuario.nombre && usuario.nombre.toLowerCase().includes(term));
-  
+
       const coincideConSede =
         !this.sedeSeleccionada || (usuario.sede && usuario.sede.toLowerCase() === this.sedeSeleccionada.toLowerCase());
-  
+
       const coincideConGenero =
         !this.generoSeleccionado ||
         (this.generoSeleccionado === CODIGO_GENERO.FEMENINO && usuario.genero.toLowerCase() === GENERO.FEMENINO) ||
         (this.generoSeleccionado === CODIGO_GENERO.FEMENINO && usuario.genero.toLowerCase() === GENERO.MASCULINO);
-  
-      console.log(usuario.genero);
-      console.log(coincideConGenero);
-      console.log(coincideConTexto, coincideConSede, coincideConGenero);
-  
-      return coincideConTexto && coincideConSede && coincideConGenero; 
+
+      return coincideConTexto && coincideConSede && coincideConGenero;
     });
   }
-  
+
   volver() {
     this.dialogRe.close();
   }
 
 
   eliminar(row: any) {
-
-
     const dialogEliminar = this.dialog.open(ModalEliminacionComponent, {
       disableClose: true,
       width: '500px',
@@ -133,19 +127,16 @@ export class LsDesEquipoComponent implements OnInit {
     });
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton != 'CONFIRMAR') return;
-      this.equipo.activar(row.codigo).subscribe(result => {
-        console.log(result);
-
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username, 
-          detalle: `El usuario ${this.loginService.getUser().username} eliminó al estudiante ${row.nombre} con el código ${row.codigo}.`
-        };
-        this.historialService.registrar(historial).subscribe(
-          () => {
-            this.mensajeService.MostrarMensaje("Se activar correctamente el estudiante.");
-            this.listarDesactivado(); 
-          },
-        );
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username,
+        detalle: `El usuario ${this.loginService.getUser().username} eliminó al estudiante ${row.nombre} con el código ${row.codigo}.`
+      };
+      this.equipo.activar(row.codigo).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.alertService.advertencia(TITULO_MESAJES.ACTIVADO, MENSAJES.ACTIVADO);
+          this.listarDesactivado();
+        },
       });
 
     })
@@ -170,7 +161,6 @@ export class LsDesEquipoComponent implements OnInit {
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
       this.generos = data;
-
     })
   }
 
@@ -179,7 +169,6 @@ export class LsDesEquipoComponent implements OnInit {
       (data) => {
         this.sedes = data;
       },
-
     );
   }
 }

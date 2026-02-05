@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginAuth } from 'src/app/core/model/login';
-import { MENSAJES } from 'src/app/core/constants/messages';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
 import { ROLES } from 'src/app/core/constants/roles';
 import { LoginService } from 'src/app/core/services/login.service';
 
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private swal: AlertService,
+    private alertService: AlertService,
     private fb: FormBuilder,
     private router: Router,) { }
 
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
   operar() {
 
     if (this.formulario.invalid) {
-      this.swal.advertencia(MENSAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       this.formulario.markAllAsTouched();
       return;
     }
@@ -92,14 +92,14 @@ export class LoginComponent implements OnInit {
           },
 
           error: (error) => {
-            this.swal.error(MENSAJES.ERROR_TITULO, error.error.message);
+              this.alertService.error(TITULO_MESAJES.ERROR_TITULO,error.error.message);
             this.router.navigate(['login']);
           }
         });
       },
 
       error: (error) => {
-        this.swal.error(MENSAJES.ERROR_TITULO, error.error.message);
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO,error.error.message);
       }
     });
 

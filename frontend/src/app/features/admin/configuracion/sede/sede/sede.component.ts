@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
 import { ExcelService } from 'src/app/core/services/excel.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { PdfService } from 'src/app/core/services/pdf.service';
 import { SedeService } from 'src/app/core/services/sede.service';
 import { ModalEliminacionComponent } from '../../../../../shared/modal/modal-eliminacion/modal-eliminacion.component';
@@ -16,6 +16,9 @@ import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { firstValueFrom } from 'rxjs';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
 
 @Component({
   selector: 'app-sede',
@@ -24,11 +27,6 @@ import { Respuesta } from 'src/app/core/model/respuesta';
 })
 export class SedeComponent implements OnInit {
 
-  botonesConfig = {
-    editar: false,
-    volver: true,
-
-  };
   columnas = [
     { etiqueta: 'Código', clave: 'codigo' },
     { etiqueta: 'Nombre', clave: 'nombre' },
@@ -55,15 +53,12 @@ export class SedeComponent implements OnInit {
     private loginService: LoginService,
     private historialService: HistorialService,
     private change: ChangeDetectorRef,
-    private mensjae: MensajeService,
+    private alertService: AlertService,
     private excel: ExcelService,
     private pdfService: PdfService,
     private route: Router
   ) {
-    this.pageChanged({
-      pageIndex: 0, pageSize: this.pageSize,
-      length: 0
-    });
+
   }
 
   ngOnInit(): void {
@@ -75,7 +70,6 @@ export class SedeComponent implements OnInit {
     this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
   }
 
-
   pageChanged(event: PageEvent) {
     console.log(event)
     this.totalItems = this.datosTabla.length
@@ -83,11 +77,6 @@ export class SedeComponent implements OnInit {
     const endIndex = startIndex + event.pageSize;
     this.pagedData = this.datosTabla.slice(startIndex, endIndex);
   }
-  volver(): void {
-    this.route.navigate(['/administrador']);
-  }
-
-
 
   async listarSede() {
     this.sede.listarSedeActivado().subscribe((data) => {
@@ -112,9 +101,7 @@ export class SedeComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Elemento eliminado');
-      }
+
     });
 
   }
@@ -127,7 +114,6 @@ export class SedeComponent implements OnInit {
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarSede()
     })
@@ -154,67 +140,61 @@ export class SedeComponent implements OnInit {
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de sedes a un archivo Excel.`
     };
 
-    // Registrar el historial
-    this.historialService.registrar(historial).subscribe(
-      () => {
-        // Si el historial se registra correctamente, proceder con la exportación del Excel
-        this.excel.descargarExcelSede().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'datos_exportados_sedes.xlsx';  // Nombre del archivo Excel
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
+  this.excel.descargarExcelSede().subscribe({
+      next: async (data: Blob) => {
+        const blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         });
+        await firstValueFrom(this.historialService.registrar(historial));
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'datos_exportados.xlsx';
+        a.click();
+
+        window.URL.revokeObjectURL(url);
       },
-      error => {
-        // Manejar error si no se pudo registrar el historial
-        this.mensjae.MostrarBodyError('Error al registrar el historial: ' + error);
+      error: (err) => {
+        console.error('Error al descargar el Excel', err);
       }
-    );
+    });
+
   }
 
 
   exportarPDF(): void {
 
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
+      usuario: this.loginService.getUser().username, 
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de sedes a un archivo PDF.`
     };
 
-
-    this.historialService.registrar(historial).subscribe(
-      () => {
-  
-        this.pdfService.descargarPDFSede().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/pdf' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'informe_sedes.pdf';  // Nombre del archivo PDF
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        });
+    this.pdfService.descargarPDFSede().subscribe({
+      next: async (data: Blob) => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const urlBlob = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = urlBlob;
+        a.download = 'informe_datos.pdf';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(urlBlob);
+        document.body.removeChild(a);
       },
-      error => {
-        this.mensjae.MostrarBodyError('Error al registrar el historial: ' + error);
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-    );
+    });
   }
 
   exportarPrint(): void {
-    // Suponiendo que this.datosTabla es un array o un objeto que quieres imprimir
+   
     const contenidoAImprimir = this.datosTabla;
 
     if (contenidoAImprimir) {
-      // Crear un iframe
+
       const iframe = document.createElement('iframe');
       iframe.style.position = 'absolute';
       iframe.style.width = '0px';
@@ -225,14 +205,12 @@ export class SedeComponent implements OnInit {
 
       const iframeDoc = iframe.contentWindow?.document;
 
-      // Encabezado del reporte
       const fechaReporte = new Date().toLocaleDateString('es-ES', {
         day: '2-digit',
         month: '2-digit',
         year: 'numeric'
       });
 
-      // Convertir los datos en formato HTML
       let contenidoHTML = `
       <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-family: 'Arial', sans-serif;">
         <thead>
@@ -255,7 +233,6 @@ export class SedeComponent implements OnInit {
 
       contenidoHTML += `</tbody></table>`;
 
-      // Escribir el contenido a imprimir en el iframe
       iframeDoc?.open();
       iframeDoc?.write(`
         <html>
@@ -310,7 +287,6 @@ export class SedeComponent implements OnInit {
       `);
       iframeDoc?.close();
 
-      // Ejecutar el comando de impresión en el iframe
       setTimeout(() => {
         iframe.contentWindow?.focus();
         iframe.contentWindow?.print();
@@ -332,30 +308,20 @@ export class SedeComponent implements OnInit {
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton != 'CONFIRMAR') return;
 
-      // Crear el objeto de historial para registrar la eliminación de la sede
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
+        usuario: this.loginService.getUser().username, 
         detalle: `El usuario ${this.loginService.getUser().username} desactivó la sede ${row.nombre} con el código ${row.codigo}.`
       };
 
-      // Registrar el historial
-      this.historialService.registrar(historial).subscribe(
-        () => {
-          // Si el historial se registra correctamente, proceder con la desactivación de la sede
-          this.sede.desactivarSede(row.codigo).subscribe(result => {
-            console.log(result);
-            this.mensjae.MostrarMensajeExito("Se desactivó correctamente la sede.");
-            this.listarSede(); // Actualizar la lista de sedes
-          });
+      this.sede.desactivarSede(row.codigo).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.alertService.advertencia(TITULO_MESAJES.DESACTIVADO, MENSAJES.DESACTIVADO);
+          this.listarSede();
         },
-        error => {
-          // Manejar error si no se pudo registrar el historial
-          this.mensjae.MostrarBodyError('Error al registrar el historial: ' + error);
-        }
-      );
+      });
     });
   }
-
 
   verSedeDesactivados() {
     const dialogRef = this.dialog.open(LstDesSedeComponent, {
@@ -363,7 +329,6 @@ export class SedeComponent implements OnInit {
       height: '650px',
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarSede()
     })

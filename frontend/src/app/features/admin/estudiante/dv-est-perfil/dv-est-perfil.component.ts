@@ -10,10 +10,12 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class DvEstPerfilComponent implements OnInit {
 
  public formulario: UntypedFormGroup;
-   datos: any
+   
    constructor(private formBuilder: UntypedFormBuilder,
      @Inject(MAT_DIALOG_DATA) public data: any,
    ) { }
+   
+   datos: any
    imagenUrlBase = 'data:image/jpeg;base64,';
    username: string
    email: string;
@@ -23,10 +25,9 @@ export class DvEstPerfilComponent implements OnInit {
    contra: string
    direccion: string
    rol: string
+
    ngOnInit(): void {
-
      const dataArray = Object.values(this.data);
-
      this.datos = dataArray;
    }
  

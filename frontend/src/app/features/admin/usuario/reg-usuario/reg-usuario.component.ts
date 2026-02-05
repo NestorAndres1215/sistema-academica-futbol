@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
 import { Admin } from 'src/app/core/model/Admin';
 import { Historial } from 'src/app/core/model/historial';
-
 import { AdminService } from 'src/app/core/services/admin.service';
+import { AlertService } from 'src/app/core/services/alert.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { calcularEdad, formatDate } from 'src/app/core/utils/fechaValidator';
 
 @Component({
@@ -28,7 +29,7 @@ export class RegUsuarioComponent implements OnInit {
     private adminService: AdminService,
     private historialService: HistorialService,
     private formBuilder: UntypedFormBuilder,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private loginService: LoginService
 
   ) { }
@@ -78,11 +79,11 @@ export class RegUsuarioComponent implements OnInit {
   operar(): void {
 
     if (!this.formulario.valid) {
-      this.mensaje.MostrarMensaje("FORMULARIO VACÍO");
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       this.formulario.markAllAsTouched();
       return;
     }
-    
+
     const objAdmin: Admin = {
       primerNombre: this.formulario.get('primerNombre')?.value,
       segundoNombre: this.formulario.get('segundoNombre')?.value,
@@ -100,31 +101,21 @@ export class RegUsuarioComponent implements OnInit {
       usuarioCreacion: this.loginService.getUser().username,
     };
 
-    this.adminService.guardarAdmin(objAdmin).subscribe(
-      response => {
-        this.mensaje.MostrarMensajeExito("SE REGISTRO USUARIO ADMINISTRADOR");
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} registró al administrador con el código ${objAdmin.username}.`
+    };
 
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username,
-          detalle: `El usuario ${this.loginService.getUser().username} registró al administrador con el código ${objAdmin.username}.`
-        };
-
-        this.historialService.registrar(historial).subscribe(
-          () => {
-
-            this.mensaje.MostrarMensajeExito("SE REGISTRÓ USUARIO");
-            this.formulario.reset();
-          },
-          error => {
-            this.mensaje.MostrarBodyError("Error al registrar el historial: " + error); // Manejar el error de historial
-          }
-        );
+    this.adminService.guardarAdmin(objAdmin).subscribe({
+      next: async () => {
+        this.alertService.aceptacion(TITULO_MESAJES.REGISTRO_EXITOSO_TITULO, MENSAJES.REGISTRO_EXITOSO_MENSAJE);
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.formulario.reset();
       },
-      error => {
-        this.mensaje.MostrarBodyError(error);
+      error: error => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-    );
-
+    });
   }
 
 }

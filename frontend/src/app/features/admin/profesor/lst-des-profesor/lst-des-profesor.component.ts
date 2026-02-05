@@ -6,11 +6,13 @@ import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { LstProfesoresComponent } from '../lst-profesores/lst-profesores.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-lst-des-profesor',
@@ -32,12 +34,11 @@ export class LstDesProfesorComponent implements OnInit {
   constructor(
     private profesorService: ProfesorService,
     private change: ChangeDetectorRef,
-    private loginService:LoginService,
-    private historialService:HistorialService,
+    private loginService: LoginService,
+    private historialService: HistorialService,
     private dialog: MatDialog,
     private dialogRe: MatDialogRef<LstProfesoresComponent>,
-    private route: Router,
-    private mensajeService: MensajeService
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -90,10 +91,6 @@ export class LstDesProfesorComponent implements OnInit {
 
 
   eliminar(row: any) {
-    console.log(row.usuario.username)
-
-    console.log(row)
-
 
     const dialogEliminar = this.dialog.open(ModalEliminacionComponent, {
       disableClose: true,
@@ -103,33 +100,26 @@ export class LstDesProfesorComponent implements OnInit {
         titulo: 'Restaurar',
         subtitulo: `¿Deseas restaurar el usuario ${row.usuario.username} con el codigo ${row.codigo} ? `
       },
-
     });
+
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton != 'CONFIRMAR') return;
-      this.profesorService.activarProfesor(row.codigo).subscribe(result => {
-        console.log(result);
-    
-        // Crear el historial después de activar al usuario
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
-          detalle: `El usuario ${this.loginService.getUser().username} restauró al usuario ${row.usuario.username} con el código ${row.codigo}.`
-        };
-    
-        // Registrar el historial
-        this.historialService.registrar(historial).subscribe(
-          () => {
-            this.mensajeService.MostrarMensajeExito("Se restauró correctamente el usuario");
-            this.listarDesactivado(); // Refrescar la lista de usuarios desactivados
-          },
-          error => {
-            this.mensajeService.MostrarBodyError('Error al registrar el historial: ' + error);
-          }
-        );
-      }, error => {
-        this.mensajeService.MostrarBodyError('Error al restaurar el usuario: ' + error);
-      });
 
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username,
+        detalle: `El usuario ${this.loginService.getUser().username} restauró al usuario ${row.usuario.username} con el código ${row.codigo}.`
+      };
+
+      this.profesorService.activarProfesor(row.codigo).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.alertService.aceptacion(TITULO_MESAJES.ACTIVADO, MENSAJES.REGISTRO_EXITOSO_MENSAJE);
+          this.listarDesactivado();
+        },
+        error: (error) => {
+          this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+        }
+      });
     })
   }
 
@@ -143,9 +133,6 @@ export class LstDesProfesorComponent implements OnInit {
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Elemento eliminado');
-      }
     });
   }
 

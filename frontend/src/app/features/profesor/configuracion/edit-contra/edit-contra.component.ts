@@ -1,13 +1,15 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { ActualizarContraComponent } from '../actualizar-contra/actualizar-contra.component';
-import { FormBuilder, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { HistorialService } from 'src/app/core/services/historial.service';
-import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
-
 import { UserService } from 'src/app/core/services/usuario.service';
 import { Usuario } from 'src/app/core/model/User';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
+import { HistorialService } from 'src/app/core/services/historial.service';
+import { Historial } from 'src/app/core/model/historial';
+import { LoginService } from 'src/app/core/services/login.service';
 
 @Component({
   selector: 'app-edit-contra',
@@ -16,43 +18,51 @@ import { Usuario } from 'src/app/core/model/User';
 })
 export class EditContraComponent implements OnInit {
   operar() {
-    if (this.formulario.valid) {
 
-      const { nuevaContra, confirmarContra } = this.formulario.value;
-
-
-      if (nuevaContra === this.contra) {
-        this.mensaje.MostrarMensaje('La nueva contraseña no puede ser igual a la actual. Debe ser diferente.');
-        return;
-      }
-
-      if (nuevaContra !== confirmarContra) {
-        this.mensaje.MostrarMensaje('Las contraseñas no coinciden. Verifica y vuelve a intentarlo.');
-        return;
-      }
-
-      const obj: Usuario = {
-        ul_Codigo: this.codigo,
-        username: this.usuario,
-        password: confirmarContra
-      };
-      this.usuarioService.actualizarUsuario(obj).subscribe(
-        response => {
-          this.mensaje.MostrarMensaje("ACTUALIZO CONTRASEÑA")
-          this.dialog.closeAll();
-          this.cdr.detectChanges();
-        },
-        error => {
-          this.mensaje.MostrarBodyError(error)
-        }
-      );
-
-
-      console.log(obj)
-
-    } else {
-      console.error('Por favor, completa todos los campos correctamente.');
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
+      this.formulario.markAllAsTouched();
+      return;
     }
+
+    const { nuevaContra, confirmarContra } = this.formulario.value;
+
+    if (nuevaContra === this.contra) {
+      this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.CONTRASENA_IGUAL);
+      return;
+    }
+
+    if (nuevaContra !== confirmarContra) {
+      this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.CONTRASENAS_NO_COINCIDEN);
+      return;
+    }
+
+    const obj: Usuario = {
+      ul_Codigo: this.codigo,
+      username: this.usuario,
+      password: confirmarContra
+    };
+
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} actualizo la contraseña`
+    };
+    this.usuarioService.actualizarUsuario(obj).subscribe(
+      async () => {
+        this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.dialog.closeAll();
+        this.cdr.detectChanges();
+      },
+      error => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+      }
+    );
+
+
+
+
+
   }
   cerrar() {
     this.dialogRe.close();
@@ -62,7 +72,10 @@ export class EditContraComponent implements OnInit {
   verNuevaContra = false;
   verConfirmarContra = false;
 
-  constructor(private mensaje: MensajeService,
+  constructor(
+    private loginService: LoginService,
+    private historialService: HistorialService,
+    private alertService: AlertService,
     private cdr: ChangeDetectorRef,
     private fb: FormBuilder,
     private usuarioService: UserService,

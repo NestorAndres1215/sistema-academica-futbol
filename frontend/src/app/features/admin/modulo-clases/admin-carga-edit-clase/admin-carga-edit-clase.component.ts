@@ -1,16 +1,15 @@
 import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { ClaseService } from 'src/app/core/services/clase.service';
-
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-
 import { AdminClaseDiaComponent } from '../admin-clase-dia/admin-clase-dia.component';
 import { ClaseDev } from 'src/app/core/model/clasedev';
 import { Historial } from 'src/app/core/model/historial';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -23,7 +22,7 @@ export class AdminCargaEditClaseComponent implements OnInit {
   formulario: UntypedFormGroup;
   constructor(private formBuilder: UntypedFormBuilder,
     private claseService: ClaseService,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private historialService: HistorialService,
@@ -37,6 +36,7 @@ export class AdminCargaEditClaseComponent implements OnInit {
   codigo: string
   dia: string
   codigoClase: string
+
   ngOnInit(): void {
     console.log(this.data)
     this.titulo = this.data.titulo
@@ -47,60 +47,51 @@ export class AdminCargaEditClaseComponent implements OnInit {
     this.descripcion = this.data.descripcion
     this.initForm()
   }
+
   initForm(): void {
     this.formulario = this.formBuilder.group({
       descripcion: [this.descripcion, Validators.required],
       objetivo: [this.objetivo, Validators.required],
-      titulo: [{ value: this.titulo, disabled: true }, Validators.required], 
+      titulo: [{ value: this.titulo, disabled: true }, Validators.required],
     });
   }
 
   operar() {
 
-    console.log(this.formulario.value)
-    if (this.formulario.valid) {
-      const objclase: ClaseDev = {
-        codigo: this.codigoClase,
-        titulo: this.formulario.get('titulo')?.value,
-        descripcion: this.formulario.get('descripcion')?.value,
-        objetivo: this.formulario.get('objetivo')?.value,
-        clase: this.codigo,
-        usuarioActualizacion: this.loginService.getUser().username,
-        dia: this.dia
-      };
-      console.log(objclase)
-     
-      const historial: Historial = {
-        usuario: this.loginService.getUser().username, 
-        detalle: `El usuario ${this.loginService.getUser().username} registró al clase detalle ${objclase.titulo} y con el  dia  ${this.dia}.`
-      };
-
-      this.claseService.actualizarDev(objclase).subscribe(
-        () => {
-
-          this.historialService.registrar(historial).subscribe(
-            response => {
-              this.mensaje.MostrarMensajeExito("SE ACTUALIZO CARGA DE CLASE");
-              this.formulario.reset();
-              this.dialog.closeAll();
-              this.cdr.detectChanges();
-            },
-            error => {
-              this.mensaje.MostrarBodyError(error);
-            }
-          );
-        },
-        error => {
-  
-          this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
-        }
-      );
-    }
-    else {
-      console.log("formulario vacio")
-      this.mensaje.MostrarMensaje("FORMULARIO VACIO")
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       this.formulario.markAllAsTouched();
+      return;
     }
+
+    const objclase: ClaseDev = {
+      codigo: this.codigoClase,
+      titulo: this.formulario.get('titulo')?.value,
+      descripcion: this.formulario.get('descripcion')?.value,
+      objetivo: this.formulario.get('objetivo')?.value,
+      clase: this.codigo,
+      usuarioActualizacion: this.loginService.getUser().username,
+      dia: this.dia
+    };
+
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} registró al clase detalle ${objclase.titulo} y con el  dia  ${this.dia}.`
+    };
+
+    this.claseService.actualizarDev(objclase).subscribe({
+      next: async () => {
+        this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.formulario.reset();
+        this.dialog.closeAll();
+        this.cdr.markForCheck();
+      },
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+      }
+    });
+
 
   }
   cerrar() {

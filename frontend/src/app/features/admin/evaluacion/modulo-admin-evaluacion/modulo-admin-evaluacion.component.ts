@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
+import { AlertService } from 'src/app/core/services/alert.service';
 import { EvaluacionService } from 'src/app/core/services/evaluacion.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { NombreCompleto } from 'src/app/core/utils/nombreValidator';
 
 @Component({
@@ -33,32 +35,25 @@ export class ModuloAdminEvaluacionComponent implements OnInit {
     const equipos = resultado.map(item => item.equipo).join(",");
     const conteos = resultado.map(item => item.conteo).join(",");
 
-    this.evaluacionService.desactivarEvaluaciones(equipos, conteos).subscribe(
-      (response) => {
-        this.mensajeService.MostrarMensajeExito("SE GUARDARON LAS EVALUACIONES");
-
-        this.listarEvaluacion(); // Debe estar dentro del éxito para ejecutarse después de guardar
+    this.evaluacionService.desactivarEvaluaciones(equipos, conteos).subscribe({
+      next: async () => {
+        this.alertService.aceptacion(TITULO_MESAJES.REGISTRO_EXITOSO_TITULO, MENSAJES.REGISTRO_EXITOSO_MENSAJE);
+        this.listarEvaluacion();
       },
-      (error) => {
-        console.error("Error al desactivar evaluaciones:", error);
-      }
-    );
-
+    });
   }
-
-
-  modoEdicion: boolean = false;
-  constructor(private route: ActivatedRoute, private mensajeService: MensajeService,
-    private evaluacionService: EvaluacionService,) { }
   codigo: string
+  modoEdicion: boolean = false;
+  constructor(private route: ActivatedRoute, private alertService: AlertService,
+    private evaluacionService: EvaluacionService,) { }
 
   ngOnInit(): void {
     this.codigo = this.route.snapshot.params['codigo']
     console.log(this.codigo)
     this.listarEvaluacion();
   }
-  evaluacion: any[] = [];
 
+  evaluacion: any[] = [];
 
   listarEvaluacion() {
     this.evaluacionService.listarDetalleEvaluaciones().subscribe(
@@ -75,7 +70,4 @@ export class ModuloAdminEvaluacionComponent implements OnInit {
       },
     );
   }
-
-
-
 }

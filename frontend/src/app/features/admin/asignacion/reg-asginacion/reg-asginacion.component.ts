@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CARGOS } from 'src/app/core/constants/cargo';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
 import { CATEGORIAS_EQUIPO } from 'src/app/core/constants/posiciones';
 import { CODIGO_ROLE_USER } from 'src/app/core/constants/usuario';
 import { Asignacion } from 'src/app/core/model/Asignacion';
+import { AlertService } from 'src/app/core/services/alert.service';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { GeneralService } from 'src/app/core/services/general.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { SedeService } from 'src/app/core/services/sede.service';
 
@@ -71,7 +73,7 @@ export class RegAsginacionComponent implements OnInit {
     private equipoService: EquipoService,
     private estudiante: EstudianteService,
     private formBuilder: UntypedFormBuilder,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
   ) { }
 
   ngOnInit(): void {
@@ -119,6 +121,7 @@ export class RegAsginacionComponent implements OnInit {
 
     });
   }
+
   fomrulario2() {
     this.formulario1 = this.formBuilder.group({
       rol: ['Estudiante', Validators.required],
@@ -128,6 +131,7 @@ export class RegAsginacionComponent implements OnInit {
 
     })
   }
+
   async listarSede() {
     this.sede.listarSedeActivado().subscribe((data) => {
       console.log(data)
@@ -135,12 +139,14 @@ export class RegAsginacionComponent implements OnInit {
 
     })
   }
+
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
       this.genero = data;
 
     })
   }
+
   datosTabla: any[] = [];
   posiciones: any[] = [];
 
@@ -181,39 +187,42 @@ export class RegAsginacionComponent implements OnInit {
   isFormEnabled = false;
 
   operar() {
-    if (this.formulario.valid) {
-      this.personas.push(this.formulario.value);
-      const result = this.cantidadPorfesores.filter(i => i.equipo.codigo === this.formulario.value.nombre.codigo);
 
-      if (result.length > 2) {
-
-        this.formulario1.get('profesor')?.disable();
-        this.mensaje.MostrarMensaje("Estan llenos los cupos de profesores en este equipo")
-        this.mostrarFormularioDetalle = true;
-        this.isFormEnabled = true;
-        this.formulario1.get('rol')?.enable();
-        this.formulario1.get('estudiante')?.enable();
-        this.formulario1.get('cargo')?.disable();
-        this.listarEstudiante()
-        this.listarProfesor()
-        this.formulario.disable();
-      } else {
-
-        this.mostrarFormularioDetalle = true;
-        this.isFormEnabled = true;
-        this.formulario1.get('rol')?.enable();
-        this.formulario1.get('estudiante')?.enable();
-        this.formulario1.get('profesor')?.enable();
-        this.listarEstudiante()
-        this.listarProfesor()
-        this.formulario.disable();
-        this.nombreEquipo = this.formulario.get('nombre')?.value;
-
-      }
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
+      this.formulario.markAllAsTouched();
+      return;
     }
-    else {
-      this.mensaje.MostrarMensaje("TODOS LOS DATOS TIENEN QUE ESTAR COMPLETOS")
+
+    this.personas.push(this.formulario.value);
+    const result = this.cantidadPorfesores.filter(i => i.equipo.codigo === this.formulario.value.nombre.codigo);
+
+    if (result.length > 2) {
+
+      this.formulario1.get('profesor')?.disable();
+      this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.CUPOS_PROFESORES_LLENO_MENSAJE)
+      this.mostrarFormularioDetalle = true;
+      this.isFormEnabled = true;
+      this.formulario1.get('rol')?.enable();
+      this.formulario1.get('estudiante')?.enable();
+      this.formulario1.get('cargo')?.disable();
+      this.listarEstudiante()
+      this.listarProfesor()
+      this.formulario.disable();
+    } else {
+
+      this.mostrarFormularioDetalle = true;
+      this.isFormEnabled = true;
+      this.formulario1.get('rol')?.enable();
+      this.formulario1.get('estudiante')?.enable();
+      this.formulario1.get('profesor')?.enable();
+      this.listarEstudiante()
+      this.listarProfesor()
+      this.formulario.disable();
+      this.nombreEquipo = this.formulario.get('nombre')?.value;
+
     }
+
   }
 
 
@@ -337,7 +346,7 @@ export class RegAsginacionComponent implements OnInit {
 
     const nombreEquipo = this.formulario.get('nombre')?.value;
     if (!nombreEquipo) {
-      return this.mensaje.MostrarMensajeExito("SE DEBE SELECCIONAR UN EQUIPO")
+      return this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.SELECCIONAR_EQUIPO)
     }
 
     if (this.formulario1.valid) {
@@ -354,7 +363,7 @@ export class RegAsginacionComponent implements OnInit {
       if (rolSeleccionado === CODIGO_ROLE_USER.ESTUDIANTE) {
         const estudianteSeleccionado = this.formulario1.get('estudiante')?.value;
         if (!estudianteSeleccionado || estudianteSeleccionado.trim() === "") {
-          this.mensaje.MostrarMensaje("Se debe seleccionar un estudiante");
+          this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.SELECCIONAR_ESTUDIANTE);
           return;
         }
 
@@ -379,18 +388,19 @@ export class RegAsginacionComponent implements OnInit {
         const cargoValue = this.formulario1.get('cargo')?.value;
 
         if (!profesorValue) {
-          this.mensaje.MostrarMensaje("El campo 'profesor' está vacío.");
+          this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.PROFESOR_VACIO);
           return;
         }
 
         if (!cargoValue) {
-          this.mensaje.MostrarMensaje("El campo 'cargo' está vacío.");
+          this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.CARGO_VACIO);
           return;
         }
         this.cargos = this.cargos.filter(cargo => cargo !== cargoSeleccionado);
 
         if (this.profesores.length >= 3) {
-          this.mensaje.MostrarMensaje('Ya se han completado los espacios para profesores.');
+          this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.CUPOS_PROFESORES_LLENO);
+
           return;
         }
 
@@ -453,16 +463,16 @@ export class RegAsginacionComponent implements OnInit {
 
       this.equipoService.registrarAsignacion(this.listaAsignaciones).subscribe({
         next: (data) => {
-          this.mensaje.MostrarMensaje("Las asignaciones se registraron correctamente")
+          this.alertService.aceptacion(TITULO_MESAJES.REGISTRO_EXITOSO_TITULO, MENSAJES.REGISTRO_EXITOSO_MENSAJE);
           window.location.reload();
         },
         error: (err) => {
-          this.mensaje.MostrarMensajeError("Ocurrió un error al registrar las asignaciones");
+          this.alertService.error(TITULO_MESAJES.ERROR_TITULO, err.message);
         },
       });
 
     } else {
-      this.mensaje.MostrarMensajeError("FORMULARIO FACIO")
+      this.alertService.error(TITULO_MESAJES.ERROR_TITULO,MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
     }
   }
 }

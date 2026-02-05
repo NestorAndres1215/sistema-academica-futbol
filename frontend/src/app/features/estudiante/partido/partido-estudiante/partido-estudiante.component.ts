@@ -2,11 +2,12 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
+import { AlertService } from 'src/app/core/services/alert.service';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { PartidoService } from 'src/app/core/services/partido.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
 import { EditPartidoComponent } from 'src/app/features/admin/partido/edit-partido/edit-partido.component';
@@ -24,22 +25,16 @@ export class PartidoEstudianteComponent implements OnInit {
       height: '450px',
       data: {
         row,
-        profesor:"profesor"
+        profesor: "profesor"
       },
     });
-
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarPartidos()
     })
   }
-  botonesConfig = {
-    editar: false,
-    volver: true,
 
-  };
   user: any = null;
-  xd: any
+  xd: any[] = [];
   datosTabla: any[] = [];
   pagedData: any[] = [];
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -54,27 +49,19 @@ export class PartidoEstudianteComponent implements OnInit {
     private dialog: MatDialog,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private mensjae: MensajeService,
-    private historialService: HistorialService,
-    private excel: ExcelService,
-    private pdfService: PdfService,
     private route: Router
   ) {
-    this.pageChanged({
-      pageIndex: 0, pageSize: this.pageSize,
-      length: 0
-    });
+
   }
 
   ngOnInit(): void {
     this.user = this.loginService.getUser();
     this.listarEquipo();
-    //this.listarPartidos();  
-
   }
+
+
   async listarPartidos() {
     this.partidoService.listarPartidosActuales().subscribe((data) => {
-      console.log(data)
 
       this.user = this.loginService.getUser();
       const listadoNormalizado = this.listado.map(e => e.toLowerCase().trim());
@@ -82,9 +69,6 @@ export class PartidoEstudianteComponent implements OnInit {
       const resultado = data.filter(i =>
         listadoNormalizado.includes(i.equipo.nombre.toLowerCase().trim())
       );
-
-      console.log(resultado);
-
 
       this.datosTabla = resultado;
       this.pagedData = data
@@ -125,9 +109,6 @@ export class PartidoEstudianteComponent implements OnInit {
   async listarEquipo() {
     this.equipoService.listarAsignacion().subscribe((data) => {
 
-      console.log(data)
-
-      console.log(this.loginService.getUser().ul_codigo)
       data = data.filter(item => item.estudiante.codigo != "0000");
 
       const filteredData = data.filter(item =>
@@ -136,8 +117,8 @@ export class PartidoEstudianteComponent implements OnInit {
         item.estudiante.usuario.codigo != null &&
         item.estudiante.usuario.codigo === this.loginService.getUser().ul_codigo
       );
+
       this.listado = filteredData.map(i => i.equipo.nombre)
-      console.log(this.listado)
       this.listarPartidos()
     })
   }

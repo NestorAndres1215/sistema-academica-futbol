@@ -1,4 +1,4 @@
-<app-titulo titulo="Estudiante" [botonesConfig]="botonesConfig" (volver)="volver()">
+<app-titulo titulo="Estudiante" >
 </app-titulo>
 <div class="container mt-4 pb-4">
 
@@ -7,9 +7,9 @@
     (valueChange)="filtro = $event; filtrarUsuarios()">
   </app-search>
 
-  <div class="row g-3"> <!-- g-3 agrega un pequeño espacio entre columnas -->
+  <div class="row g-3">
 
-    <div class="col-md-6 col-12"> <!-- 2 columnas en desktop, 1 columna en móvil -->
+    <div class="col-md-6 col-12">
       <app-filter-select label="Sedes" [options]="opcionesSedes" [value]="sedeSeleccionada"
         (valueChange)="sedeSeleccionada = $event; filtrarUsuarios()">
       </app-filter-select>

@@ -6,10 +6,12 @@ import { LsPartidoComponent } from '../ls-partido/ls-partido.component';
 import { Time } from '@angular/common';
 import { LoginService } from 'src/app/core/services/login.service';
 import { PartidoService } from 'src/app/core/services/partido.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Partido } from 'src/app/core/model/partido';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -18,70 +20,55 @@ import { Partido } from 'src/app/core/model/partido';
   styleUrls: ['./edit-partido.component.css']
 })
 export class EditPartidoComponent implements OnInit {
-  time: string = ''; // Define la variable con un valor inicial
+  time: string = '';
+
   operar() {
-    console.log(this.formulario.value)
 
-if (this.formulario.valid) {
-      const objPartido:   Partido = {
-        codigo: this.codigoPartido,
-        equipoRival: this.formulario.get('equipoRival')?.value,
-        fecha: this.formulario.get('fecha')?.value,
-        hora: this.formulario.get('hora')?.value,
-        lugar: this.formulario.get('lugar')?.value,
-        tipoPartido: this.formulario.get('tipo')?.value,
-        equipo: this.formulario.get('equipo')?.value,
-      };
-      console.log(objPartido)
-
-      const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
-        detalle: `El usuario ${this.loginService.getUser().username} actualizó al partido ${objPartido.codigo} .`,
-      };
-
-      // Registrar el historial
-      this.partidoService.actualizar(objPartido).subscribe(
-        () => {
-          // Si el historial se registra correctamente, proceder con la actualización del estudiante
-          this.historialService.registrar(historial).subscribe(
-            response => {
-              this.mensaje.MostrarMensajeExito("SE ACTUALIZÓ PARTIDO");
-              this.dialog.closeAll();
-              this.cdr.detectChanges();
-            },
-            error => {
-              this.mensaje.MostrarBodyError(error);
-            }
-          );
-        },
-        error => {
-          // Si hubo un error al registrar el historial, mostrar un mensaje de error
-          this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
-        }
-      );
-    }
-    else {
-      this.mensaje.MostrarMensaje("FORMULARIO VACIO")
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       this.formulario.markAllAsTouched();
+      return;
     }
+    const objPartido: Partido = {
+      codigo: this.codigoPartido,
+      equipoRival: this.formulario.get('equipoRival')?.value,
+      fecha: this.formulario.get('fecha')?.value,
+      hora: this.formulario.get('hora')?.value,
+      lugar: this.formulario.get('lugar')?.value,
+      tipoPartido: this.formulario.get('tipo')?.value,
+      equipo: this.formulario.get('equipo')?.value,
+    };
 
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} actualizó al partido ${objPartido.codigo} .`,
+    };
 
+    this.partidoService.actualizar(objPartido).subscribe({
+      next: async () => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
 
+        this.dialog.closeAll();
+        this.cdr.detectChanges();
+      },
+      error: error => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+      }
+    });
   }
   cerrar() {
     this.dialogRe.close();
   }
 
-
-
   constructor(
-    private partidoService:PartidoService,
-    private mensaje:MensajeService,
+    private partidoService: PartidoService,
+    private alertService: AlertService,
     private formBuilder: UntypedFormBuilder,
-    private loginService:LoginService,
-        private cdr: ChangeDetectorRef,
-        private dialog: MatDialog,
-        private historialService: HistorialService,
+    private loginService: LoginService,
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
+    private historialService: HistorialService,
     private dialogRe: MatDialogRef<LsPartidoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private equipoService: EquipoService
@@ -95,13 +82,13 @@ if (this.formulario.valid) {
   hora: Time
   lugar: string
   tipoPartido: string
-codigoPartido:string
-profesor:string
+  codigoPartido: string
+  profesor: string
   ngOnInit(): void {
     console.log(this.data.row)
     console.log(this.data.profesor)
-    this.profesor=this.data.profesor
-    this.codigoPartido=this.data.row.codigo
+    this.profesor = this.data.profesor
+    this.codigoPartido = this.data.row.codigo
     this.equipoLocal = this.data.row.equipo.codigo
     this.equipoRival = this.data.row.equipoRival
     this.fecha = this.data.row.fecha

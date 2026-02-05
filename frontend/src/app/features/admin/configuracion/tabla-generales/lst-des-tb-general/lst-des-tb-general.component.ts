@@ -3,7 +3,7 @@ import { ModalEliminacionComponent } from '../../../../../shared/modal/modal-eli
 import { VisorTbGeneralComponent } from '../visor-tb-general/visor-tb-general.component';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Router } from '@angular/router';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { GeneralService } from 'src/app/core/services/general.service';
@@ -12,6 +12,9 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LsTablaGeneralComponent } from '../ls-tabla-general/ls-tabla-general.component';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-lst-des-tb-general',
@@ -23,10 +26,6 @@ export class LstDesTbGeneralComponent implements OnInit {
   volver() {
     this.dialogRe.close();
   }
-
-
-
-
 
   user: any = null;
   xd: any
@@ -40,11 +39,11 @@ export class LstDesTbGeneralComponent implements OnInit {
   constructor(
     private generalService: GeneralService,
     private dialog: MatDialog,
-    private loginService:LoginService,
-    private historialService:HistorialService,
+    private loginService: LoginService,
+    private historialService: HistorialService,
     private dialogRe: MatDialogRef<LsTablaGeneralComponent>,
     private change: ChangeDetectorRef,
-    private mensjae: MensajeService,
+    private alertService: AlertService,
 
     private route: Router
   ) {
@@ -87,7 +86,7 @@ export class LstDesTbGeneralComponent implements OnInit {
     console.log(row)
 
     const dialogRef = this.dialog.open(VisorTbGeneralComponent, {
-      disableClose: true ,
+      disableClose: true,
       width: '550px',
       height: '550px',
       data: {
@@ -103,8 +102,8 @@ export class LstDesTbGeneralComponent implements OnInit {
   }
 
 
- eliminar(row: any) {
-  console.log(row)
+  eliminar(row: any) {
+    console.log(row)
     const dialogEliminar = this.dialog.open(ModalEliminacionComponent, {
       width: '500px',
       data: {
@@ -118,29 +117,18 @@ export class LstDesTbGeneralComponent implements OnInit {
 
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton !== 'CONFIRMAR') return;
-
-      this.generalService.activarGeneral(row.codigo).subscribe(result => {
-        // Crear el historial
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
-          detalle: `El usuario ${this.loginService.getUser().username} desactivó un cargo de ${row.nombre}`
-        };
-
-        console.log(historial);
-
-        // Registrar el historial
-        this.historialService.registrar(historial).subscribe(
-          () => {
-            this.mensjae.MostrarMensaje("Se desactivó correctamente las tabla general");
-            this.listarGeneral(); // Actualizar la lista de cargos
-          },
-          error => {
-            this.mensjae.MostrarBodyError(error); // Manejar error al registrar el historial
-          }
-        );
-      }, error => {
-        this.mensjae.MostrarBodyError(error); // Manejar error al desactivar el cargo
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username, 
+        detalle: `El usuario ${this.loginService.getUser().username} desactivó un cargo de ${row.nombre}`
+      };
+      this.generalService.activarGeneral(row.codigo).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.alertService.advertencia(TITULO_MESAJES.DESACTIVADO, MENSAJES.DESACTIVADO);
+          this.listarGeneral();
+        },
       });
+
     });
 
   }

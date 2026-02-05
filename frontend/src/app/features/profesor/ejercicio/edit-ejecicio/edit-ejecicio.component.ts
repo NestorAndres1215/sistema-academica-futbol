@@ -7,10 +7,12 @@ import { EjercicioService } from 'src/app/core/services/ejercicio.service';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { Ejercicio } from 'src/app/core/model/Ejercicio';
 import { Historial } from 'src/app/core/model/historial';
 import { AdminClaseDiaComponent } from 'src/app/features/admin/modulo-clases/admin-clase-dia/admin-clase-dia.component';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-edit-ejecicio',
@@ -21,50 +23,41 @@ export class EditEjecicioComponent implements OnInit {
 
   operar() {
 
-    console.log(this.formulario.value)
-    if (this.formulario.valid) {
-
-      const objclase: Ejercicio = {
-        codigo: this.codigoEjercicio,
-        nombre: this.formulario.get('nombre')?.value,
-        duracion: this.formulario.get('duracion')?.value,
-        descripcion: this.formulario.get('descripcion')?.value,
-        tipo: this.formulario.get('tipo')?.value,
-        intensidad: this.formulario.get('intensidad')?.value,
-        usuarioActualizacion: this.loginService.getUser().username,
-        clase: this.clase,
-      };
-
-      const historial: Historial = {
-        usuario: this.loginService.getUser().username,
-        detalle: `El usuario ${this.loginService.getUser().username} registró al clase detalle ${objclase.nombre} y con el  dia  ${this.dia}.`
-      };
-
-      this.ejercicioService.actualizar(objclase).subscribe(
-        () => {
-
-          this.historialService.registrar(historial).subscribe(
-            response => {
-              this.mensaje.MostrarMensajeExito("SE ACTUALIZO  CORRECTAMENTE");
-              this.formulario.reset();
-              this.dialog.closeAll();
-              this.cdr.detectChanges();
-            },
-            error => {
-              this.mensaje.MostrarBodyError(error);
-            }
-          );
-        },
-        error => {
-          this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
-        }
-      );
-    }
-    else {
-      console.log("formulario vacio")
-      this.mensaje.MostrarMensaje("FORMULARIO VACIO")
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       this.formulario.markAllAsTouched();
+      return;
     }
+
+    const objclase: Ejercicio = {
+      codigo: this.codigoEjercicio,
+      nombre: this.formulario.get('nombre')?.value,
+      duracion: this.formulario.get('duracion')?.value,
+      descripcion: this.formulario.get('descripcion')?.value,
+      tipo: this.formulario.get('tipo')?.value,
+      intensidad: this.formulario.get('intensidad')?.value,
+      usuarioActualizacion: this.loginService.getUser().username,
+      clase: this.clase,
+    };
+
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} registró al clase detalle ${objclase.nombre} y con el  dia  ${this.dia}.`
+    };
+
+    this.ejercicioService.actualizar(objclase).subscribe({
+      next: async () => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
+        this.formulario.reset();
+        this.dialog.closeAll();
+        this.cdr.markForCheck(); 
+      },
+      error: error => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+      }
+    });
+
   }
 
   cerrar() {
@@ -78,11 +71,10 @@ export class EditEjecicioComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private ejercicioService: EjercicioService,
     private claseService: ClaseService,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private historialService: HistorialService,
-    private router: Router,
     private generalService: GeneralService,
     private dialogRe: MatDialogRef<AdminClaseDiaComponent>,
     private loginService: LoginService,

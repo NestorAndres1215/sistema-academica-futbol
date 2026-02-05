@@ -6,9 +6,12 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import Swal from 'sweetalert2';
 import { Historial } from 'src/app/core/model/historial';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-edit-perfil',
   templateUrl: './edit-perfil.component.html',
@@ -54,7 +57,7 @@ export class EditPerfilComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private loginService: LoginService,
     private historialService: HistorialService,
-    private mensajeService: MensajeService,
+    private alertService: AlertService,
     private dialog: MatDialog,
     private formBuilder: UntypedFormBuilder,) { }
 
@@ -81,16 +84,16 @@ export class EditPerfilComponent implements OnInit {
   defaultImageUrl: string = 'assets/image/components/icono-perfil.jpg';
 
 
-  imageUrl: string | null = null; 
+  imageUrl: string | null = null;
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
 
     if (file) {
-      this.selectedFile = file; 
+      this.selectedFile = file;
       const reader = new FileReader();
       reader.onload = () => {
-        this.imageUrl = reader.result as string; 
+        this.imageUrl = reader.result as string;
       };
       reader.readAsDataURL(file);
     } else if (!this.selectedFile && this.logo) {
@@ -125,7 +128,7 @@ export class EditPerfilComponent implements OnInit {
 
   listarEdiciones() {
 
-    const firstRow = this.lista.row[0];  
+    const firstRow = this.lista.row[0];
     this.codigoUsuario = firstRow.usuario.codigo;
     this.codigoAdmin = firstRow.codigo;
     this.usuario = firstRow.usuario.username;
@@ -167,66 +170,59 @@ export class EditPerfilComponent implements OnInit {
     }
   }
   operar() {
-    const formValues = this.formulario.value;
 
+    const formValues = this.formulario.value;
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
+      this.formulario.markAllAsTouched();
+      return;
+    }
 
     const logo = this.selectedFile
-      ? this.selectedFile 
-      : this.logo 
+      ? this.selectedFile
+      : this.logo
         ? new File([new Blob()], 'imagen_actual.jpeg', { type: 'image/jpeg' })
-        : new File([new Blob()], 'imagen_defecto.jpeg', { type: 'image/jpeg' }); 
+        : new File([new Blob()], 'imagen_defecto.jpeg', { type: 'image/jpeg' });
 
     formValues.logo = logo;
 
-    if (this.formulario.valid) {
-      const registrar = {
-        codigoAdmin: this.codigoAdmin,
-        codigoUsuario: this.codigoUsuario,
-        usuario: formValues.usuario,        
-        primerNombre: formValues.primerNombre,   
-        segundoNombre: formValues.segundoNombre, 
-        apellidoPaterno: formValues.apellidoPaterno, 
-        apellidoMaterno: formValues.apellidoMaterno, 
-        telefono: formValues.telefono,     
-        email: formValues.email,          
-        direccion: formValues.direccion,  
-        perfil: formValues.logo,
-      };
 
-      const historial: Historial = {
-        usuario: this.loginService.getUser().username, 
-        detalle: `El usuario ${this.loginService.getUser().username} actualizó el administrador con el código ${this.codigoAdmin}.`
-      };
+    const registrar = {
+      codigoAdmin: this.codigoAdmin,
+      codigoUsuario: this.codigoUsuario,
+      usuario: formValues.usuario,
+      primerNombre: formValues.primerNombre,
+      segundoNombre: formValues.segundoNombre,
+      apellidoPaterno: formValues.apellidoPaterno,
+      apellidoMaterno: formValues.apellidoMaterno,
+      telefono: formValues.telefono,
+      email: formValues.email,
+      direccion: formValues.direccion,
+      perfil: formValues.logo,
+    };
 
-      this.historialService.registrar(historial).subscribe(
-        () => {
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} actualizó el administrador con el código ${this.codigoAdmin}.`
+    };
 
-          this.adminService.actualizarAdminImg(this.codigoAdmin, registrar).subscribe(
-            () => {
-              this.formulario.reset();
-              this.cdr.detectChanges();
-              this.mensajeService.MostrarMensajeExito('Se Actualizo el Usuario');
-              this.dialog.closeAll();
-              this.cdr.markForCheck();
-            },
-            (error) => {
-              this.mensajeService.MostrarBodyError('Error al registrar el usuario: ' + error);
-            }
-          );
-        },
-        (error) => {
-          this.mensajeService.MostrarBodyError('Error al registrar el historial: ' + error);
-        }
-      );
-    }
-    else {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error en la actualización',
-        text: 'Todos los campos obligatorios deben estar completos.',
-      });
-    }
 
+    this.adminService.actualizarAdminImg(this.codigoAdmin, registrar).subscribe({
+      next: async () => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.formulario.reset();
+        this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
+        this.dialog.closeAll();
+        this.cdr.markForCheck();
+      },
+      error: error => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+
+      }
+    });
 
   }
+
+
+
 }

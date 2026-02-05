@@ -9,8 +9,11 @@ import { HistorialService } from 'src/app/core/services/historial.service';
 import { ClaseService } from 'src/app/core/services/clase.service';
 import { Clase } from 'src/app/core/model/Clase';
 import { Historial } from 'src/app/core/model/historial';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { formatDate } from 'src/app/core/utils/fechaValidator';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-edit-clase',
@@ -19,58 +22,47 @@ import { formatDate } from 'src/app/core/utils/fechaValidator';
 })
 export class EditClaseComponent implements OnInit {
   operar() {
-    console.log(this.formulario.value)
-    if (this.formulario.valid) {
-      const objetoClase: Clase = {
-        codigo: this.codigo,
-        nombre: this.formulario.get('nombre')?.value,
-        equipo: this.formulario.get('equipo')?.value,
-        horario: this.formulario.get('horario')?.value,
-        dia: this.formulario.get('dia')?.value,
-        inicio: this.formulario.get('fechaInicio')?.value,
-        fin: this.formulario.get('fechaFin')?.value,
-        descripcion: this.formulario.get('genero')?.value,
-        usuarioCreacion: this.loginService.getUser().username,
-      }
-      const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
-        detalle: `El usuario ${this.loginService.getUser().username} actualizo  una clase de  para el equipo ${objetoClase.nombre} para los dias ${objetoClase.dia}.`
-      };
-      console.log(objetoClase)
-      console.log(objetoClase)
-      this.claseService.actualizar(objetoClase).subscribe(
-        response => {
-
-          this.historialService.registrar(historial).subscribe(
-            () => {
-              this.mensaje.MostrarMensajeExito("SE ACTUALIZO  CLASE");
-              this.formulario.reset();
-              this.dialog.closeAll();
-            },
-            error => {
-              this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
-            }
-          );
-        },
-        error => {
-          this.mensaje.MostrarBodyError(error);
-        }
-      );
 
 
-    } else {
-      console.log("formulario vacio")
-      this.mensaje.MostrarMensajeError("FORMULARIO VACIO")
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       this.formulario.markAllAsTouched();
+      return;
     }
-
-
-
-
+    const objetoClase: Clase = {
+      codigo: this.codigo,
+      nombre: this.formulario.get('nombre')?.value,
+      equipo: this.formulario.get('equipo')?.value,
+      horario: this.formulario.get('horario')?.value,
+      dia: this.formulario.get('dia')?.value,
+      inicio: this.formulario.get('fechaInicio')?.value,
+      fin: this.formulario.get('fechaFin')?.value,
+      descripcion: this.formulario.get('genero')?.value,
+      usuarioCreacion: this.loginService.getUser().username,
+    }
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} actualizo  una clase de  para el equipo ${objetoClase.nombre} para los dias ${objetoClase.dia}.`
+    };
+    console.log(objetoClase)
+    console.log(objetoClase)
+    this.claseService.actualizar(objetoClase).subscribe({
+      next: async () => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
+        this.formulario.reset();
+        this.dialog.closeAll();
+      },
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+      }
+    });
   }
+
   volver() {
     this.dialogRe.close();
   }
+
   codigo: string;
   nombre: string;
   equipo: string;
@@ -90,7 +82,7 @@ export class EditClaseComponent implements OnInit {
     private dialog: MatDialog, private claseService: ClaseService,
     private dialogRe: MatDialogRef<LsClaseComponent>,
     private horarioService: HorarioService,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private generales: GeneralService
   ) { }
@@ -114,7 +106,6 @@ export class EditClaseComponent implements OnInit {
     this.fechaFin = this.data.row.fin;
     this.dia = this.data.row.dia;
     this.initForm();
-
   }
 
   async validarFecha() {
@@ -136,11 +127,12 @@ export class EditClaseComponent implements OnInit {
       horario: [this.horario, Validators.required],
       fechaInicio: [this.fechaInicio, Validators.required],
       fechaFin: [this.fechaFin, Validators.required],
-      dia: [{ value: this.dia, disabled: true }, Validators.required] // Deshabilitado
+      dia: [{ value: this.dia, disabled: true }, Validators.required]
     });
   }
 
   listarDia: any = [];
+
   async listaDia() {
     this.generales.listarGeneralDevActivado("0007").subscribe((data) => {
       console.log(data)
@@ -152,7 +144,6 @@ export class EditClaseComponent implements OnInit {
   async listarHorarios() {
     this.horarioService.listarHorarioActivado().subscribe((data) => {
       this.horarioListar = data
-
     })
   }
 }

@@ -6,11 +6,13 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { PartidoService } from 'src/app/core/services/partido.service';
 import { LsPartidoComponent } from '../ls-partido/ls-partido.component';
 import { Historial } from 'src/app/core/model/historial';
 import { Partido } from 'src/app/core/model/partido';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-historial-edit-admin',
@@ -18,72 +20,6 @@ import { Partido } from 'src/app/core/model/partido';
   styleUrls: ['./historial-edit-admin.component.css']
 })
 export class HistorialEditAdminComponent implements OnInit {
-
-  time: string = ''; 
-  operar() {
-    console.log(this.formulario.value)
-
-    if (this.formulario.valid) {
-      const objPartido: Partido = {
-        codigo: this.codigoPartido,
-        equipoRival: this.formulario.get('equipoRival')?.value,
-        fecha: this.formulario.get('fecha')?.value,
-        hora: this.formulario.get('hora')?.value,
-        lugar: this.formulario.get('lugar')?.value,
-        tipoPartido: this.formulario.get('tipo')?.value,
-        equipo: this.formulario.get('equipo')?.value,
-        marcadorLocal: this.formulario.get('local')?.value,
-        marcadorVisita: this.formulario.get('visita')?.value,
-        usuarioCreacion: this.loginService.getUser().username,
-      };
-      console.log(objPartido)
-
-      const historial: Historial = {
-        usuario: this.loginService.getUser().username,
-        detalle: `El usuario ${this.loginService.getUser().username} actualizó al partido ${objPartido.codigo} .`,
-      };
-
-      this.partidoService.actualizarFalse(objPartido).subscribe(
-        () => {
-
-          this.historialService.registrar(historial).subscribe(
-            response => {
-              this.mensaje.MostrarMensajeExito("SE ACTUALIZÓ ");
-              this.dialog.closeAll();
-              this.cdr.detectChanges();
-            },
-
-          );
-        },
-        error => {
-          this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
-        }
-      );
-    }
-    else {
-      this.mensaje.MostrarMensaje("FORMULARIO VACIO")
-      this.formulario.markAllAsTouched();
-    }
-  }
-  cerrar() {
-    this.dialogRe.close();
-  }
-
-
-
-  constructor(
-    private partidoService: PartidoService,
-    private mensaje: MensajeService,
-    private formBuilder: UntypedFormBuilder,
-    private loginService: LoginService,
-    private cdr: ChangeDetectorRef,
-    private dialog: MatDialog,
-    private historialService: HistorialService,
-    private dialogRe: MatDialogRef<LsPartidoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private equipoService: EquipoService
-  ) { }
-
 
   formulario: UntypedFormGroup;
   equipoLocal: string
@@ -95,9 +31,23 @@ export class HistorialEditAdminComponent implements OnInit {
   marcadorLocal: string
   marcadorVisita: string
   codigoPartido: string
+  equipo: any
+  time: string = '';
+
+   constructor(
+    private partidoService: PartidoService,
+    private alertService: AlertService,
+    private formBuilder: UntypedFormBuilder,
+    private loginService: LoginService,
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
+    private historialService: HistorialService,
+    private dialogRe: MatDialogRef<LsPartidoComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private equipoService: EquipoService
+  ) { }
 
   ngOnInit(): void {
-
     this.codigoPartido = this.data.row.codigo
     this.equipoLocal = this.data.row.equipo.codigo
     this.equipoRival = this.data.row.equipoRival
@@ -111,7 +61,52 @@ export class HistorialEditAdminComponent implements OnInit {
     this.listaEquipo()
     this.initForm()
   }
-  equipo: any
+
+  operar() {
+
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
+      this.formulario.markAllAsTouched();
+      return;
+    }
+
+    const objPartido: Partido = {
+      codigo: this.codigoPartido,
+      equipoRival: this.formulario.get('equipoRival')?.value,
+      fecha: this.formulario.get('fecha')?.value,
+      hora: this.formulario.get('hora')?.value,
+      lugar: this.formulario.get('lugar')?.value,
+      tipoPartido: this.formulario.get('tipo')?.value,
+      equipo: this.formulario.get('equipo')?.value,
+      marcadorLocal: this.formulario.get('local')?.value,
+      marcadorVisita: this.formulario.get('visita')?.value,
+      usuarioCreacion: this.loginService.getUser().username,
+    };
+
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} actualizó al partido ${objPartido.codigo} .`,
+    };
+
+    this.partidoService.actualizarFalse(objPartido).subscribe({
+      next: async () => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
+        this.dialog.closeAll();
+        this.cdr.markForCheck();
+
+      },
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+      }
+    });
+  }
+
+  cerrar() {
+    this.dialogRe.close();
+  }
+
+ 
 
   listaEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
@@ -133,7 +128,6 @@ export class HistorialEditAdminComponent implements OnInit {
       tipo: [{ value: this.tipoPartido, disabled: true }, Validators.required],
       local: [this.marcadorLocal, Validators.required],
       visita: [this.marcadorVisita, Validators.required],
-
     });
   }
 }

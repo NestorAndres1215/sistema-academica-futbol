@@ -5,9 +5,12 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { AdminService } from 'src/app/core/services/admin.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { DatosPersonalesComponent } from '../datos-personales.component';
 import { Historial } from 'src/app/core/model/historial';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-edt-datos',
@@ -48,13 +51,13 @@ export class EdtDatosComponent implements OnInit {
   horaActualizacion: string = '';
   lista: any;
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any, 
-      private dialogRe: MatDialogRef<DatosPersonalesComponent>,
-    private adminService: AdminService, 
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRe: MatDialogRef<DatosPersonalesComponent>,
+    private adminService: AdminService,
     private cdr: ChangeDetectorRef,
-    private loginService :LoginService,
-    private historialService:HistorialService,
-    private mensajeService: MensajeService,
+    private loginService: LoginService,
+    private historialService: HistorialService,
+    private alertService: AlertService,
     private dialog: MatDialog,
     private formBuilder: UntypedFormBuilder,) { }
 
@@ -90,7 +93,7 @@ export class EdtDatosComponent implements OnInit {
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-  
+
     if (file) {
       this.selectedFile = file; // Almacena el archivo seleccionado
       const reader = new FileReader();
@@ -106,7 +109,7 @@ export class EdtDatosComponent implements OnInit {
       this.imageUrl = this.defaultImageUrl;
     }
   }
-  
+
   ngOnInit(): void {
 
     this.lista = this.data
@@ -118,8 +121,8 @@ export class EdtDatosComponent implements OnInit {
   initForm() {
     this.formulario = this.formBuilder.group({
       usuario: [this.usuario, Validators.required],
-     
-      contra: [{ value: this.contra, disabled: true }, Validators.required], 
+
+      contra: [{ value: this.contra, disabled: true }, Validators.required],
       primerNombre: [this.nombrePrimero, Validators.required],
       segundoNombre: [this.nombreSegundo, Validators.required],
       apellidoPaterno: [this.apellidoPaterno, [Validators.required]],
@@ -182,72 +185,56 @@ export class EdtDatosComponent implements OnInit {
   }
   operar() {
     const formValues = this.formulario.value;
-  
+
 
     const logo = this.selectedFile
-    ? this.selectedFile // Imagen seleccionada
-    : this.logo         // Imagen actual (base64 desde el servidor)
-      ? new File([new Blob()], 'imagen_actual.jpeg', { type: 'image/jpeg' }) // Logo actual
-      : new File([new Blob()], 'imagen_defecto.jpeg', { type: 'image/jpeg' }); // Imagen por defecto
+      ? this.selectedFile 
+      : this.logo   
+        ? new File([new Blob()], 'imagen_actual.jpeg', { type: 'image/jpeg' }) 
+        : new File([new Blob()], 'imagen_defecto.jpeg', { type: 'image/jpeg' }); 
 
-  formValues.logo = logo;
-    let edad: string | null; // Declaramos la variable
+    formValues.logo = logo;
+    let edad: string | null;
     const fechaNacimiento = this.formulario.get('nacimiento').value;
-    edad = this.edadNacimiento(fechaNacimiento); // Llamamos a la función para calcular la edad
-    console.log(edad)
-    console.log(formValues)
-    if (this.formulario.valid) {
+    edad = this.edadNacimiento(fechaNacimiento); 
+
       const registrar = {
         codigoAdmin: this.codigoAdmin,
         codigoUsuario: this.codigoUsuario,
-        usuario: formValues.usuario,        // Usuario ingresado por el usuario
-        contra: formValues.contra,          // Contraseña del usuario
-        primerNombre: formValues.primerNombre,   // Primer nombre del usuario
-        segundoNombre: formValues.segundoNombre, // Segundo nombre (si lo tiene)
-        apellidoPaterno: formValues.apellidoPaterno, // Apellido paterno
-        apellidoMaterno: formValues.apellidoMaterno, // Apellido materno
-        telefono: formValues.telefono,      // Teléfono de contacto
-        email: formValues.email,            // Correo electrónico
-        dni: formValues.dni,                // DNI o número de identificación
-        direccion: formValues.direccion,    // Dirección completa
-        nacimiento: formValues.nacimiento,  // Fecha de nacimiento
+        usuario: formValues.usuario,
+        contra: formValues.contra,          
+        primerNombre: formValues.primerNombre,  
+        segundoNombre: formValues.segundoNombre,
+        apellidoPaterno: formValues.apellidoPaterno, 
+        apellidoMaterno: formValues.apellidoMaterno, 
+        telefono: formValues.telefono,     
+        email: formValues.email,            
+        dni: formValues.dni,           
+        direccion: formValues.direccion,    
+        nacimiento: formValues.nacimiento,
         nacionalidad: formValues.nacionalidad,
         edad: edad, // Nacionalidad
         perfil: formValues.logo,
       };
       console.log(registrar)
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
+        usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} actualizó el administrador con el código ${this.codigoAdmin}.`
       };
 
-      // Registrar el historial primero
-      this.historialService.registrar(historial).subscribe(
-        () => {
-          // Si el historial se registra correctamente, proceder con la actualización del administrador
-          console.log(this.codigoAdmin)
-          this.adminService.actualizarAdminImg(this.codigoAdmin, registrar).subscribe(
-            () => {
-              this.formulario.reset();
-              this.cdr.detectChanges();
-              this.mensajeService.MostrarMensaje('Se Registró el Usuario');
-              this.dialog.closeAll();
-              this.cdr.markForCheck();
-            },
-            (error) => {
-              // Manejo de errores si ocurre algún problema al guardar
-              this.mensajeService.MostrarBodyError('Error al registrar el usuario: ' + error);
-            }
-          );
+
+      this.adminService.actualizarAdminImg(this.codigoAdmin, registrar).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.formulario.reset();
+          this.cdr.markForCheck();
+          this.alertService.aceptacion(TITULO_MESAJES.REGISTRO_EXITOSO_TITULO, MENSAJES.REGISTRO_EXITOSO_MENSAJE);
+          this.dialog.closeAll();
         },
-        (error) => {
-          // Si hubo un error al registrar el historial, mostrar un mensaje de error
-          this.mensajeService.MostrarBodyError('Error al registrar el historial: ' + error);
+        error: (error) => {
+          this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
         }
-      );
+      });
     }
-
-
-
   }
-}
+

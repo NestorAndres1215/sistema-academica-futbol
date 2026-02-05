@@ -10,11 +10,14 @@ import 'jspdf-autotable';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
 import { ModalEliminacionComponent } from '../../../../shared/modal/modal-eliminacion/modal-eliminacion.component';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { LsDesUsuarioComponent } from '../ls-des-usuario/ls-des-usuario.component';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { firstValueFrom } from 'rxjs';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
 
 @Component({
   selector: 'app-lst-usuario',
@@ -22,12 +25,6 @@ import { Respuesta } from 'src/app/core/model/respuesta';
   styleUrls: ['./lst-usuario.component.css']
 })
 export class LstUsuarioComponent implements OnInit {
-  botonesConfig = {
-    editar: false,
-    volver: true,
-
-  };
-
 
   user: any = null;
   xd: any
@@ -53,27 +50,26 @@ export class LstUsuarioComponent implements OnInit {
     actualizar: true,
     ver: true,
   };
+
   constructor(
     private admin: AdminService,
     private dialog: MatDialog,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private mensjae: MensajeService,
+    private alertService: AlertService,
     private historialService: HistorialService,
     private excel: ExcelService,
     private pdfService: PdfService,
     private route: Router
   ) {
-    this.pageChanged({
-      pageIndex: 0, pageSize: this.pageSize,
-      length: 0
-    });
+
   }
 
   ngOnInit(): void {
     this.user = this.loginService.getUser();
     this.listarUsuario();
   }
+
   async listarUsuario() {
     this.admin.listarAdminActivado().subscribe((data) => {
 
@@ -110,7 +106,7 @@ export class LstUsuarioComponent implements OnInit {
 
   visor(row: any) {
 
-     const dialogRef = this.dialog.open(VisorUsuarioComponent, {
+    const dialogRef = this.dialog.open(VisorUsuarioComponent, {
       disableClose: true,
       width: '1050px',
       height: '450px',
@@ -147,27 +143,26 @@ export class LstUsuarioComponent implements OnInit {
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de los administradores a un archivo Excel.`
     };
 
-
-    this.historialService.registrar(historial).subscribe(
-      () => {
-
-        this.excel.descargarExcelAdmin().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx'; 
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
+    this.excel.descargarExcelAdmin().subscribe({
+      next: async (data: Blob) => {
+        const blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         });
+        await firstValueFrom(this.historialService.registrar(historial));
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'datos_exportados.xlsx';
+        a.click();
+
+        window.URL.revokeObjectURL(url);
       },
-      error => {
-        this.mensjae.MostrarBodyError("Error al registrar el historial: " + error); // Manejar el error de historial
+      error: (err) => {
+        console.error('Error al descargar el Excel', err);
       }
-    );
+    });
+
+
   }
 
 
@@ -178,26 +173,24 @@ export class LstUsuarioComponent implements OnInit {
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de los usuarios a un archivo PDF.`
     };
 
-    this.historialService.registrar(historial).subscribe(
-      () => {
-
-        this.pdfService.descargarPDFUsuario().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/pdf' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'informe_usuarios.pdf'; // Nombre del archivo PDF
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        });
+    this.pdfService.descargarPDFUsuario().subscribe({
+      next: async (data: Blob) => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const urlBlob = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = urlBlob;
+        a.download = 'informe_datos.pdf';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(urlBlob);
+        document.body.removeChild(a);
       },
-      error => {
-        this.mensjae.MostrarBodyError("Error al registrar el historial: " + error); // Manejar el error de historial
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-    );
+    });
   }
 
   exportarReporteAdministradores(): void {
@@ -339,23 +332,16 @@ export class LstUsuarioComponent implements OnInit {
 
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton != 'CONFIRMAR') return;
-      this.admin.desactivarAdmin(row.codigo).subscribe(result => {
-        this.mensjae.MostrarMensajeExito("Se desactivó correctamente el usuario");
-
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username,
-          detalle: `El usuario ${this.loginService.getUser().username} desactivó al usuario con el código ${row.codigo} y nombre de usuario ${row.username}.`
-        };
-
-        this.historialService.registrar(historial).subscribe(
-          () => {
-
-            this.listarUsuario();
-          },
-          error => {
-            this.mensjae.MostrarBodyError("Error al registrar el historial: " + error); // Manejar el error de historial
-          }
-        );
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username,
+        detalle: `El usuario ${this.loginService.getUser().username} desactivó al usuario con el código ${row.codigo} y nombre de usuario ${row.username}.`
+      };
+      this.admin.desactivarAdmin(row.codigo).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.alertService.advertencia(TITULO_MESAJES.DESACTIVADO, MENSAJES.DESACTIVADO);
+          this.listarUsuario();
+        },
       });
     });
   }

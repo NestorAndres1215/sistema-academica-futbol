@@ -6,13 +6,15 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { CargoComponent } from '../cargo/cargo.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { CargoService } from 'src/app/core/services/cargo.service';
 
 import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
 
 @Component({
   selector: 'app-lst-des-cargo',
@@ -22,7 +24,7 @@ import { Respuesta } from 'src/app/core/model/respuesta';
 export class LstDesCargoComponent implements OnInit {
 
 
- filtro: string = '';
+  filtro: string = '';
   listar: any[] = [];
   usuariosFiltrados: any[] = [];
   totalItems: number;
@@ -34,13 +36,12 @@ export class LstDesCargoComponent implements OnInit {
 
   constructor(
     private cargo: CargoService,
-    private loginService:LoginService,
-    private historialService:HistorialService,
+    private loginService: LoginService,
+    private historialService: HistorialService,
     private change: ChangeDetectorRef,
     private dialog: MatDialog,
     private dialogRe: MatDialogRef<CargoComponent>,
-    private route: Router,
-    private mensajeService: MensajeService
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -100,33 +101,28 @@ export class LstDesCargoComponent implements OnInit {
         subtitulo: `¿Deseas restaurar el usuario ${row.nombre} con el código ${row.codigo} ? `
       },
     });
-  
+
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton !== 'CONFIRMAR') return;
-  
+
       // Registrar el historial antes de restaurar el cargo
       const historial: Historial = {
         usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
         detalle: `El usuario ${this.loginService.getUser().username} restauró el cargo del usuario ${row.nombre} con el código ${row.codigo}.`
       };
-  
-      // Registrar el historial
-      this.historialService.registrar(historial).subscribe(
-        () => {
-          // Si el historial se registra correctamente, proceder a restaurar el cargo
-          this.cargo.activarCargo(row.codigo).subscribe(result => {
-            console.log(result);
-            this.mensajeService.MostrarMensajeExito("Se restauró correctamente el cargo.");
-            this.listarDesactivado(); // Actualizar la lista de cargos restaurados
-          });
-        },
-        error => {
-          this.mensajeService.MostrarBodyError('Error al registrar el historial: ' + error);
-        }
-      );
+
+
+      this.cargo.activarCargo(row.codigo).subscribe(result => {
+        console.log(result);
+      this.alertService.advertencia(TITULO_MESAJES.ACTIVADO,MENSAJES.ACTIVADO);
+		 
+        this.listarDesactivado(); // Actualizar la lista de cargos restaurados
+      });
+
+
     });
   }
-  
+
 
   visor(row: any) {
     console.log(row)

@@ -1,10 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { VisorSedeComponent } from '../visor-sede/visor-sede.component';
-
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { Router } from '@angular/router';
-
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SedeService } from 'src/app/core/services/sede.service';
 import { SedeComponent } from '../sede/sede.component';
@@ -13,6 +10,9 @@ import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { firstValueFrom } from 'rxjs';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
 
 
 @Component({
@@ -21,7 +21,7 @@ import { Respuesta } from 'src/app/core/model/respuesta';
   styleUrls: ['./lst-des-sede.component.css']
 })
 export class LstDesSedeComponent implements OnInit {
- filtro: string = '';
+  filtro: string = '';
   listar: any[] = [];
   usuariosFiltrados: any[] = [];
   totalItems: number;
@@ -33,13 +33,13 @@ export class LstDesSedeComponent implements OnInit {
 
   constructor(
     private sede: SedeService,
-    private loginService:LoginService,
-    private historialService:HistorialService,
+    private loginService: LoginService,
+    private historialService: HistorialService,
     private change: ChangeDetectorRef,
     private dialog: MatDialog,
     private dialogRe: MatDialogRef<SedeComponent>,
     private route: Router,
-    private mensajeService: MensajeService
+    private alertService: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -80,10 +80,9 @@ export class LstDesSedeComponent implements OnInit {
     }
 
     const term = this.filtro.toLowerCase();
-    this.usuariosFiltrados = this.pagedData.filter(usuario =>
-      (usuario.nombre)
-        .toLowerCase()
-        .includes(term)
+    this.usuariosFiltrados = this.pagedData.filter(usuario => (usuario.nombre)
+      .toLowerCase()
+      .includes(term)
     );
   }
   volver() {
@@ -100,35 +99,25 @@ export class LstDesSedeComponent implements OnInit {
         subtitulo: `¿Deseas restaurar el usuario ${row.nombre} con el codigo ${row.codigo}?`
       },
     });
-  
+
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton != 'CONFIRMAR') return;
-  
-      // Crear el objeto de historial para registrar la acción de restaurar sede
+
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
+        usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} restauró el sede ${row.nombre} con el código ${row.codigo}.`
       };
-  
-      // Registrar el historial primero
-      this.historialService.registrar(historial).subscribe(
-        () => {
-          // Si el historial se registra correctamente, proceder con la restauración de la sede
-          this.sede.activarSede(row.codigo).subscribe(result => {
-            console.log(result);
-            this.mensajeService.MostrarMensajeExito("Se restauró correctamente la sede");
-            this.listarDesactivado(); // Actualizar la lista de sedes desactivadas
-          });
+
+      this.sede.activarSede(row.codigo).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.alertService.advertencia(TITULO_MESAJES.ACTIVADO, MENSAJES.ACTIVADO);
+          this.listarDesactivado();
         },
-        error => {
-          // Si hubo un error al registrar el historial, mostrar un mensaje de error
-          this.mensajeService.MostrarBodyError('Error al registrar el historial: ' + error);
-        }
-      );
-  
+      });
     });
   }
-  
+
   visor(row: any) {
     console.log(row)
 
@@ -144,9 +133,6 @@ export class LstDesSedeComponent implements OnInit {
         console.log('Elemento eliminado');
       }
     });
-
   }
-
-
 
 }

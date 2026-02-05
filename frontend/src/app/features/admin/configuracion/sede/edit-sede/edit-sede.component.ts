@@ -3,12 +3,14 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { SedeComponent } from '../sede/sede.component';
 import { SedeService } from 'src/app/core/services/sede.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Sede } from 'src/app/core/model/sede';
 import { firstValueFrom } from 'rxjs';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
 
 
 @Component({
@@ -26,7 +28,7 @@ export class EditSedeComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private historialService: HistorialService,
     private dialog: MatDialog,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private loginService: LoginService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: UntypedFormBuilder,) { }
@@ -74,9 +76,9 @@ export class EditSedeComponent implements OnInit {
   }
 
   async operar() {
-    
+
     if (!this.formulario.valid) {
-      this.mensaje.MostrarMensaje("FORMULARIO VACÍO");
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       this.formulario.markAllAsTouched();
       return;
     }
@@ -97,15 +99,14 @@ export class EditSedeComponent implements OnInit {
 
     try {
 
-      await firstValueFrom(this.sede.actualizarSede(objRegistrar)); 
+      await firstValueFrom(this.sede.actualizarSede(objRegistrar));
       await firstValueFrom(this.historialService.registrar(historial));
-      this.mensaje.MostrarMensajeExito("SE ACTUALIZÓ SEDE");
+      this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
       this.dialog.closeAll();
       this.cdr.detectChanges();
 
     } catch (error) {
-      console.error(error);
-      this.mensaje.MostrarBodyError("Ocurrió un error al procesar la operación: " + error);
+      this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
     }
   }
 

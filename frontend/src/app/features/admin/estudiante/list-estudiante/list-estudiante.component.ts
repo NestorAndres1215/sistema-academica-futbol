@@ -7,15 +7,16 @@ import { VisorEstudianteComponent } from '../visor-estudiante/visor-estudiante.c
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { PdfService } from 'src/app/core/services/pdf.service';
 import { ExcelService } from 'src/app/core/services/excel.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { MatDialog } from '@angular/material/dialog';
 import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { Router } from '@angular/router';
-
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { firstValueFrom } from 'rxjs';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
 
 @Component({
   selector: 'app-list-estudiante',
@@ -23,11 +24,7 @@ import { Respuesta } from 'src/app/core/model/respuesta';
   styleUrls: ['./list-estudiante.component.css']
 })
 export class ListEstudianteComponent implements OnInit {
-  botonesConfig = {
-    editar: false,
-    volver: true,
 
-  };
   user: any = null;
   xd: any
   datosTabla: any[] = [];
@@ -43,11 +40,11 @@ export class ListEstudianteComponent implements OnInit {
     private dialog: MatDialog,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private historialService: HistorialService,
     private excel: ExcelService,
     private pdfService: PdfService,
-    private route: Router
+
   ) { }
 
   ngOnInit(): void {
@@ -60,22 +57,15 @@ export class ListEstudianteComponent implements OnInit {
 
   listarProfesor(): void {
     this.admin.listarEstudianteActivado().subscribe((data: any[]) => {
-
-      // Filtrar
       data = data.filter(item => item.codigo !== '0000');
-
-      // Preparar nombre completo
       this.datosTabla = data.map(row => ({
         ...row,
         nombreCompleto: `${row.primerNombre} ${row.segundoNombre} ${row.apellidoPaterno} ${row.apellidoMaterno}`
       }));
 
       this.totalItems = this.datosTabla.length;
-
-      // Inicializar paginación
       this.pageIndex = 0;
       this.updatePagedData();
-
       this.getUserInfo();
       this.change.markForCheck();
     });
@@ -83,7 +73,6 @@ export class ListEstudianteComponent implements OnInit {
 
   async getUserInfo() {
     this.user = this.loginService.getUser();
-    const userID = this.user.id;
     const usuarios = this.datosTabla.filter(item => item.id === this.user.id);
     this.xd = usuarios
   }
@@ -92,8 +81,6 @@ export class ListEstudianteComponent implements OnInit {
     this.paginator.firstPage();
     this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
   }
-
-
 
   pageChanged(event: PageEvent): void {
     this.pageIndex = event.pageIndex;
@@ -121,7 +108,6 @@ export class ListEstudianteComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Elemento eliminado');
         this.pageSizeChanged()
       }
     });
@@ -137,44 +123,38 @@ export class ListEstudianteComponent implements OnInit {
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarProfesor()
       this.pageSizeChanged()
     })
   }
-  volver(): void {
-    this.route.navigate(['/administrador']);
-  }
-
 
   exportarExcel() {
-   
+
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, 
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo Excel.`,
     };
 
-    this.historialService.registrar(historial).subscribe(
-      () => {
-
-        this.excel.descargarExcelEstudiante().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx'; // Nombre del archivo Excel
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
+    this.excel.descargarExcelEstudiante().subscribe({
+      next: async (data: Blob) => {
+        const blob = new Blob([data], {
+          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         });
+        await firstValueFrom(this.historialService.registrar(historial));
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'datos_exportados.xlsx';
+        a.click();
+
+        window.URL.revokeObjectURL(url);
       },
-      error => {
-        this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
+      error: (error) => {
+          this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-    );
+    });
+
   }
   botonesConfigTable = {
     actualizar: true,
@@ -197,36 +177,30 @@ export class ListEstudianteComponent implements OnInit {
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo PDF.`,
     };
 
-    // Registrar el historial
-    this.historialService.registrar(historial).subscribe(
-      () => {
-        // Si el historial se registra correctamente, proceder con la exportación
-        this.pdfService.descargarPDFEstudiante().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/pdf' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'informe_estudiante.pdf'; // Nombre del archivo PDF
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        });
+    this.pdfService.descargarPDFEstudiante().subscribe({
+      next: async (data: Blob) => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        const blob = new Blob([data], { type: 'application/pdf' });
+        const urlBlob = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = urlBlob;
+        a.download = 'informe_datos.pdf';
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(urlBlob);
+        document.body.removeChild(a);
       },
-      error => {
-        // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
-        this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
-
+      error: (error) => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-    );
+    });
   }
   exportarPrint(): void {
-    // Suponiendo que this.datostabla es un array o un objeto que quieres imprimir
     const contenidoAImprimir = this.datosTabla;
 
     if (contenidoAImprimir) {
-      // Crear un iframe
+
       const iframe = document.createElement('iframe');
       iframe.style.position = 'absolute';
       iframe.style.width = '0px';
@@ -234,7 +208,6 @@ export class ListEstudianteComponent implements OnInit {
       iframe.style.border = 'none';
       iframe.style.visibility = 'hidden';
       document.body.appendChild(iframe);
-
 
       const iframeDoc = iframe.contentWindow?.document;
 
@@ -244,8 +217,6 @@ export class ListEstudianteComponent implements OnInit {
         year: 'numeric'
       });
 
-
-      // Convertir los datos en formato HTML (esto puede variar dependiendo del formato de 'this.datostabla')
       let contenidoHTML = `
       <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-family: 'Arial', sans-serif;">
         <thead>
@@ -278,11 +249,8 @@ export class ListEstudianteComponent implements OnInit {
           </tr>`;
       });
 
-
       contenidoHTML += `</tbody></table>`;
 
-
-      // Escribir el contenido a imprimir en el iframe
       iframeDoc?.open();
       iframeDoc?.write(`
   <html>
@@ -362,29 +330,18 @@ export class ListEstudianteComponent implements OnInit {
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton != 'CONFIRMAR') return;
 
-
-      this.admin.desactivarEstudiante(row.codigo).subscribe(result => {
-        console.log(result);
-        const historial: Historial = {
-          usuario: this.loginService.getUser().username, // Usuario que realiza la acción
-          detalle: `El usuario ${this.loginService.getUser().username} eliminó al estudiante ${row.usuario.username} con el código ${row.codigo}.`
-        };
-        this.mensaje.MostrarMensajeExito("Se desactivo correctamente el usuario")
-        this.historialService.registrar(historial).subscribe(
-          () => {
-            this.mensaje.MostrarMensaje("Se desactivó correctamente el estudiante.");
-            this.listarProfesor(); // Actualizar la lista de cargos
-          },
-          error => {
-            this.mensaje.MostrarBodyError(error); // Manejar error al registrar el historial
-          }
-        );
-
+      const historial: Historial = {
+        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+        detalle: `El usuario ${this.loginService.getUser().username} eliminó al estudiante ${row.usuario.username} con el código ${row.codigo}.`
+      };
+      this.admin.desactivarEstudiante(row.codigo).subscribe({
+        next: async () => {
+          await firstValueFrom(this.historialService.registrar(historial));
+          this.alertService.advertencia(TITULO_MESAJES.ACTIVADO, MENSAJES.ACTIVADO);
+        },
       });
-
     })
   }
-
 
   verUsuariosDesactivados() {
     const dialogRef = this.dialog.open(LstDesEstudianteComponent, {
@@ -396,7 +353,4 @@ export class ListEstudianteComponent implements OnInit {
       this.listarProfesor()
     })
   }
-
-
-
 }

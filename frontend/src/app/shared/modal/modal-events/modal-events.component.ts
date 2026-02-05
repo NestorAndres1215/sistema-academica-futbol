@@ -1,20 +1,20 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-
 import { HorarioService } from 'src/app/core/services/horario.service';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { ClaseService } from 'src/app/core/services/clase.service';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
-
 import { Events } from 'src/app/core/model/events';
 import { Clase } from 'src/app/core/model/Clase';
 import { Historial } from 'src/app/core/model/historial';
 import { CalendarioComponent } from 'src/app/features/admin/calendario/calendario/calendario.component';
 import { formatDate } from 'src/app/core/utils/fechaValidator';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-modal-events',
@@ -40,7 +40,7 @@ export class ModalEventsComponent implements OnInit {
 
   constructor(
     private dialogRe: MatDialogRef<CalendarioComponent>,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private historialService: HistorialService,
     private dialog: MatDialog,
     private loginService: LoginService,
@@ -75,57 +75,54 @@ export class ModalEventsComponent implements OnInit {
 
   save() {
 
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
+      this.formulario.markAllAsTouched();
+      return;
+    }
+
     const fechaFin = this.formulario.value.fechaFin;
     const fechaInicio = new Date(this.formulario.value.fechaInicio);
     const fechaActual = new Date();
 
     if (fechaInicio > new Date(fechaFin)) {
-      this.mensaje.MostrarMensaje("LA FECHA INICIAL DEBE SER MENOR QUE LA FECHA FINAL");
-    } else if (fechaInicio < fechaActual) {
-      this.mensaje.MostrarMensaje("LA FECHA INICIAL NO PUEDE SER MENOR A LA FECHA ACTUAL");
-    } else {
-      console.log('Fechas válidas:', fechaInicio, fechaFin);
+      this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.FECHA_INICIO_MAYOR_FIN);
+      return;
     }
 
+    if (fechaInicio < fechaActual) {
+      this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.FECHA_INICIO_MENOR_ACTUAL);
+      return;
+    }
 
-    if (this.formulario.valid) {
-      const objetoClase: Clase = {
-        nombre: this.formulario.get('nombre')?.value,
-        equipo: this.formulario.get('equipo')?.value,
-        horario: this.formulario.get('horario')?.value,
-        dia: this.formulario.get('dia')?.value,
-        inicio: this.formulario.get('fechaInicio')?.value,
-        fin: this.formulario.get('fechaFin')?.value,
-        descripcion: this.formulario.get('desc')?.value,
-        usuarioCreacion: this.loginService.getUser().username,
+    const objetoClase: Clase = {
+      nombre: this.formulario.get('nombre')?.value,
+      equipo: this.formulario.get('equipo')?.value,
+      horario: this.formulario.get('horario')?.value,
+      dia: this.formulario.get('dia')?.value,
+      inicio: this.formulario.get('fechaInicio')?.value,
+      fin: this.formulario.get('fechaFin')?.value,
+      descripcion: this.formulario.get('desc')?.value,
+      usuarioCreacion: this.loginService.getUser().username,
+    }
+
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} registro  una clase de  para el equipo ${objetoClase.nombre} para los dias ${objetoClase.dia}.`
+    };
+
+    this.claseService.registrar(objetoClase).subscribe({
+      next: async () => {
+        this.alertService.aceptacion(TITULO_MESAJES.REGISTRO_EXITOSO_TITULO, MENSAJES.REGISTRO_EXITOSO_MENSAJE);
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.formulario.reset();
+        this.dialog.closeAll();
+      },
+      error: error => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-      const historial: Historial = {
-        usuario: this.loginService.getUser().username,
-        detalle: `El usuario ${this.loginService.getUser().username} registro  una clase de  para el equipo ${objetoClase.nombre} para los dias ${objetoClase.dia}.`
-      };
+    });
 
-      this.claseService.registrar(objetoClase).subscribe(
-        response => {
-          this.historialService.registrar(historial).subscribe(
-            () => {
-              this.mensaje.MostrarMensajeExito("SE REGISTRÓ CLASE");
-              this.formulario.reset();
-              this.dialog.closeAll();
-            },
-            error => {
-              this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
-            }
-          );
-        },
-        error => {
-          this.mensaje.MostrarBodyError(error);
-        }
-      );
-    } else {
-      console.log("formulario vacio")
-      this.mensaje.MostrarMensaje("FORMULARIO VACIO")
-      this.formulario.markAllAsTouched();
-    }
 
   }
   horarioListar: any = [];
@@ -167,7 +164,7 @@ export class ModalEventsComponent implements OnInit {
     this.equipoListar = equiposFiltrados;
   }
 
-  selectedHorario: any; 
+  selectedHorario: any;
   selectedDia: any
   dias: any
   isFormEnabled = true;
@@ -175,7 +172,7 @@ export class ModalEventsComponent implements OnInit {
   isHorarioSelected(dia: any): boolean {
 
     if (!this.isFormEnabled) {
-      this.isFormEnabled = true; 
+      this.isFormEnabled = true;
     }
     if (!this.selectedHorario) {
       return false;
@@ -197,7 +194,7 @@ export class ModalEventsComponent implements OnInit {
 
   onHorarioChange(event: any): void {
     this.selectedHorario = event.value;
-    this.isFormEnabled = this.selectedHorario !== ''; 
+    this.isFormEnabled = this.selectedHorario !== '';
   }
 
   initForm() {

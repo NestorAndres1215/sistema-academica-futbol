@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SedeService } from 'src/app/core/services/sede.service';
 import { GeneralService } from 'src/app/core/services/general.service';
-import { CODIGO_GENERO, GENERO } from 'src/app/core/constants/usuario';
+
 
 @Component({
   selector: 'app-estudiante',
@@ -70,7 +70,7 @@ export class EstudianteComponent implements OnInit {
     });
   }
 
-  
+
   filtrarUsuarios(): void {
     if (!this.listar || this.listar.length === 0) {
       this.usuariosFiltrados = [];
@@ -103,11 +103,6 @@ export class EstudianteComponent implements OnInit {
       height: '520px',
       data: { perfil },
     });
-  }
-
-
-  volver(): void {
-    this.router.navigate(['/administrador']);
   }
 
   async listaGenero() {

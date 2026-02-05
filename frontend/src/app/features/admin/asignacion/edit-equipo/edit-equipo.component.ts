@@ -10,7 +10,10 @@ import { HistorialService } from 'src/app/core/services/historial.service';
 import { EquipoService } from 'src/app/core/services/equipo.service';
 import { Equipo } from 'src/app/core/model/equipo';
 import { Historial } from 'src/app/core/model/historial';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
+
 
 
 @Component({
@@ -36,7 +39,7 @@ export class EditEquipoComponent implements OnInit {
   codigo: string
 
   constructor(
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private sedeService: SedeService,
     private historialService: HistorialService,
     private equipoService: EquipoService,
@@ -59,7 +62,7 @@ export class EditEquipoComponent implements OnInit {
   sedes: any[] = [];
   generos: any[] = [];
   categorias: any[] = [];
-  
+
   listarEdiciones() {
     this.codigo = this.lista.row.codigo;
     this.nombre = this.lista.row.nombre;
@@ -113,40 +116,41 @@ export class EditEquipoComponent implements OnInit {
   }
 
   operar() {
-    if (this.formulario.valid) {
-      const objEquipo: Equipo = {
-        codigo: this.codigo,
-        nombre: this.formulario.get('nombre')?.value,
-        sede: this.formulario.get('sede')?.value,
-        categoria: this.formulario.get('categoria')?.value,
-        genero: this.formulario.get('genero')?.value,
-        usuarioRegistro: this.usuarioCreacion,
-        usuarioActualizacion: this.loginService.getUser().username,
-      }
-      const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
-        detalle: `El usuario ${this.loginService.getUser().username} actualizó al equipo ${objEquipo.nombre}`,
-      };
-      this.historialService.registrar(historial).subscribe(
-        () => {
-          this.equipoService.actualizar(objEquipo).subscribe(
-            response => {
-              this.mensaje.MostrarMensaje("SE ACTUALIZÓ PROFESOR");
-              this.dialog.closeAll();
-              this.cdr.detectChanges();
-            },
-            error => {
-              this.mensaje.MostrarBodyError(error);
-            }
-          );
-        },
-        error => {
 
-          this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
-        }
-      );
-    } else {
-      this.mensaje.MostrarMensaje("FORMULARIO VACIO")
+
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
+      this.formulario.markAllAsTouched();
+      return;
     }
+
+    const objEquipo: Equipo = {
+      codigo: this.codigo,
+      nombre: this.formulario.get('nombre')?.value,
+      sede: this.formulario.get('sede')?.value,
+      categoria: this.formulario.get('categoria')?.value,
+      genero: this.formulario.get('genero')?.value,
+      usuarioRegistro: this.usuarioCreacion,
+      usuarioActualizacion: this.loginService.getUser().username,
+    }
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+      detalle: `El usuario ${this.loginService.getUser().username} actualizó al equipo ${objEquipo.nombre}`,
+    };
+
+    this.equipoService.actualizar(objEquipo).subscribe({
+      next: async () => {
+        await firstValueFrom(this.historialService.registrar(historial));
+        this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
+
+        this.dialog.closeAll();
+        this.cdr.markForCheck(); // si usas OnPush
+      },
+      error: error => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+      }
+    });
   }
+
 }
+

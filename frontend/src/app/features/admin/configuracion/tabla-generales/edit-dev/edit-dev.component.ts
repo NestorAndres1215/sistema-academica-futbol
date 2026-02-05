@@ -2,13 +2,16 @@ import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { LtDevComponent } from '../lt-dev/lt-dev.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MensajeService } from 'src/app/core/services/mensaje.service';
+
 import { LoginService } from 'src/app/core/services/login.service';
 import { GeneralService } from 'src/app/core/services/general.service';
 
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { General } from 'src/app/core/model/General';
 import { Historial } from 'src/app/core/model/historial';
+import { AlertService } from 'src/app/core/services/alert.service';
+import { TITULO_MESAJES, MENSAJES } from 'src/app/core/constants/messages';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-edit-dev',
@@ -22,9 +25,9 @@ export class EditDevComponent implements OnInit {
   constructor(
     private dialogRe: MatDialogRef<LtDevComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private mensaje: MensajeService,
+    private alertService: AlertService,
     private loginService: LoginService,
-    private historialService:HistorialService,
+    private historialService: HistorialService,
     private generalService: GeneralService,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
@@ -67,49 +70,42 @@ export class EditDevComponent implements OnInit {
   }
 
   operar() {
-    if (this.formulario.valid) {
-      const objRegistrar: General = {
-        codigo: this.formulario.get('codigo')?.value,
-        clave: this.formulario.get('clave')?.value,
-        descripcionPrimero: this.formulario.get('descripcion')?.value,
-        usuarioCreacion: this.usuarioCreacion,
-        usuarioActualizacion: this.loginService.getUser().username,
-      };
-      console.log(objRegistrar);
-  
-      this.generalService.actualizarGeneralDev(objRegistrar).subscribe(
-        response => {
-          // Mostrar mensaje de éxito
-          this.mensaje.MostrarMensajeExito("SE ACTUALIZÓ DETALLE DE TABLA");
-  
-          // Registro de la acción en el historial
-          const historial: Historial = {
-            usuario: this.loginService.getUser().username,
-            detalle: `El usuario ${this.loginService.getUser().username} actualizó el detalle de la tabla con el código ${objRegistrar.codigo}.`
-          };
-  
-          // Registrar el historial
-          this.historialService.registrar(historial).subscribe(
-            () => {
-              // Si se registra el historial con éxito, cerrar el modal y forzar detección de cambios
-              this.dialog.closeAll();
-              this.cdr.detectChanges();
-            },
-            error => {
-              this.mensaje.MostrarBodyError("Error al registrar el historial: " + error); // Manejar el error de historial
-            }
-          );
-        },
-        error => {
-          this.mensaje.MostrarBodyError(error);
-        }
-      );
-    } else {
-      this.mensaje.MostrarMensaje("FORMULARIO VACIO");
+
+    if (!this.formulario.valid) {
+      this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       this.formulario.markAllAsTouched();
+      return;
     }
+
+    const objRegistrar: General = {
+      codigo: this.formulario.get('codigo')?.value,
+      clave: this.formulario.get('clave')?.value,
+      descripcionPrimero: this.formulario.get('descripcion')?.value,
+      usuarioCreacion: this.usuarioCreacion,
+      usuarioActualizacion: this.loginService.getUser().username,
+    };
+    console.log(objRegistrar);
+    const historial: Historial = {
+      usuario: this.loginService.getUser().username,
+      detalle: `El usuario ${this.loginService.getUser().username} actualizó el detalle de la tabla con el código ${objRegistrar.codigo}.`
+    };
+
+    this.generalService.actualizarGeneralDev(objRegistrar).subscribe({
+      next: async () => {
+        this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
+await firstValueFrom(this.historialService.registrar(historial));
+
+        this.dialog.closeAll();
+        this.cdr.markForCheck(); // suficiente si usas OnPush
+      },
+      error: error => {
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
+      }
+    });
+
+
   }
-  
+
 
   cerrar() {
     this.dialogRe.close();
