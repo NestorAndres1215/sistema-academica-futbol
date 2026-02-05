@@ -180,16 +180,16 @@ export class SedeComponent implements OnInit {
 
 
   exportarPDF(): void {
-    // Crear el objeto de historial para registrar la exportación del PDF
+
     const historial: Historial = {
       usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de sedes a un archivo PDF.`
     };
 
-    // Registrar el historial
+
     this.historialService.registrar(historial).subscribe(
       () => {
-        // Si el historial se registra correctamente, proceder con la exportación del PDF
+  
         this.pdfService.descargarPDFSede().subscribe((data: Blob) => {
           const blob = new Blob([data], { type: 'application/pdf' });
           const urlBlob = window.URL.createObjectURL(blob);
@@ -204,7 +204,6 @@ export class SedeComponent implements OnInit {
         });
       },
       error => {
-        // Manejar error si no se pudo registrar el historial
         this.mensjae.MostrarBodyError('Error al registrar el historial: ' + error);
       }
     );

@@ -32,7 +32,7 @@ export class ListEstudianteComponent implements OnInit {
   xd: any
   datosTabla: any[] = [];
   pagedData: any[] = [];
-  pageSizeOptions: number[] =    [5, 10, 15, 25, 100];
+  pageSizeOptions: number[] = [5, 10, 15, 25, 100];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   totalItems: number;
   pageSize = 5;
@@ -149,16 +149,15 @@ export class ListEstudianteComponent implements OnInit {
 
 
   exportarExcel() {
-    // Crear el objeto del historial
+   
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+      usuario: this.loginService.getUser().username, 
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo Excel.`,
     };
 
-    // Registrar el historial
     this.historialService.registrar(historial).subscribe(
       () => {
-        // Si el historial se registra correctamente, proceder con la exportación
+
         this.excel.descargarExcelEstudiante().subscribe((data: Blob) => {
           const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
           const urlBlob = window.URL.createObjectURL(blob);
@@ -173,22 +172,7 @@ export class ListEstudianteComponent implements OnInit {
         });
       },
       error => {
-        // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
         this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
-
-        // Proceder con la exportación de datos
-        this.excel.descargarExcelEstudiante().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx'; // Nombre del archivo Excel
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        });
       }
     );
   }
@@ -234,19 +218,6 @@ export class ListEstudianteComponent implements OnInit {
         // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
         this.mensaje.MostrarBodyError("Error al registrar el historial: " + error);
 
-        // Proceder con la exportación de datos
-        this.pdfService.descargarPDFEstudiante().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/pdf' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'informe_estudiante.pdf'; // Nombre del archivo PDF
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        });
       }
     );
   }

@@ -18,18 +18,10 @@ import { DIAS, MESES } from 'src/app/core/constants/calendario';
   styleUrls: ['./calendario.component.css']
 })
 export class CalendarioComponent implements OnInit {
-  volver() {
-    throw new Error('Method not implemented.');
-  }
-  botonesConfig = {
-    editar: false,
-    volver: true,
 
-  };
 
   listarDato: any
-partidoFiltrado: any[] = [];
-
+  partidoFiltrado: any[] = [];
   selectedDayName: string = '';
   selectedDay: any = null;
   mes: number
@@ -165,7 +157,7 @@ partidoFiltrado: any[] = [];
     if (isNaN(parsedDate.getTime())) {
       return 'Fecha inválida';
     }
-    return parsedDate.toLocaleDateString('es-ES', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'});
+    return parsedDate.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   }
 
   private updateCurrentMonthAndYear() {
@@ -267,6 +259,7 @@ partidoFiltrado: any[] = [];
       this.clases = data
     });
   }
+  
   async listarFearidos() {
     this.horario.listarFeriados().subscribe((data) => {
       this.feriado = data

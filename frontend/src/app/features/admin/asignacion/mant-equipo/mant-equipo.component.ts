@@ -187,11 +187,6 @@ export class MantEquipoComponent implements OnInit {
     })
   }
 
-  volver(): void {
-    this.route.navigate(['/administrador']);
-  }
-
-
   exportarExcel() {
 
     const historial: Historial = {
@@ -215,37 +210,20 @@ export class MantEquipoComponent implements OnInit {
         });
       },
       error => {
-        // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
         this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
-
-        // Proceder con la exportación de datos
-        this.excel.descargarExcelEstudiante().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx'; // Nombre del archivo Excel
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        });
       }
     );
   }
 
   exportarPDF(): void {
-    // Crear el objeto del historial
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+      usuario: this.loginService.getUser().username, 
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo PDF.`,
     };
 
-    // Registrar el historial
     this.historialService.registrar(historial).subscribe(
       () => {
-        // Si el historial se registra correctamente, proceder con la exportación
+
         this.pdfService.descargarPDFEquipo().subscribe((data: Blob) => {
           const blob = new Blob([data], { type: 'application/pdf' });
           const urlBlob = window.URL.createObjectURL(blob);
@@ -260,22 +238,7 @@ export class MantEquipoComponent implements OnInit {
         });
       },
       error => {
-        // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
-        this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
-
-        // Proceder con la exportación de datos
-        this.pdfService.descargarPDFEstudiante().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/pdf' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'informe_estudiante.pdf'; // Nombre del archivo PDF
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        });
+      this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
       }
     );
   }

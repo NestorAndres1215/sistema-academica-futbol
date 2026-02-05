@@ -180,18 +180,7 @@ columnas = [
      this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
 
         // Proceder con la exportación de datos
-        this.excel.descargarExcelEstudiante().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'datos_exportados.xlsx'; // Nombre del archivo Excel
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        });
+       
       }
     );
   }
@@ -224,19 +213,7 @@ columnas = [
         // Si hubo un error al registrar el historial, notificar al usuario pero permitir la exportación
         this.mensjae.MostrarBodyError("Error al registrar el historial: " + error);
 
-        // Proceder con la exportación de datos
-        this.pdfService.descargarPDFEstudiante().subscribe((data: Blob) => {
-          const blob = new Blob([data], { type: 'application/pdf' });
-          const urlBlob = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = urlBlob;
-          a.download = 'informe_estudiante.pdf'; // Nombre del archivo PDF
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          window.URL.revokeObjectURL(urlBlob);
-          document.body.removeChild(a);
-        });
+     
       }
     );
   }
