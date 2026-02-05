@@ -2,22 +2,12 @@
     <div class="card-header position-sticky sticky-top">
         <button _ngcontent-yfb-c88="" (click)="volver()" class="btn btn-danger button_close" tabindex="0"><i
                 _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
-        <button _ngcontent-yfb-c69="" class="btn btn-success ng-star-inserted" (click)="operar()"
-            style="margin-right: 10px; align-items: flex-end;"><i _ngcontent-yfb-c69=""
-                class="fas fa-save"></i></button>
+
         <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700px;font-family: monospace;">
             {{"Mantenimiento Tabla General - " + codigo +" - "+ descripcion}}</h3>
     </div>
     <div class="container">
         <div class="card-body">
-
-            <div class="search-container">
-                <mat-form-field appearance="outline" class="custom-search">
-                    <mat-icon matPrefix>search</mat-icon>
-                    <input matInput type="text" placeholder="Buscar por nombre o apellidos" [(ngModel)]="filtro"
-                        (input)="filtrarUsuarios()">
-                </mat-form-field>
-            </div>
 
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
                 <div class="d-flex gap-2">

@@ -182,6 +182,7 @@ import { PaginationComponent } from './shared/pagination/pagination.component';
 import { UserCardComponent } from './shared/card/user-card/user-card.component';
 import { RegistroActividadesComponent } from './shared/registro-actividades/registro-actividades.component';
 import { PartidosCardComponent } from './shared/card/partidos-card/partidos-card.component';
+import { ModalPerfilComponent } from './shared/modal/modal-perfil/modal-perfil.component';
 
 
 @NgModule({
@@ -338,6 +339,7 @@ import { PartidosCardComponent } from './shared/card/partidos-card/partidos-card
     UserCardComponent,
     RegistroActividadesComponent,
     PartidosCardComponent,
+    ModalPerfilComponent,
   ],
   imports: [
     BrowserModule,
