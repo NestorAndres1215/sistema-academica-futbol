@@ -27,9 +27,11 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public JwtResponse generarToken(JwtRequest jwtRequest) {
 
+        usuarioService.buscarUsername(jwtRequest.getUsername());
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(jwtRequest.getUsername(), jwtRequest.getPassword())
         );
+
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(jwtRequest.getUsername());
         String token = jwtUtils.generateToken(userDetails);

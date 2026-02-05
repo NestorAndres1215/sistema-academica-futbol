@@ -32,7 +32,6 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.UNAUTHORIZED, GlobalErrorMessages.NO_AUTORIZADO, ex.getMessage());
     }
 
-
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleResourceExists(ResourceAlreadyExistsException ex) {
         return buildResponse(HttpStatus.CONFLICT, GlobalErrorMessages.CONFLICTO, ex.getMessage());
@@ -54,7 +53,6 @@ public class GlobalExceptionHandler {
     }
 
 
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneral(Exception ex) {
         return buildResponse(HttpStatus.INTERNAL_SERVER_ERROR, GlobalErrorMessages.ERROR_PROCESO, ex.getMessage());
@@ -70,13 +68,9 @@ public class GlobalExceptionHandler {
             errores.put(error.getField(), error.getDefaultMessage());
         });
 
-        return buildResponse(
-                HttpStatus.BAD_REQUEST,
-                GlobalErrorMessages.SOLICITUD_INVALIDA,
-                errores
+        return buildResponse(HttpStatus.BAD_REQUEST, GlobalErrorMessages.SOLICITUD_INVALIDA, errores
         );
     }
-
 
 
 }
