@@ -13,13 +13,13 @@ public class GlobalCorsConfig {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("http://localhost:4200"); // Cambia "*" si solo permites localhost:4200
-        config.addAllowedMethod("*"); // Permitir todos los métodos (GET, POST, etc.)
-        config.addAllowedHeader("*"); // Permitir todos los encabezados
-        config.setAllowCredentials(true); // Permitir cookies o autenticación
+        config.addAllowedOrigin("http://localhost:4200");
+        config.addAllowedMethod("*");
+        config.addAllowedHeader("*");
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config); // Aplicar a todas las rutas
+        source.registerCorsConfiguration("/**", config);
 
         return new CorsFilter(source);
     }

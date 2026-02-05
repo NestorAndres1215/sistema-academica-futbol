@@ -18,7 +18,6 @@ public class EjercicioRequest {
     @NotBlank(message = "El nombre del ejercicio es obligatorio")
     private String nombre;
 
-    @Size(max = 255, message = "La descripción no debe exceder 255 caracteres")
     private String descripcion;
 
     @NotBlank(message = "El tipo de ejercicio es obligatorio")
