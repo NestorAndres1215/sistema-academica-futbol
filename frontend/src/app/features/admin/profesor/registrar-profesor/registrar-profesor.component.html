@@ -1,136 +1,156 @@
-
 <app-titulo titulo="Registro Profesor" [botonesConfig]="botonesConfig" (volver)="volver()">
 </app-titulo>
-
-<div class="container mt-5 p-4 shadow rounded bg-light custom-container">
-    <div class="header text-center mb-4">
-        <h1 class="text-primary">Datos Personales</h1>
-    </div>
-    <form [formGroup]="formulario" >
-        <div class="row">
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                    <mat-label>Primer Nombre</mat-label>
-                    <input formControlName="primerNombre" matInput placeholder="Digite su primer nombre">
-                </mat-form-field>
-            </div>
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                    <mat-label>Segundo Nombre</mat-label>
-                    <input formControlName="segundoNombre" matInput placeholder="Digite su segundo nombre">
-                </mat-form-field>
-            </div>
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                    <mat-label>Apellido Paterno</mat-label>
-                    <input formControlName="apellidoPaterno" matInput placeholder="Digite su apellido paterno">
-                </mat-form-field>
-            </div>
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                    <mat-label>Apellido Materno</mat-label>
-                    <input formControlName="apellidoMaterno" matInput placeholder="Digite su apellido materno">
-                </mat-form-field>
-            </div>
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                  <mat-label>Fecha de Nacimiento</mat-label>
-                  <input
-                    matInput
-                    [matDatepicker]="picker"
-                    formControlName="fechaNacimiento"
-                    placeholder="Digite su fecha de nacimiento"
-                    [min]="minDate"
-                    [max]="maxDate"
-                  />
-                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                  <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-              </div>
-              
-              
-            
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                    <mat-label>Edad</mat-label>
-                    <input formControlName="edad" matInput [value]="edad">
-
-                </mat-form-field>
-            </div>
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                    <mat-label>Correo</mat-label>
-                    <input formControlName="correo" matInput type="email" placeholder="Digite su correo electrónico">
-                </mat-form-field>
-            </div>
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                    <mat-label>Teléfono</mat-label>
-                    <input formControlName="telefono" matInput type="tel" placeholder="Digite su número de teléfono">
-                </mat-form-field>
-            </div>
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                    <mat-label>Dirección</mat-label>
-                    <input formControlName="direccion" matInput placeholder="Digite su dirección">
-                </mat-form-field>
-            </div>
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                    <mat-label>Tipo Documento</mat-label>
-                    <mat-select formControlName="tipo" placeholder="Seleccione una tipo documento">
-                        <mat-option *ngFor="let tiposDocumento of tiposDocumento" [value]="tiposDocumento.clave">{{
-                            tiposDocumento.descripcion1 }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                    <mat-label>N° Documento</mat-label>
-                    <input formControlName="dni" matInput placeholder="Digite su DNI">
-                </mat-form-field>
-            </div>
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                    <mat-label>Cargo</mat-label>
-                    <mat-select formControlName="cargo" placeholder="Seleccione un cargo">
-                        <mat-option *ngFor="let cargo of cargos" [value]="cargo.codigo">{{ cargo.nombre }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                    <mat-label>Nacionalidad</mat-label>
-                    <mat-select formControlName="nacionalidad" placeholder="Seleccione una nacionalidad">
-                        <mat-option *ngFor="let nacionalidad of nacionalidad" [value]="nacionalidad.descripcion1">{{
-                            nacionalidad.descripcion1 }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                    <mat-label>Sedes</mat-label>
-                    <mat-select formControlName="sede" placeholder="Seleccione una sede">
-                        <mat-option *ngFor="let sede of sedes" [value]="sede.codigo">{{ sede.nombre }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4 mb-3">
-                <mat-form-field class="full-width custom-field" appearance="fill">
-                    <mat-label>Género</mat-label>
-                    <mat-select formControlName="genero" placeholder="Seleccione un género">
-                        <mat-option *ngFor="let genero of genero" [value]="genero.descripcion1">{{genero.descripcion1
-                            }}</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </div>
-        <div class="text-center mt-4">
-                <app-button label="Registar" icon="fas fa-save" color="registrar" (onClick)="operar()">
-      </app-button>
-        </div>
-    </form>
-</div>
-
-
 <br>
+<div class="container  mt-4 mb-4 pb-5">
+    <div class="bg-light mb-4 p-3 card">
+        <div class="text-center mb-4">
+            <app-titulo titulo="Datos Personales">
+            </app-titulo>
+        </div>
+        <div class="container-fluid">
+            <form [formGroup]="formulario">
+                <div class="row ">
+                    <!-- Fila 1 -->
+                    <div class="col-md-4 ">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Primer Nombre</mat-label>
+                            <input formControlName="primerNombre" matInput placeholder="Primer nombre">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4 ">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Segundo Nombre</mat-label>
+                            <input formControlName="segundoNombre" matInput placeholder="Segundo nombre">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Apellido Paterno</mat-label>
+                            <input formControlName="apellidoPaterno" matInput placeholder="Apellido paterno">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Fila 2 -->
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Apellido Materno</mat-label>
+                            <input formControlName="apellidoMaterno" matInput placeholder="Apellido materno">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Fecha de Nacimiento</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento"
+                                placeholder="Fecha de nacimiento">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Edad</mat-label>
+                            <input formControlName="edad" matInput placeholder="Edad">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Fila 3 -->
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Correo</mat-label>
+                            <input formControlName="correo" matInput type="email" placeholder="Correo electrónico">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Teléfono</mat-label>
+                            <input formControlName="telefono" matInput type="tel" placeholder="Número de teléfono">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Dirección</mat-label>
+                            <input formControlName="direccion" matInput placeholder="Dirección">
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Fila 4 -->
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Tipo Documento</mat-label>
+                            <mat-select formControlName="tipo" placeholder="Seleccione tipo">
+                                <mat-option *ngFor="let tiposDocumento of tiposDocumento"
+                                    [value]="tiposDocumento.clave">
+                                    {{ tiposDocumento.descripcion1 }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>N° Documento</mat-label>
+                            <input formControlName="dni" matInput placeholder="DNI">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Cargo</mat-label>
+                            <mat-select formControlName="cargo" placeholder="Seleccione un cargo">
+                                <mat-option *ngFor="let cargo of cargos" [value]="cargo.codigo">{{ cargo.nombre
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <!-- Fila 5 -->
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Nacionalidad</mat-label>
+                            <mat-select formControlName="nacionalidad" placeholder="Seleccione nacionalidad">
+                                <mat-option *ngFor="let nacionalidad of nacionalidad"
+                                    [value]="nacionalidad.descripcion1">
+                                    {{ nacionalidad.descripcion1 }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Sedes</mat-label>
+                            <mat-select formControlName="sede" placeholder="Seleccione sede">
+                                <mat-option *ngFor="let sede of sedes" [value]="sede.codigo">{{ sede.nombre
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-4">
+                        <mat-form-field class="w-100" appearance="outline">
+                            <mat-label>Género</mat-label>
+                            <mat-select formControlName="genero" placeholder="Seleccione género">
+                                <mat-option *ngFor="let genero of genero" [value]="genero.descripcion1">
+                                    {{ genero.descripcion1 }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="text-center  mt-3 mb-3 pb-2 d-grid gap-2 col-6 mx-auto">
+                    <app-button label="Registar" icon="fas fa-save" color="registrar" (onClick)="operar()">
+                    </app-button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>

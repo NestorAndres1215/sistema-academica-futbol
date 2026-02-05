@@ -1,82 +1,35 @@
+.custom-container {
+  max-width: 800px;
+  margin: 0 auto;
+  border-radius: 15px;
+  background-color: #f8f9fa;
+  padding: 20px;
+}
 
-/* Estilo para el formulario en general */
 .full-width {
   width: 100%;
 }
 
 .custom-field {
   width: 100%;
-  font-family: Arial, sans-serif; /* Puedes cambiar la fuente si lo deseas */
+  font-family: Arial, sans-serif;
 }
 
 mat-form-field {
-  margin-bottom: 20px; /* Separación entre los campos */
-  display: block; /* Asegura que el campo ocupe toda la fila */
+  display: block;
   position: relative;
 }
 
 mat-label {
   font-size: 14px;
   font-weight: bold;
-  color: #555; /* Color más suave para la etiqueta */
-  margin-bottom: 5px;
+  color: #555;
 }
 
-/* Para el campo de entrada */
-mat-input-element {
-  padding: 10px 15px; /* Espaciado dentro del campo */
-  font-size: 16px; /* Tamaño de la fuente */
-  border-radius: 5px; /* Bordes redondeados */
-  background-color: #f7f7f7; /* Fondo suave */
-  border: 1px solid #ccc; /* Borde suave */
-}
-
-mat-input-element:focus {
-  border-color: #007bff; /* Color azul al hacer foco en el campo */
-  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra sutil al enfocar */
-}
-
-
-
-
-
-/* Ajuste para el placeholder */
 input::placeholder {
-  color: #aaa; 
+  color: #aaa;
 }
 
 mat-form-field:hover mat-input-element {
-  border-color: #007bff; 
+  border-color: #007bff;
 }
-.custom-btn {
-  font-size: 16px;
-  padding: 10px 20px;
-  border-radius: 5px;
-  background-color: #007bff;
-  color: white;
-  width: 200px;
-}
-
-.header h1 {
-  color: #007bff;
-  font-weight: 600;
-  margin-bottom: 20px;
-}
-
-/* Estilos adicionales */
-mat-form-field {
-  width: 100%;
-  margin-bottom: 1rem;
-}
-
-/* Resaltar campos con error */
-.mat-form-field-invalid .mat-form-field-label {
-  color: red !important;
-}
-
-/* Estilos para los campos de texto */
-.custom-field {
-  width: 100%;
-  margin-bottom: 1.5rem;
-}
-
