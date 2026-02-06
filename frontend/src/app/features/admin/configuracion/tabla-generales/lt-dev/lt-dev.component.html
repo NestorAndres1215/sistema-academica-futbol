@@ -1,11 +1,20 @@
 <div class="card">
     <div class="card-header position-sticky sticky-top">
-        <button _ngcontent-yfb-c88="" (click)="volver()" class="btn btn-danger button_close" tabindex="0"><i
-                _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
 
-        <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700px;font-family: monospace;">
-            {{"Mantenimiento Tabla General - " + codigo +" - "+ descripcion}}</h3>
+        <div
+            class=" container d-flex flex-column flex-md-row align-items-center  align-items-md-center text-center text-md-start gap-3  ">
+
+            <h1 class="fw-bold m-0 fs-3 fs-md-1">
+                {{"Mantenimiento Tabla General - " + codigo +" - "+ descripcion}}
+            </h1>
+            <div class="d-flex  gap-2 justify-content-center ms-md-auto ">
+
+                <app-button label="Volver" icon="fas fa-long-arrow-alt-left" color="eliminar" (onClick)="volver()">
+                </app-button>
+            </div>
+        </div>
     </div>
+
     <div class="container">
         <div class="card-body">
 

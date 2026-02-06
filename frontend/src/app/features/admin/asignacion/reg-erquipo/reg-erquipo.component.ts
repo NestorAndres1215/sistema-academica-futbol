@@ -86,23 +86,20 @@ export class RegERquipoComponent implements OnInit {
       sede: ['', Validators.required],
     });
   }
+  
   sedes: any[] = [];
   generos: any[] = [];
   categorias: any[] = [];
 
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
-      console.log(data)
       this.generos = data;
-
     })
   }
 
   async listaPosicion() {
     this.generales.listarGeneralDevActivado("0004").subscribe((data) => {
-      console.log(data)
       this.categorias = data;
-
     })
   }
 

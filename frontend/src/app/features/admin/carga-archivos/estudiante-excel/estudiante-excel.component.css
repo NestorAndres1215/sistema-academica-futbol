@@ -3,12 +3,7 @@
   margin-top: 40px;
   width: 95%;
   overflow-x: auto;
-  /* Habilita el desplazamiento horizontal si es necesario */
 }
-
-
-
-
 
 .custom-table {
   width: 100%;
@@ -81,28 +76,25 @@
   background-color: rgb(238, 92, 92) !important;
   color: white !important;
   text-align: center;
-  /* Para centrar el texto, opcional */
 }
 
 .celda-azul {
   background-color: rgb(238, 92, 92) !important;
   color: white !important;
   text-align: center;
-  /* Para centrar el texto, opcional */
 }
 
 .celda-numero {
   background-color: rgb(238, 92, 92) !important;
   color: white !important;
   text-align: center;
-  /* Para centrar el texto, opcional */
 }
 
 .celda-sede {
   background-color: rgb(238, 92, 92) !important;
   color: white !important;
   text-align: center;
-  /* Para centrar el texto, opcional */
+
 }
 
 .celda-cargo {

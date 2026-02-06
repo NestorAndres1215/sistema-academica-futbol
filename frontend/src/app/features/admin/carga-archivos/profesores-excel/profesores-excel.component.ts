@@ -123,29 +123,25 @@ export class ProfesoresExcelComponent implements OnInit {
         const jsonData: any[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
         this.data = jsonData.slice(1).map((row, rowIndex) => {
-          console.log(row)
-          //CORREO
+
           const correosProfesores: string[] = this.profesoresActuales.map(profesor => profesor.correo);
           const isCorreoValido = correosProfesores.includes(row[4]);
 
-          //TELEFONO
           const telefonosProfesores: string[] = this.profesoresActuales.map(profesor => profesor.telefono);
           const telefonoExcel = String(row[5]).trim().replace(/\D/g, '');
           const telefonosLimpios = telefonosProfesores.map(telefono => telefono.trim().replace(/\D/g, ''));
           const isTelefonoValido = telefonosLimpios.includes(telefonoExcel);
 
-          //NUMERO DE DOCUMENTO
           const numeroProfesores: string[] = this.profesoresActuales.map(profesor => profesor.dni);
           const numeroExcel = String(row[6]).trim().replace(/\D/g, '');
           const numerosLimpios = numeroProfesores.map(numero => numero.trim().replace(/\D/g, ''));
           const isNumeroValido = numerosLimpios.includes(numeroExcel);
-          //FECHA NACIMIENTO
+
           const excelSerialDate = row[9];
           const excelBaseDate = new Date(1900, 0, 1);
           const fecha = new Date(excelBaseDate.getTime() + (excelSerialDate - 2) * 24 * 60 * 60 * 1000);
           row[9] = fecha.toLocaleDateString();
 
-          //SEDE
           const sedeProfesores: string[] = this.profesoresActuales.map(profesor => profesor.sede);
           const sedes: string[] = this.sedes.map(sede => sede.nombre);
           const sedeNoExiste = !sedes.includes(row[13]);

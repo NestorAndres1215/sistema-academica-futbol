@@ -83,11 +83,10 @@ export class EstudianteExcelComponent implements OnInit {
   sedes: any
   async listarSede() {
     this.sede.listarSedeActivado().subscribe((data) => {
-      console.log(data)
       this.sedes = data;
-
     })
   }
+
   cargos: any
   async listarCargo() {
     this.cargo.listarCargoActivado().subscribe((data) => {
@@ -201,12 +200,10 @@ export class EstudianteExcelComponent implements OnInit {
     XLSX.writeFile(wb, 'datos_generados.xlsx');
   }
 
-  volver() {
-    this.router.navigate(['/administrador']);
-  }
+
   constructor(
     private loginService: LoginService,
-    private router: Router,
+   
     private historialService: HistorialService,
     private sede: SedeService,
     private estudiante: EstudianteService,
