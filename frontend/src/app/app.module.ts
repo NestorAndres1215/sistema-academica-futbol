@@ -184,6 +184,7 @@ import { PartidosCardComponent } from './shared/card/partidos-card/partidos-card
 import { ModalPerfilComponent } from './shared/modal/modal-perfil/modal-perfil.component';
 
 
+
 @NgModule({
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
@@ -337,6 +338,7 @@ import { ModalPerfilComponent } from './shared/modal/modal-perfil/modal-perfil.c
     RegistroActividadesComponent,
     PartidosCardComponent,
     ModalPerfilComponent,
+  
   ],
   imports: [
     BrowserModule,

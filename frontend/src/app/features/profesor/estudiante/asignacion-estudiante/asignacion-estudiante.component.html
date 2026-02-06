@@ -2,9 +2,9 @@
 </app-titulo>
 <div class="container   py-5">
 
-  <app-filter-select label="Sedes" [options]="opcionesEquipo" [value]="equipoSeleccionada"
-    (valueChange)="equipoSeleccionada = $event; filtrarUsuarios()">
-  </app-filter-select>
+    <app-filter-select label="Sedes" [options]="opcionesEquipo" [value]="equipoSeleccionada"
+        (valueChange)="equipoSeleccionada = $event; filtrarUsuarios()">
+    </app-filter-select>
 
 
     <div class="row">
@@ -16,7 +16,7 @@
         </div>
 
         <div class="table-responsive table-container mb-4">
-              <table class=" custom-table">
+            <table class=" custom-table">
                 <thead>
                     <tr>
                         <th>Nombre Completo</th>
@@ -75,11 +75,9 @@
                         <td class="text-center">
                             <span>{{ estudiante.estado ? 'Habilitado' : 'Deshabilitado' }}</span>
                         </td>
-
                     </tr>
                 </tbody>
             </table>
-
         </div>
     </div>
 </div>

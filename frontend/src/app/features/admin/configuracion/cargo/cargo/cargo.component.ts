@@ -100,7 +100,7 @@ export class CargoComponent implements OnInit {
     const dialogRef = this.dialog.open(VisorCargoComponent, {
       disableClose: true,
       width: '550px',
-      height: '450px',
+      height: '350px',
       data: {
         row,
       }
