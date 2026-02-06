@@ -2,3 +2,10 @@
   max-height: 350px;
   object-fit: cover;
 }
+
+.imagen-perfil {
+  object-fit: cover;
+  width: 400px;
+  height: 100%;
+  border-radius: 8px;
+}
