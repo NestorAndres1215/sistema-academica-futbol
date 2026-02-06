@@ -8,9 +8,6 @@ import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
-
-
-import { LsDesEquipoComponent } from '../ls-des-equipo/ls-des-equipo.component';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { SedeService } from 'src/app/core/services/sede.service';
 import { RegERquipoComponent } from '../reg-erquipo/reg-erquipo.component';
@@ -43,11 +40,6 @@ export class MantEquipoComponent implements OnInit {
   pageSize = 5;
   listar: any
 
-  botonesConfig = {
-    editar: false,
-    volver: true,
-
-  };
   botonesConfigTable = {
     actualizar: true,
     ver: true,
@@ -142,18 +134,15 @@ export class MantEquipoComponent implements OnInit {
   }
 
   visor(row: any) {
-    console.log(row)
-
-    const dialogRef = this.dialog.open(VisorEqupoComponent, {
+    this.dialog.open(VisorEqupoComponent, {
       disableClose: true,
       width: '650px',
-      height: '600px',
+      height: '520px',
       data: {
         row,
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-    });
+
 
   }
   editar(row: any) {
@@ -161,7 +150,7 @@ export class MantEquipoComponent implements OnInit {
 
       disableClose: true,
       width: '650px',
-      height: '600px',
+      height: '550px',
       data: {
         row,
       },
@@ -175,7 +164,7 @@ export class MantEquipoComponent implements OnInit {
     const dialogRef = this.dialog.open(RegERquipoComponent, {
       disableClose: true,
       width: '650px',
-      height: '500px',
+      height: '550px',
     });
 
     dialogRef.afterClosed().subscribe(data => {
@@ -362,27 +351,17 @@ export class MantEquipoComponent implements OnInit {
       if (respuesta?.boton != 'CONFIRMAR') return;
 
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+        usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} eliminó al estudiante ${row.nombre} con el código ${row.codigo}.`
       };
-      this.equipoServuce.desactivar(row.codigo).subscribe(result => {
+      this.equipoServuce.desactivar(row.codigo).subscribe(async () => {
+        await firstValueFrom(this.historialService.registrar(historial));
         this.alertService.aceptacion(TITULO_MESAJES.DESACTIVADO, MENSAJES.DESACTIVADO);
         this.listarProdesor();
       });
     })
   }
 
-
-  verUsuariosDesactivados() {
-    const dialogRef = this.dialog.open(LsDesEquipoComponent, {
-      disableClose: true,
-      width: '1450px',
-      height: '650px',
-    });
-    dialogRef.afterClosed().subscribe(data => {
-      this.listarProdesor()
-    })
-  }
 
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {

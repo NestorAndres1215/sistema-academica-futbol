@@ -20,11 +20,6 @@ import { DIAS, MESES } from 'src/app/core/constants/calendario';
 })
 export class CalendarioEstudianteComponent implements OnInit {
 
-  volver() {
-    throw new Error('Method not implemented.');
-  }
-
-
   listarDato: any[] = [];
   partidoFiltrado: any[] = [];
   botonesConfig = {

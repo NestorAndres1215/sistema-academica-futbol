@@ -18,7 +18,7 @@ export class SedeService {
     return this.http.get(`${baserUrl}/sede/listar/estado/desactivado`);
   }
   actualizarSede(sede: Sede): Observable<any> {
-    return this.http.put<any>(`${baserUrl}/sede/actualizar-sede`, sede);
+    return this.http.put<any>(`${baserUrl}/sede/actualizar`, sede);
   }
   registrarSede(sede: Sede): Observable<any> {
     return this.http.post<any>(`${baserUrl}/sede/guardar-sede`, sede);

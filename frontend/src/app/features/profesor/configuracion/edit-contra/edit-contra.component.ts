@@ -17,6 +17,7 @@ import { LoginService } from 'src/app/core/services/login.service';
   styleUrls: ['./edit-contra.component.css']
 })
 export class EditContraComponent implements OnInit {
+  
   operar() {
 
     if (!this.formulario.valid) {
@@ -58,12 +59,8 @@ export class EditContraComponent implements OnInit {
         this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
     );
-
-
-
-
-
   }
+
   cerrar() {
     this.dialogRe.close();
   }
@@ -89,20 +86,21 @@ export class EditContraComponent implements OnInit {
   formulario: UntypedFormGroup;
 
   ngOnInit(): void {
-    console.log(this.data.row)
-    console.log(this.data.row.username)
-    console.log(this.data.row.codigo)
-    console.log(this.data.row.password)
     this.codigo = this.data.row.codigo;
     this.usuario = this.data.row.username;
     this.contra = this.data.row.password;
     this.initForm()
+  }  
+
+  hidePassword = true;
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
   }
 
   initForm() {
     this.formulario = this.fb.group({
       usuario: [{ value: this.usuario, disabled: true }, [Validators.required]],
-      contraActual: [{ value: this.contra, disabled: true }, [Validators.required]],
+
       nuevaContra: ['', [Validators.required]],
       confirmarContra: ['', [Validators.required]]
     });

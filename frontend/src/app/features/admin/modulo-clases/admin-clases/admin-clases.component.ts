@@ -11,44 +11,28 @@ import { LoginService } from 'src/app/core/services/login.service';
 })
 export class AdminClasesComponent implements OnInit {
 
-  volver(): void {
-    this.router.navigate(['/administrador']);
-  }
-  botonesConfig = {
-    editar: false,
-    volver: true,
-
-  };
   constructor(
     private claseService: ClaseService,
     private loginService: LoginService,
     private equipoService: EquipoService,
-    private router: Router
   ) { }
+  
   datosTabla: any[] = [];
+  profesor: any[] = [];
+
   ngOnInit(): void {
-
-
     this.listarEquipo()
-    // this.listaClases()
   }
+
   async listaClases() {
     this.claseService.listarClaseActivado().subscribe((data) => {
-   
-
-      console.log(data)
       this.datosTabla = data;
-
     });
   }
-  profesor: any[] = [];
 
   async listarEquipo() {
     this.equipoService.listarAsignacion().subscribe((data) => {
 
-      console.log(data)
-
-      console.log(this.loginService.getUser().ul_codigo)
       data = data.filter(item => item.profesor.codigo != "0000");
 
       const filteredData = data.filter(item =>
@@ -57,19 +41,17 @@ export class AdminClasesComponent implements OnInit {
         item.profesor.usuario.codigo != null &&
         item.profesor.usuario.codigo === this.loginService.getUser().ul_codigo
       );
-      console.log(filteredData);
 
       this.profesor = filteredData;
       this.listaClases()
     });
   }
+
+
   formatDate(dateString: string): string {
-    if (!dateString) return ''; // Manejo de valores nulos o indefinidos
-  
-    // Divide la fecha en partes: año, mes y día
+    if (!dateString) return '';
     const [year, month, day] = dateString.split('-');
-  
-    // Retorna la fecha en el formato DD-MM-YYYY
     return `${day}-${month}-${year}`;
   }
+
 }

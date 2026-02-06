@@ -1,8 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { VisorProfesorComponent } from '../visor-profesor/visor-profesor.component';
-
 import { ModalEliminacionComponent } from '../../../../shared/modal/modal-eliminacion/modal-eliminacion.component';
-import { LstDesProfesorComponent } from '../lst-des-profesor/lst-des-profesor.component';
 import { PdfService } from 'src/app/core/services/pdf.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ProfesorService } from 'src/app/core/services/profesor.service';
@@ -111,7 +109,7 @@ export class LstProfesoresComponent implements OnInit {
     const dialogRef = this.dialog.open(VisorProfesorComponent, {
       disableClose: true,
       width: '1050px',
-      height: '550px',
+      height: '500px',
       data: {
         row,
       }
@@ -138,9 +136,7 @@ export class LstProfesoresComponent implements OnInit {
       this.pageSizeChanged()
     })
   }
-  volver(): void {
-    this.route.navigate(['/administrador']);
-  }
+
 
 
   exportarExcel(): void {
@@ -358,21 +354,5 @@ export class LstProfesoresComponent implements OnInit {
 
     })
   }
-
-
-
-  verUsuariosDesactivados() {
-    const dialogRef = this.dialog.open(LstDesProfesorComponent, {
-      disableClose: true,
-      width: '1450px',
-      height: '650px',
-    });
-    dialogRef.afterClosed().subscribe(data => {
-      this.listarProdesor()
-    })
-  }
-
-
-
 
 }

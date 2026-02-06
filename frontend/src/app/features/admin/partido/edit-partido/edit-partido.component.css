@@ -1,64 +1,17 @@
 .card {
-    overflow: auto;
-    height: 100%;
-  }
-  
-  .btn-success {
-    float: right;
-    height: max-content;
-    margin-top: 5px;
-    margin-left: 3px;
-    margin-right: 5px;
-  }
+  overflow: auto;
+  height: 100%;
+}
 
-  .btn-danger {
-    float: right;
-    height: max-content;
-    margin-top: 5px;
-    margin-right: 5px;
-  }
-  
-  .container {
-    margin-top: 20px;
+.card-header {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  color: white;
+  width: 100%;
+  padding: 16px 0;
+  right: 0;
+  justify-content: center;
+}
 
-  }
-  
-  .card-header {
-    background-color: lightsteelblue;
-    color: black;
-    width: 100%;
-    padding: 16px 0;
-    right: 0;
-    justify-content: center;
-  }
-  
-  .card-body {
-    display: flex;
-    flex-direction: column;
-  }
- 
-  
-  .full-width {
-    width: 100%;
-  }
-
-
-  .full-width {
-    width: 100%;
-  }
-  
-  .mat-form-field {
-    width: 100%;
-  }
-  
-  .mat-select {
-    width: 100%;
-  }
-  
-  input[type="time"] {
-    font-size:14px;
-    padding: 0px;
-    height: 29px;
-    border-radius: 4px;
-  }
-  
+.full-width {
+  width: 100%;
+}

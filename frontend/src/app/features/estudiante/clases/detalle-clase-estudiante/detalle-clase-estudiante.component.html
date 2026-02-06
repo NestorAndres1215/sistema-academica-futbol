@@ -1,17 +1,12 @@
-<app-titulo titulo="Modulos de Clases" [botonesConfig]="botonesConfig" (volver)="volver()">
+<app-titulo titulo="Modulos de Clases">
 </app-titulo>
 <div class="container mt-4">
-    <div class="d-flex flex-column flex-sm-row align-items-center gap-3 mb-3">
-        <!-- Selección de opción -->
-        <mat-form-field class="custom-field flex-grow-1" appearance="fill">
-            <mat-label>Selecciona una opción</mat-label>
-            <mat-select [(value)]="opcionSeleccionada">
-                <mat-option *ngFor="let opcion of opciones" [value]="opcion">
-                    {{ opcion }}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-    </div>
+
+
+    <app-filter-select label="Clases" [showTodos]="false" [options]="opciones" [value]="opcionSeleccionada"
+        (valueChange)="opcionSeleccionada = $event; ">
+    </app-filter-select>
+
     <div *ngIf="opcionSeleccionada === 'Clases'">
         <app-clase-dev-estudiante></app-clase-dev-estudiante>
     </div>

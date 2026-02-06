@@ -10,20 +10,10 @@
     </div>
     <div class="container">
         <form [formGroup]="formulario">
-
-
-            <mat-form-field class="full-width" appearance="outline">
+            <mat-form-field appearance="outline" class="w-100 d-block mb-3">
                 <mat-label>Usuario</mat-label>
-                <input matInput formControlName="usuario" type="text">
+                <input matInput formControlName="usuario" type="text" readonly>
             </mat-form-field>
-            <mat-form-field class="full-width" appearance="outline">
-                <mat-label>Contraseña Actual</mat-label>
-                <input matInput [type]="verContraActual ? 'text' : 'password'" formControlName="contraActual">
-                <button mat-icon-button matSuffix (click)="verContraActual = !verContraActual">
-                    <mat-icon>{{ verContraActual ? 'visibility_off' : 'visibility' }}</mat-icon>
-                </button>
-            </mat-form-field>
-
             <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Nueva Contraseña</mat-label>
                 <input matInput [type]="verNuevaContra ? 'text' : 'password'" formControlName="nuevaContra">
@@ -38,14 +28,16 @@
                     <mat-icon>{{ verConfirmarContra ? 'visibility_off' : 'visibility' }}</mat-icon>
                 </button>
             </mat-form-field>
-                        <div class="d-flex gap-2 justify-content-center ms-md-auto">
-                    <app-button label="Editar" icon="fas fa-edit" color="editar" (onClick)="operar()">
+            <div class="row g-2 ">
+                <div class="col-12 col-md-6">
+                    <app-button label="Actualizar" icon="fas fa-edit" color="editar" (onClick)="operar()">
                     </app-button>
+                </div>
+                <div class="col-12 col-md-6">
                     <app-button label="Volver" icon="fas fa-long-arrow-alt-left" color="eliminar" (onClick)="cerrar()">
                     </app-button>
                 </div>
+            </div>
         </form>
     </div>
-
-
 </div>

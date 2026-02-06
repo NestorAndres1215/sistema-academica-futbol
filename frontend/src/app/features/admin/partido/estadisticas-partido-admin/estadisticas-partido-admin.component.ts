@@ -176,11 +176,12 @@ export class EstadisticasPartidoAdminComponent implements OnInit {
 
 
 
-
+  opcionesEquipo: string[] = [];
   async listarEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
       const filteredData = data
       this.listado = filteredData.map(i => i.nombre)
+            this.opcionesEquipo = data.map(s => s.nombre);
       this.listarPartidos()
     })
   }

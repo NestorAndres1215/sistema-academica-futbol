@@ -8,6 +8,14 @@
 }
 
 
+.card-header {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  color: white;
+  width: 100%;
+  padding: 16px 0;
+  right: 0;
+  justify-content: center;
+}
 
 .empty-state {
     background-color: #f8f9fa;

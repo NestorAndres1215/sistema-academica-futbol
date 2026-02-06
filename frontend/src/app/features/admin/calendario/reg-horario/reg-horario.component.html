@@ -1,37 +1,38 @@
 <div class="card">
-    <div class="card-header position-sticky sticky-top">
-        <button _ngcontent-yfb-c88="" (click)="cerrar()" class="btn btn-danger button_close" tabindex="0"><i
-                _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
-        <button _ngcontent-yfb-c69="" class="btn btn-success ng-star-inserted" (click)="operar()"
-            style="margin-right: 10px; align-items: flex-end;"><i _ngcontent-yfb-c69=""
-                class="fas fa-save"></i></button>
-        <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700px;font-family: monospace;">
-            Registrar</h3>
+    <div class="card-header position-sticky sticky-top bg-light mb-3">
+        <div class="container-fluid px-4 px-md-5 py-3">
+            <div class="d-flex flex-column flex-md-row align-items-center text-center text-md-start gap-3">
+                <h1 class="fw-bold m-0 fs-3 fs-md-1">
+                    Registrar
+                </h1>
+            </div>
+        </div>
     </div>
     <div class="container">
         <form [formGroup]="formulario">
             <div class="row">
-                <!-- Campo para Hora de Inicio -->
-                <mat-form-field class="full-width" appearance="fill">
+                <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Hora de Inicio</mat-label>
-                    <input
-                      formControlName="inicio"
-                      matInput
-                      type="time"
-                      [min]="minTime"
-                      [max]="maxTime"
-                    />
-                  </mat-form-field>
-                  
-    
-                <!-- Campo para Hora Final -->
-                <mat-form-field class="full-width" appearance="fill">
+                    <input formControlName="inicio" matInput type="time" [min]="minTime" [max]="maxTime" />
+                </mat-form-field>
+                <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Hora Final</mat-label>
                     <input formControlName="fin" matInput type="time" />
                 </mat-form-field>
             </div>
+            <div class="row g-2 ">
+                <div class="col-12 col-md-6">
+                    <app-button label="Registrar" icon="fas fa-save" color="actualizar" (onClick)="operar()">
+                    </app-button>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <app-button label="Volver" icon="fas fa-long-arrow-alt-left" color="eliminar" (onClick)="cerrar()">
+                    </app-button>
+                </div>
+            </div>
         </form>
     </div>
-    
-    
+
+
 </div>

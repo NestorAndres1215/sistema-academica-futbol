@@ -1,53 +1,22 @@
 <div class="card">
     <div class="card-header position-sticky sticky-top">
-        <button _ngcontent-yfb-c88="" (click)="volver()" class="btn btn-danger button_close" tabindex="0">
-            <i _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i>
-        </button>
-        <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700; font-family: monospace;">
-            Usuario Desactivados
-        </h3>
-    </div>
-    <div class="card-body">
+        <div
+            class=" container d-flex flex-column flex-md-row align-items-center  align-items-md-center text-center text-md-start gap-3  ">
+            <h1 class="fw-bold m-0 fs-3 fs-md-1">
+                Tabla Generales Desactivado
+            </h1>
+            <div class="d-flex  gap-2 justify-content-center ms-md-auto ">
 
- 
-    
-        <div class="table-responsive" style="margin: 0 auto; margin-top: 10px; width: 100%;">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Clave</th>
-                        <th>Descripcion</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Condicional para verificar si hay datos en usuariosFiltrados -->
-                    <tr *ngIf="pagedData.length === 0">
-                        <td colspan="8" style="text-align: center; color: grey;">
-                            No hay datos disponibles.
-                        </td>
-                    </tr>
-                    <tr *ngFor="let row of pagedData">
-                        <td>{{ row.codigo }}</td>
-                        <td>{{ row.clave }}</td>
-                        <td>{{ row.descripcion1 }}</td>
-        
-                        <td>
-                            <button mat-icon-button class="btn-vista" (click)="visor(row)">
-                                <mat-icon>visibility</mat-icon>
-                            </button>
-                            <button mat-icon-button class="btn-eliminar" (click)="eliminar(row)">
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
-                (page)="pageChanged($event)">
-            </mat-paginator>
+                <app-button label="Volver" icon="fas fa-long-arrow-alt-left" color="eliminar" (onClick)="volver()">
+                </app-button>
+            </div>
         </div>
     </div>
-    
+    <div class="card-body">
+        <app-tabla [columnas]="columnas" [datos]="pagedData" [botonesConfig]="botonesConfigTable"
+            [onVer]="visor.bind(this)" [onDesactivar]="eliminar.bind(this)"></app-tabla>
+    </div>
+    <app-pagination [totalItems]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        (page)="pageChanged($event)">
+    </app-pagination>
 </div>

@@ -1,97 +1,148 @@
 <div class="card">
-    <div class="card-header position-sticky sticky-top">
-      <button _ngcontent-yfb-c88="" (click)="cerrar()" class="btn btn-danger button_close" tabindex="0"><i
-          _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
-      <button _ngcontent-yfb-c69="" class="btn btn-success ng-star-inserted" (click)="operar()"
-        style="margin-right: 10px; align-items: flex-end;"><i _ngcontent-yfb-c69="" class="fas fa-save"></i></button>
-      <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700px;font-family: monospace;">
-        Visualizacion</h3>
+  <div class="card-header position-sticky sticky-top bg-light mb-3">
+    <div class="container-fluid px-4 px-md-5 py-3">
+      <div class="d-flex flex-column flex-md-row align-items-center text-center text-md-start gap-3">
+        <h1 class="fw-bold m-0 fs-3 fs-md-1">
+          Actualizar
+        </h1>
+      </div>
     </div>
-    <div class="container">
-      <form [formGroup]="formulario">
-        <!-- Fila para la imagen (ocupa toda la fila) -->
-        <div class="row">
-          <div class="col-12 text-center" style="margin-bottom: 40px;">
-            <p>Nombre del archivo: {{ selectedFileName }}</p>
-            <!-- Input de tipo archivo para seleccionar la imagen -->
-            <input type="file" (change)="onFileSelected($event)" accept="image/*">
-            <br>
-  
-            <!-- Mostrar la imagen seleccionada si existe, de lo contrario, mostrar la imagen basada en row -->
-            <img *ngIf="imageUrl; else mostrarImagenTemplate" [src]="imageUrl" class="img-marca img-fluid">
-  
-            <!-- Template alternativo para mostrar la imagen basada en row -->
-            <ng-template #mostrarImagenTemplate>
-              <img [src]="mostrarImagen(this.logo)" class="img-marca img-fluid">
-            </ng-template>
-          </div>
-        </div>
-  
-        <!-- Fila para los campos de texto -->
-        <div class="row">
-          <!-- Primer Nombre -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Primer Nombre</mat-label>
-              <input formControlName="primerNombre" matInput>
-            </mat-form-field>
-          </div>
-  
-          <!-- Segundo Nombre -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Segundo Nombre</mat-label>
-              <input formControlName="segundoNombre" matInput>
-            </mat-form-field>
-          </div>
-  
-          <!-- Apellido Paterno -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Apellido Paterno</mat-label>
-              <input formControlName="apellidoPaterno" matInput>
-            </mat-form-field>
-          </div>
-  
-          <!-- Apellido Materno -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Apellido Materno</mat-label>
-              <input formControlName="apellidoMaterno" matInput>
-            </mat-form-field>
-          </div>
-  
-          <!-- Usuario -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Usuario</mat-label>
-              <input formControlName="usuario" matInput>
-            </mat-form-field>
-          </div>
-          <!-- Teléfono -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Teléfono</mat-label>
-              <input formControlName="telefono" matInput>
-            </mat-form-field>
-          </div>
-          <!-- Correo -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Correo</mat-label>
-              <input formControlName="email" matInput>
-            </mat-form-field>
-          </div>
-          <!-- Dirección -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Dirección</mat-label>
-              <input formControlName="direccion" matInput>
-            </mat-form-field>
-          </div>
-        </div>
-      </form>
-  
-    </div>
-  
   </div>
+  <div class="container mt-3 mb-2">
+    <form [formGroup]="formulario">
+
+      <div class="row align-items-center justify-content-center mb-4">
+
+        <!-- Columna izquierda -->
+        <div class="col-12 col-md-3 d-flex flex-column align-items-center text-center mb-3 mb-md-0">
+
+          <p class="mb-2">
+            <strong>Nombre del archivo:</strong>
+            <span class="text-primary d-block">
+              {{ selectedFileName || 'No seleccionado' }}
+            </span>
+          </p>
+
+          <input type="file" #fileInput hidden accept="image/*" (change)="onFileSelected($event)">
+
+          <app-button label="Seleccionar Imagen" icon="fas fa-image" color="registrar" (onClick)="fileInput.click()">
+          </app-button>
+
+        </div>
+
+        <!-- Columna derecha -->
+        <div class="col-12 col-md-3 d-flex justify-content-center">
+
+          <img *ngIf="imageUrl; else mostrarImagenTemplate" [src]="imageUrl" class="img-marca img-fluid">
+
+          <ng-template #mostrarImagenTemplate>
+            <img [src]="mostrarImagen(this.logo)" class="img-marca img-fluid">
+          </ng-template>
+
+        </div>
+
+      </div>
+
+
+      <div class="row">
+        <!-- Primer Nombre -->
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Primer Nombre</mat-label>
+            <input formControlName="primerNombre" matInput>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Segundo Nombre</mat-label>
+            <input formControlName="segundoNombre" matInput>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Apellido Paterno</mat-label>
+            <input formControlName="apellidoPaterno" matInput>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Apellido Materno</mat-label>
+            <input formControlName="apellidoMaterno" matInput>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Usuario</mat-label>
+            <input formControlName="usuario" matInput>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Contraseña</mat-label>
+            <input formControlName="contra" matInput type="password">
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Teléfono</mat-label>
+            <input formControlName="telefono" matInput>
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>DNI</mat-label>
+            <input formControlName="dni" matInput>
+          </mat-form-field>
+        </div>
+
+        <!-- Correo -->
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Correo</mat-label>
+            <input formControlName="email" matInput>
+          </mat-form-field>
+        </div>
+
+        <!-- Fecha de Nacimiento -->
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Fecha de Nacimiento</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="nacimiento" placeholder="Selecciona una fecha">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+
+        <!-- Nacionalidad -->
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Nacionalidad</mat-label>
+            <input formControlName="nacionalidad" matInput>
+          </mat-form-field>
+        </div>
+
+        <!-- Dirección -->
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Dirección</mat-label>
+            <input formControlName="direccion" matInput>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row g-2 ">
+        <div class="col-12 col-md-6">
+          <app-button label="Actualizar" icon="fas fa-edit" color="editar" (onClick)="operar()">
+          </app-button>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <app-button label="Volver" icon="fas fa-long-arrow-alt-left" color="eliminar" (onClick)="cerrar()">
+          </app-button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+
+</div>

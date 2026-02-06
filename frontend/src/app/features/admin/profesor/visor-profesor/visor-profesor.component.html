@@ -1,143 +1,109 @@
 <div class="card">
-    <div class="card-header position-sticky sticky-top">
-      <button type="button" class="btn btn-danger" (click)="cerrar()">
-        <i class="fas fa-long-arrow-alt-left"></i>
-      </button>
-      <h3
-        style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700; font-family: monospace;">
-        Visualización
-      </h3>
-    </div>
-    <div class="container">
-      <form [formGroup]="formulario">
-        <div class="row">
-          <!-- Primer Nombre -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Primer Nombre</mat-label>
-              <input formControlName="primerNombre" matInput />
-            </mat-form-field>
-          </div>
-  
-          <!-- Segundo Nombre -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Segundo Nombre</mat-label>
-              <input formControlName="segundoNombre" matInput />
-            </mat-form-field>
-          </div>
-  
-          <!-- Apellido Paterno -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Apellido Paterno</mat-label>
-              <input formControlName="apellidoPaterno" matInput />
-            </mat-form-field>
-          </div>
-  
-          <!-- Apellido Materno -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Apellido Materno</mat-label>
-              <input formControlName="apellidoMaterno" matInput />
-            </mat-form-field>
-          </div>
-  
-          <!-- Usuario -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Usuario</mat-label>
-              <input formControlName="usuario" matInput />
-            </mat-form-field>
-          </div>
-  
-          <!-- Contraseña -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Contraseña</mat-label>
-              <input formControlName="contra" matInput type="password" />
-            </mat-form-field>
-          </div>
-  
-          <!-- Teléfono -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Teléfono</mat-label>
-              <input formControlName="telefono" matInput />
-            </mat-form-field>
-          </div>
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Tipo de Documento</mat-label>
-              <input formControlName="tipo" matInput />
-            </mat-form-field>
-          </div>
-  
-          <!-- DNI -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Nro Documento</mat-label>
-              <input formControlName="dni" matInput />
-            </mat-form-field>
-          </div>
-  
-          <!-- Correo -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Correo</mat-label>
-              <input formControlName="email" matInput />
-            </mat-form-field>
-          </div>
-  
-          <!-- Fecha Nacimiento -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Fecha Nacimiento</mat-label>
-              <input formControlName="nacimiento" matInput />
-            </mat-form-field>
-          </div>
-  
-          <!-- Nacionalidad -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Nacionalidad</mat-label>
-              <input formControlName="nacionalidad" matInput />
-            </mat-form-field>
-          </div>
-  
-          <!-- Dirección -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Dirección</mat-label>
-              <input formControlName="direccion" matInput />
-            </mat-form-field>
-          </div>
-  
-          <!-- Edad -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Edad</mat-label>
-              <input formControlName="edad" matInput />
-            </mat-form-field>
-          </div>
-  
-          <!-- Cargo -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Cargo</mat-label>
-              <input formControlName="cargo" matInput />
-            </mat-form-field>
-          </div>
-  
-          <!-- Sede -->
-          <div class="col-12 col-md-6 col-lg-3">
-            <mat-form-field class="full-width" appearance="fill">
-              <mat-label>Sede</mat-label>
-              <input formControlName="sede" matInput />
-            </mat-form-field>
-          </div>
-        </div>
-      </form>
+  <div class="card-header position-sticky sticky-top">
+    <div
+      class=" container d-flex flex-column flex-md-row align-items-center  align-items-md-center text-center text-md-start gap-3  ">
+      <h1 class="fw-bold m-0 fs-3 fs-md-1">
+        Detalle
+      </h1>
     </div>
   </div>
-  
+    <div class="container mt-4 mb-4">
+    <form [formGroup]="formulario">
+      <div class="row">
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Primer Nombre</mat-label>
+            <input formControlName="primerNombre" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Segundo Nombre</mat-label>
+            <input formControlName="segundoNombre" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Apellido Paterno</mat-label>
+            <input formControlName="apellidoPaterno" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Apellido Materno</mat-label>
+            <input formControlName="apellidoMaterno" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Usuario</mat-label>
+            <input formControlName="usuario" matInput />
+          </mat-form-field>
+        </div>
+
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Teléfono</mat-label>
+            <input formControlName="telefono" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Tipo de Documento</mat-label>
+            <input formControlName="tipo" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Nro Documento</mat-label>
+            <input formControlName="dni" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Correo</mat-label>
+            <input formControlName="email" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Fecha Nacimiento</mat-label>
+            <input formControlName="nacimiento" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Nacionalidad</mat-label>
+            <input formControlName="nacionalidad" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Dirección</mat-label>
+            <input formControlName="direccion" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Edad</mat-label>
+            <input formControlName="edad" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Cargo</mat-label>
+            <input formControlName="cargo" matInput />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Sede</mat-label>
+            <input formControlName="sede" matInput />
+          </mat-form-field>
+        </div>
+      </div>
+      <app-button label="Volver" icon="fas fa-long-arrow-alt-left" color="eliminar" (onClick)="cerrar()">
+      </app-button>
+    </form>
+  </div>
+</div>

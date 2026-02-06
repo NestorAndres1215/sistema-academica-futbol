@@ -123,28 +123,21 @@ export class HistorialPartidoAdminComponent implements OnInit {
   }
 
   visor(row: any) {
-    console.log(row)
-
-    const dialogRef = this.dialog.open(VisorPartidoComponent, {
+    this.dialog.open(VisorPartidoComponent, {
       width: '850px',
       disableClose: true,
-      height: '450px',
+      height: '460px',
       data: {
         row,
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Elemento eliminado');
-      }
-    });
-
   }
+
   editar(row: any) {
     const dialogRef = this.dialog.open(HistorialEditAdminComponent, {
-      width: '850px',
+      width: '870px',
       disableClose: true,
-      height: '450px',
+      height: '510px',
       data: {
         row,
       },

@@ -10,25 +10,27 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class VisorTbGeneralComponent implements OnInit {
 
-lista:any
-constructor(
-    private dialogRe: MatDialogRef<LsTablaGeneralComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private formBuilder: UntypedFormBuilder,) { }
-  public formulario: UntypedFormGroup;
-  ngOnInit(): void {
-    this.lista=this.data
-    this.listarEdiciones()
-  }
-clave: string
-descripcion: string
-codigo:string
+  lista: any
+  formulario: UntypedFormGroup;
+  clave: string
+  descripcion: string
+  codigo: string
   usuarioCreacion: string
   fechaCreacion: string;
   horaCreacion: string;
   usuarioActualizacion: string;
   fechaActualizacion: string;
-  horaActualizacion:string;
+  horaActualizacion: string;
+  constructor(
+    private dialogRe: MatDialogRef<LsTablaGeneralComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private formBuilder: UntypedFormBuilder,) { }
+
+  ngOnInit(): void {
+    this.lista = this.data
+    this.listarEdiciones()
+  }
+
   listarEdiciones() {
     this.clave = this.lista.row.clave;
     this.codigo = this.lista.row.codigo;
@@ -40,23 +42,23 @@ codigo:string
     this.usuarioActualizacion = this.lista.row.usuarioActualizacion;
     this.fechaActualizacion = this.lista.row.fechaActualizacion;
     this.horaActualizacion = this.lista.row.horaActualizacion;
-
     this.initForm()
     this.deshabilitar()
   }
-initForm() {
+
+  initForm() {
     this.formulario = this.formBuilder.group({
       codigo: [this.codigo, Validators.required],
       clave: [this.clave, Validators.required],
       descripcion: [this.descripcion, Validators.required],
-      
+
     });
   }
+
   deshabilitar() {
     this.formulario.disable();
   }
-
-
+  
   cerrar() {
     this.dialogRe.close();
   }

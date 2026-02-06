@@ -1,19 +1,11 @@
-<app-titulo titulo="Estadisticas de Partido" >
+<app-titulo titulo="Estadisticas de Partido">
 </app-titulo>
 
 <div class="container mt-4">
-  <div class="d-flex align-items-center gap-3 mb-3">
-    <mat-form-field class="custom-field flex-grow-1" appearance="fill">
-      <mat-label>Equipo</mat-label>
-      <mat-select [(value)]="equipoSeleccionado" (selectionChange)="filtrarUsuarios()">
-        <mat-option value="">Seleccionar equipo</mat-option>
-        <mat-option *ngFor="let sede of listado" [value]="sede">
-          {{ sede }}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
 
+  <app-filter-select label="Equipo" [options]="opcionesEquipo" [value]="equipoSeleccionado"
+    (valueChange)="equipoSeleccionado = $event; filtrarUsuarios()">
+  </app-filter-select>
 
   <div class="row">
     <div class="col-md-6">

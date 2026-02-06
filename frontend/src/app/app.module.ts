@@ -43,7 +43,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { EditEquipoComponent } from './features/admin/asignacion/edit-equipo/edit-equipo.component';
 
 import { EquipoComponent } from './features/admin/asignacion/equipo/equipo.component';
-import { LsDesEquipoComponent } from './features/admin/asignacion/ls-des-equipo/ls-des-equipo.component';
 import { MantEquipoComponent } from './features/admin/asignacion/mant-equipo/mant-equipo.component';
 import { RegAsginacionComponent } from './features/admin/asignacion/reg-asginacion/reg-asginacion.component';
 import { RegERquipoComponent } from './features/admin/asignacion/reg-erquipo/reg-erquipo.component';
@@ -51,13 +50,12 @@ import { VisorEqupoComponent } from './features/admin/asignacion/visor-equpo/vis
 import { CalendarioComponent } from './features/admin/calendario/calendario/calendario.component';
 import { EditHorarioComponent } from './features/admin/calendario/edit-horario/edit-horario.component';
 import { HorarioComponent } from './features/admin/calendario/horario/horario.component';
-import { LstDesHorarioComponent } from './features/admin/calendario/lst-des-horario/lst-des-horario.component';
 import { RegHorarioComponent } from './features/admin/calendario/reg-horario/reg-horario.component';
 import { VisorHorarioComponent } from './features/admin/calendario/visor-horario/visor-horario.component';
 import { EstudianteExcelComponent } from './features/admin/carga-archivos/estudiante-excel/estudiante-excel.component';
 import { ProfesoresExcelComponent } from './features/admin/carga-archivos/profesores-excel/profesores-excel.component';
 import { EditClaseComponent } from './features/admin/clase/edit-clase/edit-clase.component';
-import { LisDesClaseComponent } from './features/admin/clase/lis-des-clase/lis-des-clase.component';
+
 import { LsClaseComponent } from './features/admin/clase/ls-clase/ls-clase.component';
 import { VisorClaseComponent } from './features/admin/clase/visor-clase/visor-clase.component';
 import { CargoComponent } from './features/admin/configuracion/cargo/cargo/cargo.component';
@@ -87,8 +85,7 @@ import { DatosPersonalesComponent } from './features/admin/datos-personales/dato
 import { EdtDatosComponent } from './features/admin/datos-personales/edt-datos/edt-datos.component';
 import { EditEstudianteComponent } from './features/admin/estudiante/edit-estudiante/edit-estudiante.component';
 import { EstudianteComponent } from './features/admin/estudiante/estudiante/estudiante.component';
-import { ListEstudianteComponent } from './features/admin/estudiante/list-estudiante/list-estudiante.component';
-import { LstDesEstudianteComponent } from './features/admin/estudiante/lst-des-estudiante/lst-des-estudiante.component';
+import { ListEstudianteComponent } from './features/admin/estudiante/list-estudiante/list-estudiante.component';;
 import { RegEstudianteComponent } from './features/admin/estudiante/reg-estudiante/reg-estudiante.component';
 import { VisorEstudianteComponent } from './features/admin/estudiante/visor-estudiante/visor-estudiante.component';
 import { HistorialEvaluacionAdminComponent } from './features/admin/evaluacion/historial-evaluacion-admin/historial-evaluacion-admin.component';
@@ -111,16 +108,12 @@ import { LsPartidoComponent } from './features/admin/partido/ls-partido/ls-parti
 import { RegPartidoComponent } from './features/admin/partido/reg-partido/reg-partido.component';
 import { VisorPartidoComponent } from './features/admin/partido/visor-partido/visor-partido.component';
 import { PrincipalComponent } from './features/admin/principal/principal.component';
-
 import { EditProfesorComponent } from './features/admin/profesor/edit-profesor/edit-profesor.component';
-import { LstDesProfesorComponent } from './features/admin/profesor/lst-des-profesor/lst-des-profesor.component';
 import { LstProfesoresComponent } from './features/admin/profesor/lst-profesores/lst-profesores.component';
 import { ProfesorComponent } from './features/admin/profesor/profesor/profesor.component';
 import { RegistrarProfesorComponent } from './features/admin/profesor/registrar-profesor/registrar-profesor.component';
 import { VisorProfesorComponent } from './features/admin/profesor/visor-profesor/visor-profesor.component';
-
 import { EditUsuarioComponent } from './features/admin/usuario/edit-usuario/edit-usuario.component';
-import { LsDesUsuarioComponent } from './features/admin/usuario/ls-des-usuario/ls-des-usuario.component';
 import { LstUsuarioComponent } from './features/admin/usuario/lst-usuario/lst-usuario.component';
 import { RegUsuarioComponent } from './features/admin/usuario/reg-usuario/reg-usuario.component';
 import { UsuarioAdministradorComponent } from './features/admin/usuario/usuario-administrador/usuario-administrador.component';
@@ -207,7 +200,6 @@ import { ModalPerfilComponent } from './shared/modal/modal-perfil/modal-perfil.c
     EditUsuarioComponent,
     EdtDatosComponent,
     ModalEliminacionComponent,
-    LsDesUsuarioComponent,
     ModuloEvaluacionComponent,
     RegistrarProfesorComponent,
     SedeComponent,
@@ -221,7 +213,7 @@ import { ModalPerfilComponent } from './shared/modal/modal-perfil/modal-perfil.c
     ProfesorComponent,
     VisorProfesorComponent,
     EditProfesorComponent,
-    LstDesProfesorComponent,
+   
     LstProfesoresComponent,
     LsTablaGeneralComponent,
     RegTbGeneralComponent,
@@ -232,7 +224,7 @@ import { ModalPerfilComponent } from './shared/modal/modal-perfil/modal-perfil.c
     RegDevComponent,
     RegEstudianteComponent,
     ListEstudianteComponent,
-    LstDesEstudianteComponent,
+    
     EditEstudianteComponent,
     VisorEstudianteComponent,
     EstudianteComponent,
@@ -246,7 +238,7 @@ import { ModalPerfilComponent } from './shared/modal/modal-perfil/modal-perfil.c
     MantEquipoComponent,
     EditEquipoComponent,
     VisorEqupoComponent,
-    LsDesEquipoComponent,
+ 
     RegERquipoComponent,
     EquipoComponent,
    
@@ -259,11 +251,9 @@ import { ModalPerfilComponent } from './shared/modal/modal-perfil/modal-perfil.c
     VisorHorarioComponent,
     EditHorarioComponent,
     RegHorarioComponent,
-    LstDesHorarioComponent,
     DatosPersonalesProfesoresComponent,
     EditPerfilComponent,
     LsClaseComponent,
-    LisDesClaseComponent,
     VisorClaseComponent,
     EditClaseComponent,
     ClasesComponent,

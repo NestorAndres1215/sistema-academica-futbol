@@ -40,7 +40,7 @@ export class LsPartidoComponent implements OnInit {
     const dialogRef = this.dialog.open(RegPartidoComponent, {
       width: '850px',
       disableClose: true,
-      height: '450px',
+      height: '550px',
 
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -110,27 +110,21 @@ export class LsPartidoComponent implements OnInit {
   }
 
   visor(row: any) {
-
-    const dialogRef = this.dialog.open(VisorPartidoComponent, {
+    this.dialog.open(VisorPartidoComponent, {
       width: '850px',
       disableClose: true,
-      height: '450px',
+      height: '470px',
       data: {
         row,
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Elemento eliminado');
-      }
-    });
-
   }
+
   editar(row: any) {
     const dialogRef = this.dialog.open(EditPartidoComponent, {
       width: '850px',
       disableClose: true,
-      height: '450px',
+      height: '480px',
       data: {
         row,
       },
@@ -169,7 +163,7 @@ export class LsPartidoComponent implements OnInit {
   }
 
   exportarPDF(): void {
- 
+
     const historial: Historial = {
       usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo PDF.`,
@@ -196,7 +190,7 @@ export class LsPartidoComponent implements OnInit {
   }
 
   exportarPrint(): void {
-  
+
     const contenidoAImprimir = this.datosTabla;
 
     if (contenidoAImprimir) {

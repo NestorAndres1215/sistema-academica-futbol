@@ -1,72 +1,66 @@
 <div class="card">
-    <div class="card-header position-sticky sticky-top">
-        <button _ngcontent-yfb-c88="" (click)="cerrar()" class="btn btn-danger button_close" tabindex="0"><i
-                _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
-        <button _ngcontent-yfb-c69="" class="btn btn-success ng-star-inserted" (click)="operar()"
-            style="margin-right: 10px; align-items: flex-end;"><i _ngcontent-yfb-c69=""
-                class="fas fa-save"></i></button>
-        <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700px;font-family: monospace;">
-            Editar</h3>
+    <div class="card-header position-sticky sticky-top bg-light mb-3">
+        <div class="container-fluid px-4 px-md-5 py-3">
+            <div class="d-flex flex-column flex-md-row align-items-center text-center text-md-start gap-3">
+                <h1 class="fw-bold m-0 fs-3 fs-md-1">
+                    Actualizar
+                </h1>
+            </div>
+        </div>
     </div>
     <div class="container">
         <form [formGroup]="formulario">
             <div class="row">
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Primer Nombre</mat-label>
                         <input matInput formControlName="primerNombre">
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Segundo Nombre</mat-label>
                         <input matInput formControlName="segundoNombre">
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Apellido Paterno</mat-label>
                         <input matInput formControlName="apellidoPaterno">
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Apellido Materno</mat-label>
                         <input matInput formControlName="apellidoMaterno">
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Usuario</mat-label>
                         <input matInput formControlName="usuario">
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
-                        <mat-label>Contraseña</mat-label>
-                        <input formControlName="contra" matInput type="password">
-                    </mat-form-field>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Telefono</mat-label>
                         <input type="number" matInput formControlName="telefono">
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Correo</mat-label>
                         <input type="email" matInput formControlName="correo">
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Direccion</mat-label>
                         <input type="text" matInput formControlName="direccion">
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3 fecha">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Fecha Nacimiento</mat-label>
                         <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento"
                             placeholder="Selecciona una fecha">
@@ -74,10 +68,8 @@
                         <mat-datepicker #picker></mat-datepicker>
                     </mat-form-field>
                 </div>
-
-
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field appearance="fill">
+                    <mat-form-field class="full-width"appearance="outline">
                         <mat-label>Género</mat-label>
                         <mat-select formControlName="genero">
                             <mat-option *ngFor="let genero1 of generos" [value]="genero1.descripcion1">
@@ -87,7 +79,7 @@
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field appearance="fill">
+                    <mat-form-field class="full-width"appearance="outline">
                         <mat-label>Nacionalidad</mat-label>
                         <mat-select formControlName="nacionalidad">
                             <mat-option *ngFor="let genero1 of nacionalidades" [value]="genero1.descripcion1">
@@ -97,7 +89,7 @@
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Sede</mat-label>
                         <mat-select formControlName="sede">
                             <mat-option *ngFor="let sede1 of sedes" [value]="sede1.codigo">
@@ -107,7 +99,7 @@
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Tipo de Documento</mat-label>
                         <mat-select formControlName="tipo">
                             <mat-option *ngFor="let tiposDocumento of tiposDocumento" [value]="tiposDocumento.clave">
@@ -117,10 +109,21 @@
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>N° Documento</mat-label>
                         <input type="text" matInput formControlName="numero">
                     </mat-form-field>
+                </div>
+            </div>
+             <div class="row g-2 ">
+                <div class="col-12 col-md-6">
+                    <app-button label="Actualizar" icon="fas fa-edit" color="editar" (onClick)="operar()">
+                    </app-button>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <app-button label="Volver" icon="fas fa-long-arrow-alt-left" color="eliminar" (onClick)="cerrar()">
+                    </app-button>
                 </div>
             </div>
         </form>

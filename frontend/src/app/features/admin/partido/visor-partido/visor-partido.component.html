@@ -1,31 +1,30 @@
 <div class="card">
     <div class="card-header position-sticky sticky-top">
-        <button _ngcontent-yfb-c88="" (click)="cerrar()" class="btn btn-danger button_close" tabindex="0"><i
-                _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
-        <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700px;font-family: monospace;">
-            Visualizar</h3>
+        <div
+            class=" container d-flex flex-column flex-md-row align-items-center  align-items-md-center text-center text-md-start gap-3  ">
+            <h1 class="fw-bold m-0 fs-3 fs-md-1">
+                Detalle
+            </h1>
+        </div>
     </div>
-    <div class="container">
+
+    <div class="container mt-4 mb-4">
         <form [formGroup]="formulario">
             <div class="row">
                 <div class="col-12 col-md-6">
-
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Equipo </mat-label>
-                        <input matInput formControlName="equipo" style="height: 29px;">
+                        <input matInput formControlName="equipo">
                     </mat-form-field>
-
                 </div>
-
-
                 <div class="col-12 col-md-6">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Equipo Rival</mat-label>
-                        <input matInput formControlName="equipoRival" style="height: 29px;">
+                        <input matInput formControlName="equipoRival" >
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Fecha Nacimiento</mat-label>
                         <input matInput [matDatepicker]="picker" formControlName="fecha" style="height: 29px;"
                             placeholder="Selecciona una fecha">
@@ -34,24 +33,27 @@
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6">
-                    <mat-form-field appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Selecciona la hora</mat-label>
                         <input matInput type="time" formControlName="hora">
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Lugar</mat-label>
-                        <input matInput formControlName="lugar" style="height: 29px;">
+                        <input matInput formControlName="lugar" >
                     </mat-form-field>
                 </div>
                 <div class="col-12 col-md-6">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Tipo Partido</mat-label>
-                        <input matInput formControlName="tipo" style="height: 29px;">
+                        <input matInput formControlName="tipo">
                     </mat-form-field>
                 </div>
             </div>
+            <app-button label="Volver" icon="fas fa-long-arrow-alt-left" color="eliminar" (onClick)="cerrar()">
+            </app-button>
+
         </form>
     </div>
 </div>

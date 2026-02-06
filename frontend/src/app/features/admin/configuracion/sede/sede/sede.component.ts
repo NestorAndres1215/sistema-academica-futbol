@@ -95,7 +95,7 @@ export class SedeComponent implements OnInit {
 
     const dialogRef = this.dialog.open(VisorSedeComponent, {
       width: '550px',
-      height: '550px',
+      height: '450px',
       data: {
         row,
       }
@@ -108,7 +108,7 @@ export class SedeComponent implements OnInit {
   editar(row: any) {
     const dialogRef = this.dialog.open(EditSedeComponent, {
       width: '550px',
-      height: '550px',
+      height: '460px',
       data: {
         row,
       },

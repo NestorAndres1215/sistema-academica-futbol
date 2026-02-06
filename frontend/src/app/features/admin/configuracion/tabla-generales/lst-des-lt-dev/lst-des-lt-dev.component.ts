@@ -27,8 +27,16 @@ export class LstDesLtDevComponent implements OnInit {
     this.dialogRe.close();
   }
 
+  botonesConfigTable = {
+    ver: true,
+    desactivar: true,
+  };
 
-
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Clave', clave: 'clave' },
+    { etiqueta: 'Descripción', clave: 'descripcion1' },
+  ];
 
 
   user: any = null;
@@ -40,6 +48,7 @@ export class LstDesLtDevComponent implements OnInit {
   totalItems: number;
   pageSize = 5;
   listar: any
+
   constructor(
     private generalService: GeneralService,
     private dialog: MatDialog,
@@ -48,9 +57,7 @@ export class LstDesLtDevComponent implements OnInit {
     private dialogRe: MatDialogRef<LsTablaGeneralComponent>,
     private change: ChangeDetectorRef,
     private alertService: AlertService,
-  ) {
-
-  }
+  ) { }
 
   ngOnInit(): void {
     this.listarGeneral()
@@ -63,41 +70,31 @@ export class LstDesLtDevComponent implements OnInit {
 
 
   pageChanged(event: PageEvent) {
-    console.log(event)
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
     this.pagedData = this.datosTabla.slice(startIndex, endIndex);
   }
+
   async listarGeneral() {
     this.generalService.listarGeneralDevDesactivado().subscribe((data) => {
-      console.log(data)
       this.datosTabla = data;
       this.pagedData = data
       this.totalItems = this.datosTabla.length
       this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
-
       this.change.markForCheck();
     })
   }
 
   visor(row: any) {
-    console.log(row)
-
-    const dialogRef = this.dialog.open(VisorTbGeneralComponent, {
+   this.dialog.open(VisorTbGeneralComponent, {
       disableClose: true,
       width: '550px',
-      height: '550px',
+      height: '450px',
       data: {
         row,
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Elemento eliminado');
-      }
-    });
-
   }
 
 
@@ -110,10 +107,8 @@ export class LstDesLtDevComponent implements OnInit {
         titulo: 'Eliminar',
         subtitulo: `¿Deseas eliminar el tabla general  ${row.descripcion1} con el codigo ${row.codigo} ? `
       },
-
     });
  
-
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton !== 'CONFIRMAR') return;
       const historial: Historial = {
@@ -130,11 +125,7 @@ export class LstDesLtDevComponent implements OnInit {
            this.alertService.error(TITULO_MESAJES.ERROR_TITULO,error.error.message);
         }
       });
-
     });
-
   }
-
-
 
 }

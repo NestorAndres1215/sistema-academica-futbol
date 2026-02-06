@@ -170,7 +170,7 @@ export class EditEstudianteComponent implements OnInit {
     if (this.formulario.valid) {
       const objAdmin: Estudiante = {
         codigoUsuario: this.codigoUsuario,
-        codigoProfesor: this.codigoAdmin,
+        codigoEstudiante: this.codigoAdmin,
         primerNombre: this.formulario.get('primerNombre')?.value,
         segundoNombre: this.formulario.get('segundoNombre')?.value,
         apellidoPaterno: this.formulario.get('apellidoPaterno')?.value,
@@ -192,7 +192,7 @@ export class EditEstudianteComponent implements OnInit {
         genero: this.formulario.get('genero')?.value,
 
       };
-
+console.log(objAdmin)
       const historial: Historial = {
         usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} actualizó al estudiante ${objAdmin.primerNombre} ${objAdmin.apellidoPaterno}.`,

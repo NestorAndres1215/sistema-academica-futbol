@@ -1,8 +1,4 @@
-
-<app-titulo
-  titulo="Calendario de Clases y Partidos"
- [botonesConfig]="botonesConfig"
-  (volver)="volver()">
+<app-titulo titulo="Calendario de Clases y Partidos">
 </app-titulo>
 <div class="container mt-4">
 
@@ -20,7 +16,8 @@
                 </div>
 
                 <div class="calendar__grid">
-                    <div *ngFor="let name of nameDay; let i = index; trackBy: trackByIndex" class="calendar__day-name" style="  background-color: lightsteelblue;">
+                    <div *ngFor="let name of nameDay; let i = index; trackBy: trackByIndex" class="calendar__day-name"
+                        style="color: white;  background: linear-gradient(135deg, #1e3a8a, #3b82f6);">
                         {{ name }}
                     </div>
 
@@ -62,7 +59,7 @@
         </div>
         <div class="col-lg-4 col-md-5 col-sm-12" *ngIf="selectedDay">
             <div class="card">
-                <div *ngIf="selectedDay" >
+                <div *ngIf="selectedDay">
                     <h2 class="card-title">{{ selectedDay.day + " " + currentMonthAndYear }}</h2>
                     <hr class="divider">
                 </div>

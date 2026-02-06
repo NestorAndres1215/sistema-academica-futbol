@@ -1,79 +1,78 @@
 <div class="card">
   <div class="card-header position-sticky sticky-top">
-    <button type="button" class="btn btn-danger" (click)="volver()">
-      <i class="fas fa-long-arrow-alt-left"></i>
-    </button>
-    <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700; font-family: monospace;">
-      Vista
-    </h3>
+    <div
+      class=" container d-flex flex-column flex-md-row align-items-center  align-items-md-center text-center text-md-start gap-3  ">
+      <h1 class="fw-bold m-0 fs-3 fs-md-1">
+        Detalle
+      </h1>
+    </div>
   </div>
-  <div class="container">
+
+    <div class="container mt-4 mb-4">
 
     <form [formGroup]="formulario">
       <div class="row">
 
         <div class="col-lg-4 col-md-12">
-          <mat-form-field class="full-width" appearance="fill">
+          <mat-form-field class="full-width" appearance="outline">
             <mat-label>Código</mat-label>
             <input matInput formControlName="codigo">
           </mat-form-field>
         </div>
         <div class="col-lg-4 col-md-12">
-          <mat-form-field class="full-width" appearance="fill">
+          <mat-form-field class="full-width" appearance="outline">
             <mat-label>Nombre</mat-label>
             <input matInput formControlName="nombre">
           </mat-form-field>
         </div>
-
-
-
         <div class="col-lg-4 col-md-12">
-          <mat-form-field class="full-width" appearance="fill">
+          <mat-form-field class="full-width" appearance="outline">
             <mat-label>Equipo</mat-label>
             <input matInput formControlName="equipo">
           </mat-form-field>
         </div>
         <div class="col-lg-4 col-md-12">
-          <mat-form-field class="full-width" appearance="fill">
+          <mat-form-field class="full-width" appearance="outline">
             <mat-label>Género</mat-label>
             <input matInput formControlName="genero">
           </mat-form-field>
         </div>
-
-
         <div class="col-lg-4 col-md-12">
-          <mat-form-field class="full-width" appearance="fill">
+          <mat-form-field class="full-width" appearance="outline">
             <mat-label>Inicio Hora</mat-label>
-            <input matInput  formControlName="inicioHora">
+            <input matInput formControlName="inicioHora">
           </mat-form-field>
         </div>
         <div class="col-lg-4 col-md-12">
-          <mat-form-field class="full-width" appearance="fill">
+          <mat-form-field class="full-width" appearance="outline">
             <mat-label>Fin Hora</mat-label>
-            <input matInput  formControlName="finHora">
+            <input matInput formControlName="finHora">
           </mat-form-field>
         </div>
         <div class="col-lg-4 col-md-12">
-          <mat-form-field class="full-width" appearance="fill">
+          <mat-form-field class="full-width" appearance="outline">
             <mat-label>Fecha Inicio</mat-label>
-            <input matInput  formControlName="fechaInicio">
+            <input matInput formControlName="fechaInicio">
           </mat-form-field>
         </div>
         <div class="col-lg-4 col-md-12">
-          <mat-form-field class="full-width" appearance="fill">
+          <mat-form-field class="full-width" appearance="outline">
             <mat-label>Fecha Fin</mat-label>
-            <input matInput  formControlName="fechaFin">
+            <input matInput formControlName="fechaFin">
           </mat-form-field>
         </div>
         <div class="col-lg-4 col-md-12">
-          <mat-form-field class="full-width" appearance="fill">
+          <mat-form-field class="full-width" appearance="outline">
             <mat-label>Día</mat-label>
             <input matInput formControlName="dia">
           </mat-form-field>
         </div>
       </div>
+
+      <app-button label="Volver" icon="fas fa-long-arrow-alt-left" color="eliminar" (onClick)="volver()">
+      </app-button>
     </form>
-  
+
   </div>
 
 </div>

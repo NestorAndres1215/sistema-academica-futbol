@@ -56,8 +56,8 @@ export class DpEstduanteComponent implements OnInit {
     console.log(this.lista); // Verifica que lista tenga datos
 
     const dialogRef = this.dialog.open(EditPerfilEstudianteComponent, {
-      width: '850px',
-      height: '600px',
+        width: '1050px',
+      height: '650px',
       data: {
         row: this.lista, // Pasamos los datos correctamente
       },

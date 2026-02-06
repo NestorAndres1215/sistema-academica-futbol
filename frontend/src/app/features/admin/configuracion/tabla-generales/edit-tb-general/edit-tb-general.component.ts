@@ -70,7 +70,7 @@ export class EditTbGeneralComponent implements OnInit {
   }
 
   operar() {
-    
+
     if (!this.formulario.valid) {
       this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       this.formulario.markAllAsTouched();
@@ -98,11 +98,9 @@ export class EditTbGeneralComponent implements OnInit {
         this.cdr.markForCheck();
       },
       error: (error) => {
-        this.alertService.error(TITULO_MESAJES.ERROR_TITULO,error.error.message);
+        this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
     });
-
-
   }
 
   cerrar() {

@@ -2,38 +2,27 @@
     <div class="card-header position-sticky sticky-top">
         <div
             class=" container d-flex flex-column flex-md-row align-items-center  align-items-md-center text-center text-md-start gap-3  ">
-
             <h1 class="fw-bold m-0 fs-3 fs-md-1">
                 Detalle
             </h1>
-            <div class="d-flex  gap-2 justify-content-center ms-md-auto ">
-                <app-button label="Volver" icon="fas fa-long-arrow-alt-left" color="eliminar" (onClick)="cerrar()">
-                </app-button>
-            </div>
         </div>
     </div>
 
-    <div class="container">
+    <div class="container mt-4 mb-4">
         <form [formGroup]="formulario">
             <div class="row">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input formControlName="nombre" matInput>
+                </mat-form-field>
 
-                <div>
-                    <mat-form-field class="full-width" appearance="outline">
-                        <mat-label>Nombre</mat-label>
-                        <input formControlName="nombre" matInput>
-                    </mat-form-field>
-                </div>
-
-
-                <div>
-                    <mat-form-field class="full-width" appearance="outline">
-                        <mat-label>Descripcion</mat-label>
-                        <input formControlName="descripcion" matInput>
-                    </mat-form-field>
-                </div>
-
-
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Descripcion</mat-label>
+                    <input formControlName="descripcion" matInput>
+                </mat-form-field>
             </div>
+            <app-button label="Volver" icon="fas fa-long-arrow-alt-left" color="eliminar" (onClick)="cerrar()">
+            </app-button>
         </form>
     </div>
 

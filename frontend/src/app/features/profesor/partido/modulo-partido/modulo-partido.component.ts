@@ -14,118 +14,48 @@ import { EditPartidoComponent } from 'src/app/features/admin/partido/edit-partid
   styleUrls: ['./modulo-partido.component.css']
 })
 export class ModuloPartidoComponent implements OnInit {
-  verDetalle(row: any) {
-    const dialogRef = this.dialog.open(EditPartidoComponent, {
-      width: '850px',
-      disableClose: true,
-      height: '450px',
-      data: {
-        row,
-        profesor: "profesor"
-      },
-    });
+  equipoSeleccionada: any = null;
+  estudiantesFiltrados: any[] = [];
 
-    dialogRef.afterClosed().subscribe(data => {
-      this.listarPartidos()
-    })
-  }
+  listadoEquipos: string[] = [];
 
-  user: any = null;
-  xd: any
-  datosTabla: any[] = [];
-  pagedData: any[] = [];
-  pageSizeOptions: number[] = [5, 10, 25, 100];
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  totalItems: number;
-  pageSize = 5;
-  listar: any
-  botonesConfig = {
-    editar: false,
-    volver: true,
-
-  };
   constructor(
     private equipoService: EquipoService,
     private partidoService: PartidoService,
-    private dialog: MatDialog,
-    private loginService: LoginService,
-    private change: ChangeDetectorRef,
-    private route: Router
-  ) {
-    this.pageChanged({
-      pageIndex: 0, pageSize: this.pageSize,
-      length: 0
-    });
-  }
+    private loginService: LoginService
+  ) {}
 
   ngOnInit(): void {
-    this.user = this.loginService.getUser();
-    this.listarEquipo();
-
+    this.listarEquiposDelProfesor();
   }
 
-  async listarPartidos() {
-    this.partidoService.listarPartidosActuales().subscribe((data) => {
+  listarEquiposDelProfesor(): void {
+    this.equipoService.listarAsignacion().subscribe(data => {
 
-      this.user = this.loginService.getUser();
-      const listadoNormalizado = this.listado.map(e => e.toLowerCase().trim());
+      const user = this.loginService.getUser();
 
-      const resultado = data.filter(i =>
-        listadoNormalizado.includes(i.equipo.nombre.toLowerCase().trim())
+      const asignaciones = data.filter(item =>
+        item.profesor &&
+        item.profesor.usuario &&
+        item.profesor.usuario.codigo === user.ul_codigo
       );
 
-      this.datosTabla = resultado;
-      this.pagedData = data
-      this.totalItems = this.datosTabla.length
-      this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
-      this.getUserInfo()
-      this.change.markForCheck();
+      this.listadoEquipos = asignaciones.map(a => a.equipo.nombre);
+
+      // si quieres seleccionar uno por defecto
+      this.equipoSeleccionada = this.listadoEquipos[0] ?? null;
+
+      this.listarPartidos();
     });
   }
 
-  async getUserInfo() {
-    this.user = this.loginService.getUser();
-    const usuarios = this.datosTabla.filter(item => item.id === this.user.id);
-    this.xd = usuarios
-  }
+  listarPartidos(): void {
+    this.partidoService.listarPartidosActuales().subscribe(data => {
 
-  pageSizeChanged() {
-    this.paginator.firstPage();
-    this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
-  }
-
-
-  pageChanged(event: PageEvent) {
-    console.log(event)
-    this.totalItems = this.datosTabla.length
-    const startIndex = event.pageIndex * event.pageSize;
-    const endIndex = startIndex + event.pageSize;
-    this.pagedData = this.datosTabla.slice(startIndex, endIndex);
-  }
-
-
-  volver(): void {
-    this.route.navigate(['/profesor']);
-  }
-
-  listado: any[] = [];
-  async listarEquipo() {
-    this.equipoService.listarAsignacion().subscribe((data) => {
-
-      data = data.filter(item => item.profesor.codigo != "0000");
-
-      const filteredData = data.filter(item =>
-        item.profesor &&
-        item.profesor.usuario &&
-        item.profesor.usuario.codigo != null &&
-        item.profesor.usuario.codigo === this.loginService.getUser().ul_codigo
+      this.estudiantesFiltrados = data.filter(p =>
+        this.listadoEquipos.includes(p.equipo.nombre)
       );
-      this.listado = filteredData.map(i => i.equipo.nombre)
-      this.listarPartidos()
-    })
-  }
 
-  formatTexto(descripcion: string): string {
-    return descripcion.replace(/\n/g, '<br>');
+    });
   }
 }

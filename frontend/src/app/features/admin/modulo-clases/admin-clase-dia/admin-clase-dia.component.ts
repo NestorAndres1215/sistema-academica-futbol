@@ -15,7 +15,7 @@ export class AdminClaseDiaComponent implements OnInit {
     const dialogRef = this.dialog.open(AdminCargaEditClaseComponent, {
       width: '1050px',
       disableClose: true,
-      height: '550px',
+      height: '750px',
       data: {
         codigo: this.codigo,
         dia: this.dias,
@@ -35,7 +35,7 @@ export class AdminClaseDiaComponent implements OnInit {
     const dialogRef = this.dialog.open(AdminCargaClaseComponent, {
       width: '1050px',
       disableClose: true,
-      height: '550px',
+        height: '750px',
       data: {
         codigo: this.codigo,
         dia: this.dias,

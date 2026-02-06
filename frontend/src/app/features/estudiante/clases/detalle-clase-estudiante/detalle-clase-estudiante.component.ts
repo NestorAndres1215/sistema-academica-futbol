@@ -11,65 +11,49 @@ import { LoginService } from 'src/app/core/services/login.service';
   styleUrls: ['./detalle-clase-estudiante.component.css']
 })
 export class DetalleClaseEstudianteComponent implements OnInit {
- botonesConfig = {
-    editar: false,
-    volver: true,
-
-  };
-  volver() {
-    this.router.navigate(['/estudiante']);
-  }
 
   constructor(
-    private route: ActivatedRoute,
     private claseService: ClaseService,
-    private equipoService:EquipoService,
-    private loginService:LoginService,
-    private estudianteService:EstudianteService,
-    private router: Router
+    private equipoService: EquipoService,
+    private loginService: LoginService,
   ) { }
+
   codigo: string
   ngOnInit(): void {
-    //this.codigo = this.route.snapshot.params['codigo']
-  //  this.listaClases(this.codigo)
-  this.listarEquipoDev()
+    this.listarEquipoDev()
   }
-  opciones: string[] = ['Clases', 'Alumnos', 'Profesores','Lesiones', 'Notas'];
+  opciones: string[] = ['Clases', 'Alumnos', 'Profesores', 'Lesiones', 'Notas'];
   opcionSeleccionada: string = 'Clases';
   datosTabla: any[] = [];
   activeTab1: number = 0;
   primerDia: string
   segundoDia: string
   tercerDia: string
-  async listaClases(codigo: string) {
+  
+  async listaClases() {
     this.claseService.listarClaseActivado().subscribe((data) => {
-      console.log(data)
-      console.log(this.codigo)
-      const claseEncontrada = data.find(index => index.equipo.codigo == this.codigo); // Encuentra la clase
-      console.log(claseEncontrada)
+
+      const claseEncontrada = data.find(index => index.equipo.codigo == this.codigo);
+
       if (claseEncontrada && claseEncontrada.dia) {
-        const diasArray: string[] = claseEncontrada.dia.split(' - '); // Divide los días
+        const diasArray: string[] = claseEncontrada.dia.split(' - ');
         [this.primerDia, this.segundoDia, this.tercerDia] = diasArray;
       }
-  
+
       this.datosTabla = data;
     });
 
   }
-  async listarEquipoDev(){
+
+  async listarEquipoDev() {
     this.equipoService.listarDev().subscribe((data) => {
-      console.log(data)
- 
-      
-      console.log(data
+
+      const codigoT = data
         ?.filter(i => i.estudiante?.usuario?.codigo === this.loginService.getUser().ul_codigo) // Filtra por coincidencia de código
-        .map(i => i.equipo.nombre) // Mapea solo los códigos encontrados
-      );
-      const codigoT=data
-      ?.filter(i => i.estudiante?.usuario?.codigo === this.loginService.getUser().ul_codigo) // Filtra por coincidencia de código
-      .map(i => i.equipo.codigo) // Mapea solo los códigos encontrados
-     this.codigo=codigoT
-     this.listaClases(this.codigo)
+        .map(i => i.equipo.codigo)
+
+      this.codigo = codigoT
+      this.listaClases()
     });
 
   }

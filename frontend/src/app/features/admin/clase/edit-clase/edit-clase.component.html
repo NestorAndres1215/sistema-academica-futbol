@@ -1,25 +1,25 @@
 <div class="card">
-    <div class="card-header position-sticky sticky-top">
-        <button _ngcontent-yfb-c88="" (click)="volver()" class="btn btn-danger button_close" tabindex="0"><i
-                _ngcontent-yfb-c88="" class="fas fa-long-arrow-alt-left"></i></button>
-        <button _ngcontent-yfb-c69="" class="btn btn-success ng-star-inserted" (click)="operar()"
-            style="margin-right: 10px; align-items: flex-end;"><i _ngcontent-yfb-c69=""
-                class="fas fa-save"></i></button>
-        <h3 style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700px;font-family: monospace;">
-            Editar</h3>
+    <div class="card-header position-sticky sticky-top bg-light mb-3">
+        <div class="container-fluid px-4 px-md-5 py-3">
+            <div class="d-flex flex-column flex-md-row align-items-center text-center text-md-start gap-3">
+                <h1 class="fw-bold m-0 fs-3 fs-md-1">
+                    Actualizar
+                </h1>
+            </div>
+        </div>
     </div>
-    <div class="container">
+ <div class="container  mb-4">
 
         <form [formGroup]="formulario">
             <div class="row">
                 <div class="col-lg-4 col-md-12">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Nombre</mat-label>
                         <input matInput formControlName="nombre">
                     </mat-form-field>
                 </div>
                 <div class="col-lg-4 col-md-12">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Equipo</mat-label>
                         <input matInput formControlName="equipo">
                     </mat-form-field>
@@ -27,7 +27,7 @@
 
 
                 <div class="col-lg-4 col-md-12">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                       <mat-label>Fecha Inicio</mat-label>
                       <input matInput [matDatepicker]="pickerInicio" formControlName="fechaInicio" placeholder="Seleccione la fecha de inicio">
                       <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
@@ -37,7 +37,7 @@
                   
                   <!-- Sede -->
                   <div class="col-lg-4 col-md-12">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                       <mat-label>Fecha Fin</mat-label>
                       <input matInput [matDatepicker]="pickerFin" formControlName="fechaFin" [min]="minDate" [max]="maxDate"placeholder="Seleccione la fecha de fin">
                       <mat-datepicker-toggle matSuffix [for]="pickerFin"></mat-datepicker-toggle>
@@ -45,7 +45,7 @@
                     </mat-form-field>
                   </div>
                 <div class="col-lg-4 col-md-12">
-                    <mat-form-field class="full-width custom-field" appearance="fill">
+                    <mat-form-field class="full-width custom-field" appearance="outline">
                         <mat-label>Horario</mat-label>
                         <mat-select formControlName="horario" placeholder="Seleccione un horario">
                             <mat-option value="">Todas las horario</mat-option>
@@ -56,7 +56,7 @@
                     </mat-form-field>
                 </div>
                 <div class="col-lg-4 col-md-12">
-                    <mat-form-field class="full-width custom-field" appearance="fill">
+                    <mat-form-field class="full-width custom-field" appearance="outline">
                         <mat-label>Dia</mat-label>
                         <mat-select formControlName="dia" placeholder="Seleccione un día">
                             <mat-option value="">Todas los Días</mat-option>
@@ -67,18 +67,27 @@
                             </ng-container>
                         </mat-select>
                     </mat-form-field>
-
-
-
                 </div>
                 <div class="col-lg-12 col-md-12">
-                    <mat-form-field class="full-width custom-textarea" appearance="fill">
+                    <mat-form-field class="full-width custom-textarea" appearance="outline">
                       <mat-label>Descripcion</mat-label>
                       <textarea matInput formControlName="genero"></textarea>
                     </mat-form-field>
                   </div>
                   
             </div>
+            	 <div class="row g-2 ">
+                <div class="col-12 col-md-6">
+                    <app-button label="Actualizar" icon="fas fa-edit" color="editar" (onClick)="operar()">
+                    </app-button>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <app-button label="Volver" icon="fas fa-long-arrow-alt-left" color="eliminar" (onClick)="volver()">
+                    </app-button>
+                </div>
+            </div>
+			
         </form>
 
     </div>

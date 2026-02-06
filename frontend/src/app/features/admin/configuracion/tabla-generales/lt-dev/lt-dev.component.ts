@@ -35,7 +35,6 @@ export class LtDevComponent implements OnInit {
     actualizar: true,
     ver: true,
     desactivar: true,
-
   };
 
   filtro: string = '';
@@ -47,6 +46,8 @@ export class LtDevComponent implements OnInit {
   pagedData: any[] = [];
   pageSizeOptions: number[] = [5, 10, 25, 100];
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  codigo: string
+  descripcion: string
 
   constructor(
     private generales: GeneralService,
@@ -58,18 +59,17 @@ export class LtDevComponent implements OnInit {
     private dialogRe: MatDialogRef<LsTablaGeneralComponent>,
     private alertService: AlertService
   ) { }
-  codigo: string
-  descripcion: string
+
   ngOnInit(): void {
     this.codigo = this.data.row.codigo
     this.descripcion = this.data.row.descripcion1
     this.listarDesactivado()
   }
+
   pageSizeChanged() {
     this.paginator.firstPage();
     this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
   }
-
 
   pageChanged(event: PageEvent) {
     console.log(event)
@@ -79,15 +79,12 @@ export class LtDevComponent implements OnInit {
     this.usuariosFiltrados = this.datosTabla.slice(startIndex, endIndex);
   }
 
-
   async listarDesactivado() {
     this.generales.listarGeneralDevActivado(this.codigo).subscribe((data) => {
-      console.log(data)
       this.datosTabla = data;
       this.pagedData = data
       this.totalItems = this.datosTabla.length
       this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
-
       this.change.markForCheck();
     })
   }
@@ -106,6 +103,7 @@ export class LtDevComponent implements OnInit {
         .includes(term)
     );
   }
+
   volver() {
     this.dialogRe.close();
   }
@@ -127,7 +125,7 @@ export class LtDevComponent implements OnInit {
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton !== 'CONFIRMAR') return;
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, 
+        usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} desactivó un cargo de ${row.nombre}`
       };
       this.generales.desactivarGeneralGen(row.codigo).subscribe({
@@ -136,7 +134,7 @@ export class LtDevComponent implements OnInit {
           this.alertService.advertencia(TITULO_MESAJES.ADVERTENCIA, MENSAJES.DESACTIVADO);
 
 
-          this.listarDesactivado(); 
+          this.listarDesactivado();
         },
         error: error => {
           this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
@@ -150,28 +148,21 @@ export class LtDevComponent implements OnInit {
 
 
   visor(row: any) {
-    console.log(row)
-
-    const dialogRef = this.dialog.open(VisorTbGeneralComponent, {
+    this.dialog.open(VisorTbGeneralComponent, {
       disableClose: true,
       width: '550px',
-      height: '550px',
+      height: '450px',
       data: {
         row,
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Elemento eliminado');
-      }
-    });
-
   }
+
   editar(row: any) {
     const dialogRef = this.dialog.open(EditDevComponent, {
 
       width: '550px',
-      height: '550px',
+      height: '460px',
       data: {
         row,
       }
@@ -182,8 +173,9 @@ export class LtDevComponent implements OnInit {
 
     });
   }
+
   operar() {
-    console.log(this.codigo)
+
     const codigo = this.codigo
     const dialogRef = this.dialog.open(RegDevComponent, {
       width: '700px',
@@ -193,11 +185,11 @@ export class LtDevComponent implements OnInit {
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarDesactivado()
     })
   }
+
   Ver() {
     const dialogRef = this.dialog.open(LstDesLtDevComponent, {
       disableClose: true,

@@ -1,6 +1,4 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { LstDesEstudianteComponent } from '../lst-des-estudiante/lst-des-estudiante.component';
-
 import { ModalEliminacionComponent } from '../../../../shared/modal/modal-eliminacion/modal-eliminacion.component';
 import { EditEstudianteComponent } from '../edit-estudiante/edit-estudiante.component';
 import { VisorEstudianteComponent } from '../visor-estudiante/visor-estudiante.component';
@@ -343,14 +341,5 @@ export class ListEstudianteComponent implements OnInit {
     })
   }
 
-  verUsuariosDesactivados() {
-    const dialogRef = this.dialog.open(LstDesEstudianteComponent, {
-      disableClose: true,
-      width: '1450px',
-      height: '650px',
-    });
-    dialogRef.afterClosed().subscribe(data => {
-      this.listarProfesor()
-    })
-  }
+
 }

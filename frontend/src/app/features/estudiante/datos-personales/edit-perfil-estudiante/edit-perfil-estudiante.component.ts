@@ -77,8 +77,8 @@ export class EditPerfilEstudianteComponent implements OnInit {
     };
     reader.readAsDataURL(this.logo);
   }
-  defaultImageUrl: string = 'assets/image/components/icono-perfil.jpg';
 
+  defaultImageUrl: string = 'assets/image/components/icono-perfil.jpg';
   imageUrl: string | null = null;
 
   onFileSelected(event: any) {
@@ -100,10 +100,8 @@ export class EditPerfilEstudianteComponent implements OnInit {
 
   ngOnInit(): void {
     this.lista = this.data
-    console.log(this.lista)
     this.listarEdiciones(); this.initForm()
     console.log(this.lista.row[0].telefono)
-
   }
 
   initForm() {
@@ -116,7 +114,6 @@ export class EditPerfilEstudianteComponent implements OnInit {
       telefono: [this.telefono, [Validators.required]],
       email: [this.correo, Validators.required],
       direccion: [this.direccion, Validators.required],
-
     });
 
   }
@@ -144,13 +141,10 @@ export class EditPerfilEstudianteComponent implements OnInit {
     this.usuarioActualizacion = firstRow.usuarioActualizacion;
     this.fechaActualizacion = firstRow.fechaActualizacion;
     this.horaActualizacion = firstRow.horaActualizacion;
-
   }
 
   operar() {
     const formValues = this.formulario.value;
-
-
     const logo = this.selectedFile
       ? this.selectedFile
       : this.logo
@@ -158,7 +152,6 @@ export class EditPerfilEstudianteComponent implements OnInit {
         : new File([new Blob()], 'imagen_defecto.jpeg', { type: 'image/jpeg' });
 
     formValues.logo = logo;
-    let edad: string | null; // Declaramos la variable
 
     if (this.formulario.valid) {
       const registrar = {
@@ -194,6 +187,5 @@ export class EditPerfilEstudianteComponent implements OnInit {
         }
       });
     }
-
   }
 }

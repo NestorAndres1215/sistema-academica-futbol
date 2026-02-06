@@ -1,4 +1,4 @@
-<app-titulo titulo="Mantenimiento de Sede" >
+<app-titulo titulo="Mantenimiento de Sede">
 </app-titulo>
 
 <div class="card-body">
@@ -6,22 +6,16 @@
     <div class="d-flex gap-2">
       <app-button label="Exportar a Excel" icon="fas fa-file-excel" color="excel" (onClick)="exportarExcel()">
       </app-button>
-
       <app-button label="Exportar a PDF" icon="fas fa-file-pdf" color="pdf" (onClick)="exportarPDF()">
       </app-button>
-
       <app-button label="Imprimir" icon="fas fa-print" color="imprimir" (onClick)="exportarPrint()">
       </app-button>
     </div>
     <div class="d-flex gap-2">
-
       <app-button label="Registro" icon="fas fa-plus-circle" color="registrar" (onClick)="operar()">
       </app-button>
     </div>
-
   </div>
-
-
   <app-tabla [columnas]="columnas" [datos]="pagedData" [botonesConfig]="botonesConfigTable"
     [onActualizar]="editar.bind(this)" [onVer]="visor.bind(this)">
   </app-tabla>

@@ -94,10 +94,10 @@ export class CargoComponent implements OnInit {
   }
 
   visor(row: any) {
-    const dialogRef = this.dialog.open(VisorCargoComponent, {
+   this.dialog.open(VisorCargoComponent, {
       disableClose: true,
       width: '550px',
-      height: '350px',
+      height: '380px',
       data: {
         row,
       }

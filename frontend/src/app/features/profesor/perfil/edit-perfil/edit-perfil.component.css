@@ -1,46 +1,28 @@
 .card {
-    overflow: auto;
-    height: 100%;
-  }
-  
-  .btn-success {
-    float: right;
-    height: max-content;
-    margin-top: 5px;
-    margin-left: 3px;
-    margin-right: 5px;
-  }
-  input{
-    font-family: monospace;
-  }
-  mat-label{
-    font-family: monospace;
-  }
-  .btn-danger {
-    float: right;
-    height: max-content;
-    margin-top: 5px;
-    margin-right: 5px;
-  }
-  
-  .container {
-    margin-top: 20px;
-    /* Puedes ajustar este valor según tu preferencia */
-  }
-  
-  .card-header {
-    background-color: lightsteelblue;
-    color: black;
-    width: 100%;
-    padding: 16px 0;
-    right: 0;
-    justify-content: center;
-  }
-  
-  .card-body {
-    display: flex;
-    flex-direction: column;
-  }
-  h5{
-  font-family: monospace;
-  }
+  overflow: auto;
+  height: 100%;
+}
+
+
+.card-header {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  color: white;
+  width: 100%;
+  padding: 16px 0;
+  right: 0;
+  justify-content: center;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+
+
+.img-marca {
+  width: 160px;
+  height: 140px;
+}

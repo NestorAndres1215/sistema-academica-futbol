@@ -10,8 +10,6 @@ import 'jspdf-autotable';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
 import { ModalEliminacionComponent } from '../../../../shared/modal/modal-eliminacion/modal-eliminacion.component';
-
-import { LsDesUsuarioComponent } from '../ls-des-usuario/ls-des-usuario.component';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
 import { Respuesta } from 'src/app/core/model/respuesta';
@@ -120,7 +118,7 @@ export class LstUsuarioComponent implements OnInit {
     const dialogRef = this.dialog.open(EditUsuarioComponent, {
       disableClose: true,
       width: '1050px',
-      height: '450px',
+      height: '480px',
       data: {
         row,
       },
@@ -317,8 +315,6 @@ export class LstUsuarioComponent implements OnInit {
   }
 
   eliminar(row: any) {
-    console.log(row.codigo);
-    console.log(this.user.us_codigo);
 
     const dialogEliminar = this.dialog.open(ModalEliminacionComponent, {
       disableClose: true,
@@ -332,10 +328,12 @@ export class LstUsuarioComponent implements OnInit {
 
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton != 'CONFIRMAR') return;
+
       const historial: Historial = {
         usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} desactivó al usuario con el código ${row.codigo} y nombre de usuario ${row.username}.`
       };
+
       this.admin.desactivarAdmin(row.codigo).subscribe({
         next: async () => {
           await firstValueFrom(this.historialService.registrar(historial));
@@ -345,19 +343,5 @@ export class LstUsuarioComponent implements OnInit {
       });
     });
   }
-
-
-
-  verUsuariosDesactivados() {
-    const dialogRef = this.dialog.open(LsDesUsuarioComponent, {
-      disableClose: true,
-      width: '1050px',
-      height: '650px',
-    });
-    dialogRef.afterClosed().subscribe(data => {
-      this.listarUsuario()
-    })
-  }
-
 
 }

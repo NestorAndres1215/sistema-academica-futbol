@@ -9,7 +9,7 @@ import { LoginService } from 'src/app/core/services/login.service';
 import { VisorHorarioComponent } from '../visor-horario/visor-horario.component';
 import { EditHorarioComponent } from '../edit-horario/edit-horario.component';
 import { RegHorarioComponent } from '../reg-horario/reg-horario.component';
-import { LstDesHorarioComponent } from '../lst-des-horario/lst-des-horario.component';
+
 
 @Component({
   selector: 'app-horario',
@@ -22,7 +22,7 @@ export class HorarioComponent implements OnInit {
     actualizar: true,
     ver: true
   };
-  
+
   columnas = [
     { etiqueta: 'Código', clave: 'codigo' },
     { etiqueta: 'Hora de Inicio', clave: 'inicioHora' },
@@ -33,19 +33,8 @@ export class HorarioComponent implements OnInit {
     const dialogRef = this.dialog.open(RegHorarioComponent, {
       disableClose: true,
       width: '550px',
-      height: '350px',
+      height: '420px',
 
-    });
-    dialogRef.afterClosed().subscribe(data => {
-      this.listarHorario()
-    })
-  }
-
-  verUsuariosDesactivados() {
-    const dialogRef = this.dialog.open(LstDesHorarioComponent, {
-      disableClose: true,
-      width: '950px',
-      height: '650px',
     });
     dialogRef.afterClosed().subscribe(data => {
       this.listarHorario()
@@ -72,14 +61,8 @@ export class HorarioComponent implements OnInit {
     private dialog: MatDialog,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private route: Router
   ) {
-    this.pageChanged({
-      pageIndex: 0, pageSize: this.pageSize,
-      length: 0
-    });
   }
-
 
   async listarHorario() {
     this.horarioService.listarHorarioActivado().subscribe((data) => {
@@ -106,7 +89,6 @@ export class HorarioComponent implements OnInit {
 
 
   pageChanged(event: PageEvent) {
-    console.log(event)
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
@@ -114,26 +96,21 @@ export class HorarioComponent implements OnInit {
   }
 
   visor(row: any) {
-    console.log(row)
-    const dialogRef = this.dialog.open(VisorHorarioComponent, {
+    this.dialog.open(VisorHorarioComponent, {
       disableClose: true,
-      width: '450px',
-      height: '450px',
+      width: '550px',
+      height: '380px',
       data: {
         row,
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-    });
-
   }
 
   editar(row: any) {
-    console.log(row)
     const dialogRef = this.dialog.open(EditHorarioComponent, {
       disableClose: true,
       width: '550px',
-      height: '350px',
+      height: '420px',
       data: {
         row,
       }
@@ -143,13 +120,4 @@ export class HorarioComponent implements OnInit {
     })
   }
 
-  volver(): void {
-    this.route.navigate(['/administrador']);
-  }
-
-  botonesConfig = {
-    editar: false,
-    volver: true,
-
-  };
 }

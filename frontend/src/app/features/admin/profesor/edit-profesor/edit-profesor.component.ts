@@ -228,6 +228,7 @@ export class EditProfesorComponent implements OnInit {
   async listarSede() {
     this.sedeService.listarSedeActivado().subscribe((data) => {
       console.log(data)
+      this.sedes=data
     })
   }
   async listaNacionalidad() {

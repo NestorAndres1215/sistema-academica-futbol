@@ -1,119 +1,93 @@
-
 <div class="card">
     <div class="card-header position-sticky sticky-top">
-      <button type="button" class="btn btn-danger" (click)="cerrar()">
-        <i class="fas fa-long-arrow-alt-left"></i>
-      </button>
-      <h3
-        style="margin: 0; margin-top: 8px; margin-left: 20px; font-weight: 700; font-family: monospace;">
-        Vista
-      </h3>
+        <div
+            class=" container d-flex flex-column flex-md-row align-items-center  align-items-md-center text-center text-md-start gap-3  ">
+            <h1 class="fw-bold m-0 fs-3 fs-md-1">
+                Detalle
+            </h1>
+        </div>
     </div>
-    <div class="container">
+    <div class="container mt-4 mb-4">
 
         <form [formGroup]="formulario">
             <div class="row">
-                <!-- Usuario -->
-           
-                <!-- Tipo de Lesión -->
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Tipo de Lesión</mat-label>
                         <input formControlName="tipoLesion" matInput />
                     </mat-form-field>
                 </div>
-        
-                <!-- Fecha de Lesión -->
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Fecha de Lesión</mat-label>
                         <input formControlName="fechaLesion" matInput />
                     </mat-form-field>
                 </div>
-        
-                <!-- Gravedad -->
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Gravedad</mat-label>
                         <input formControlName="gravedad" matInput />
                     </mat-form-field>
                 </div>
-        
-                <!-- Estado -->
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Estado</mat-label>
                         <input formControlName="estado" matInput />
                     </mat-form-field>
                 </div>
-        
-                <!-- Tiempo de Recuperación -->
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Tiempo de Recuperación</mat-label>
                         <input formControlName="tiempoRecuperacion" matInput />
                     </mat-form-field>
                 </div>
-        
-                <!-- Nombre -->
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Nombre</mat-label>
                         <input formControlName="nombre" matInput />
                     </mat-form-field>
                 </div>
-        
-                <!-- Fecha -->
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Fecha</mat-label>
                         <input formControlName="fecha" matInput />
                     </mat-form-field>
                 </div>
-        
-                <!-- Hora -->
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Hora</mat-label>
                         <input formControlName="hora" matInput />
                     </mat-form-field>
                 </div>
-        
-                <!-- Tipo de Evento -->
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Tipo de Evento</mat-label>
                         <input formControlName="tipoEvento" matInput />
                     </mat-form-field>
                 </div>
-        
-                <!-- Descripción -->
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Descripción</mat-label>
                         <input formControlName="descripcion" matInput />
                     </mat-form-field>
                 </div>
-        
-                <!-- Responsable -->
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Responsable</mat-label>
                         <input formControlName="responsable" matInput />
                     </mat-form-field>
                 </div>
-        
-                <!-- Observaciones -->
                 <div class="col-12 col-md-6 col-lg-3">
-                    <mat-form-field class="full-width" appearance="fill">
+                    <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Observaciones</mat-label>
                         <input formControlName="observaciones" matInput />
                     </mat-form-field>
                 </div>
             </div>
+            <app-button label="Volver" icon="fas fa-long-arrow-alt-left" color="eliminar" (onClick)="cerrar()">
+            </app-button>
         </form>
-        
- 
+
+
     </div>
-  </div>
-  
+</div>

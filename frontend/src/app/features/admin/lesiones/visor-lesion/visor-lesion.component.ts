@@ -13,15 +13,15 @@ import { VisorLesiondetComponent } from '../visor-lesiondet/visor-lesiondet.comp
 export class VisorLesionComponent implements OnInit {
 
   virsor(row) {
-    console.log(row)
-     const dialogRef = this.dialog.open(VisorLesiondetComponent, {
-       disableClose: true,
-       width: '1020px',
-       height: '520px',
-       data: { row },
-     });
-   }
-  public formulario: UntypedFormGroup;
+    this.dialog.open(VisorLesiondetComponent, {
+      disableClose: true,
+      width: '1020px',
+      height: '450px',
+      data: { row },
+    });
+  }
+  
+  formulario: UntypedFormGroup;
   lista: any;
   cerrar() {
     this.dialogRe.close();
@@ -29,37 +29,28 @@ export class VisorLesionComponent implements OnInit {
   tutorLesion: any
   codigoLesion: string
   constructor(
-        private dialog: MatDialog,
+    private dialog: MatDialog,
     private lesionService: LesionService,
     private dialogRe: MatDialogRef<LsLesionesComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private formBuilder: UntypedFormBuilder,) { }
-
+    @Inject(MAT_DIALOG_DATA) public data: any,) { }
+  botonesConfigTable = { ver: true, imprimir: true };
   ngOnInit(): void {
     console.log(this.data.row.lesionado.codigo)
     this.tutorLesion = this.data.row
     this.codigoLesion = this.data.row.lesionado.codigo
     this.listaLesiones()
   }
-  listarEdiciones() {
-
-  }
-
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Fecha', clave: 'lesiones.fechaLesion' },
+    { etiqueta: 'Tipo Evento', clave: 'lesiones.fechaLesion' },
+  ];
   lesion: any
   listaLesiones() {
     this.lesionService.listarLesionDevActivado().subscribe(
       (data) => {
-        console.log('Código Lesión:', this.codigoLesion);
-        console.log('Datos recibidos:', data);
-
-        // Filtrar las lesiones por el código del lesionado
         this.lesion = data.filter(i => i.lesiones.codigo === this.codigoLesion);
-
-        console.log('Lesión filtrada:', this.lesion);
       },
-      (error) => {
-        console.error('Error al obtener las lesiones:', error);
-      }
     );
   }
   imprimir(lesion: any): void {

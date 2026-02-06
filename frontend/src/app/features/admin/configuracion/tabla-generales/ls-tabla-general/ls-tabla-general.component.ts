@@ -49,10 +49,9 @@ export class LsTablaGeneralComponent implements OnInit {
   }
 
   operar() {
-
     const dialogRef = this.dialog.open(RegTbGeneralComponent, {
       width: '550px',
-      height: '300px',
+      height: '400px',
       data: {
       },
     });
@@ -109,18 +108,16 @@ export class LsTablaGeneralComponent implements OnInit {
   }
 
   visor(row: any) {
-    console.log(row)
 
-    const dialogRef = this.dialog.open(VisorTbGeneralComponent, {
+    this.dialog.open(VisorTbGeneralComponent, {
       disableClose: true,
       width: '550px',
-      height: '550px',
+      height: '450px',
       data: {
         row,
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-    });
+
   }
 
   editar(row: any) {
@@ -128,7 +125,7 @@ export class LsTablaGeneralComponent implements OnInit {
     const dialogRef = this.dialog.open(EditTbGeneralComponent, {
       disableClose: true,
       width: '550px',
-      height: '550px',
+      height: '500px',
       data: {
         row,
       }
@@ -172,7 +169,7 @@ export class LsTablaGeneralComponent implements OnInit {
         usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} desactivó un cargo de ${row.nombre}`
       };
-      
+
       this.generalService.desactivarGeneral(row.codigo).subscribe({
         next: async () => {
           await firstValueFrom(this.historialService.registrar(historial));

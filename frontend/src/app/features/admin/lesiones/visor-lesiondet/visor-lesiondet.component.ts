@@ -38,17 +38,17 @@ export class VisorLesiondetComponent implements OnInit {
 
     listaEdiciones() {
       this.codigo = this.data.row.codigo;
-      this.tipoLesion = this.data.row.tipoLesion;
-      this.fechaLesion = this.data.row.fechaLesion;
-      this.gravedad = this.data.row.gravedad;
-      this.estado = this.data.row.estado;
-      this.tiempoRecuperacion = this.data.row.tiempoRecuperacion;
-      this.nombre = this.data.row.nombre;
+      this.tipoLesion = this.data.row.lesiones.tipoLesion;
+      this.fechaLesion = this.data.row.lesiones.fechaLesion;
+      this.gravedad = this.data.row.lesiones.gravedad;
+      this.estado = this.data.row.lesiones.estado;
+      this.tiempoRecuperacion = this.data.row.lesiones.tiempoRecuperacion;
+      this.nombre = this.data.row.lesiones.estudiante.primerNombre;
       this.fecha = this.data.row.fecha;
       this.hora = this.data.row.hora;
       this.tipoEvento = this.data.row.tipoEvento;
       this.descripcion = this.data.row.descripcion;
-      this.responsable = this.data.row.responsable;
+      this.responsable = this.data.row.lesiones.responsable;
       this.observaciones = this.data.row.observaciones;
       this.initForm()
       this.deshabilitar()

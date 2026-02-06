@@ -1,200 +1,22 @@
+ textarea {
+  min-height: 150px;  
+  width: 100%;      
+  resize: vertical; 
+}
 .card {
-    overflow: auto;
-    height: 100%;
-  }
-  
-  .btn-success {
-    float: right;
-    height: max-content;
-    margin-top: 5px;
-    margin-left: 3px;
-    margin-right: 5px;
-  }
-  input{
-    font-family: monospace;
-  }
-  mat-label{
-    font-family: monospace;
-  }
-  .btn-danger {
-    float: right;
-    height: max-content;
-    margin-top: 5px;
-    margin-right: 5px;
-  }
-  
-  .container {
-    margin-top: 20px;
-    /* Puedes ajustar este valor según tu preferencia */
-  }
-  
-  .card-header {
-    background-color: lightsteelblue;
-    color: black;
-    width: 100%;
-    padding: 16px 0;
-    right: 0;
-    justify-content: center;
-  }
-  
-  .card-body {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .full-width {
-    width: 100%;
-  }
-  @media (max-width: 768px) {
-    .form-container {
-      grid-template-columns: 1fr 1fr; /* 2 columnas en pantallas pequeñas */
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .form-container {
-      grid-template-columns: 1fr; /* 1 columna en pantallas muy pequeñas */
-    }
-  }
-  
+  overflow: auto;
+  height: 100%;
+}
 
-  /* Estilos para la tabla */
-.table {
+.card-header {
+  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  color: white;
   width: 100%;
-  border-collapse: collapse;
-  font-family: Arial, sans-serif;
+  padding: 16px 0;
+  right: 0;
+  justify-content: center;
 }
 
-
-
-.table th {
-  color: #000;
-  background-color: #b0c4de;
-  border: 1px solid #ddd;
-  padding: 12px;
-  text-align: left;
-  font-family: monospace;
-  position: sticky !important;
-  top: 0 !important;
-  z-index: 1000 !important;
-}
-
-.table td {
-  border: 1px solid #ddd;
-  padding: 12px;
-  font-family: monospace;
-}
-
-.table-striped tbody tr:nth-child(even) {
-  background-color: #b0c4de;
-  color: rgb(0, 0, 0);
-}
-
-
-
-.separator {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid #ccc;
-  margin-bottom: 20px;
-  padding: 10px;
-  
-}
-
-.title {
-  margin: 0;
-  flex-grow: 1;
-  margin-right: 70px;
-  /* Agrega espacio a la derecha del título */
-}
-
-.button mat-icon {
-  height: 10px;
-  background: transparent;
-  border: none;
-  position: relative;
-}
-
-.volver-btn {
-  margin-left: 10px;
-  color: white;
-  background-color: red;
-  width: 40px;
-  /* Ancho del botón */
-  height: 40px;
-  /* Alto del botón */
-  border-radius: 20%;
-  /* Hace que los bordes sean circulares */
-}
-
-.card-body {
-  margin: 0 auto;
-  margin-top: 40px;
-  width: 95%;
-  overflow-x: auto;
-  /* Habilita el desplazamiento horizontal si es necesario */
-}
-
-
-
-.btn-save {
-  color: white;
-}
-
-.button-container {
-  display: flex;
-  justify-content: flex-start;
-  /* Alinea los botones al principio */
-  gap: 15px;
-  /* Ajusta el espacio entre los botones */
-}
-
-.btn {
-  display: flex;
-  /* Alinea el icono y texto */
-  align-items: center;
-  /* Centra el texto y el icono */
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-}
-
-.btn:hover {
-  background-color: #444;
-  /* Color de fondo al hacer hover */
-}
-
-.btn i {
-  margin-right: 8px;
-  /* Espacio entre el icono y el texto */
-}
-
-
-
-
-.btn-vista,
-.btn-eliminar {
-  box-shadow: none !important;
-  /* Elimina cualquier sombra */
-  outline: none !important;
-  /* Evita el contorno en el enfoque */
-}
-
-.btn-vista:focus,
-.btn-eliminar:focus,
-.btn-vista:hover,
-.btn-eliminar:hover,
-.btn-vista:active,
-.btn-eliminar:active {
-  box-shadow: none !important;
-  /* Asegúrate de que tampoco haya sombra en otros estados */
-}
-.custom-textarea textarea {
-  min-height: 150px;  /* Altura mínima */
-  width: 100%;        /* Ancho completo */
-  resize: vertical;   /* Permitir redimensionar solo verticalmente */
+.full-width {
+  width: 100%;
 }

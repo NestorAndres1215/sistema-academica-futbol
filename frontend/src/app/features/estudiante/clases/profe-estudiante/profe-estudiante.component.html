@@ -1,19 +1,8 @@
 <div class="container mt-3 mb-3">
+    <app-search [value]="filtro" placeholder="Buscar por nombre o apellidos" hint="Ingrese al menos 3 caracteres"
+        (valueChange)="filtro = $event; filtrarUsuarios()">
+    </app-search>
 
-
-    <div class="search-container">
-        <mat-form-field appearance="outline" class="custom-search">
-            <mat-icon matPrefix>search</mat-icon>
-            <input 
-                matInput 
-                type="text" 
-                placeholder="Buscar por nombre o apellidos" 
-                [(ngModel)]="filtro"
-                (input)="filtrarUsuarios()" 
-            />
-        </mat-form-field>
-    </div>
-
-  <app-user-card [datos]="usuariosFiltrados" [columnas]="columnas" (ver)="operar($event)">
-  </app-user-card>
+    <app-user-card [datos]="usuariosFiltrados" [columnas]="columnas" (ver)="operar($event)">
+    </app-user-card>
 </div>

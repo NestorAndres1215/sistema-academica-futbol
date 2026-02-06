@@ -8,9 +8,12 @@
         *ngIf="equipoSeleccionada && estudiantesFiltrados?.length">
         <div class="col" *ngFor="let ejercicio of estudiantesFiltrados">
             <div class="card h-100 shadow-sm">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="card-title mb-0">{{ ejercicio.tipoPartido }}</h5>
+                <div class="card-header text-white text-center">
+                    <h2 class="card-title mb-0">
+                        {{ ejercicio.tipoPartido }}
+                    </h2>
                 </div>
+
                 <div class="card-body">
                     <div class="match-team">
                         <span class="team-name">{{ ejercicio.equipo.nombre }}</span>

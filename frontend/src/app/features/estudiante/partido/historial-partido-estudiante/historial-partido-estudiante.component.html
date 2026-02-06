@@ -1,6 +1,6 @@
-<app-titulo titulo="Historial de Partido" [botonesConfig]="botonesConfig" (volver)="volver()">
+<app-titulo titulo="Historial de Partido" >
 </app-titulo>
-<div class="container">
+<div class="container ms-4 mt-4">
     <!-- Estado vacío -->
     <div *ngIf="!pagedData?.length" class="empty-state text-center py-5">
         <mat-icon class="empty-icon">sports_soccer</mat-icon>
@@ -12,7 +12,8 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" *ngIf="pagedData?.length">
         <div class="col" *ngFor="let partido of pagedData">
             <div class="card h-100 shadow-sm border-0">
-                <div class="card-header bg-primary text-white">
+                <div class="card-header  text-white" style="  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+  color: white;">
                     <h5 class="card-title mb-0 text-center text-uppercase">{{ partido.tipoPartido }}</h5>
                 </div>
                 
@@ -55,5 +56,5 @@
             
             </div>
         </div>
-    </div>
+    </div><br><br>
 </div>

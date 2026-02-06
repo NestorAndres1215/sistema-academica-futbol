@@ -1,6 +1,4 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { LisDesClaseComponent } from '../lis-des-clase/lis-des-clase.component';
-
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ClaseService } from 'src/app/core/services/clase.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -59,7 +57,7 @@ export class LsClaseComponent implements OnInit {
     private historialService: HistorialService,
     private excel: ExcelService,
     private pdfService: PdfService,
-    private route: Router
+
   ) {
 
   }
@@ -111,21 +109,15 @@ export class LsClaseComponent implements OnInit {
   }
 
   visor(row: any) {
-    console.log(row)
-
-    const dialogRef = this.dialog.open(VisorClaseComponent, {
+    this.dialog.open(VisorClaseComponent, {
       disableClose: true,
       width: '950px',
-      height: '550px',
+      height: '445px',
       data: {
         row,
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Elemento eliminado');
-      }
-    });
+
 
   }
 
@@ -134,7 +126,7 @@ export class LsClaseComponent implements OnInit {
     const dialogRef = this.dialog.open(EditClaseComponent, {
       width: '1090px',
       disableClose: true,
-      height: '500px',
+      height: '600px',
       data: {
         row,
       },
@@ -329,19 +321,5 @@ export class LsClaseComponent implements OnInit {
       }, 300);
     }
   }
-
-
-  verUsuariosDesactivados() {
-    const dialogRef = this.dialog.open(LisDesClaseComponent, {
-      disableClose: true,
-      width: '1350px',
-      height: '450px',
-    });
-    dialogRef.afterClosed().subscribe(data => {
-      this.listarProdesor()
-    })
-  }
-
-
 
 }

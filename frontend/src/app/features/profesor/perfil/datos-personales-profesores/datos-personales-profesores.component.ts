@@ -14,7 +14,7 @@ export class DatosPersonalesProfesoresComponent implements OnInit {
 
   botonesConfig = {
     editar: true,
-    volver: true,
+  
 
   };
  
@@ -42,11 +42,6 @@ export class DatosPersonalesProfesoresComponent implements OnInit {
     return perfil.perfil ? this.imagenUrlBase + perfil.perfil : '';
   }
  
-
-  volver() {
-    this.router.navigate(['/profesor']);
-  }
-
   async listar() {
     this.profesorService.listaUsuarioPorCodigo(this.user.ul_codigo).subscribe(data => {
       this.lista = data;
@@ -54,19 +49,16 @@ export class DatosPersonalesProfesoresComponent implements OnInit {
 
   }
   operar() {
-    console.log(this.lista); // Verifica que lista tenga datos
-
     const dialogRef = this.dialog.open(EditPerfilComponent, {
-      width: '850px',
-      height: '600px',
+      width: '1050px',
+      height: '650px',
       data: {
-        row: this.lista, // Pasamos los datos correctamente
+        row: this.lista, 
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(() => {
-      this.listar(); // Llama al método listar para actualizar los datos
+      this.listar(); 
     });
   }
 

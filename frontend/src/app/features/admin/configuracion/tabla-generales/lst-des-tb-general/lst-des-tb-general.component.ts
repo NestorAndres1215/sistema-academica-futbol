@@ -26,6 +26,17 @@ export class LstDesTbGeneralComponent implements OnInit {
   volver() {
     this.dialogRe.close();
   }
+  
+  botonesConfigTable = {
+    ver: true,
+    desactivar: true,
+  };
+
+  columnas = [
+    { etiqueta: 'Código', clave: 'codigo' },
+    { etiqueta: 'Clave', clave: 'clave' },
+    { etiqueta: 'Descripción', clave: 'descripcion1' },
+  ];
 
   user: any = null;
   xd: any
@@ -36,6 +47,7 @@ export class LstDesTbGeneralComponent implements OnInit {
   totalItems: number;
   pageSize = 5;
   listar: any
+
   constructor(
     private generalService: GeneralService,
     private dialog: MatDialog,
@@ -44,14 +56,7 @@ export class LstDesTbGeneralComponent implements OnInit {
     private dialogRe: MatDialogRef<LsTablaGeneralComponent>,
     private change: ChangeDetectorRef,
     private alertService: AlertService,
-
-    private route: Router
-  ) {
-    this.pageChanged({
-      pageIndex: 0, pageSize: this.pageSize,
-      length: 0
-    });
-  }
+  ) { }
 
   ngOnInit(): void {
     this.listarGeneral()
@@ -62,7 +67,6 @@ export class LstDesTbGeneralComponent implements OnInit {
     this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
   }
 
-
   pageChanged(event: PageEvent) {
     console.log(event)
     this.totalItems = this.datosTabla.length
@@ -70,22 +74,19 @@ export class LstDesTbGeneralComponent implements OnInit {
     const endIndex = startIndex + event.pageSize;
     this.pagedData = this.datosTabla.slice(startIndex, endIndex);
   }
+
   async listarGeneral() {
     this.generalService.listarGeneralDesactivado().subscribe((data) => {
-      console.log(data)
       this.datosTabla = data;
       this.pagedData = data
       this.totalItems = this.datosTabla.length
       this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
-
       this.change.markForCheck();
     })
   }
 
   visor(row: any) {
-    console.log(row)
-
-    const dialogRef = this.dialog.open(VisorTbGeneralComponent, {
+    this.dialog.open(VisorTbGeneralComponent, {
       disableClose: true,
       width: '550px',
       height: '550px',
@@ -93,14 +94,7 @@ export class LstDesTbGeneralComponent implements OnInit {
         row,
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Elemento eliminado');
-      }
-    });
-
   }
-
 
   eliminar(row: any) {
     console.log(row)
@@ -113,12 +107,11 @@ export class LstDesTbGeneralComponent implements OnInit {
       },
 
     });
-    console.log(row)
 
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton !== 'CONFIRMAR') return;
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, 
+        usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} desactivó un cargo de ${row.nombre}`
       };
       this.generalService.activarGeneral(row.codigo).subscribe({
@@ -128,10 +121,6 @@ export class LstDesTbGeneralComponent implements OnInit {
           this.listarGeneral();
         },
       });
-
     });
-
   }
-
-
 }
