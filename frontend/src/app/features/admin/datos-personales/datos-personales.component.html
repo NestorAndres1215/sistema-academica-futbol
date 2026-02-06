@@ -1,7 +1,4 @@
-<app-titulo
-  titulo="Datos Personales"
- [botonesConfig]="botonesConfig"
-  (editar)="operar()">
+<app-titulo titulo="Datos Personales" [botonesConfig]="botonesConfig" (editar)="operar()">
 </app-titulo>
 <div class="container my-4">
     <div class="card mb-4 shadow-sm" *ngFor="let usuario of lista">
@@ -18,8 +15,7 @@
                         <img *ngIf="mostrarImagen(usuario)" [src]="mostrarImagen(usuario)" alt="Imagen"
                             class="img-fluid imagen-ajustada">
                         <img *ngIf="!mostrarImagen(usuario)" src="assets/img/perfil.png" alt="Imagen predeterminada"
-                            class="img-fluid"
-                            style="object-fit: cover; width: 400px; height: 100%; border-radius: 8px;">
+                            class="img-fluid imagen-perfil">
                     </div>
                 </div>
                 <div class="col-12 col-md-8">

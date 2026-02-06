@@ -1,4 +1,4 @@
-<app-titulo titulo="Historial de Partido" >
+<app-titulo titulo="Historial de Partido">
 </app-titulo>
 <div class="container ms-4 mt-4">
     <!-- Estado vacío -->
@@ -12,31 +12,26 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" *ngIf="pagedData?.length">
         <div class="col" *ngFor="let partido of pagedData">
             <div class="card h-100 shadow-sm border-0">
-                <div class="card-header  text-white" style="  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-  color: white;">
+                <div class="card-header  text-white" style="  background: linear-gradient(135deg, #1e3a8a, #3b82f6);color: white;">
                     <h5 class="card-title mb-0 text-center text-uppercase">{{ partido.tipoPartido }}</h5>
                 </div>
-                
+
                 <div class="card-body">
-                    <!-- Equipo local -->
+
                     <div class="team-row d-flex justify-content-between align-items-center mb-3">
                         <div class="team-info d-flex align-items-center">
                             <span class="team-name">{{ partido.equipo.nombre }}</span>
                         </div>
                         <span class="score">{{ partido.marcadorLocal ?? '-' }}</span>
                     </div>
-                    
-                    <!-- Equipo visitante -->
+
                     <div class="team-row d-flex justify-content-between align-items-center mb-4">
                         <div class="team-info d-flex align-items-center">
                             <span class="team-name">{{ partido.equipoRival }}</span>
                         </div>
                         <span class="score">{{ partido.marcadorVisita ?? '-' }}</span>
                     </div>
-                    
                     <hr class="my-3">
-                    
-                    <!-- Detalles del partido -->
                     <div class="match-details">
                         <div class="detail-item d-flex mb-2">
                             <mat-icon class="me-2">calendar_today</mat-icon>
@@ -52,8 +47,6 @@
                         </div>
                     </div>
                 </div>
-                
-            
             </div>
         </div>
     </div><br><br>
