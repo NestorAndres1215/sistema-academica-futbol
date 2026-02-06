@@ -94,7 +94,7 @@ export class AsignacionEstudianteComponent implements OnInit {
 
   editarEstudiante(estudiante: any) {
     if (estudiante.editando) {
-      console.log("Guardando cambios:", estudiante);
+      return
     }
     estudiante.editando = !estudiante.editando;
   }

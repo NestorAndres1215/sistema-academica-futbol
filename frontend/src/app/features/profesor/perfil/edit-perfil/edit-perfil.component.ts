@@ -104,13 +104,10 @@ export class EditPerfilComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.lista = this.data
-    console.log(this.lista)
     this.listarEdiciones(); this.initForm()
-    console.log(this.lista.row[0].telefono)
-
   }
+  
   initForm() {
     this.formulario = this.formBuilder.group({
       usuario: [this.usuario, Validators.required],

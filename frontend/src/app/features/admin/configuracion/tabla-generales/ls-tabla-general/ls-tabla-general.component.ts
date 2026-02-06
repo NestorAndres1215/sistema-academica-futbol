@@ -151,7 +151,7 @@ export class LsTablaGeneralComponent implements OnInit {
   }
 
   eliminar(row: any) {
-    console.log(row)
+
     const dialogEliminar = this.dialog.open(ModalEliminacionComponent, {
       width: '500px',
       data: {

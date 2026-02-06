@@ -36,17 +36,13 @@ export class GraficoEstudianteEvaluacionComponent implements OnInit {
   listarEvaluacion() {
     this.evaluacionService.listarDetalleEvaluaciones().subscribe(
       (data) => {
-        console.log(data);
         this.evaluacion = data.filter(i => 
           i.evaluacion.estudiante.usuario.codigo == this.loginService.getUser().ul_codigo && i.estado == false
         );
-        console.log(this.evaluacion);
+    
         this.estudiante = this.evaluacion.map(i => i.evaluacion.estudiante);
         this.actualizarGrafico();
       },
-      (error) => {
-        console.error('Error al listar evaluaciones:', error);
-      }
     );
   }
   
@@ -92,11 +88,10 @@ export class GraficoEstudianteEvaluacionComponent implements OnInit {
   
   actualizarGrafico() {
     if (!this.chart || this.evaluacion.length === 0) return;
-    console.log(this.evaluacion)
-    const estudianteSeleccionado = this.evaluacion[0]; // Tomamos el primer estudiante de la lista
-  console.log(estudianteSeleccionado)
+
+    const estudianteSeleccionado = this.evaluacion[0]; 
+
     if (!estudianteSeleccionado) {
-      console.log("No se encontró el estudiante.");
       return;
     }
   
@@ -112,7 +107,7 @@ export class GraficoEstudianteEvaluacionComponent implements OnInit {
       estudianteSeleccionado.tomaDecisiones
     ].map(v => Number(v) || 0); // Convertir a número y evitar NaN
 
-    console.log(valores);
+
   
     this.chart.data.datasets[0].data = valores;
     this.chart.update();

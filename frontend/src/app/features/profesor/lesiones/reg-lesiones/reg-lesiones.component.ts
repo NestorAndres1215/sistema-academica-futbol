@@ -48,7 +48,7 @@ export class RegLesionesComponent implements OnInit {
       estudiante: codigoEstudiante[0],
       equipo: codigoEquipo[0]
     };
-    console.log(objclase)
+ 
 
     const historial: Historial = {
       usuario: this.loginService.getUser().username,

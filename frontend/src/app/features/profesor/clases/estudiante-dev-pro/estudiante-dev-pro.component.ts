@@ -21,26 +21,24 @@ export class EstudianteDevProComponent implements OnInit {
     { clave: 'apellidoMaterno' }
   ];
   filtrarUsuarios() {
-    console.log(this.estudianteListar);
-    
+  
     if (!this.estudianteListar || this.estudianteListar.length === 0) {
       this.usuariosFiltrados = [];
       return;
     }
   
-    const term = this.filtro ? this.filtro.toLowerCase().trim() : ''; // Aseguramos que el filtro no tenga espacios extra
-  
+    const term = this.filtro ? this.filtro.toLowerCase().trim() : ''; 
+
     this.usuariosFiltrados = this.estudianteListar.filter((usuario) => {
-      // Aseguramos que los nombres sean definidos y los convertimos a una cadena vacía si son null o undefined
+    
       const primerNombre = usuario.primerNombre || '';
       const segundoNombre = usuario.segundoNombre || '';
       const apellidoPaterno = usuario.apellidoPaterno || '';
       const apellidoMaterno = usuario.apellidoMaterno || '';
   
-      // Unir los nombres de manera segura
       const fullName = (primerNombre + ' ' + segundoNombre + ' ' + apellidoPaterno + ' ' + apellidoMaterno).toLowerCase();
   
-      return fullName.includes(term); // Filtrar por nombre completo
+      return fullName.includes(term); 
     });
   }
   
@@ -62,7 +60,7 @@ export class EstudianteDevProComponent implements OnInit {
 
   codigo: string
   ngOnInit(): void {
-    console.log(this.route.snapshot.params['codigo'])
+
     this.codigo = this.route.snapshot.params['codigo']
     this.listaClases(this.codigo)
   }

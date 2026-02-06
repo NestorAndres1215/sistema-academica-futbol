@@ -72,7 +72,6 @@ export class LtDevComponent implements OnInit {
   }
 
   pageChanged(event: PageEvent) {
-    console.log(event)
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
@@ -110,7 +109,7 @@ export class LtDevComponent implements OnInit {
 
 
   eliminar(row: any) {
-    console.log(row)
+  
     const dialogEliminar = this.dialog.open(ModalEliminacionComponent, {
       width: '500px',
       data: {
@@ -120,7 +119,6 @@ export class LtDevComponent implements OnInit {
       },
 
     });
-    console.log(row)
 
     dialogEliminar.afterClosed().subscribe((respuesta: Respuesta) => {
       if (respuesta?.boton !== 'CONFIRMAR') return;

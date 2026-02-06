@@ -80,7 +80,6 @@ export class ProfesorContrasenaComponent implements OnInit {
 
 
   pageChanged(event: PageEvent) {
-    console.log(event)
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;

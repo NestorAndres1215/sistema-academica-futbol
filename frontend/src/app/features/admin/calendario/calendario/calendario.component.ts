@@ -66,7 +66,6 @@ export class CalendarioComponent implements OnInit {
 
 
       if (esFeriado.includes(fechaSeleccionada)) {
-        console.log(`La fecha ${new Date(fechaSeleccionada).toLocaleDateString()} es un feriado.`);
         return
       }
 
@@ -255,7 +254,7 @@ export class CalendarioComponent implements OnInit {
 
   async listarClases() {
     this.claseService.listarClaseActivado().subscribe((data) => {
-      console.log(data)
+
       this.clases = data
     });
   }

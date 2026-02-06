@@ -5,9 +5,9 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './partidos-card.component.html',
   styleUrls: ['./partidos-card.component.css']
 })
-export class PartidosCardComponent  {
+export class PartidosCardComponent {
 
- @Input() equipoSeleccionada: string | null = null;   // Recibe el equipo seleccionado
-  @Input() estudiantesFiltrados: any[] = [];          // Recibe los partidos/ejercicios
+  @Input() equipoSeleccionada: string | null = null;
+  @Input() estudiantesFiltrados: any[] = [];
 
 }

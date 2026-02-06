@@ -84,9 +84,9 @@ export class EditPartidoComponent implements OnInit {
   tipoPartido: string
   codigoPartido: string
   profesor: string
+
   ngOnInit(): void {
-    console.log(this.data.row)
-    console.log(this.data.profesor)
+ 
     this.profesor = this.data.profesor
     this.codigoPartido = this.data.row.codigo
     this.equipoLocal = this.data.row.equipo.codigo
@@ -95,15 +95,14 @@ export class EditPartidoComponent implements OnInit {
     this.hora = this.data.row.hora
     this.lugar = this.data.row.lugar
     this.tipoPartido = this.data.row.tipoPartido
-    console.log(this.hora)
+ 
     this.listaEquipo()
     this.initForm()
   }
   equipo: any
   listaEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
-      console.log(data)
-      this.equipo = data
+     this.equipo = data
 
     })
   }
@@ -111,7 +110,7 @@ export class EditPartidoComponent implements OnInit {
   initForm(): void {
     const fechaUtc = new Date(this.fecha);
     const fechaLocal = new Date(fechaUtc.getTime() + fechaUtc.getTimezoneOffset() * 60000);
-    console.log(this.profesor)
+ 
     this.formulario = this.formBuilder.group({
       equipo: [this.equipoLocal, Validators.required],
       equipoRival: [this.equipoRival, Validators.required],

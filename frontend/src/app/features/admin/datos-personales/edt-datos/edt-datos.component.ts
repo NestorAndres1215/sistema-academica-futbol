@@ -111,12 +111,8 @@ export class EdtDatosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.lista = this.data
-    console.log(this.lista)
     this.listarEdiciones(); this.initForm()
-    console.log(this.lista.row[0].telefono)
-
   }
   initForm() {
     this.formulario = this.formBuilder.group({
@@ -213,10 +209,10 @@ export class EdtDatosComponent implements OnInit {
         direccion: formValues.direccion,    
         nacimiento: formValues.nacimiento,
         nacionalidad: formValues.nacionalidad,
-        edad: edad, // Nacionalidad
+        edad: edad,
         perfil: formValues.logo,
       };
-      console.log(registrar)
+
       const historial: Historial = {
         usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} actualizó el administrador con el código ${this.codigoAdmin}.`

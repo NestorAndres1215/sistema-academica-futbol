@@ -39,7 +39,7 @@ export class EquipoComponent implements OnInit {
 
 
   constructor(
-    private equipoService: EquipoService, 
+    private equipoService: EquipoService,
     private router: Router,
     private dialog: MatDialog,
   ) { }
@@ -50,13 +50,13 @@ export class EquipoComponent implements OnInit {
     this.listarEquipo()
     this.listarDevEquipo()
   }
- opcionesEquipo: string[] = [];
+  opcionesEquipo: string[] = [];
 
   async listarEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
-      console.log(data)
+
       this.equipo = data;
-        this.opcionesEquipo = this.equipo.map(s => s.nombre);
+      this.opcionesEquipo = this.equipo.map(s => s.nombre);
     });
   }
 
@@ -64,7 +64,7 @@ export class EquipoComponent implements OnInit {
   estudiantes: any[] = [];
   profesores: any[] = [];
   usuariosFiltrados: any[] = [];
-  
+
   async listarDevEquipo() {
     this.equipoService.listarAsignacion().subscribe((data) => {
 
@@ -113,7 +113,7 @@ export class EquipoComponent implements OnInit {
   }
 
   seleccionados: { [key: string]: boolean } = {};
- columnasDetalleEstudiante = [
+  columnasDetalleEstudiante = [
     { clave: 'estudiante.usuario.username', etiqueta: 'Usuario' },
     { clave: 'estudiante.primerNombre', etiqueta: 'Nombre' },
     { clave: 'estudiante.apellidoPaterno', etiqueta: 'Apellido' },
@@ -123,9 +123,9 @@ export class EquipoComponent implements OnInit {
 
   ];
   tipoUsuario: 'admin' | 'profesor' = 'admin';
+
   visorEstudiante(perfil: any) {
-    console.log( perfil)
-    const dialogRef = this.dialog.open(ModalPerfilComponent, {
+    this.dialog.open(ModalPerfilComponent, {
       width: '400px',
       height: '470px',
       data: {
@@ -135,7 +135,7 @@ export class EquipoComponent implements OnInit {
       }
     });
   }
-  
+
   columnasDetalleProfesor = [
     { clave: 'profesor.usuario.username', etiqueta: 'Usuario' },
     { clave: 'profesor.primerNombre', etiqueta: 'Nombre' },
@@ -147,8 +147,7 @@ export class EquipoComponent implements OnInit {
   ];
 
   visorProfesor(perfil: any) {
-    console.log( perfil)
-    const dialogRef = this.dialog.open(ModalPerfilComponent, {
+    this.dialog.open(ModalPerfilComponent, {
       width: '400px',
       height: '470px',
       data: {

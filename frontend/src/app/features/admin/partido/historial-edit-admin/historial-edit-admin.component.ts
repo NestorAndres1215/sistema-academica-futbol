@@ -57,7 +57,7 @@ export class HistorialEditAdminComponent implements OnInit {
     this.tipoPartido = this.data.row.tipoPartido
     this.marcadorLocal = this.data.row.marcadorLocal
     this.marcadorVisita = this.data.row.marcadorVisita
-    console.log(this.hora)
+  
     this.listaEquipo()
     this.initForm()
   }

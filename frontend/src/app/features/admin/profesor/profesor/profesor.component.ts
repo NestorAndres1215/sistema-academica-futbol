@@ -44,7 +44,7 @@ export class ProfesorComponent implements OnInit {
         data = data.filter(item => item.codigo !== '0000');
         this.listar = data;
         this.usuariosFiltrados = [...this.listar]; // Inicializar la lista filtrada con todos los usuarios
-        console.log(this.listar);
+      
       },
 
     );
@@ -82,7 +82,7 @@ export class ProfesorComponent implements OnInit {
   ];
   tipoUsuario: 'admin' | 'profesor' = 'admin';
   operar(perfil: any) {
-    console.log(typeof perfil)
+
     const dialogRef = this.dialog.open(ModalPerfilComponent, {
       width: '400px',
       height: '500px',

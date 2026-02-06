@@ -16,7 +16,7 @@ export class ClaseDevComponent implements OnInit {
   ) { }
   codigo: string
   ngOnInit(): void {
-    console.log(this.route.snapshot.params['codigo'])
+
     this.codigo = this.route.snapshot.params['codigo']
     this.listaClases(this.codigo)
   }
@@ -29,22 +29,17 @@ export class ClaseDevComponent implements OnInit {
   tercerDia: string
   async listaClases(codigo: string) {
 
-    console.log(codigo)
+
     this.claseService.listarClaseActivado().subscribe((data) => {
 
-
-      console.log(data.filter(index => index.codigo == codigo)); // Filtra por código
-
-      const claseEncontrada = data.find(index => index.codigo == codigo); // Encuentra la clase
+      const claseEncontrada = data.find(index => index.codigo == codigo); 
       if (claseEncontrada && claseEncontrada.dia) {
-        const diasArray: string[] = claseEncontrada.dia.split(' - '); // Divide los días
-        console.log(diasArray);
+        const diasArray: string[] = claseEncontrada.dia.split(' - '); 
+ 
         [this.primerDia, this.segundoDia, this.tercerDia] = diasArray;
 
-
-
       }
-      console.log(data)
+ 
       this.datosTabla = data;
     });
 

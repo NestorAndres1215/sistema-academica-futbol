@@ -68,11 +68,9 @@ export class LstProfesoresComponent implements OnInit {
   }
   async listarProdesor() {
     this.admin.listarProfesorActivado().subscribe((data) => {
-      console.log(data)
+     
       data = data.filter(item => item.codigo !== '0000');
       this.user = this.loginService.getUser();
-
-      console.log(data);
       this.datosTabla = data;
       this.pagedData = data
       this.totalItems = this.datosTabla.length
@@ -96,7 +94,7 @@ export class LstProfesoresComponent implements OnInit {
 
 
   pageChanged(event: PageEvent) {
-    console.log(event)
+ 
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
@@ -104,7 +102,7 @@ export class LstProfesoresComponent implements OnInit {
   }
 
   visor(row: any) {
-    console.log(row)
+
 
     const dialogRef = this.dialog.open(VisorProfesorComponent, {
       disableClose: true,

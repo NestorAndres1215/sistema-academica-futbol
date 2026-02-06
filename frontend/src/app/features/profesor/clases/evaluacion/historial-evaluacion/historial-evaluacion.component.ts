@@ -22,8 +22,6 @@ export class HistorialEvaluacionComponent implements OnInit {
   codigo: string
   ngOnInit(): void {
     this.codigo = this.route.snapshot.params['codigo']
-    console.log(this.codigo)
-  
   }
  
   activeTab1: number = 0;

@@ -21,7 +21,6 @@ export class VisorHorarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.lista = this.data
-    console.log(this.lista)
     this.listarEdiciones()
   }
   

@@ -75,13 +75,13 @@ export class HistorialPartidoAdminComponent implements OnInit {
   }
   async listarPartidos() {
     this.partidoService.listarPartidoPasados().subscribe((data) => {
-      console.log(data)
+   
       this.user = this.loginService.getUser();
       this.datosTabla = data.map((partido: any) => {
         const marcadorLocal = parseInt(partido.marcadorLocal, 10);
         const marcadorVisita = parseInt(partido.marcadorVisita, 10);
 
-        let resultado = "🔄 Empate"; // Por defecto, empate
+        let resultado = "🔄 Empate";
         if (marcadorLocal > marcadorVisita) {
           resultado = "✅ Victoria";
         } else if (marcadorLocal < marcadorVisita) {
@@ -115,7 +115,7 @@ export class HistorialPartidoAdminComponent implements OnInit {
 
 
   pageChanged(event: PageEvent) {
-    console.log(event)
+
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;

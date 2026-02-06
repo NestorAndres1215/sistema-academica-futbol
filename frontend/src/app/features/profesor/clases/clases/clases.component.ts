@@ -49,9 +49,6 @@ export class ClasesComponent implements OnInit {
   async listarEquipo() {
     this.equipoService.listarAsignacion().subscribe((data) => {
 
-      console.log(data)
-
-      console.log(this.loginService.getUser().ul_codigo)
       data = data.filter(item => item.profesor.codigo != "0000");
 
       const filteredData = data.filter(item =>
@@ -60,19 +57,18 @@ export class ClasesComponent implements OnInit {
         item.profesor.usuario.codigo != null &&
         item.profesor.usuario.codigo === this.loginService.getUser().ul_codigo
       );
-      console.log(filteredData);
+
 
       this.profesor = filteredData;
       this.listaClases()
     });
   }
+
   formatDate(dateString: string): string {
-    if (!dateString) return ''; // Manejo de valores nulos o indefinidos
-  
-    // Divide la fecha en partes: año, mes y día
+    if (!dateString) return '';
+
     const [year, month, day] = dateString.split('-');
-  
-    // Retorna la fecha en el formato DD-MM-YYYY
+
     return `${day}-${month}-${year}`;
   }
 }

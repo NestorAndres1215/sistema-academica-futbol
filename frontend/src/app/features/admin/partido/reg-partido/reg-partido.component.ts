@@ -38,7 +38,7 @@ export class RegPartidoComponent implements OnInit {
       tipoPartido: this.formulario.get('tipo')?.value,
       equipo: this.formulario.get('equipo')?.value,
     };
-    console.log(objPartido)
+  
 
     const historial: Historial = {
       usuario: this.loginService.getUser().username,
@@ -92,7 +92,7 @@ export class RegPartidoComponent implements OnInit {
   equipo: any
   listaEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
-      console.log(data)
+ 
       this.equipo = data
 
     })

@@ -157,9 +157,7 @@ export class RegAsginacionComponent implements OnInit {
 
   async listarSede() {
     this.sede.listarSedeActivado().subscribe((data) => {
-      console.log(data)
       this.sedes = data;
-
     })
   }
 
@@ -442,11 +440,8 @@ export class RegAsginacionComponent implements OnInit {
             estudiante: persona.nombre,
           };
           this.listaAsignaciones.push(objAsignacion1);
-          console.log(objAsignacion1);
 
-        } else {
-          console.log('Código no válido');
-        }
+        } 
       });
 
       this.equipoService.registrarAsignacion(this.listaAsignaciones).subscribe({

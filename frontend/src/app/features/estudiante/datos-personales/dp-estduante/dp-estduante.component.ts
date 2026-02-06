@@ -53,19 +53,18 @@ export class DpEstduanteComponent implements OnInit {
 
   }
   operar() {
-    console.log(this.lista); // Verifica que lista tenga datos
+
 
     const dialogRef = this.dialog.open(EditPerfilEstudianteComponent, {
         width: '1050px',
       height: '650px',
       data: {
-        row: this.lista, // Pasamos los datos correctamente
+        row: this.lista,
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(() => {
-      this.listar(); // Llama al método listar para actualizar los datos
+      this.listar(); 
     });
   }
 

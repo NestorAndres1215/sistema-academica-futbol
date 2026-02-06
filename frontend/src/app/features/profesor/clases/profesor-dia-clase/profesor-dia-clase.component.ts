@@ -89,7 +89,7 @@ export class ProfesorDiaClaseComponent implements OnInit {
   constructor(private alertService: AlertService, private ejercicioService: EjercicioService, private claseService: ClaseService, private route: ActivatedRoute, private dialog: MatDialog) { }
   codigo: string
   ngOnInit(): void {
-    console.log(this.dias)
+
     this.codigo = this.route.snapshot.params['codigo']
     this.listarClase()
     this.listarEjercicio()
@@ -103,9 +103,9 @@ export class ProfesorDiaClaseComponent implements OnInit {
   async listarClase() {
     this.claseService.listarClaseDevActivado().subscribe((data) => {
       data = data.filter(index => index.clase.codigo == this.codigo)
-      const claseEncontrada = data.filter(index => index.dia == this.dias); // Encuentra la clase
+      const claseEncontrada = data.filter(index => index.dia == this.dias); 
       this.claseListar = claseEncontrada
-      const claseEncontrada2 = claseEncontrada.find(index => index.dia == this.dias); // Encuentra la clase
+      const claseEncontrada2 = claseEncontrada.find(index => index.dia == this.dias); 
 
       this.titulo = claseEncontrada2.titulo
       this.descripcion = claseEncontrada2.descripcion

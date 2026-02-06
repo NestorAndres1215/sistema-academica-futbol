@@ -94,7 +94,7 @@ export class ListEstudianteComponent implements OnInit {
 
 
   visor(row: any) {
-    console.log(row)
+  
 
     const dialogRef = this.dialog.open(VisorEstudianteComponent, {
       disableClose: true,
@@ -312,10 +312,6 @@ export class ListEstudianteComponent implements OnInit {
 
 
   eliminar(row: any) {
-    console.log(row.codigo)
-    console.log(row)
-    console.log(this.user.us_codigo)
-
 
     const dialogEliminar = this.dialog.open(ModalEliminacionComponent, {
       width: '500px',

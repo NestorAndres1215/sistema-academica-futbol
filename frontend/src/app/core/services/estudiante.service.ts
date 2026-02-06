@@ -63,7 +63,7 @@ export class EstudianteService {
     formData.append('nacimiento', formValues.nacimiento);
     formData.append('nacionalidad', formValues.nacionalidad);
     formData.append('edad', formValues.edad);
-    console.log(formValues.edad)
+   
     if (formValues.perfil && formValues.perfil instanceof File) {
       formData.append('perfil', formValues.perfil, formValues.perfil.name);
     } else {

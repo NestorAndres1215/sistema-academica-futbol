@@ -31,7 +31,7 @@ export class UsuarioAdministradorComponent implements OnInit {
       (data) => {
         this.listar = data;
         this.usuariosFiltrados = [...this.listar];
-        console.log(this.listar);
+   
       },
     );
   }
@@ -59,7 +59,7 @@ export class UsuarioAdministradorComponent implements OnInit {
   ];
   tipoUsuario: 'admin' | 'profesor' = 'admin';
   operar(perfil: any) {
-    console.log(typeof perfil)
+
     const dialogRef = this.dialog.open(ModalPerfilComponent, {
       width: '400px',
       height: '445px',

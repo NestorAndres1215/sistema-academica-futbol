@@ -89,7 +89,7 @@ export class LesionEstudianteComponent implements OnInit {
   estudiantesFiltrados = [...this.estudiantes];
 
   filtrarUsuarios() {
-    console.log(this.equipoSeleccionada)
+
     if (!this.equipoSeleccionada) {
       this.estudiantesFiltrados = [...this.estudiantes];
       return;
@@ -128,10 +128,9 @@ export class LesionEstudianteComponent implements OnInit {
       this.lesionCompleto = data
     });
   }
-  
+
   virsor(row) {
-    console.log(row)
-    const dialogRef = this.dialog.open(VisorLesionComponent, {
+    this.dialog.open(VisorLesionComponent, {
       disableClose: true,
       width: '1020px',
       height: '520px',

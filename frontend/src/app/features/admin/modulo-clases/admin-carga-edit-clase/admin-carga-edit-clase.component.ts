@@ -38,7 +38,7 @@ export class AdminCargaEditClaseComponent implements OnInit {
   codigoClase: string
 
   ngOnInit(): void {
-    console.log(this.data)
+ 
     this.titulo = this.data.titulo
     this.codigo = this.data.codigo
     this.codigoClase = this.data.codigoClase

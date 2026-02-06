@@ -40,7 +40,7 @@ export class ActividadesComponent implements OnInit {
   }
 
   pageChanged(event: PageEvent) {
-    console.log(event);
+
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
     this.pagedData = this.datosTabla.slice(startIndex, endIndex);

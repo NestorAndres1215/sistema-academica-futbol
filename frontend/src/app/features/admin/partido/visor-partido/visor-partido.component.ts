@@ -38,10 +38,9 @@ export class VisorPartidoComponent implements OnInit {
       tipoPartido: this.formulario.get('tipo')?.value,
       equipo: this.formulario.get('equipo')?.value,
     };
-    console.log(objPartido)
-
+   
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} actualizó al partido ${objPartido.codigo} .`,
     };
 
@@ -87,7 +86,6 @@ export class VisorPartidoComponent implements OnInit {
   tipoPartido: string
   codigoPartido: string
   ngOnInit(): void {
-    console.log(this.data.row)
     this.codigoPartido = this.data.row.codigo
     this.equipoLocal = this.data.row.equipo.nombre
     this.equipoRival = this.data.row.equipoRival
@@ -95,16 +93,14 @@ export class VisorPartidoComponent implements OnInit {
     this.hora = this.data.row.hora
     this.lugar = this.data.row.lugar
     this.tipoPartido = this.data.row.tipoPartido
-    console.log(this.hora)
+
     this.listaEquipo()
     this.initForm()
   }
   equipo: any
   listaEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
-      console.log(data)
       this.equipo = data
-
     })
   }
 

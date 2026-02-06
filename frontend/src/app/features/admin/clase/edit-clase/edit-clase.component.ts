@@ -44,8 +44,7 @@ export class EditClaseComponent implements OnInit {
       usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} actualizo  una clase de  para el equipo ${objetoClase.nombre} para los dias ${objetoClase.dia}.`
     };
-    console.log(objetoClase)
-    console.log(objetoClase)
+
     this.claseService.actualizar(objetoClase).subscribe({
       next: async () => {
         await firstValueFrom(this.historialService.registrar(historial));
@@ -115,8 +114,6 @@ export class EditClaseComponent implements OnInit {
     const maxYear = today.getFullYear() + 2;
     this.minDate = formattedDate;
     this.maxDate = `${maxYear}-01-01`;
-    console.log(this.minDate)
-    console.log(this.maxDate)
   }
 
   initForm() {
@@ -135,9 +132,7 @@ export class EditClaseComponent implements OnInit {
 
   async listaDia() {
     this.generales.listarGeneralDevActivado("0007").subscribe((data) => {
-      console.log(data)
       this.listarDia = data;
-
     })
   }
 

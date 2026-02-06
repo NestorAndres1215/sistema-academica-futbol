@@ -49,7 +49,7 @@ export class ModuloAdminEvaluacionComponent implements OnInit {
 
   ngOnInit(): void {
     this.codigo = this.route.snapshot.params['codigo']
-    console.log(this.codigo)
+
     this.listarEvaluacion();
   }
 

@@ -18,7 +18,7 @@ export class AdminClaveDevComponent implements OnInit {
   @Input() dias: string = '';
 
   ngOnInit(): void {
-    console.log(this.route.snapshot.params['codigo'])
+
     this.codigo = this.route.snapshot.params['codigo']
     this.listaClases(this.codigo)
   }
@@ -31,8 +31,6 @@ export class AdminClaveDevComponent implements OnInit {
   segundoDia: string
   tercerDia: string
   async listaClases(codigo: string) {
-
-    console.log(codigo)
     this.claseService.listarClaseActivado().subscribe((data) => {
       const claseEncontrada = data.find(index => index.codigo == codigo); 
       if (claseEncontrada && claseEncontrada.dia) {

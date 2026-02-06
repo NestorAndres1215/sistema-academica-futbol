@@ -14,13 +14,13 @@ export class ResumenEstudianteComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private claseService: ClaseService,
-    private loginService:LoginService,
-    private equipoService:EquipoService,
+    private loginService: LoginService,
+    private equipoService: EquipoService,
     private router: Router
   ) { }
   codigo: string
   ngOnInit(): void {
- this.listarEquipoDev()
+    this.listarEquipoDev()
     //this.listaClases(this.codigo)
   }
   opciones: string[] = ['Clases', 'Alumnos', 'Información'];
@@ -30,50 +30,38 @@ export class ResumenEstudianteComponent implements OnInit {
   primerDia: string
   segundoDia: string
   tercerDia: string
-  nombreEquipo:string
-  resumen:string
+  nombreEquipo: string
+  resumen: string
   resumenConSaltosDeLinea: string;
   async listaClases(codigo: string) {
-
-    console.log(codigo)
     this.claseService.listarClaseActivado().subscribe((data) => {
-
-
-      data = data.filter(index => index.equipo.codigo == this.codigo); // Filtra por código
-console.log(data)
-      const claseEncontrada = data.find(index => index.codigo ); // Encuentra la clase
+      data = data.filter(index => index.equipo.codigo == this.codigo); 
+      const claseEncontrada = data.find(index => index.codigo); 
 
       if (claseEncontrada && claseEncontrada.dia) {
-        const diasArray: string[] = claseEncontrada.dia.split(' - '); // Divide los días
-        console.log(diasArray);
+        const diasArray: string[] = claseEncontrada.dia.split(' - '); 
+
         [this.primerDia, this.segundoDia, this.tercerDia] = diasArray;
       }
-      console.log(claseEncontrada)
-      this.nombreEquipo= claseEncontrada.equipo.nombre;
-      this.resumen=claseEncontrada.descripcion
-      this.resumenConSaltosDeLinea = this.resumen.replace(/\n/g, '<br>'); 
-      console.log(this.resumen)
-      console.log(data)
+
+      this.nombreEquipo = claseEncontrada.equipo.nombre;
+      this.resumen = claseEncontrada.descripcion
+      this.resumenConSaltosDeLinea = this.resumen.replace(/\n/g, '<br>');
+
       this.datosTabla = data;
     });
 
   }
 
 
-  async listarEquipoDev(){
+  async listarEquipoDev() {
     this.equipoService.listarDev().subscribe((data) => {
-      console.log(data)
- 
-      
-      console.log(data
+
+      const codigoT = data
         ?.filter(i => i.estudiante?.usuario?.codigo === this.loginService.getUser().ul_codigo) // Filtra por coincidencia de código
-        .map(i => i.equipo.nombre) // Mapea solo los códigos encontrados
-      );
-      const codigoT=data
-      ?.filter(i => i.estudiante?.usuario?.codigo === this.loginService.getUser().ul_codigo) // Filtra por coincidencia de código
-      .map(i => i.equipo.codigo) // Mapea solo los códigos encontrados
-     this.codigo=codigoT
-     this.listaClases(this.codigo)
+        .map(i => i.equipo.codigo) // Mapea solo los códigos encontrados
+      this.codigo = codigoT
+      this.listaClases(this.codigo)
     });
 
   }

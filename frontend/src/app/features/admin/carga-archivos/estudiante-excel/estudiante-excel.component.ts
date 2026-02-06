@@ -90,11 +90,10 @@ export class EstudianteExcelComponent implements OnInit {
   cargos: any
   async listarCargo() {
     this.cargo.listarCargoActivado().subscribe((data) => {
-      console.log(data)
       this.cargos = data;
-
     })
   }
+  
   data: any[] = [];
   seleccionarArchivo(): void {
     document.getElementById('fileInput')?.click();

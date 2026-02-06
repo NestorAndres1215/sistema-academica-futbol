@@ -82,7 +82,7 @@ export class EditProfesorComponent implements OnInit {
 
   ngOnInit(): void {
     this.lista = this.data.row;
-    console.log(this.data.row)
+    
     this.nacionalidad = this.lista.nacionalidad
     this.sede = this.lista.sede.codigo
     this.codigoUsuario = this.lista.usuario.codigo
@@ -227,7 +227,6 @@ export class EditProfesorComponent implements OnInit {
 
   async listarSede() {
     this.sedeService.listarSedeActivado().subscribe((data) => {
-      console.log(data)
       this.sedes=data
     })
   }

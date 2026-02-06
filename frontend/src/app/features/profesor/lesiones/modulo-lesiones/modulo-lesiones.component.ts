@@ -109,7 +109,7 @@ export class ModuloLesionesComponent implements OnInit {
   }
 
   filtrarUsuarios() {
-    console.log(this.equipoSeleccionada)
+
     if (!this.equipoSeleccionada) {
       this.estudiantesFiltrados = [];
       return;

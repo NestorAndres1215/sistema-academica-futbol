@@ -31,48 +31,37 @@ export class CalendarioEstudianteComponent implements OnInit {
   selectedDay: any = null; // Variable para almacenar el día seleccionado
   mes: number
   selectDay(day: any): void {
-    // Crear un objeto Date usando el día, mes y año actuales
+
     if (day.day === null) {
-      console.log('Día seleccionado es null');
-      return;  // Salir de la función si no hay un día seleccionado
+    
+      return;  
     }
-    console.log(this.date.getFullYear())
+ 
+    
     if (this.año === 'Enero') {
-      console.log('Enero, asignando 01');
-      this.mes = 0; // Asigna '01' si el mes es enero
+      this.mes = 0;
     } else if (this.año === 'Febrero') {
-      console.log('Febrero, asignando 02');
-      this.mes = 1; // Asigna '02' si el mes es febrero
+      this.mes = 1; 
     } else if (this.año === 'Marzo') {
-      console.log('Marzo, asignando 03');
-      this.mes = 2; // Asigna '03' si el mes es marzo
+      this.mes = 2; 
     } else if (this.año === 'Abril') {
-      console.log('Abril, asignando 04');
-      this.mes = 3; // Asigna '04' si el mes es abril
+      this.mes = 3; 
     } else if (this.año === 'Mayo') {
-      console.log('Mayo, asignando 05');
-      this.mes = 4; // Asigna '05' si el mes es mayo
+      this.mes = 4; 
     } else if (this.año === 'Junio') {
-      console.log('Junio, asignando 06');
-      this.mes = 5; // Asigna '06' si el mes es junio
+      this.mes = 5; 
     } else if (this.año === 'Julio') {
-      console.log('Julio, asignando 07');
-      this.mes = 6; // Asigna '07' si el mes es julio
+      this.mes = 6;
     } else if (this.año === 'Agosto') {
-      console.log('Agosto, asignando 08');
-      this.mes = 7; // Asigna '08' si el mes es agosto
+      this.mes = 7;
     } else if (this.año === 'Septiembre') {
-      console.log('Septiembre, asignando 09');
-      this.mes = 8; // Asigna '09' si el mes es septiembre
+      this.mes = 8; 
     } else if (this.año === 'Octubre') {
-      console.log('Octubre, asignando 10');
-      this.mes = 9; // Asigna '10' si el mes es octubre
+      this.mes = 9; 
     } else if (this.año === 'Noviembre') {
-      console.log('Noviembre, asignando 11');
-      this.mes = 10; // Asigna '11' si el mes es noviembre
+      this.mes = 10; 
     } else if (this.año === 'Diciembre') {
-      console.log('Diciembre, asignando 12');
-      this.mes = 11; // Asigna '12' si el mes es diciembre
+      this.mes = 11;
     }
 
 
@@ -81,19 +70,11 @@ export class CalendarioEstudianteComponent implements OnInit {
     const dayOfWeek = selectedDate.getDay();
     const dayName = this.nameDay[dayOfWeek];
 
-    const dias = this.clases.map(clase => clase.dia);
-
-
-
-
-    console.log(this.partido)
 
     const clasesConDiasSeparados = this.clases.map(clase => {
       const diasInfo = clase.dia
         .split(' - ') // Separar los días
-        .map((dia, index) => ({ [`dia ${index + 1}`]: dia.trim() })); // Crear un objeto para cada día y eliminar los espacios extra
-
-      // Asegurarse de que las fechas se conviertan a objetos Date válidos
+        .map((dia, index) => ({ [`dia ${index + 1}`]: dia.trim() }));
       const inicio = new Date(clase.inicio);
       const fin = new Date(clase.fin);
 
@@ -131,10 +112,7 @@ export class CalendarioEstudianteComponent implements OnInit {
         return fecha.toLocaleDateString();
       });
 
-      console.log(esFeriado);
-      // Comprobar si la fecha seleccionada está en el arreglo de feriados
       if (esFeriado.includes(fechaSeleccionada)) {
-
         return
       }
 
@@ -165,10 +143,6 @@ export class CalendarioEstudianteComponent implements OnInit {
         Object.values(diaObj).some(dia => removeAccents(dia).toUpperCase() === removeAccents(dayName).toUpperCase()) // Eliminar tildes y comparar
       );
     });
-    console.log(this.feriado.map(index => index.fecha))
-    console.log(clasesConDiasSeparados)
-
- 
 
     this.selectedDayName = dayName;
     this.selectedDay = day;
@@ -354,16 +328,12 @@ export class CalendarioEstudianteComponent implements OnInit {
   feriado: any
   async listarClases() {
     this.claseService.listarClaseActivado().subscribe((data) => {
-
-      console.log(data)
-      console.log(this.listado)
       this.user = this.loginService.getUser();
       const listadoNormalizado = this.listado.map(e => e.toLowerCase().trim());
-      console.log(listadoNormalizado)
       const resultado = data.filter(i =>
         listadoNormalizado.includes(i.equipo.nombre.toLowerCase().trim())
       );
-      console.log(data)
+  
       this.clases = resultado
     });
   }
@@ -383,8 +353,6 @@ export class CalendarioEstudianteComponent implements OnInit {
       const resultado = data.filter(i =>
         listadoNormalizado.includes(i.equipo.nombre.toLowerCase().trim())
       );
-
-      console.log(resultado)
 
       this.partido = resultado
     });

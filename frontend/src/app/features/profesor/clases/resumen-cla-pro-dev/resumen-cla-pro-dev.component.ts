@@ -15,7 +15,7 @@ export class ResumenClaProDevComponent implements OnInit {
   ) { }
   codigo: string
   ngOnInit(): void {
-    console.log(this.route.snapshot.params['codigo'])
+
     this.codigo = this.route.snapshot.params['codigo']
     this.listaClases(this.codigo)
   }
@@ -31,7 +31,7 @@ export class ResumenClaProDevComponent implements OnInit {
   resumenConSaltosDeLinea: string;
   async listaClases(codigo: string) {
 
-    console.log(codigo)
+
     this.claseService.listarClaseActivado().subscribe((data) => {
 
 
@@ -40,14 +40,12 @@ export class ResumenClaProDevComponent implements OnInit {
       const claseEncontrada = data.find(index => index.codigo == codigo); // Encuentra la clase
       if (claseEncontrada && claseEncontrada.dia) {
         const diasArray: string[] = claseEncontrada.dia.split(' - '); // Divide los días
-        console.log(diasArray);
         [this.primerDia, this.segundoDia, this.tercerDia] = diasArray;
       }
       this.nombreEquipo= claseEncontrada.equipo.nombre;
       this.resumen=claseEncontrada.descripcion
       this.resumenConSaltosDeLinea = this.resumen.replace(/\n/g, '<br>'); 
-      console.log(this.resumen)
-      console.log(data)
+
       this.datosTabla = data;
     });
 

@@ -23,8 +23,6 @@ export class ProfeEstudianteComponent implements OnInit {
     throw new Error('Method not implemented.');
   }
   filtrarUsuarios() {
-    console.log(this.estudianteListar);
-
     if (!this.estudianteListar || this.estudianteListar.length === 0) {
       this.usuariosFiltrados = [];
       return;
@@ -56,7 +54,6 @@ export class ProfeEstudianteComponent implements OnInit {
 
   codigo: string
   ngOnInit(): void {
-    console.log(this.route.snapshot.params['codigo'])
     this.codigo = this.route.snapshot.params['codigo']
     this.listarEquipoDev()
   }
@@ -87,13 +84,7 @@ export class ProfeEstudianteComponent implements OnInit {
 
   async listarEquipoDev() {
     this.equipoService.listarDev().subscribe((data) => {
-      console.log(data)
 
-
-      console.log(data
-        ?.filter(i => i.estudiante?.usuario?.codigo === this.loginService.getUser().ul_codigo)
-        .map(i => i.equipo.nombre)
-      );
       const codigoT = data
         ?.filter(i => i.estudiante?.usuario?.codigo === this.loginService.getUser().ul_codigo)
         .map(i => i.equipo.codigo)

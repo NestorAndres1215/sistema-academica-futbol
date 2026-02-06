@@ -193,7 +193,7 @@ export class EstadisticasPartidoComponent implements OnInit {
 
       this.user = this.loginService.getUser();
       const listadoNormalizado = this.listado.map(e => e.toLowerCase().trim());
-      console.log(this.listado)
+      
       const resultado = data.filter(i =>
         listadoNormalizado.includes(i.equipo.nombre.toLowerCase().trim())
       );

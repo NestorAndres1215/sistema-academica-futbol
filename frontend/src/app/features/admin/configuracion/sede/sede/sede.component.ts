@@ -71,7 +71,6 @@ export class SedeComponent implements OnInit {
   }
 
   pageChanged(event: PageEvent) {
-    console.log(event)
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
@@ -80,7 +79,6 @@ export class SedeComponent implements OnInit {
 
   async listarSede() {
     this.sede.listarSedeActivado().subscribe((data) => {
-      console.log(data)
       this.datosTabla = data;
       this.pagedData = data
       this.totalItems = this.datosTabla.length
@@ -91,20 +89,16 @@ export class SedeComponent implements OnInit {
   }
 
   visor(row: any) {
-    console.log(row)
 
-    const dialogRef = this.dialog.open(VisorSedeComponent, {
+    this.dialog.open(VisorSedeComponent, {
       width: '550px',
       height: '450px',
       data: {
         row,
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-
-    });
-
   }
+  
   editar(row: any) {
     const dialogRef = this.dialog.open(EditSedeComponent, {
       width: '550px',
@@ -135,11 +129,11 @@ export class SedeComponent implements OnInit {
   exportarExcel() {
 
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, 
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de sedes a un archivo Excel.`
     };
 
-  this.excel.descargarExcelSede().subscribe({
+    this.excel.descargarExcelSede().subscribe({
       next: async (data: Blob) => {
         const blob = new Blob([data], {
           type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
@@ -164,7 +158,7 @@ export class SedeComponent implements OnInit {
   exportarPDF(): void {
 
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, 
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de sedes a un archivo PDF.`
     };
 
@@ -189,7 +183,7 @@ export class SedeComponent implements OnInit {
   }
 
   exportarPrint(): void {
-   
+
     const contenidoAImprimir = this.datosTabla;
 
     if (contenidoAImprimir) {
@@ -308,7 +302,7 @@ export class SedeComponent implements OnInit {
       if (respuesta?.boton != 'CONFIRMAR') return;
 
       const historial: Historial = {
-        usuario: this.loginService.getUser().username, 
+        usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} desactivó la sede ${row.nombre} con el código ${row.codigo}.`
       };
 
@@ -322,5 +316,5 @@ export class SedeComponent implements OnInit {
     });
   }
 
- 
+
 }

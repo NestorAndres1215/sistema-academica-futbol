@@ -28,16 +28,11 @@ export class ClaseDevEstudianteComponent implements OnInit {
   tercerDia: string
   async listaClases(codigo: string) {
 
-    console.log(codigo)
     this.claseService.listarClaseActivado().subscribe((data) => {
-      console.log(data)
-
-      console.log(data.filter(index => index.equipo.codigo == codigo));
-
       const claseEncontrada = data.find(index => index.equipo.codigo == codigo);
       if (claseEncontrada && claseEncontrada.dia) {
         const diasArray: string[] = claseEncontrada.dia.split(' - ');
-        console.log(diasArray);
+ 
         [this.primerDia, this.segundoDia, this.tercerDia] = diasArray;
       }
 

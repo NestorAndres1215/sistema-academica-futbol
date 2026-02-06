@@ -52,8 +52,6 @@ export class ModuloEvaluacionComponent implements OnInit {
 
   toggleEdicion() {
     if (this.modoEdicion) {
-      console.log(this.evaluacion)
-      // Filtrar solo los datos que quieres guardar
 
       const estudiantesAActualizar = this.evaluacion.map(est => ({
         codigo: est.codigo,
@@ -119,7 +117,7 @@ export class ModuloEvaluacionComponent implements OnInit {
   codigo: string
   ngOnInit(): void {
     this.codigo = this.route.snapshot.params['codigo']
-    console.log(this.codigo)
+
     this.listarEvaluacion();
   }
   evaluacion: any[] = [];
@@ -128,14 +126,8 @@ export class ModuloEvaluacionComponent implements OnInit {
   listarEvaluacion() {
     this.evaluacionService.listarDetalleEvaluaciones().subscribe(
       (data) => {
-        console.log(data)
-        console.log(this.codigo)
         this.evaluacion = data.filter(i => i.equipo == this.codigo && i.estado == true)
-        console.log(this.evaluacion)
       },
-      (error) => {
-        console.error('Error al listar evaluaciones:', error);
-      }
     );
   }
 

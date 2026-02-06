@@ -167,41 +167,33 @@ export class RegistrarProfesorComponent implements OnInit {
 
   async listarCargo() {
     this.cargo.listarCargoActivado().subscribe((data) => {
-      console.log(data)
       this.cargos = data;
-
     })
   }
 
 
   async listaNacionalidad() {
     this.generales.listarGeneralDevActivado("0003").subscribe((data) => {
-      console.log(data)
+   
       this.nacionalidad = data;
 
     })
   }
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
-      console.log(data)
       this.genero = data;
-
     })
   }
 
   async listaDoc() {
     this.generales.listarGeneralDevActivado("0001").subscribe((data) => {
-      console.log(data)
       this.tiposDocumento = data;
-
     })
   }
 
   async listarSede() {
     this.sede.listarSedeActivado().subscribe((data) => {
-      console.log(data)
       this.sedes = data;
-
     })
   }
 

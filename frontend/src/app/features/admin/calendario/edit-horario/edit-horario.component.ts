@@ -126,11 +126,12 @@ export class EditHorarioComponent implements OnInit {
       usuarioRegistro: this.usuarioCreacion,
       usuarioActualizacion: this.loginService.getUser().username,
     }
-    console.log(objHorario)
+
     const historial: Historial = {
       usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} actualizó al horario con el codigo ${objHorario.codigo}`,
     };
+    
     this.horarioService.actualizar(objHorario).subscribe({
       next: async () => {
         await firstValueFrom(this.historialService.registrar(historial));

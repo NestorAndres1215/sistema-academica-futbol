@@ -75,10 +75,9 @@ export class EditEstudianteComponent implements OnInit {
   ) {
 
   }
-  numdoc: string; // Valor predeterminado
+  numdoc: string; 
   ngOnInit(): void {
     this.lista = this.data.row;
-    console.log(this.data.row)
     this.nacionalidad = this.lista.nacionalidad
     this.sede = this.lista.sede.codigo
     this.codigoUsuario = this.lista.usuario.codigo
@@ -141,7 +140,7 @@ export class EditEstudianteComponent implements OnInit {
 
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
-      console.log(data)
+
       this.generos = data;
 
     })
@@ -192,7 +191,7 @@ export class EditEstudianteComponent implements OnInit {
         genero: this.formulario.get('genero')?.value,
 
       };
-console.log(objAdmin)
+
       const historial: Historial = {
         usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} actualizó al estudiante ${objAdmin.primerNombre} ${objAdmin.apellidoPaterno}.`,
@@ -219,14 +218,14 @@ console.log(objAdmin)
 
   async listarSede() {
     this.sedeService.listarSedeActivado().subscribe((data) => {
-      console.log(data)
+
       this.sedes = data;
 
     })
   }
   async listaNacionalidad() {
     this.generales.listarGeneralDevActivado("0003").subscribe((data) => {
-      console.log(data)
+
       this.nacionalidades = data;
 
     })
@@ -234,7 +233,6 @@ console.log(objAdmin)
 
   async listaDoc() {
     this.generales.listarGeneralDevActivado("0001").subscribe((data) => {
-      console.log(data)
       this.tiposDocumento = data;
 
     })

@@ -101,7 +101,7 @@ export class EditPerfilEstudianteComponent implements OnInit {
   ngOnInit(): void {
     this.lista = this.data
     this.listarEdiciones(); this.initForm()
-    console.log(this.lista.row[0].telefono)
+   
   }
 
   initForm() {

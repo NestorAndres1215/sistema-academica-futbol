@@ -84,7 +84,7 @@ export class EditDevComponent implements OnInit {
       usuarioCreacion: this.usuarioCreacion,
       usuarioActualizacion: this.loginService.getUser().username,
     };
-    console.log(objRegistrar);
+ 
     const historial: Historial = {
       usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} actualizó el detalle de la tabla con el código ${objRegistrar.codigo}.`

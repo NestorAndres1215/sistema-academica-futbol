@@ -96,7 +96,7 @@ export class RegEjercicioComponent implements OnInit {
   ) { }
   codigo: string
   ngOnInit(): void {
-    console.log(this.data.dia)
+
     this.codigo = this.data.codigo
     this.dia = this.data.dia
     this.listarClaseDetalle()

@@ -53,7 +53,7 @@ export class EstudianteComponent implements OnInit {
     this.estudiante.listarEstudianteActivado().subscribe(
       (data) => {
         data = data.filter(item => item.codigo !== '0000');
-        console.log(data)
+
         this.listar = data;
         this.usuariosFiltrados = [...this.listar];
       },
@@ -108,8 +108,7 @@ export class EstudianteComponent implements OnInit {
   ];
   tipoUsuario: 'admin' | 'profesor' = 'admin';
   operar(perfil: any) {
-    console.log(typeof perfil)
-    const dialogRef = this.dialog.open(ModalPerfilComponent, {
+    this.dialog.open(ModalPerfilComponent, {
       width: '400px',
       height: '470px',
       data: {
@@ -122,7 +121,7 @@ export class EstudianteComponent implements OnInit {
 
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
-      console.log(data)
+
       this.generos = data;
       this.opcionesGenero = this.generos.map(s => s.descripcion1);
     })

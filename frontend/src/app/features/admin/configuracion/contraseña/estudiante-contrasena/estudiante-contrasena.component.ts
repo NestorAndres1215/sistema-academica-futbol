@@ -54,7 +54,7 @@ export class EstudianteContrasenaComponent implements OnInit {
   }
   async listarProdesor() {
     this.admin.listarEstudianteActivado().subscribe((data) => {
-      console.log(data)
+
       const datosFiltrados = data.filter(item => item.codigo !== '0000' );
       this.user = this.loginService.getUser();
 
@@ -85,7 +85,7 @@ export class EstudianteContrasenaComponent implements OnInit {
 
 
   pageChanged(event: PageEvent) {
-    console.log(event)
+
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
@@ -93,9 +93,8 @@ export class EstudianteContrasenaComponent implements OnInit {
   }
 
   editar(row: any) {
-    console.log()
     row=row.usuario
-    console.log(row)
+  
     const dialogRef = this.dialog.open(EditContraComponent, {
       width: '550px',
       disableClose: true,
@@ -105,14 +104,10 @@ export class EstudianteContrasenaComponent implements OnInit {
       },
     });
 
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarProdesor()
       this.pageSizeChanged()
     })
-  }
-  volver(): void {
-    this.route.navigate(['/administrador']);
   }
 
 }

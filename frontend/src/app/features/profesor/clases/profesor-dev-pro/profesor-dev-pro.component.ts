@@ -23,7 +23,6 @@ export class ProfesorDevProComponent implements OnInit {
   ];
   
   filtrarUsuarios() {
-    console.log(this.estudianteListar);
 
     if (!this.estudianteListar || this.estudianteListar.length === 0) {
       this.usuariosFiltrados = [];
@@ -57,7 +56,7 @@ export class ProfesorDevProComponent implements OnInit {
 
   codigo: string
   ngOnInit(): void {
-    console.log(this.route.snapshot.params['codigo'])
+   
     this.codigo = this.route.snapshot.params['codigo']
     this.listaClases(this.codigo)
   }

@@ -25,7 +25,7 @@ export class ModalEliminacionComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log("🙌")
+
     this.titulo = this.data['titulo'];
     this.subtitulo = this.data['subtitulo'];
     this.razon = this.data['razon'];

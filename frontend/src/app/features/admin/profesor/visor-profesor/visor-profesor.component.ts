@@ -47,7 +47,6 @@ export class VisorProfesorComponent implements OnInit {
 
   ngOnInit(): void {
     this.lista = this.data
-    console.log(this.lista)
     this.listarEdiciones()
   }
   listarEdiciones() {

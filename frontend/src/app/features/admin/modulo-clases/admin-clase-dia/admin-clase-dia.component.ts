@@ -51,7 +51,7 @@ export class AdminClaseDiaComponent implements OnInit {
   constructor(private claseService: ClaseService, private route: ActivatedRoute, private dialog: MatDialog) { }
   codigo: string
   ngOnInit(): void {
-    console.log(this.dias)
+
     this.codigo = this.route.snapshot.params['codigo']
     this.listarClase()
   }

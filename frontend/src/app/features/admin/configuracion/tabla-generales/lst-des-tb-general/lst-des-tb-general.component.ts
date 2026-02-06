@@ -68,7 +68,7 @@ export class LstDesTbGeneralComponent implements OnInit {
   }
 
   pageChanged(event: PageEvent) {
-    console.log(event)
+
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
@@ -97,7 +97,7 @@ export class LstDesTbGeneralComponent implements OnInit {
   }
 
   eliminar(row: any) {
-    console.log(row)
+
     const dialogEliminar = this.dialog.open(ModalEliminacionComponent, {
       width: '500px',
       data: {

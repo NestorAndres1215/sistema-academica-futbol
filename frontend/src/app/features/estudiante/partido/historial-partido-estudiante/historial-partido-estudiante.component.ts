@@ -43,12 +43,12 @@ export class HistorialPartidoEstudianteComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.loginService.getUser();
-   
+
     this.listarEquipoDev()
   }
   async listarPartidos() {
     this.partidoService.listarPartidoPasados().subscribe((data) => {
-      console.log(data)
+
       this.user = this.loginService.getUser();
       this.datosTabla = data.map((partido: any) => {
         const marcadorLocal = parseInt(partido.marcadorLocal, 10);
@@ -61,13 +61,11 @@ export class HistorialPartidoEstudianteComponent implements OnInit {
           resultado = "❌ Derrota";
         }
 
-        return { ...partido, resultado }; // Agrega la propiedad "resultado" al objeto partido
+        return { ...partido, resultado };
       });
-      console.log(this.equipo)
-    console.log();
- console.log(data)
+
       this.datosTabla = data;
-      this.pagedData = data.filter(i=>i.equipo.nombre==this.equipo)
+      this.pagedData = data.filter(i => i.equipo.nombre == this.equipo)
 
       this.totalItems = this.pagedData.length
       this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
@@ -90,31 +88,14 @@ export class HistorialPartidoEstudianteComponent implements OnInit {
 
 
   pageChanged(event: PageEvent) {
-    console.log(event)
+
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;
     this.pagedData = this.pagedData.slice(startIndex, endIndex);
   }
 
-  visor(row: any) {
-    /* console.log(row)
- 
-     const dialogRef = this.dialog.open(VisorPartidoComponent, {
-       width: '850px',
-       disableClose: true,
-       height: '450px',
-       data: {
-         row,
-       }
-     });
-     dialogRef.afterClosed().subscribe(result => {
-       if (result) {
-         console.log('Elemento eliminado');
-       }
-     });*/
 
-  }
   equipoSeleccionada: string = '';
   volver(): void {
     this.route.navigate(['/administrador']);
@@ -124,14 +105,9 @@ export class HistorialPartidoEstudianteComponent implements OnInit {
   async listarEquipoDev() {
     this.equipoService.listarAsignacion().subscribe((data) => {
 
-      console.log(this.loginService.getUser().ul_codigo)
-      console.log()
-      //  console.log(data.filter(i=>i.profesor.usuario.codigo==this.loginService.getUser().ul_codigo))
       const usuariosCodigo = data
         .filter(i => i.estudiante && i.estudiante.usuario && i.estudiante.usuario.codigo === this.loginService.getUser().ul_codigo);
 
-      console.log(usuariosCodigo);
-      console.log(data)
 
       this.asignacion = usuariosCodigo;
       this.listarEquipo()
@@ -139,19 +115,17 @@ export class HistorialPartidoEstudianteComponent implements OnInit {
   }
   async listarEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
-console.log(this.asignacion)
+
       const equipos = this.asignacion.map(i => i.equipo.nombre); // Array de nombres
-      console.log("Equipos:", equipos);
 
       const equiposFiltrados = data.filter(i => equipos.includes(i.nombre)); // Filtra los que coincidan
-      console.log("Equipos filtrados:", equiposFiltrados);
-
       this.equipo = equipos;
       this.listarPartidos()
     });
   }
+  
   estudiantesFiltrados = [...this.pagedData];
 
-  
+
 
 }

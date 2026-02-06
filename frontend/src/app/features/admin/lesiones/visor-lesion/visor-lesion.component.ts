@@ -35,7 +35,6 @@ export class VisorLesionComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,) { }
   botonesConfigTable = { ver: true, imprimir: true };
   ngOnInit(): void {
-    console.log(this.data.row.lesionado.codigo)
     this.tutorLesion = this.data.row
     this.codigoLesion = this.data.row.lesionado.codigo
     this.listaLesiones()

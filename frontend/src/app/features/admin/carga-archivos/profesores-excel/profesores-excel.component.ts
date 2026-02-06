@@ -90,9 +90,7 @@ export class ProfesoresExcelComponent implements OnInit {
   sedes: any
   async listarSede() {
     this.sede.listarSedeActivado().subscribe((data) => {
-      console.log(data)
       this.sedes = data;
-
     })
   }
 

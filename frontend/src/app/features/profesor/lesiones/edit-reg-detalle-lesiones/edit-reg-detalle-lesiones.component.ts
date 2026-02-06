@@ -26,7 +26,7 @@ export class EditRegDetalleLesionesComponent implements OnInit {
       observaciones: this.formulario.value.observaciones || ''
     };
 
-    console.log(objeto);
+   
     const historial: Historial = {
       usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} actualizo un nuevo lesion ${this.formulario.get('nombre')?.value} `
@@ -66,8 +66,7 @@ export class EditRegDetalleLesionesComponent implements OnInit {
 
   codigo: string
   ngOnInit(): void {
-    console.log(this.data.lesionCompleto)
-    console.log(this.data.row.lesionado.codigo)
+
     this.codigo = this.data.row.lesionado.codigo
     this.formulario = this.formBuilder.group({
       tipoEvento: ['', Validators.required],

@@ -41,44 +41,35 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
   listarEvaluacion() {
     this.evaluacionService.listarDetalleEvaluaciones().subscribe(
       (data) => {
-        console.log(data);
 
-        // Filtramos por equipo y estado
         this.evaluacion = data.filter(i => i.equipo === this.codigo && i.estado === false);
-
-        // Mapeamos los estudiantes
         this.estudiante = this.evaluacion.map(i => i.evaluacion.estudiante);
 
-
-        console.log("Estudiantes:", this.estudiante);
         const estudiantesUnicos = this.estudiante.filter((estudiante, index, self) =>
           index === self.findIndex((e) => e.codigo === estudiante.codigo)
         );
 
-        console.log(estudiantesUnicos);
         this.estudiante = estudiantesUnicos
         this.opcionesEquipo = this.estudiante.map(
           e => e.primerNombre + ' ' + e.apellidoPaterno
         );
-        this.filtrarUsuarios(); // Aplicamos el filtro automáticamente
-
+        this.filtrarUsuarios();
       },
-
     );
   }
 
 
   filtrarUsuarios() {
-    console.log("Equipo seleccionado:", this.equipoSeleccionada);
+  
 
     if (!this.equipoSeleccionada) {
       this.estudiantesFiltrados = [];
     } else {
-    this.estudiantesFiltrados = this.equipoSeleccionada
-      ? this.estudiante.filter(e =>
-        (e.primerNombre + ' ' + e.apellidoPaterno) === this.equipoSeleccionada
-      )
-      : [...this.estudiante];
+      this.estudiantesFiltrados = this.equipoSeleccionada
+        ? this.estudiante.filter(e =>
+          (e.primerNombre + ' ' + e.apellidoPaterno) === this.equipoSeleccionada
+        )
+        : [...this.estudiante];
     }
 
     this.actualizarGrafico();
@@ -116,11 +107,11 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
 
   actualizarGrafico() {
     if (!this.chart || this.estudiantesFiltrados.length === 0) {
-      console.log("No hay datos para actualizar el gráfico.");
+
       return;
     }
 
-    // Reiniciar datasets para limpiar el gráfico antes de añadir nuevos datos
+
     this.chart.data.datasets = [];
 
     const colores = [
@@ -148,20 +139,19 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
 
 
     this.estudiantesFiltrados.forEach((estudiante, index) => {
-      // Filtrar en lugar de encontrar un solo estudiante
+
       const estudiantesSeleccionados = this.evaluacion.filter(i => i.evaluacion.estudiante.codigo === estudiante.codigo);
 
       if (!estudiantesSeleccionados.length) {
-        console.log(`No se encontraron estudiantes con código: ${estudiante.codigo}`);
         return;
       }
-      console.log(estudiantesSeleccionados)
+  
       estudiantesSeleccionados.forEach((estudianteSeleccionado, subIndex) => {
         if (!estudianteSeleccionado.evaluacion || !estudianteSeleccionado.evaluacion.estudiante) {
-          console.log(`No se encontró la información del estudiante: ${estudiante.codigo}`);
+      
           return;
         }
-        console.log(estudianteSeleccionado)
+   
         // Asegurar que nombre existe
         const nombreEstudiante = estudianteSeleccionado.evaluacion.estudiante.nombre || `Estudiante ${index + 1}-${subIndex + 1}`;
 
@@ -175,10 +165,9 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
           estudianteSeleccionado.fuerza,
           estudianteSeleccionado.concentracion,
           estudianteSeleccionado.tomaDecisiones
-        ].map(v => Number(v) || 0); // Convertir a número y evitar NaN
+        ].map(v => Number(v) || 0); 
 
-        console.log(`Añadiendo datos para ${nombreEstudiante}:`, valores);
-        console.log(valores)
+
         this.chart.data.datasets.push({
           label: `Evaluación de ${nombreEstudiante}`,
           data: valores,

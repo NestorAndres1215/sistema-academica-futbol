@@ -19,7 +19,6 @@ export class VisorLesiondetComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,) { }
 
   ngOnInit(): void {
-    console.log(this.data.row)
     this.listaEdiciones()
   }
   codigo: string
