@@ -62,7 +62,7 @@ import { LsClaseComponent } from './features/admin/clase/ls-clase/ls-clase.compo
 import { VisorClaseComponent } from './features/admin/clase/visor-clase/visor-clase.component';
 import { CargoComponent } from './features/admin/configuracion/cargo/cargo/cargo.component';
 import { EditCargoComponent } from './features/admin/configuracion/cargo/edit-cargo/edit-cargo.component';
-import { LstDesCargoComponent } from './features/admin/configuracion/cargo/lst-des-cargo/lst-des-cargo.component';
+
 import { RegCargoComponent } from './features/admin/configuracion/cargo/reg-cargo/reg-cargo.component';
 import { VisorCargoComponent } from './features/admin/configuracion/cargo/visor-cargo/visor-cargo.component';
 import { AdminContrasenaComponent } from './features/admin/configuracion/contraseña/admin-contrasena/admin-contrasena.component';
@@ -71,7 +71,6 @@ import { ListarUsuarioAdminComponent } from './features/admin/configuracion/cont
 import { ProfesorContrasenaComponent } from './features/admin/configuracion/contraseña/profesor-contrasena/profesor-contrasena.component';
 import { ActividadesComponent } from './features/admin/configuracion/registro/actividades/actividades.component';
 import { EditSedeComponent } from './features/admin/configuracion/sede/edit-sede/edit-sede.component';
-import { LstDesSedeComponent } from './features/admin/configuracion/sede/lst-des-sede/lst-des-sede.component';
 import { RegSedeComponent } from './features/admin/configuracion/sede/reg-sede/reg-sede.component';
 import { SedeComponent } from './features/admin/configuracion/sede/sede/sede.component';
 import { VisorSedeComponent } from './features/admin/configuracion/sede/visor-sede/visor-sede.component';
@@ -215,12 +214,10 @@ import { ModalPerfilComponent } from './shared/modal/modal-perfil/modal-perfil.c
     RegSedeComponent,
     EditSedeComponent,
     VisorSedeComponent,
-    LstDesSedeComponent,
     CargoComponent,
     VisorCargoComponent,
     EditCargoComponent,
     RegCargoComponent,
-    LstDesCargoComponent,
     ProfesorComponent,
     VisorProfesorComponent,
     EditProfesorComponent,

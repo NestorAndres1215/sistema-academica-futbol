@@ -2,18 +2,6 @@
     overflow: auto;
     height: 100%;
   }
-  
-  .btn-danger {
-    float: right;
-    height: max-content;
-    margin-top: 5px;
-    margin-right: 5px;
-  }
-  
-  .container {
-    margin-top: 20px;
-  }
-  
 .card-header {
   background: linear-gradient(135deg, #1e3a8a, #3b82f6);
   color: white;

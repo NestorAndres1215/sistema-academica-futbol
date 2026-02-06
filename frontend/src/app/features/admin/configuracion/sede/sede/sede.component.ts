@@ -11,7 +11,7 @@ import { ModalEliminacionComponent } from '../../../../../shared/modal/modal-eli
 import { EditSedeComponent } from '../edit-sede/edit-sede.component';
 import { RegSedeComponent } from '../reg-sede/reg-sede.component';
 import { VisorSedeComponent } from '../visor-sede/visor-sede.component';
-import { LstDesSedeComponent } from '../lst-des-sede/lst-des-sede.component';
+
 import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
@@ -127,16 +127,15 @@ export class SedeComponent implements OnInit {
 
       },
     });
-
-    // Escucha el cierre del modal para actualizar la tabla
     dialogRef.afterClosed().subscribe(data => {
       this.listarSede()
     })
   }
+
   exportarExcel() {
-    // Crear el objeto de historial para registrar la exportación de Excel
+
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Obtener el nombre de usuario del servicio de login
+      usuario: this.loginService.getUser().username, 
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de sedes a un archivo Excel.`
     };
 
@@ -323,14 +322,5 @@ export class SedeComponent implements OnInit {
     });
   }
 
-  verSedeDesactivados() {
-    const dialogRef = this.dialog.open(LstDesSedeComponent, {
-      width: '1050px',
-      height: '650px',
-    });
-
-    dialogRef.afterClosed().subscribe(data => {
-      this.listarSede()
-    })
-  }
+ 
 }

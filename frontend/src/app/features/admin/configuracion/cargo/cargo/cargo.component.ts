@@ -9,9 +9,6 @@ import { VisorCargoComponent } from '../visor-cargo/visor-cargo.component';
 import { EditCargoComponent } from '../edit-cargo/edit-cargo.component';
 import { RegCargoComponent } from '../reg-cargo/reg-cargo.component';
 import { ModalEliminacionComponent } from '../../../../../shared/modal/modal-eliminacion/modal-eliminacion.component';
-
-import { LstDesCargoComponent } from '../lst-des-cargo/lst-des-cargo.component';
-
 import { LoginService } from 'src/app/core/services/login.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { Historial } from 'src/app/core/model/historial';
@@ -110,8 +107,8 @@ export class CargoComponent implements OnInit {
   editar(row: any) {
     const dialogRef = this.dialog.open(EditCargoComponent, {
       disableClose: true,
-      width: '750px',
-      height: '480px',
+     width: '550px',
+      height: '400px',
       data: {
         row,
       },
@@ -126,7 +123,7 @@ export class CargoComponent implements OnInit {
     const dialogRef = this.dialog.open(RegCargoComponent, {
       disableClose: true,
       width: '550px',
-      height: '330px',
+      height: '400px',
       data: {
 
       },
@@ -364,13 +361,5 @@ export class CargoComponent implements OnInit {
     });
   }
 
-  verSedeDesactivados() {
-    const dialogRef = this.dialog.open(LstDesCargoComponent, {
-      width: '1050px',
-      height: '650px',
-    });
-    dialogRef.afterClosed().subscribe(data => {
-      this.listarCargo()
-    })
-  }
+ 
 }
