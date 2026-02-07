@@ -17,14 +17,13 @@ import java.time.LocalTime;
 public class PartidoRequest{
 
     private String codigo;
-    @NotBlank(message = "El marcador local es obligatorio")
+
     private String marcadorLocal;
 
     @NotBlank(message = "El equipo rival es obligatorio")
     private String equipoRival;
 
     @NotNull(message = "La fecha del partido es obligatoria")
-    @PastOrPresent(message = "La fecha del partido no puede ser futura")
     private LocalDate fecha;
 
     @NotNull(message = "La hora del partido es obligatoria")
@@ -48,7 +47,7 @@ public class PartidoRequest{
 
     private String victoria;
 
-    @NotBlank(message = "El marcador de visita es obligatorio")
+
     private String marcadorVisita;
 
     @NotBlank(message = "El equipo es obligatorio")

@@ -28,7 +28,6 @@ public class ClaseExcelService {
         try (Workbook workbook = new XSSFWorkbook()) {
             Sheet sheet = workbook.createSheet("Datos de Clases");
 
-            // Crear estilo para el encabezado
             CellStyle headerStyle = workbook.createCellStyle();
             headerStyle.setAlignment(HorizontalAlignment.CENTER);
             headerStyle.setVerticalAlignment(VerticalAlignment.CENTER);
