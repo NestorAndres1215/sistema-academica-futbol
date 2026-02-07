@@ -65,8 +65,6 @@ export class ProfesorDiaClaseComponent implements OnInit {
   }
 
   verDetalle(ejercicio: any): void {
-
-
     const dialogRef = this.dialog.open(EditEjecicioComponent, {
       width: '1050px',
       disableClose: true,

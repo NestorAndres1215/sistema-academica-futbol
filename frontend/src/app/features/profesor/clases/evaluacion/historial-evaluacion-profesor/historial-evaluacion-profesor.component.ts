@@ -14,12 +14,9 @@ export class HistorialEvaluacionProfesorComponent implements OnInit {
   evaluacion: any[] = [];
   estudiantesFiltrados: any[] = [];
   estudiante: any[] = [];
-
-  equipoSeleccionada: string = '';  // código del estudiante seleccionado
+  equipoSeleccionada: string = '';  
   opcionesEquipo: string[] = [];
-
-
-  codigo: string; // código del equipo
+  codigo: string; 
 
   columnas = [
     { etiqueta: 'Nombre Completo', clave: 'nombreCompleto' },
@@ -40,7 +37,6 @@ export class HistorialEvaluacionProfesorComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private evaluacionService: EvaluacionService,
-    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -51,12 +47,10 @@ export class HistorialEvaluacionProfesorComponent implements OnInit {
   listarEvaluacion() {
     this.evaluacionService.listarDetalleEvaluaciones().subscribe((data) => {
 
-      // Filtrar evaluaciones del equipo y que estén activas (estado=false)
       const evaluacionesFiltradas = data.filter(
         i => i.equipo === this.codigo && i.estado === false
       );
 
-      // Mapear a estudiantes con notas
       const estudiantes = evaluacionesFiltradas.map(i => ({
         ...i.evaluacion.estudiante,
         pases: i.pases ?? 0,
@@ -71,25 +65,19 @@ export class HistorialEvaluacionProfesorComponent implements OnInit {
         notaFinal: calcularNotaFinal(i)
       }));
 
-      // Quitar duplicados por código
       const estudiantesUnicos = estudiantes.filter(
         (est, idx, self) =>
           idx === self.findIndex(e => e.codigo === est.codigo)
       );
 
-      // Agregar nombre completo
       this.estudiantesFiltrados = estudiantesUnicos.map(e => ({
         ...e,
         nombreCompleto: NombreCompleto(e)
       }));
 
-      // Guardar lista original para filtrar
       this.estudiante = [...this.estudiantesFiltrados];
-
-      // Calcular total de notas
       this.total = calcularTotalNotaFinal(this.estudiantesFiltrados);
 
-      // Generar opciones para el select
       this.opcionesEquipo = this.estudiante.map(
         e => e.primerNombre + ' ' + e.apellidoPaterno
       );

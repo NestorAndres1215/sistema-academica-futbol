@@ -28,8 +28,8 @@ export class CalendarioProfesorComponent implements OnInit {
 
   listarDato: any
   partidoFiltrado: any
-  selectedDayName: string = ''; 
-  selectedDay: any = null; 
+  selectedDayName: string = '';
+  selectedDay: any = null;
   mes: number
   user: any
   partido: any
@@ -45,7 +45,6 @@ export class CalendarioProfesorComponent implements OnInit {
   añoActual: String
   private totalDays = 42;
   private date = new Date();
-
   listado: any[] = [];
   private eventSubscription: Subscription;
   trackByIndex: TrackByFunction<string>;
@@ -53,16 +52,14 @@ export class CalendarioProfesorComponent implements OnInit {
 
   selectDay(day: any): void {
     if (day.day === null) {
-      return; 
+      return;
     }
     this.mes = MESES.findIndex(m => m.toLowerCase() === this.año.toLowerCase());
     const selectedDate = new Date(this.date.getFullYear(), this.mes, day.day);
     const dayOfWeek = selectedDate.getDay();
     const dayName = this.nameDay[dayOfWeek];
 
-
-
-   const clasesConDiasSeparados = this.clases.map(clase => {
+    const clasesConDiasSeparados = this.clases.map(clase => {
       const diasInfo = clase.dia
         .split(' - ')
         .map((dia, index) => ({ [`dia ${index + 1}`]: dia.trim() }));
@@ -74,7 +71,7 @@ export class CalendarioProfesorComponent implements OnInit {
     });
 
 
- this.listarDato = clasesConDiasSeparados.filter(clase => {
+    this.listarDato = clasesConDiasSeparados.filter(clase => {
 
       if (isNaN(clase.inicio.getTime()) || isNaN(clase.fin.getTime())) {
         return false;

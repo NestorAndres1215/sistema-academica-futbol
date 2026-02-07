@@ -8,24 +8,20 @@ import { ClaseService } from 'src/app/core/services/clase.service';
   styleUrls: ['./detalle-clase.component.css']
 })
 export class DetalleClaseComponent implements OnInit {
-  volver() {
-    this.router.navigate(['/profesor']);
-  }
- botonesConfig = {
-    editar: false,
-    volver: true,
 
-  };
   constructor(
     private route: ActivatedRoute,
     private claseService: ClaseService,
-    private router: Router
+
   ) { }
+
   codigo: string
+
   ngOnInit(): void {
     this.codigo = this.route.snapshot.params['codigo']
     this.listaClases(this.codigo)
   }
+
   opciones: string[] = ['Clases', 'Alumnos', 'Profesores','Evaluacion', 'Historial'];
   opcionSeleccionada: string = 'Clases';
   datosTabla: any[] = [];
@@ -33,11 +29,12 @@ export class DetalleClaseComponent implements OnInit {
   primerDia: string
   segundoDia: string
   tercerDia: string
+
   async listaClases(codigo: string) {
     this.claseService.listarClaseActivado().subscribe((data) => {
-      const claseEncontrada = data.find(index => index.codigo == codigo); // Encuentra la clase
+      const claseEncontrada = data.find(index => index.codigo == codigo); 
       if (claseEncontrada && claseEncontrada.dia) {
-        const diasArray: string[] = claseEncontrada.dia.split(' - '); // Divide los días
+        const diasArray: string[] = claseEncontrada.dia.split(' - '); 
         [this.primerDia, this.segundoDia, this.tercerDia] = diasArray;
       }
       this.datosTabla = data;

@@ -10,23 +10,19 @@ import { ProfesorService } from 'src/app/core/services/profesor.service';
   styleUrls: ['./clases.component.css']
 })
 export class ClasesComponent implements OnInit {
-  volver() {
-
-  }
 
   constructor(
     private claseService: ClaseService,
     private loginService: LoginService,
     private equipoService: EquipoService,
-    private profesorService: ProfesorService
+
   ) { }
   datosTabla: any[] = [];
+
   ngOnInit(): void {
-
-
     this.listarEquipo()
-    // this.listaClases()
   }
+
   async listaClases() {
     this.claseService.listarClaseActivado().subscribe((data) => {
       const equipos = this.profesor.map(index => index.equipo.codigo)
@@ -57,8 +53,6 @@ export class ClasesComponent implements OnInit {
         item.profesor.usuario.codigo != null &&
         item.profesor.usuario.codigo === this.loginService.getUser().ul_codigo
       );
-
-
       this.profesor = filteredData;
       this.listaClases()
     });

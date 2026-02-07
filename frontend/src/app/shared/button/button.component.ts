@@ -11,11 +11,11 @@ export class ButtonComponent implements OnInit {
   }
 
  @Input() label: string = '';
-  @Input() color: string = 'primary'; // primary, secondary, success, danger, warning...
-  @Input() size: string = 'md'; // sm | md | lg
-  @Input() icon: string = ''; // ej: 'fas fa-save'
+  @Input() color: string = 'primary';
+  @Input() size: string = 'md'; 
+  @Input() icon: string = '';
   @Input() iconPosition: 'left' | 'right' = 'left';
-  @Input() block: boolean = false; // full width
+  @Input() block: boolean = false;
   @Input() loading: boolean = false;
   @Input() disabled: boolean = false;
 

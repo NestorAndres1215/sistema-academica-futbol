@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { ClaseService } from 'src/app/core/services/clase.service';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
@@ -57,10 +56,7 @@ export class LsClaseComponent implements OnInit {
     private historialService: HistorialService,
     private excel: ExcelService,
     private pdfService: PdfService,
-
-  ) {
-
-  }
+  ) {}
 
   ngOnInit(): void {
     this.user = this.loginService.getUser();
@@ -88,7 +84,6 @@ export class LsClaseComponent implements OnInit {
     });
   }
 
-
   async getUserInfo() {
     this.user = this.loginService.getUser();
     const usuarios = this.datosTabla.filter(item => item.id === this.user.id);
@@ -99,7 +94,6 @@ export class LsClaseComponent implements OnInit {
     this.paginator.firstPage();
     this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
   }
-
 
   pageChanged(event: PageEvent) {
     this.totalItems = this.datosTabla.length
@@ -117,10 +111,7 @@ export class LsClaseComponent implements OnInit {
         row,
       }
     });
-
-
   }
-
 
   editar(row: any) {
     const dialogRef = this.dialog.open(EditClaseComponent, {
@@ -137,13 +128,10 @@ export class LsClaseComponent implements OnInit {
     })
   }
 
-
-
-
   exportarExcel() {
 
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} exportó los datos de estudiantes a un archivo Excel.`,
     };
 
@@ -165,8 +153,6 @@ export class LsClaseComponent implements OnInit {
         this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
     });
-
-
   }
 
   exportarPDF(): void {
@@ -201,7 +187,6 @@ export class LsClaseComponent implements OnInit {
     const contenidoAImprimir = this.datosTabla;
 
     if (contenidoAImprimir) {
-      // Crear un iframe
       const iframe = document.createElement('iframe');
       iframe.style.position = 'absolute';
       iframe.style.width = '0px';
@@ -209,7 +194,6 @@ export class LsClaseComponent implements OnInit {
       iframe.style.border = 'none';
       iframe.style.visibility = 'hidden';
       document.body.appendChild(iframe);
-
 
       const iframeDoc = iframe.contentWindow?.document;
 
@@ -219,44 +203,43 @@ export class LsClaseComponent implements OnInit {
         year: 'numeric'
       });
 
-
       let contenidoHTML = `
- <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-family: 'Arial', sans-serif;">
-   <thead>
-     <tr style="background-color: #f8f9fa; color: #495057; font-weight: bold;">
-      <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Código</th>
-      <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Nombre</th>
-      <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Equipo</th>
-      <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Genero</th>
-      <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Inicio Hora</th>
-      <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Fin Hora</th>
-      <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Fecha Inicio</th>
-      <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Fecha Fin</th>
-      <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Dia</th>
-     </tr>
-   </thead>
-   <tbody>`;
+          <table style="width: 100%; border-collapse: collapse; margin-top: 20px; font-family: 'Arial', sans-serif;">
+            <thead>
+              <tr style="background-color: #f8f9fa; color: #495057; font-weight: bold;">
+                <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Código</th>
+                <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Nombre</th>
+                <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Equipo</th>
+                <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Genero</th>
+                <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Inicio Hora</th>
+                <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Fin Hora</th>
+                <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Fecha Inicio</th>
+                <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Fecha Fin</th>
+                <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left;">Dia</th>
+              </tr>
+            </thead>
+            <tbody>`;
 
-      contenidoAImprimir.forEach((clase: any) => {
-        contenidoHTML += `
-     <tr>
+                contenidoAImprimir.forEach((clase: any) => {
+                  contenidoHTML += `
+              <tr>
 
 
-<td style="padding: 8px; border: 1px solid #dee2e6;">${clase.codigo}</td>
-<td style="padding: 8px; border: 1px solid #dee2e6;">${clase.nombre}</td>
-<td style="padding: 8px; border: 1px solid #dee2e6;">${clase.equipo.nombre}</td>
-<td style="padding: 8px; border: 1px solid #dee2e6;">${clase.equipo.genero}</td>
-<td style="padding: 8px; border: 1px solid #dee2e6;">
-  ${clase.horario.inicioHora ? clase.horario.inicioHora : 'No asignada'}
-</td>
-<td style="padding: 8px; border: 1px solid #dee2e6;">
-  ${clase.horario.finHora ? clase.horario.finHora : 'No asignada'}
-</td>
-<td style="padding: 8px; border: 1px solid #dee2e6;">${clase.inicio}</td>
-<td style="padding: 8px; border: 1px solid #dee2e6;">${clase.fin}</td>
-<td style="padding: 8px; border: 1px solid #dee2e6;">${clase.dia}</td>
+          <td style="padding: 8px; border: 1px solid #dee2e6;">${clase.codigo}</td>
+          <td style="padding: 8px; border: 1px solid #dee2e6;">${clase.nombre}</td>
+          <td style="padding: 8px; border: 1px solid #dee2e6;">${clase.equipo.nombre}</td>
+          <td style="padding: 8px; border: 1px solid #dee2e6;">${clase.equipo.genero}</td>
+          <td style="padding: 8px; border: 1px solid #dee2e6;">
+            ${clase.horario.inicioHora ? clase.horario.inicioHora : 'No asignada'}
+          </td>
+          <td style="padding: 8px; border: 1px solid #dee2e6;">
+            ${clase.horario.finHora ? clase.horario.finHora : 'No asignada'}
+          </td>
+          <td style="padding: 8px; border: 1px solid #dee2e6;">${clase.inicio}</td>
+          <td style="padding: 8px; border: 1px solid #dee2e6;">${clase.fin}</td>
+          <td style="padding: 8px; border: 1px solid #dee2e6;">${clase.dia}</td>
 
-     </tr>`;
+              </tr>`;
       });
 
       contenidoHTML += `</tbody></table>`;

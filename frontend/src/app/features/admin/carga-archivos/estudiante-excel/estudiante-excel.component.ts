@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
 import { Historial } from 'src/app/core/model/historial';
@@ -8,7 +7,6 @@ import { CargoService } from 'src/app/core/services/cargo.service';
 import { EstudianteService } from 'src/app/core/services/estudiante.service';
 import { HistorialService } from 'src/app/core/services/historial.service';
 import { LoginService } from 'src/app/core/services/login.service';
-
 import { SedeService } from 'src/app/core/services/sede.service';
 import * as XLSX from 'xlsx';
 
@@ -19,7 +17,11 @@ import * as XLSX from 'xlsx';
   styleUrls: ['./estudiante-excel.component.css']
 })
 export class EstudianteExcelComponent implements OnInit {
+  
   nombre: string
+  data: any[] = [];
+  cargos: any
+  sedes: any
 
   cargarExcel() {
 
@@ -79,25 +81,24 @@ export class EstudianteExcelComponent implements OnInit {
         this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
     });
-  }
-  sedes: any
+  } 
+
   async listarSede() {
     this.sede.listarSedeActivado().subscribe((data) => {
       this.sedes = data;
     })
   }
 
-  cargos: any
   async listarCargo() {
     this.cargo.listarCargoActivado().subscribe((data) => {
       this.cargos = data;
     })
   }
-  
-  data: any[] = [];
+
   seleccionarArchivo(): void {
     document.getElementById('fileInput')?.click();
   }
+
   importExcel(event: any): void {
     const file = event.target.files[0];
 
@@ -111,29 +112,25 @@ export class EstudianteExcelComponent implements OnInit {
         const jsonData: any[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
 
         this.data = jsonData.slice(1).map((row, rowIndex) => {
-          // CORREO
+
           const correosProfesores: string[] = this.profesoresActuales.map(profesor => profesor.correo);
           const isCorreoValido = correosProfesores.includes(row[4]);
 
-          // TELEFONO
           const telefonosProfesores: string[] = this.profesoresActuales.map(profesor => profesor.telefono);
           const telefonoExcel = String(row[5]).trim().replace(/\D/g, '');
           const telefonosLimpios = telefonosProfesores.map(telefono => telefono.trim().replace(/\D/g, ''));
           const isTelefonoValido = telefonosLimpios.includes(telefonoExcel);
 
-          // NUMERO DE DOCUMENTO
           const numeroProfesores: string[] = this.profesoresActuales.map(profesor => profesor.dni);
           const numeroExcel = String(row[6]).trim().replace(/\D/g, '');
           const numerosLimpios = numeroProfesores.map(numero => numero.trim().replace(/\D/g, ''));
           const isNumeroValido = numerosLimpios.includes(numeroExcel);
 
-          // FECHA NACIMIENTO
           const excelSerialDate = row[9];
           const excelBaseDate = new Date(1900, 0, 1);
           const fecha = new Date(excelBaseDate.getTime() + (excelSerialDate - 2) * 24 * 60 * 60 * 1000);
           row[9] = fecha.toLocaleDateString();
 
-          // SEDE
           const sedeProfesores: string[] = this.profesoresActuales.map(profesor => profesor.sede);
           const sedes: string[] = this.sedes.map(sede => sede.nombre);
           const sedeNoExiste = !sedes.includes(row[12]);
@@ -190,19 +187,18 @@ export class EstudianteExcelComponent implements OnInit {
       }
     }
 
-    ws['!cols'] = wscols; // Establecer el ancho de las columnas
+    ws['!cols'] = wscols;
 
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Datos');
 
-    // Descargar el archivo Excel
     XLSX.writeFile(wb, 'datos_generados.xlsx');
   }
 
 
   constructor(
     private loginService: LoginService,
-   
+
     private historialService: HistorialService,
     private sede: SedeService,
     private estudiante: EstudianteService,
@@ -219,7 +215,6 @@ export class EstudianteExcelComponent implements OnInit {
   async listarProfesores() {
     this.estudiante.listar().subscribe((data) => {
       this.profesoresActuales = data;
-
     })
   }
 

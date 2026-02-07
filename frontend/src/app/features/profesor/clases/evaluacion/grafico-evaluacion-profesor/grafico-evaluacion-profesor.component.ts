@@ -1,12 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
-
 import { EvaluacionService } from 'src/app/core/services/evaluacion.service';
-
-
-
-// Registrar los módulos necesarios de Chart.js
 Chart.register(...registerables);
 
 @Component({
@@ -26,7 +21,6 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private evaluacionService: EvaluacionService,
-    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -61,7 +55,6 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
 
   filtrarUsuarios() {
   
-
     if (!this.equipoSeleccionada) {
       this.estudiantesFiltrados = [];
     } else {
@@ -77,7 +70,6 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
 
   crearGrafico() {
     if (!this.radarChartRef) {
-      console.error('Canvas no encontrado');
       return;
     }
 
@@ -91,7 +83,7 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
           'Pases', 'Tiros', 'Posicionamiento', 'Visión de Juego',
           'Resistencia', 'Velocidad', 'Fuerza', 'Concentración', 'Toma de Decisiones'
         ],
-        datasets: [] // Inicialmente vacío
+        datasets: [] 
       },
       options: {
         responsive: true,
@@ -107,7 +99,6 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
 
   actualizarGrafico() {
     if (!this.chart || this.estudiantesFiltrados.length === 0) {
-
       return;
     }
 
@@ -115,26 +106,26 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
     this.chart.data.datasets = [];
 
     const colores = [
-      { background: 'rgba(255, 182, 193, 0.2)', border: 'rgb(241, 14, 48)' }, // Rosa claro
-      { background: 'rgba(173, 216, 230, 0.2)', border: 'rgb(53, 202, 252)' }, // Azul cielo
-      { background: 'rgba(144, 238, 144, 0.2)', border: 'rgb(95, 233, 95)' }, // Verde claro
-      { background: 'rgba(255, 239, 184, 0.2)', border: 'rgb(226, 188, 61)' }, // Amarillo pastel
-      { background: 'rgba(221, 160, 221, 0.2)', border: 'rgb(241, 35, 241)' }, // Lavanda
-      { background: 'rgba(240, 230, 140, 0.2)', border: 'rgb(116, 110, 60)' }, // Caqui claro
-      { background: 'rgba(255, 228, 225, 0.2)', border: 'rgb(255, 194, 187)' }, // Rosa niebla
-      { background: 'rgba(176, 224, 230, 0.2)', border: 'rgb(12, 152, 170)' }, // Azul polvo
-      { background: 'rgba(152, 251, 152, 0.2)', border: 'rgb(7, 139, 7)' }, // Verde primavera claro
-      { background: 'rgba(250, 250, 210, 0.2)', border: 'rgb(255, 255, 43)' }, // Amarillo pálido
-      { background: 'rgba(230, 230, 250, 0.2)', border: 'rgb(145, 145, 255)' }, // Lila claro
-      { background: 'rgba(245, 222, 179, 0.2)', border: 'rgb(255, 178, 36)' }, // Trigo
-      { background: 'rgba(240, 255, 240, 0.2)', border: 'rgb(163, 247, 163)' }, // Menta
-      { background: 'rgba(224, 255, 255, 0.2)', border: 'rgb(14, 66, 66)' }, // Azul celeste claro
-      { background: 'rgba(255, 218, 185, 0.2)', border: 'rgb(134, 64, 3)' }, // Melón claro
-      { background: 'rgba(245, 245, 220, 0.2)', border: 'rgb(179, 179, 112)' }, // Beige claro
-      { background: 'rgba(255, 222, 173, 0.2)', border: 'rgb(217, 8, 224)' }, // Durazno claro
-      { background: 'rgba(216, 191, 216, 0.2)', border: 'rgb(164, 14, 233)' }, // Violeta claro
-      { background: 'rgba(255, 250, 240, 0.2)', border: 'rgb(236, 7, 148)' }, // Flor de lino
-      { background: 'rgba(240, 248, 255, 0.2)', border: 'rgb(233, 17, 17)' }  // Azul Alice
+      { background: 'rgba(255, 182, 193, 0.2)', border: 'rgb(241, 14, 48)' },
+      { background: 'rgba(173, 216, 230, 0.2)', border: 'rgb(53, 202, 252)' }, 
+      { background: 'rgba(144, 238, 144, 0.2)', border: 'rgb(95, 233, 95)' }, 
+      { background: 'rgba(255, 239, 184, 0.2)', border: 'rgb(226, 188, 61)' }, 
+      { background: 'rgba(221, 160, 221, 0.2)', border: 'rgb(241, 35, 241)' }, 
+      { background: 'rgba(240, 230, 140, 0.2)', border: 'rgb(116, 110, 60)' }, 
+      { background: 'rgba(255, 228, 225, 0.2)', border: 'rgb(255, 194, 187)' }, 
+      { background: 'rgba(176, 224, 230, 0.2)', border: 'rgb(12, 152, 170)' }, 
+      { background: 'rgba(152, 251, 152, 0.2)', border: 'rgb(7, 139, 7)' }, 
+      { background: 'rgba(250, 250, 210, 0.2)', border: 'rgb(255, 255, 43)' }, 
+      { background: 'rgba(230, 230, 250, 0.2)', border: 'rgb(145, 145, 255)' }, 
+      { background: 'rgba(245, 222, 179, 0.2)', border: 'rgb(255, 178, 36)' },
+      { background: 'rgba(240, 255, 240, 0.2)', border: 'rgb(163, 247, 163)' }, 
+      { background: 'rgba(224, 255, 255, 0.2)', border: 'rgb(14, 66, 66)' }, 
+      { background: 'rgba(255, 218, 185, 0.2)', border: 'rgb(134, 64, 3)' }, 
+      { background: 'rgba(245, 245, 220, 0.2)', border: 'rgb(179, 179, 112)' },
+      { background: 'rgba(255, 222, 173, 0.2)', border: 'rgb(217, 8, 224)' }, 
+      { background: 'rgba(216, 191, 216, 0.2)', border: 'rgb(164, 14, 233)' }, 
+      { background: 'rgba(255, 250, 240, 0.2)', border: 'rgb(236, 7, 148)' }, 
+      { background: 'rgba(240, 248, 255, 0.2)', border: 'rgb(233, 17, 17)' } 
     ];
 
 
@@ -148,11 +139,9 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
   
       estudiantesSeleccionados.forEach((estudianteSeleccionado, subIndex) => {
         if (!estudianteSeleccionado.evaluacion || !estudianteSeleccionado.evaluacion.estudiante) {
-      
           return;
         }
    
-        // Asegurar que nombre existe
         const nombreEstudiante = estudianteSeleccionado.evaluacion.estudiante.nombre || `Estudiante ${index + 1}-${subIndex + 1}`;
 
         const valores = [
@@ -166,7 +155,6 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
           estudianteSeleccionado.concentracion,
           estudianteSeleccionado.tomaDecisiones
         ].map(v => Number(v) || 0); 
-
 
         this.chart.data.datasets.push({
           label: `Evaluación de ${nombreEstudiante}`,
@@ -186,17 +174,14 @@ export class GraficoEvaluacionProfesorComponent implements OnInit {
     this.chart.data.datasets = this.chart.data.datasets.filter(dataset => {
       const dataString = JSON.stringify(dataset.data);
       if (dataSet.has(dataString)) {
-        return false; // Ya existe, lo eliminamos
+        return false; 
       }
       dataSet.add(dataString);
-      return true; // Es único, lo mantenemos
+      return true; 
     });
 
-    // Asegurar que Chart.js reconozca los cambios
     this.chart.update();
   }
-
-
 
   get totalNotaFinal(): number {
     return this.estudiantesFiltrados?.reduce((sum, estudiante) => sum + (estudiante.notaFinal ?? 0), 0) || 0;

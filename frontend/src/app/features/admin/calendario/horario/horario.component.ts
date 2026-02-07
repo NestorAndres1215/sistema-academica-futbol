@@ -1,11 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Router } from '@angular/router';
-
 import { HorarioService } from 'src/app/core/services/horario.service';
 import { LoginService } from 'src/app/core/services/login.service';
-
 import { VisorHorarioComponent } from '../visor-horario/visor-horario.component';
 import { EditHorarioComponent } from '../edit-horario/edit-horario.component';
 import { RegHorarioComponent } from '../reg-horario/reg-horario.component';

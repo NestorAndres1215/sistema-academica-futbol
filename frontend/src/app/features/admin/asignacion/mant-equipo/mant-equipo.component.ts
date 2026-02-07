@@ -39,6 +39,9 @@ export class MantEquipoComponent implements OnInit {
   totalItems: number;
   pageSize = 5;
   listar: any
+  opcionesSedes: string[] = [];
+  opcionesGenero: string[] = [];
+  filtro: string = '';
 
   botonesConfigTable = {
     actualizar: true,
@@ -74,7 +77,7 @@ export class MantEquipoComponent implements OnInit {
     this.listarProdesor();
   }
 
-  filtro: string = '';
+
 
   filtrarUsuarios(): void {
     if (!this.listar || this.listar.length === 0) {
@@ -142,7 +145,6 @@ export class MantEquipoComponent implements OnInit {
         row,
       }
     });
-
 
   }
   editar(row: any) {
@@ -370,8 +372,6 @@ export class MantEquipoComponent implements OnInit {
     })
   }
 
-  opcionesSedes: string[] = [];
-  opcionesGenero: string[] = [];
   async listarSede() {
     this.sede.listarSedeActivado().subscribe((data) => {
       this.sedes = data;

@@ -49,7 +49,6 @@ export class RegAsginacionComponent implements OnInit {
     this.generoSeleccionado = '';
     this.formulario.enable();
     this.cargos = CARGOS;
-
   }
 
   botonesConfig = {
@@ -59,10 +58,6 @@ export class RegAsginacionComponent implements OnInit {
   };
   personas: any[] = [];
   personas1: any[] = [];
-
-  volver() {
-    this.router.navigate(['/administrador']);
-  }
 
   formulario: UntypedFormGroup; 
   formulario1: UntypedFormGroup;
@@ -112,9 +107,6 @@ export class RegAsginacionComponent implements OnInit {
   generoSeleccionado: string = '';
   sedes: any
   genero: any
-
-
-
   datosTabla: any[] = [];
   posiciones: any[] = [];
   listarcategoria: any[] = [];
@@ -135,13 +127,13 @@ export class RegAsginacionComponent implements OnInit {
   yaEstudianteRegistrado = false;
   profe: any
   listaAsignaciones: any[] = [];
+
   initForm() {
     this.formulario = this.formBuilder.group({
       nombre: ['', Validators.required],
       sede: [this.sedes, Validators.required],
       genero: [this.genero, Validators.required],
       categoria: ['', Validators.required],
-
     });
   }
 
@@ -151,7 +143,6 @@ export class RegAsginacionComponent implements OnInit {
       estudiante: [''],
       profesor: [''],
       cargo: [''],
-
     })
   }
 
@@ -164,7 +155,6 @@ export class RegAsginacionComponent implements OnInit {
   async listaGenero() {
     this.generales.listarGeneralDevActivado("0002").subscribe((data) => {
       this.genero = data;
-
     })
   }
 
@@ -173,10 +163,10 @@ export class RegAsginacionComponent implements OnInit {
       this.posiciones = data;
     })
   }
+
   async listaCategoria() {
     this.generales.listarGeneralDevActivado("0004").subscribe((data) => {
       this.listarcategoria = data;
-
     })
   }
 
@@ -215,7 +205,6 @@ export class RegAsginacionComponent implements OnInit {
       this.listarProfesor()
       this.formulario.disable();
     } else {
-
       this.mostrarFormularioDetalle = true;
       this.isFormEnabled = true;
       this.formulario1.get('rol')?.enable();
@@ -445,7 +434,7 @@ export class RegAsginacionComponent implements OnInit {
       });
 
       this.equipoService.registrarAsignacion(this.listaAsignaciones).subscribe({
-        next: (data) => {
+        next: () => {
           this.alertService.aceptacion(TITULO_MESAJES.REGISTRO_EXITOSO_TITULO, MENSAJES.REGISTRO_EXITOSO_MENSAJE);
           window.location.reload();
         },

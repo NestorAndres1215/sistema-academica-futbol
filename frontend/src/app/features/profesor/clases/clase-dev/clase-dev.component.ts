@@ -11,15 +11,15 @@ export class ClaseDevComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private claseService: ClaseService,
-    private router: Router
-  ) { }
+    private claseService: ClaseService
+   ) { }
   codigo: string
-  ngOnInit(): void {
 
+  ngOnInit(): void {
     this.codigo = this.route.snapshot.params['codigo']
     this.listaClases(this.codigo)
   }
+
   opciones: string[] = ['Clases', 'Alumnos', 'Información'];
   opcionSeleccionada: string = 'Clases';
   datosTabla: any[] = [];
@@ -27,6 +27,7 @@ export class ClaseDevComponent implements OnInit {
   primerDia: string
   segundoDia: string
   tercerDia: string
+
   async listaClases(codigo: string) {
 
 

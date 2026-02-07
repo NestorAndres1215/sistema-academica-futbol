@@ -2,15 +2,11 @@ import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { HorarioComponent } from '../horario/horario.component';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
-
 import { LoginService } from 'src/app/core/services/login.service';
 import { HorarioService } from 'src/app/core/services/horario.service';
-
 import { HistorialService } from 'src/app/core/services/historial.service';
-
 import { Historial } from 'src/app/core/model/historial';
 import { Horario } from 'src/app/core/model/horario';
-
 import { AlertService } from 'src/app/core/services/alert.service';
 import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
 import { firstValueFrom } from 'rxjs';
@@ -22,10 +18,10 @@ import { firstValueFrom } from 'rxjs';
 })
 export class EditHorarioComponent implements OnInit {
 
-
   cerrar() {
     this.dialogRe.close();
   }
+
   constructor(
     private dialogRe: MatDialogRef<HorarioComponent>,
     private loginService: LoginService,
@@ -36,7 +32,8 @@ export class EditHorarioComponent implements OnInit {
     private horarioService: HorarioService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: UntypedFormBuilder,) { }
-  lista: any
+  
+    lista: any
 
   ngOnInit(): void {
     this.lista = this.data
@@ -64,16 +61,13 @@ export class EditHorarioComponent implements OnInit {
     this.usuarioActualizacion = this.lista.row.usuarioActualizacion;
     this.fechaActualizacion = this.lista.row.fechaActualizacion;
     this.horaActualizacion = this.lista.row.horaActualizacion;
-
     this.initForm()
-
   }
 
   initForm() {
     this.formulario = this.formBuilder.group({
       inicio: [this.inicio, Validators.required],
       fin: [this.final, Validators.required],
-
     });
   }
 

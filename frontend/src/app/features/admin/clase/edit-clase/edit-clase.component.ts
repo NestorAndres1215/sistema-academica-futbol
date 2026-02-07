@@ -9,7 +9,6 @@ import { HistorialService } from 'src/app/core/services/historial.service';
 import { ClaseService } from 'src/app/core/services/clase.service';
 import { Clase } from 'src/app/core/model/Clase';
 import { Historial } from 'src/app/core/model/historial';
-
 import { formatDate } from 'src/app/core/utils/fechaValidator';
 import { MENSAJES, TITULO_MESAJES } from 'src/app/core/constants/messages';
 import { AlertService } from 'src/app/core/services/alert.service';
@@ -22,8 +21,6 @@ import { firstValueFrom } from 'rxjs';
 })
 export class EditClaseComponent implements OnInit {
   operar() {
-
-
     if (!this.formulario.valid) {
       this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       this.formulario.markAllAsTouched();
@@ -101,7 +98,7 @@ export class EditClaseComponent implements OnInit {
     this.equipo = this.data.row.equipo.nombre;
     this.genero = this.data.row.descripcion;
     this.horario = this.data.row.horario.codigo,
-      this.fechaInicio = fechaLocal;
+    this.fechaInicio = fechaLocal;
     this.fechaFin = this.data.row.fin;
     this.dia = this.data.row.dia;
     this.initForm();
@@ -109,7 +106,6 @@ export class EditClaseComponent implements OnInit {
 
   async validarFecha() {
     const today = new Date();
-
     const formattedDate = formatDate(today);
     const maxYear = today.getFullYear() + 2;
     this.minDate = formattedDate;

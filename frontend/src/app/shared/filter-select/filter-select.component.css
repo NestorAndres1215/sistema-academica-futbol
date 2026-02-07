@@ -4,11 +4,11 @@
   font-size: 14px;
 }
 
-/* Fondo del input visible */
+
 .custom-select .mat-form-field-wrapper {
-  background-color: white;   /* Fondo blanco plano */
+  background-color: white;  
   border-radius: 4px;
-  padding-left: 8px;         /* Un poquito de padding interno */
+  padding-left: 8px;
 }
 
 /* Borde del outline */
@@ -22,17 +22,15 @@
   border-width: 1.5px;
 }
 
-/* Ajuste del trigger */
+
 .mat-select-trigger {
-  padding: 4px 0;            /* Ajusta vertical */
+  padding: 4px 0;
 }
 
-/* Fondo del panel desplegable */
 .mat-select-panel {
   background-color: white;
 }
 
-/* Espaciado de opciones */
 .mat-option {
   padding: 8px 16px;
 }

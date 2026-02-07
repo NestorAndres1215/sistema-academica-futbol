@@ -63,9 +63,7 @@ export class CargoComponent implements OnInit {
     this.pageChanged({ pageIndex: 0, pageSize: this.pageSize, length: this.totalItems });
   }
 
-
   pageChanged(event: PageEvent) {
-
     this.totalItems = this.datosTabla.length
     const startIndex = event.pageIndex * event.pageSize;
     const endIndex = startIndex + event.pageSize;

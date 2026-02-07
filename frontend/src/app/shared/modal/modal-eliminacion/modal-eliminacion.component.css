@@ -1,7 +1,4 @@
-
-  .card-header
-  {
-     background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-     color: white;
-  }
-  
+.card-header {
+   background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+   color: white;
+}

@@ -17,6 +17,7 @@ import { LoginService } from 'src/app/core/services/login.service';
   styleUrls: ['./modulo-evaluacion.component.css']
 })
 export class ModuloEvaluacionComponent implements OnInit {
+
   guardarDatos() {
     const arrayT = this.evaluacion.map(i => ({ equipo: i.equipo, conteo: i.conteo || 0 }));
 
@@ -31,22 +32,17 @@ export class ModuloEvaluacionComponent implements OnInit {
     }, []);
 
     const equipos = resultado.map(item => item.equipo).join(",");
-
     const conteos = resultado.map(item => item.conteo).join(",");
 
-
-    this.evaluacionService.desactivarEvaluaciones(equipos, conteos).subscribe(
-      response => {
+    this.evaluacionService.desactivarEvaluaciones(equipos, conteos).subscribe({
+      next: () => {
         this.alertService.aceptacion(TITULO_MESAJES.REGISTRO_EXITOSO_TITULO, MENSAJES.REGISTRO_EXITOSO_MENSAJE);
-
         this.listarEvaluacion();
       },
-      error => {
+      error: (error) => {
         this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
-    );
-
-
+    });
   }
 
 
@@ -87,7 +83,6 @@ export class ModuloEvaluacionComponent implements OnInit {
 
       }));
 
-
       const historial: Historial = {
         usuario: this.loginService.getUser().username,
         detalle: `El usuario ${this.loginService.getUser().username} actualizo evaluacion.`
@@ -107,21 +102,20 @@ export class ModuloEvaluacionComponent implements OnInit {
     this.modoEdicion = !this.modoEdicion;
   }
 
-
+  codigo: string
+  evaluacion: any[] = [];
+  valoresPosibles: number[] = Array.from({ length: 11 }, (_, i) => i);
   modoEdicion: boolean = false;
   constructor(private route: ActivatedRoute, private historialService: HistorialService,
     private loginService: LoginService,
     private evaluacionService: EvaluacionService,
     private alertService: AlertService,
   ) { }
-  codigo: string
+
   ngOnInit(): void {
     this.codigo = this.route.snapshot.params['codigo']
-
     this.listarEvaluacion();
   }
-  evaluacion: any[] = [];
-  valoresPosibles: number[] = Array.from({ length: 11 }, (_, i) => i); // [0, 1, 2, ..., 10]
 
   listarEvaluacion() {
     this.evaluacionService.listarDetalleEvaluaciones().subscribe(

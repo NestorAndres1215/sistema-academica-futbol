@@ -44,12 +44,12 @@ export class AuthInterceptor implements HttpInterceptor {
             icon: 'warning',
             confirmButtonText: 'Entendido',
           }).then(() => {
-            // Redirigir al login cuando el usuario cierre la alerta
+
             this.router.navigate(['/login']);
           });
         }
 
-        return throwError(error); // Propagar el error si no es un 401
+        return throwError(error); 
       })
     );
   }
