@@ -1,7 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Subject, throwError } from 'rxjs';
-import baserUrl from '../interceptor/helper';
+import { Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,13 +12,14 @@ export class LoginService {
   public loginStatusSubjec = new Subject<boolean>();
 
   constructor(private http: HttpClient) { }
+  private baserUrl = environment.baseUrl;
 
   generateToken(loginData: any) {
-    return this.http.post(`${baserUrl}/generate-token`, loginData);
+    return this.http.post(`${this.baserUrl}/generate-token`, loginData);
   }
 
   public getCurrentUser() {
-    return this.http.get(`${baserUrl}/actual-usuario`);
+    return this.http.get(`${this.baserUrl}/actual-usuario`);
   }
 
   loginUser(token: any) {

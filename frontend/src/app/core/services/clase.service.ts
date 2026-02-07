@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import baserUrl from '../interceptor/helper';
 import { Observable } from 'rxjs';
 import { Clase } from '../model/Clase';
 import { ClaseDev } from '../model/clasedev';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,33 +11,34 @@ import { ClaseDev } from '../model/clasedev';
 export class ClaseService {
 
   constructor(private http: HttpClient) { }
+  private baserUrl = environment.baseUrl;
 
   listarClaseActivado(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/clase/listar/activo`);
+    return this.http.get<any>(`${this.baserUrl}/clase/listar/activo`);
   }
-  
+
   listarClaseDesactivado(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/clase/listar/desactivado`);
+    return this.http.get<any>(`${this.baserUrl}/clase/listar/desactivado`);
   }
 
   registrar(clase: Clase): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/clase/registrar`, clase);  
+    return this.http.post<any>(`${this.baserUrl}/clase/registrar`, clase);
   }
 
   actualizar(clase: Clase): Observable<any> {
-    return this.http.put<any>(`${baserUrl}/clase/actualizar`, clase);  
+    return this.http.put<any>(`${this.baserUrl}/clase/actualizar`, clase);
   }
 
   listarClaseDevActivado(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/clase/listar/dev/activo`);
+    return this.http.get<any>(`${this.baserUrl}/clase/listar/dev/activo`);
   }
 
   registrarDev(clase: ClaseDev): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/clase/dev/registrar`, clase); 
+    return this.http.post<any>(`${this.baserUrl}/clase/dev/registrar`, clase);
   }
 
   actualizarDev(clase: ClaseDev): Observable<any> {
-    return this.http.put<any>(`${baserUrl}/clase/dev/actualizar`, clase); 
+    return this.http.put<any>(`${this.baserUrl}/clase/dev/actualizar`, clase);
   }
 
 }

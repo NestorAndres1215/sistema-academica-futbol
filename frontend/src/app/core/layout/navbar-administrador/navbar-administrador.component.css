@@ -22,8 +22,6 @@
   min-width: 350px;
 }
 
-
-
 @media (max-width: 600px) {
   mat-sidenav {
     width: 45% !important;

@@ -1,31 +1,32 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import baserUrl from '../interceptor/helper';
 import { Partido } from '../model/partido';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PartidoService {
-  constructor(private http: HttpClient) { }
+   constructor(private http: HttpClient) { }
+   private baserUrl = environment.baseUrl;
 
   listar(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/partido/listar`);
+    return this.http.get<any>(`${this.baserUrl}/partido/listar`);
   }
   listarPartidosActuales(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/partido/listar/activo`);
+    return this.http.get<any>(`${this.baserUrl}/partido/listar/activo`);
   }
   listarPartidoPasados(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/partido/listar/desactivado`);
+    return this.http.get<any>(`${this.baserUrl}/partido/listar/desactivado`);
   }
   actualizar(partido: Partido): Observable<any> {
-    return this.http.put<any>(`${baserUrl}/partido/actualizar`, partido);
+    return this.http.put<any>(`${this.baserUrl}/partido/actualizar`, partido);
   }
   registrar(partido: Partido): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/partido/guardar`, partido);
+    return this.http.post<any>(`${this.baserUrl}/partido/guardar`, partido);
   }
   actualizarFalse(partido: Partido): Observable<any> {
-    return this.http.put<any>(`${baserUrl}/partido/actualizar/desactivado`, partido);
+    return this.http.put<any>(`${this.baserUrl}/partido/actualizar/desactivado`, partido);
   }
 }

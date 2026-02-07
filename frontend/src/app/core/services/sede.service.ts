@@ -1,34 +1,35 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import baserUrl from '../interceptor/helper';
 import { Observable } from 'rxjs';
 import { Sede } from '../model/sede';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SedeService {
 
-  constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) { }
+    private baserUrl = environment.baseUrl;
 
   listarSedeActivado(): Observable<any> {
-    return this.http.get(`${baserUrl}/sede/listar/estado/activo`);
+    return this.http.get(`${this.baserUrl}/sede/listar/estado/activo`);
   }
   listarSedeDesactivado(): Observable<any> {
-    return this.http.get(`${baserUrl}/sede/listar/estado/desactivado`);
+    return this.http.get(`${this.baserUrl}/sede/listar/estado/desactivado`);
   }
   actualizarSede(sede: Sede): Observable<any> {
-    return this.http.put<any>(`${baserUrl}/sede/actualizar`, sede);
+    return this.http.put<any>(`${this.baserUrl}/sede/actualizar`, sede);
   }
   registrarSede(sede: Sede): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/sede/guardar-sede`, sede);
+    return this.http.post<any>(`${this.baserUrl}/sede/guardar-sede`, sede);
   }
 
   desactivarSede(codigo: string): Observable<any> {
-    return this.http.delete(`${baserUrl}/sede/desactivar/${codigo}`);
+    return this.http.delete(`${this.baserUrl}/sede/desactivar/${codigo}`);
   }
   activarSede(codigo: string): Observable<any> {
-    return this.http.delete(`${baserUrl}/sede/activar/${codigo}`);
+    return this.http.delete(`${this.baserUrl}/sede/activar/${codigo}`);
   }
 
 }

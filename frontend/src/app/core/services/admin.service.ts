@@ -1,8 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import baserUrl from '../interceptor/helper';
+
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { Admin } from './../model/Admin';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,33 +11,35 @@ import { Admin } from './../model/Admin';
 export class AdminService {
 
   constructor(private http: HttpClient) { }
+  private baserUrl = environment.baseUrl;
+
 
   listaUsuarioPorCodigo(codigo: string): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/admin/usuario/${codigo}`);
+    return this.http.get<any>(`${this.baserUrl}/admin/usuario/${codigo}`);
   }
 
   listarAdmins(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/admin/listar`);
+    return this.http.get<any>(`${this.baserUrl}/admin/listar`);
   }
   desactivarAdmin(codigo: string): Observable<any> {
 
-    return this.http.delete(`${baserUrl}/admin/desactivar/${codigo}`);
+    return this.http.delete(`${this.baserUrl}/admin/desactivar/${codigo}`);
   }
   activarAdmin(codigo: string): Observable<any> {
 
-    return this.http.delete(`${baserUrl}/admin/activar/${codigo}`);
+    return this.http.delete(`${this.baserUrl}/admin/activar/${codigo}`);
   }
   listarAdminActivado(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/admin/listar/estado/activo`);
+    return this.http.get<any>(`${this.baserUrl}/admin/listar/estado/activo`);
   }
   listarAdminDesactivado(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/admin/listar/estado/desactivado`);
+    return this.http.get<any>(`${this.baserUrl}/admin/listar/estado/desactivado`);
   }
   guardarAdmin(admin: Admin): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/admin/guardar-admin`, admin);
+    return this.http.post<any>(`${this.baserUrl}/admin/guardar-admin`, admin);
   }
   actualizarAdmin(admin: Admin): Observable<any> {
-    return this.http.put<any>(`${baserUrl}/admin/actualizar-admin`, admin);
+    return this.http.put<any>(`${this.baserUrl}/admin/actualizar-admin`, admin);
   }
 
   actualizarAdminImg(codigo: string, formValues: any): Observable<any> {
@@ -64,7 +67,7 @@ export class AdminService {
       console.error('El archivo de perfil no es válido');
     }
 
-    return this.http.put(`${baserUrl}/admin/actualizar/${codigo}`, formData, { responseType: 'text' })
+    return this.http.put(`${this.baserUrl}/admin/actualizar/${codigo}`, formData, { responseType: 'text' })
       .pipe(
         map(response => response),
         catchError(error => {

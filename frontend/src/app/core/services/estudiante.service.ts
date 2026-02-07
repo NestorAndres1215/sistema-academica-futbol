@@ -1,49 +1,48 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import baserUrl from '../interceptor/helper';
 import { Estudiante } from '../model/estudiante';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EstudianteService {
   constructor(private http: HttpClient) { }
+  private baserUrl = environment.baseUrl;
 
 
   listarEstudianteActivado(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/estudiante/listar/estado/activo`);
+    return this.http.get<any>(`${this.baserUrl}/estudiante/listar/estado/activo`);
   }
   listarEstudianteDesactivado(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/estudiante/listar/estado/desactivado`);
+    return this.http.get<any>(`${this.baserUrl}/estudiante/listar/estado/desactivado`);
   }
 
   guardarEstudiante(profesor: Estudiante): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/estudiante/guardar-estudiante`, profesor); 
+    return this.http.post<any>(`${this.baserUrl}/estudiante/guardar-estudiante`, profesor); 
   }
   actualizarEstudiante(profesor: Estudiante): Observable<any> {
-    return this.http.put<any>(`${baserUrl}/estudiante/actualizar-estudiante`, profesor);
+    return this.http.put<any>(`${this.baserUrl}/estudiante/actualizar-estudiante`, profesor);
   }
   desactivarEstudiante(codigo: string): Observable<any> {
 
-    return this.http.delete(`${baserUrl}/estudiante/desactivar/${codigo}`);
+    return this.http.delete(`${this.baserUrl}/estudiante/desactivar/${codigo}`);
   }
   activarEstudiante(codigo: string): Observable<any> {
 
-    return this.http.delete(`${baserUrl}/estudiante/activar/${codigo}`);
+    return this.http.delete(`${this.baserUrl}/estudiante/activar/${codigo}`);
   }
   listar(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/estudiante/listar`);
+    return this.http.get<any>(`${this.baserUrl}/estudiante/listar`);
   }
   guardarProfesorExcel(estudiante: any): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/estudiante/guardar-excel-estudiante`, estudiante);  // Nombre del parámetro es 'profesor'
+    return this.http.post<any>(`${this.baserUrl}/estudiante/guardar-excel-estudiante`, estudiante);  // Nombre del parámetro es 'profesor'
   }
 
   listaUsuarioPorCodigo(codigo: string): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/estudiante/usuario/${codigo}`);
+    return this.http.get<any>(`${this.baserUrl}/estudiante/usuario/${codigo}`);
   }
-
-
   
   actualizarAdminImg(codigo: string, formValues: any): Observable<any> {
     const formData: FormData = new FormData();
@@ -70,7 +69,7 @@ export class EstudianteService {
       console.error('El archivo de perfil no es válido');
     }
 
-    return this.http.put(`${baserUrl}/estudiante/actualizar/${codigo}`, formData, { responseType: 'text' })
+    return this.http.put(`${this.baserUrl}/estudiante/actualizar/${codigo}`, formData, { responseType: 'text' })
       .pipe(
         map(response => response),
         catchError(error => {

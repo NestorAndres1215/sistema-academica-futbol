@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import baserUrl from '../interceptor/helper';
+
 import { Observable } from 'rxjs';
 import { Equipo } from '../model/equipo';
 import { Asignacion } from '../model/Asignacion';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,39 +12,44 @@ import { Asignacion } from '../model/Asignacion';
 export class EquipoService {
 
   constructor(private http: HttpClient) { }
+  private baserUrl = environment.baseUrl;
 
   listarActivado(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/equipo/listar/activo`);
+    return this.http.get<any>(`${this.baserUrl}/equipo/listar/activo`);
   }
+
   listarDesactivado(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/equipo/listar/desactivado`);
+    return this.http.get<any>(`${this.baserUrl}/equipo/listar/desactivado`);
   }
+
   actualizar(equipo: Equipo): Observable<any> {
-    return this.http.put<any>(`${baserUrl}/equipo/actualizar`, equipo);
+    return this.http.put<any>(`${this.baserUrl}/equipo/actualizar`, equipo);
   }
+
   registrar(equipo: Equipo): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/equipo/registrar`, equipo);
+    return this.http.post<any>(`${this.baserUrl}/equipo/registrar`, equipo);
   }
+
   desactivar(codigo: string): Observable<any> {
-
-    return this.http.delete(`${baserUrl}/equipo/desactivar/${codigo}`);
+    return this.http.delete(`${this.baserUrl}/equipo/desactivar/${codigo}`);
   }
-  activar(codigo: string): Observable<any> {
 
-    return this.http.delete(`${baserUrl}/equipo/activar/${codigo}`);
+  activar(codigo: string): Observable<any> {
+    return this.http.delete(`${this.baserUrl}/equipo/activar/${codigo}`);
   }
 
   registrarAsignacion(asignacion: any): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/equipo/asignacion/registrar`, asignacion);
+    return this.http.post<any>(`${this.baserUrl}/equipo/asignacion/registrar`, asignacion);
   }
+
   listarAsignacion(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/equipo/listar`);
+    return this.http.get<any>(`${this.baserUrl}/equipo/listar`);
   }
   listarDev(): Observable<any> {
-    return this.http.get<any>(`${baserUrl}/equipo/listar/equipodev/activo`);
+    return this.http.get<any>(`${this.baserUrl}/equipo/listar/equipodev/activo`);
   }
 
   actualizarAsignacion(asignacion: any): Observable<any> {
-    return this.http.put<any>(`${baserUrl}/equipo/asignacion/actualizar`, asignacion);
+    return this.http.put<any>(`${this.baserUrl}/equipo/asignacion/actualizar`, asignacion);
   }
 }
