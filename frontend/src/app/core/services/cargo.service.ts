@@ -15,12 +15,15 @@ export class CargoService {
   listarCargoActivado(): Observable<any> {
     return this.http.get(`${baserUrl}/cargo/listar/cargo/activo`);
   }
+
   listarCargoDesactivado(): Observable<any> {
     return this.http.get(`${baserUrl}/cargo/listar/cargo/desactivado`);
   }
+
   actualizarCargo(cargo: Cargo): Observable<any> {
     return this.http.put<any>(`${baserUrl}/cargo/actualizar-cargo`, cargo);
   }
+
   registrarCargo(cargo: Cargo): Observable<any> {
     return this.http.post<any>(`${baserUrl}/cargo/guardar-cargo`, cargo);
   }
@@ -28,6 +31,7 @@ export class CargoService {
   desactivarCargo(codigo: string): Observable<any> {
     return this.http.delete(`${baserUrl}/cargo/desactivar/${codigo}`);
   }
+  
   activarCargo(codigo: string): Observable<any> {
     return this.http.delete(`${baserUrl}/cargo/activar/${codigo}`);
   }

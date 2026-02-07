@@ -33,7 +33,7 @@ export class AdminService {
     return this.http.get<any>(`${baserUrl}/admin/listar/estado/desactivado`);
   }
   guardarAdmin(admin: Admin): Observable<any> {
-    return this.http.post<any>(`${baserUrl}/admin/guardar-admin`, admin);  // La URL debe ser cerrada adecuadamente
+    return this.http.post<any>(`${baserUrl}/admin/guardar-admin`, admin);
   }
   actualizarAdmin(admin: Admin): Observable<any> {
     return this.http.put<any>(`${baserUrl}/admin/actualizar-admin`, admin);
@@ -57,7 +57,7 @@ export class AdminService {
     formData.append('nacimiento', formValues.nacimiento);
     formData.append('nacionalidad', formValues.nacionalidad);
     formData.append('edad', formValues.edad);
- 
+
     if (formValues.perfil && formValues.perfil instanceof File) {
       formData.append('perfil', formValues.perfil, formValues.perfil.name);
     } else {

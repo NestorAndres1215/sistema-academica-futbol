@@ -39,9 +39,9 @@ export class EquipoService {
   listarAsignacion(): Observable<any> {
     return this.http.get<any>(`${baserUrl}/equipo/listar`);
   }
-listarDev(): Observable<any> {
-  return this.http.get<any>(`${baserUrl}/equipo/listar/equipodev/activo`);
-}
+  listarDev(): Observable<any> {
+    return this.http.get<any>(`${baserUrl}/equipo/listar/equipodev/activo`);
+  }
 
   actualizarAsignacion(asignacion: any): Observable<any> {
     return this.http.put<any>(`${baserUrl}/equipo/asignacion/actualizar`, asignacion);
