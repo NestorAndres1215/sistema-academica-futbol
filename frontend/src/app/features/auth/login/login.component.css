@@ -1,14 +1,17 @@
-
 .title {
   font-size: 28px;
   font-weight: 700;
   margin-bottom: 30px;
-  color:#1e3a8a;
+  color: #1e3a8a;
   text-align: center;
+}
+
+.login-container {
+  max-width: 400px;
+  width: 100%;
 }
 
 mat-icon {
   margin-right: 10px;
-  color:  #1e3a8a
+  color: #1e3a8a
 }
-

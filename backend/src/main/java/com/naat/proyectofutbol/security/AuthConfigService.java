@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
-public class AuthoryConfigService implements UserDetailsService {
+public class AuthConfigService implements UserDetailsService {
 
     private final LoginRepository loginRepository;
 

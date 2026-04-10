@@ -1,20 +1,16 @@
-
-
 .card-body {
     margin: 0 auto;
-   
     width: 95%;
     overflow-x: auto;
 }
 
-
 .card-header {
-  background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-  color: white;
-  width: 100%;
-  padding: 16px 0;
-  right: 0;
-  justify-content: center;
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+    color: white;
+    width: 100%;
+    padding: 16px 0;
+    right: 0;
+    justify-content: center;
 }
 
 .empty-state {
@@ -49,8 +45,6 @@
 }
 
 .card {
-
     border: none;
     border-radius: 8px;
 }
-

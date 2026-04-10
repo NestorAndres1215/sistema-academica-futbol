@@ -15,8 +15,6 @@ import { AlertService } from 'src/app/core/services/alert.service';
 })
 export class LoginComponent implements OnInit {
 
-
-
   constructor(
     private loginService: LoginService,
     private alertService: AlertService,
@@ -26,7 +24,6 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.initForm()
   }
-
 
   formulario!: FormGroup;
   hidePassword = true;

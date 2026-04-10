@@ -6,7 +6,6 @@ import { LoginService } from 'src/app/core/services/login.service';
 import { VisorUsuarioComponent } from '../visor-usuario/visor-usuario.component';
 import { EditUsuarioComponent } from '../edit-usuario/edit-usuario.component';
 import { Router } from '@angular/router';
-import 'jspdf-autotable';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
 import { ModalEliminacionComponent } from '../../../../shared/modal/modal-eliminacion/modal-eliminacion.component';

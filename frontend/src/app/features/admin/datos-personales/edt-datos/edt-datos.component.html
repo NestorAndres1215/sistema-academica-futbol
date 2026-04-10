@@ -12,10 +12,7 @@
     <form [formGroup]="formulario">
 
       <div class="row align-items-center justify-content-center mb-4">
-
-        <!-- Columna izquierda -->
         <div class="col-12 col-md-3 d-flex flex-column align-items-center text-center mb-3 mb-md-0">
-
           <p class="mb-2">
             <strong>Nombre del archivo:</strong>
             <span class="text-primary d-block">
@@ -30,22 +27,16 @@
 
         </div>
 
-        <!-- Columna derecha -->
         <div class="col-12 col-md-3 d-flex justify-content-center">
-
           <img *ngIf="imageUrl; else mostrarImagenTemplate" [src]="imageUrl" class="img-marca img-fluid">
-
           <ng-template #mostrarImagenTemplate>
             <img [src]="mostrarImagen(this.logo)" class="img-marca img-fluid">
           </ng-template>
-
         </div>
-
       </div>
 
 
       <div class="row">
-        <!-- Primer Nombre -->
         <div class="col-12 col-md-6 col-lg-3">
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Primer Nombre</mat-label>
@@ -95,8 +86,6 @@
             <input formControlName="dni" matInput>
           </mat-form-field>
         </div>
-
-        <!-- Correo -->
         <div class="col-12 col-md-6 col-lg-3">
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Correo</mat-label>
@@ -104,7 +93,6 @@
           </mat-form-field>
         </div>
 
-        <!-- Fecha de Nacimiento -->
         <div class="col-12 col-md-6 col-lg-3">
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Fecha de Nacimiento</mat-label>
@@ -114,7 +102,6 @@
           </mat-form-field>
         </div>
 
-        <!-- Nacionalidad -->
         <div class="col-12 col-md-6 col-lg-3">
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Nacionalidad</mat-label>
@@ -122,7 +109,6 @@
           </mat-form-field>
         </div>
 
-        <!-- Dirección -->
         <div class="col-12 col-md-6 col-lg-3">
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Dirección</mat-label>
@@ -142,7 +128,5 @@
         </div>
       </div>
     </form>
-
   </div>
-
 </div>

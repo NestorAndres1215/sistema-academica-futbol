@@ -58,7 +58,6 @@ import { ModuloPartidoComponent } from './features/profesor/partido/modulo-parti
 import { DatosPersonalesProfesoresComponent } from './features/profesor/perfil/datos-personales-profesores/datos-personales-profesores.component';
 import { PrincipalProfesorComponent } from './features/profesor/principal-profesor/principal-profesor.component';
 
-
 registerLocaleData(localeEs, 'es');
 const routes: Routes = [
 
@@ -260,8 +259,6 @@ const routes: Routes = [
       { path: 'de/registrado', component: RegActividadesComponent }
     ]
   },
-
-
 
 ];
 

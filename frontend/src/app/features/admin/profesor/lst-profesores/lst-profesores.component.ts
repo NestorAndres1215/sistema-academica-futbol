@@ -57,7 +57,6 @@ export class LstProfesoresComponent implements OnInit {
     private alertService: AlertService,
     private excel: ExcelService,
     private pdfService: PdfService,
-    private route: Router
   ) {
 
   }

@@ -16,7 +16,7 @@ export class PrincipalComponent implements OnInit {
     this.isLoggedIn = this.login.isLoggedIn();
     this.user = this.login.getUser();
     this.login.loginStatusSubjec.asObservable().subscribe(
-      data => {
+      () => {
         this.isLoggedIn = this.login.isLoggedIn();
         this.user = this.login.getUser();
       }

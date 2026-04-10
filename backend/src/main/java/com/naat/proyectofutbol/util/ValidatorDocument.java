@@ -4,7 +4,7 @@ import com.naat.proyectofutbol.exception.BadRequestException;
 
 import java.util.Map;
 
-public class DocumentoValidator {
+public class ValidatorDocument {
 
     private static final Map<String, Integer> CE_LENGTH_BY_COUNTRY = Map.ofEntries(
             Map.entry("Canadá", 8),

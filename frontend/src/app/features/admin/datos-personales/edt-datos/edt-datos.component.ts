@@ -23,10 +23,8 @@ export class EdtDatosComponent implements OnInit {
   cerrar() {
     this.dialogRe.close();
   }
+
   logo: File | undefined;
-
-
-
   public formulario: UntypedFormGroup;
 
   usuario: string = '';
@@ -67,7 +65,7 @@ export class EdtDatosComponent implements OnInit {
     return this.lista.row[0].perfil ? this.imagenUrlBase + this.lista.row[0].perfil : '';
   }
 
-  defaultFileName: string = 'imagen.png'; // Nombre del archivo por defecto
+  defaultFileName: string = 'imagen.png';
 
   get selectedFileName(): string {
     return this.selectedFile ? this.selectedFile.name : this.defaultFileName;
@@ -83,29 +81,21 @@ export class EdtDatosComponent implements OnInit {
   }
   defaultImageUrl: string = 'assets/image/components/icono-perfil.jpg';
 
-
-  //imageUrl: string | ArrayBuffer | null = null; // Variable para la URL de la imagen
-
-
-
-
-  imageUrl: string | null = null; // Variable para la URL de la imagen
+  imageUrl: string | null = null;
 
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
 
     if (file) {
-      this.selectedFile = file; // Almacena el archivo seleccionado
+      this.selectedFile = file;
       const reader = new FileReader();
       reader.onload = () => {
-        this.imageUrl = reader.result as string; // Actualiza la URL de la imagen
+        this.imageUrl = reader.result as string;
       };
       reader.readAsDataURL(file);
     } else if (!this.selectedFile && this.logo) {
-      // Si no selecciona un archivo, mantener la imagen existente
       this.imageUrl = this.mostrarImagen(this.logo);
     } else {
-      // Usar la imagen por defecto si no hay archivo ni logo
       this.imageUrl = this.defaultImageUrl;
     }
   }
@@ -114,10 +104,10 @@ export class EdtDatosComponent implements OnInit {
     this.lista = this.data
     this.listarEdiciones(); this.initForm()
   }
+
   initForm() {
     this.formulario = this.formBuilder.group({
       usuario: [this.usuario, Validators.required],
-
       contra: [{ value: this.contra, disabled: true }, Validators.required],
       primerNombre: [this.nombrePrimero, Validators.required],
       segundoNombre: [this.nombreSegundo, Validators.required],
@@ -134,9 +124,7 @@ export class EdtDatosComponent implements OnInit {
   }
 
   listarEdiciones() {
-    // Acceso a los datos del objeto row
-    // Asegúrate de que 'this.lista.row' tiene los datos correctamente estructurados.
-    const firstRow = this.lista.row[0];  // Suponiendo que row es un array
+    const firstRow = this.lista.row[0];
     this.codigoUsuario = firstRow.usuario.codigo;
     this.codigoAdmin = firstRow.codigo;
     this.usuario = firstRow.usuario.username;
@@ -157,32 +145,26 @@ export class EdtDatosComponent implements OnInit {
     this.usuarioActualizacion = firstRow.usuarioActualizacion;
     this.fechaActualizacion = firstRow.fechaActualizacion;
     this.horaActualizacion = firstRow.horaActualizacion;
-
   }
 
   edadNacimiento(fechaNacimiento: string): string {
     if (fechaNacimiento) {
       const hoy = new Date();
       const nacimiento = new Date(fechaNacimiento);
-
-      // Calcular edad
       let edad = hoy.getFullYear() - nacimiento.getFullYear();
       const mesDiferencia = hoy.getMonth() - nacimiento.getMonth();
-
-      // Ajustar si aún no ha cumplido años este año
       if (mesDiferencia < 0 || (mesDiferencia === 0 && hoy.getDate() < nacimiento.getDate())) {
         edad--;
       }
 
-      return ` ${edad}`; // Retornamos la edad como string
+      return ` ${edad}`;
     } else {
-      return 'Por favor, ingresa una fecha de nacimiento válida.'; // Mensaje de error
+      return 'Por favor, ingresa una fecha de nacimiento válida.';
     }
   }
+  
   operar() {
     const formValues = this.formulario.value;
-
-
     const logo = this.selectedFile
       ? this.selectedFile 
       : this.logo   

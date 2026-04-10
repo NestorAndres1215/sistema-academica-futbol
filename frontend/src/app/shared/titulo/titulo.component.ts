@@ -5,14 +5,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './titulo.component.html',
   styleUrls: ['./titulo.component.css']
 })
-export class TituloComponent  {
+export class TituloComponent {
 
   @Input() titulo: string = '';
 
-  @Input() botonesConfig: {
-    editar?: boolean;
-    volver?: boolean;
-  } = {};
+  @Input() botonesConfig: { editar?: boolean; volver?: boolean; } = {};
 
   @Output() editar = new EventEmitter<void>();
   @Output() volver = new EventEmitter<void>();

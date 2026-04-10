@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { Router } from '@angular/router';
 import { CargoService } from 'src/app/core/services/cargo.service';
 import { ExcelService } from 'src/app/core/services/excel.service';
 import { PdfService } from 'src/app/core/services/pdf.service';
@@ -49,7 +48,6 @@ export class CargoComponent implements OnInit {
     private alertService: AlertService,
     private excel: ExcelService,
     private pdfService: PdfService,
-    private route: Router
   ) {
 
   }

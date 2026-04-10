@@ -33,7 +33,7 @@ export class AuthInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if (
           error.status === 401 &&
-          error.error.message === 'El token ha expirado, por favor inicia sesión nuevamente.'
+          error.error.message === 'The token has expired, please log in again.'
         ) {
 
           this.loginService.logout();

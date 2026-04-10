@@ -1,7 +1,7 @@
 <div class="card">
-<div class="card-header text-center py-3">
-  <h2 class="fs-3">{{titulo}}</h2>
-</div>
+  <div class="card-header text-center py-3">
+    <h2 class="fs-3">{{titulo}}</h2>
+  </div>
 
 
   <div class="card-body">
@@ -10,11 +10,13 @@
     </div>
     <div class="row g-2">
       <div class="col">
-        <app-button icon="fas fa-eye-slash" (click)="close('CONFIRMAR')" label="Registrar" color="registrar" (onClick)="close('CONFIRMAR')">
+        <app-button icon="fas fa-eye-slash" (click)="close('CONFIRMAR')" label="Registrar" color="registrar"
+          (onClick)="close('CONFIRMAR')">
         </app-button>
       </div>
       <div class="col">
-        <app-button icon="fas fa-times" (click)="close('CANCELAR')"label="Cancelar" color="cancelar" (onClick)="close('CONFIRMAR')">
+        <app-button icon="fas fa-times" (click)="close('CANCELAR')" label="Cancelar" color="cancelar"
+          (onClick)="close('CONFIRMAR')">
         </app-button>
       </div>
     </div>

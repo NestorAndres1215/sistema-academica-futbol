@@ -97,7 +97,7 @@ export class NavbarAdministradorComponent implements OnInit {
   addToggle() {
     this.status = !this.status;
   }
-  
+
   @ViewChild(MatMenuTrigger) mainMenuTrigger!: MatMenuTrigger;
   closeMainMenu() {
     this.mainMenuTrigger.closeMenu();

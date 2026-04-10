@@ -5,20 +5,16 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.css']
 })
-export class ButtonComponent implements OnInit {
-  ngOnInit(): void {
-   
-  }
+export class ButtonComponent {
 
- @Input() label: string = '';
+  @Input() label: string = '';
   @Input() color: string = 'primary';
-  @Input() size: string = 'md'; 
+  @Input() size: string = 'md';
   @Input() icon: string = '';
   @Input() iconPosition: 'left' | 'right' = 'left';
   @Input() block: boolean = false;
   @Input() loading: boolean = false;
   @Input() disabled: boolean = false;
-
   @Output() onClick = new EventEmitter<void>();
 
   handleClick() {

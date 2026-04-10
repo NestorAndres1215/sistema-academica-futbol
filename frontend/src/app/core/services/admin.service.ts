@@ -60,12 +60,7 @@ export class AdminService {
     formData.append('nacimiento', formValues.nacimiento);
     formData.append('nacionalidad', formValues.nacionalidad);
     formData.append('edad', formValues.edad);
-
-    if (formValues.perfil && formValues.perfil instanceof File) {
-      formData.append('perfil', formValues.perfil, formValues.perfil.name);
-    } else {
-      console.error('El archivo de perfil no es válido');
-    }
+    formData.append('perfil', formValues.perfil, formValues.perfil.name);
 
     return this.http.put(`${this.baserUrl}/admin/actualizar/${codigo}`, formData, { responseType: 'text' })
       .pipe(

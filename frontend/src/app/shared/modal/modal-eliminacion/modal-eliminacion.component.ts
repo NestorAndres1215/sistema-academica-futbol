@@ -20,17 +20,14 @@ export class ModalEliminacionComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<any>,
     @Inject(MAT_DIALOG_DATA) private data: any,
- 
+
     private sanitizer: DomSanitizer) { }
 
 
   ngOnInit(): void {
-
     this.titulo = this.data['titulo'];
     this.subtitulo = this.data['subtitulo'];
     this.razon = this.data['razon'];
-  
-
   }
 
   close(mensaje: string): void {
@@ -38,10 +35,12 @@ export class ModalEliminacionComponent implements OnInit {
       boton: mensaje,
       razon: this.razon,
     }
-  
+
     this.dialogRef.close(respuesta);
   }
+
   getHTML(): SafeHtml {
-    return  this.sanitizer.bypassSecurityTrustHtml(this.subtitulo + this.mesActual + this.mesCambio);
+    return this.sanitizer.bypassSecurityTrustHtml(this.subtitulo + this.mesActual + this.mesCambio);
   }
+  
 }
