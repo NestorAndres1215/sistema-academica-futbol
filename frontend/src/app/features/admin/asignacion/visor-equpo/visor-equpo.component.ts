@@ -21,6 +21,7 @@ export class VisorEqupoComponent implements OnInit {
   usuarioActualizacion: string;
   fechaActualizacion: string;
   horaActualizacion: string;
+  
   constructor(
     private dialogRe: MatDialogRef<MantEquipoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,

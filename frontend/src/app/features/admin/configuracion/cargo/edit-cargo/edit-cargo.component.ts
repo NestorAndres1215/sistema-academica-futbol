@@ -23,17 +23,16 @@ export class EditCargoComponent implements OnInit {
     private dialogRe: MatDialogRef<CargoComponent>,
     private cargo: CargoService,
     private historialService: HistorialService,
-
-
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private alertService: AlertService,
     private loginService: LoginService,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: UntypedFormBuilder,) { }
+
   formulario: UntypedFormGroup;
 
-  
+
   ngOnInit(): void {
     this.lista = this.data
     this.listarEdiciones()
@@ -60,7 +59,6 @@ export class EditCargoComponent implements OnInit {
     this.fechaActualizacion = this.lista.row.fechaActualizacion;
     this.horaActualizacion = this.lista.row.horaActualizacion;
     this.initForm()
-
   }
 
   initForm() {

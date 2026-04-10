@@ -73,7 +73,6 @@ export class RegCargoComponent implements OnInit {
         this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);
       }
     });
-
   }
 
   cerrar() {

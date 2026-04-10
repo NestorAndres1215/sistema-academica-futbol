@@ -23,7 +23,6 @@ import { firstValueFrom } from 'rxjs';
 })
 export class EditEquipoComponent implements OnInit {
 
-
   formulario: UntypedFormGroup;
   lista: any;
   nombre: string;
@@ -101,6 +100,7 @@ export class EditEquipoComponent implements OnInit {
 
     })
   }
+
   async listaPosicion() {
     this.generales.listarGeneralDevActivado("0004").subscribe((data) => {
       this.categorias = data;
@@ -117,7 +117,6 @@ export class EditEquipoComponent implements OnInit {
 
   operar() {
 
-
     if (!this.formulario.valid) {
       this.alertService.advertencia(TITULO_MESAJES.CAMPOS_INCOMPLETOS_TITULO, MENSAJES.CAMPOS_INCOMPLETOS_MENSAJE);
       this.formulario.markAllAsTouched();
@@ -133,8 +132,9 @@ export class EditEquipoComponent implements OnInit {
       usuarioRegistro: this.usuarioCreacion,
       usuarioActualizacion: this.loginService.getUser().username,
     }
+
     const historial: Historial = {
-      usuario: this.loginService.getUser().username, // Usuario que realiza la acción
+      usuario: this.loginService.getUser().username,
       detalle: `El usuario ${this.loginService.getUser().username} actualizó al equipo ${objEquipo.nombre}`,
     };
 
@@ -142,9 +142,8 @@ export class EditEquipoComponent implements OnInit {
       next: async () => {
         await firstValueFrom(this.historialService.registrar(historial));
         this.alertService.aceptacion(TITULO_MESAJES.ACTUALIZAR_EXITOSO_TITULO, MENSAJES.ACTUALIZAR_EXITOSO_MENSAJE);
-
         this.dialog.closeAll();
-        this.cdr.markForCheck(); // si usas OnPush
+        this.cdr.markForCheck();
       },
       error: error => {
         this.alertService.error(TITULO_MESAJES.ERROR_TITULO, error.error.message);

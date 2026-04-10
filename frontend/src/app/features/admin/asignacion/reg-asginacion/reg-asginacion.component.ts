@@ -58,12 +58,11 @@ export class RegAsginacionComponent implements OnInit {
   };
   personas: any[] = [];
   personas1: any[] = [];
-
   formulario: UntypedFormGroup; 
   formulario1: UntypedFormGroup;
+  
   constructor(private generales: GeneralService,
     private sede: SedeService,
-    private router: Router,
     private profesor: ProfesorService,
     private equipoService: EquipoService,
     private estudiante: EstudianteService,

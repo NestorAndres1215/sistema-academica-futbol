@@ -14,7 +14,7 @@ import { EditContraComponent } from 'src/app/features/profesor/configuracion/edi
 })
 export class EstudianteContrasenaComponent implements OnInit {
 
- user: any = null;
+  user: any = null;
   xd: any
   datosTabla: any[] = [];
   pagedData: any[] = [];
@@ -29,7 +29,6 @@ export class EstudianteContrasenaComponent implements OnInit {
     private dialog: MatDialog,
     private loginService: LoginService,
     private change: ChangeDetectorRef,
-    private route: Router
   ) {
     this.pageChanged({
       pageIndex: 0, pageSize: this.pageSize,
@@ -37,25 +36,25 @@ export class EstudianteContrasenaComponent implements OnInit {
     });
   }
 
- columnas = [
+  columnas = [
     { etiqueta: 'Código', clave: 'codigo' },
     { etiqueta: 'Nombre Completo', clave: 'nombreCompleto' },
     { etiqueta: 'Usuario', clave: 'usuario.username' },
   ];
- 
+
   botonesConfigTable = {
     actualizar: true,
-
   };
 
   ngOnInit(): void {
     this.user = this.loginService.getUser();
-    this.listarProdesor();
+    this.getTeacher();
   }
-  async listarProdesor() {
+
+  async getTeacher() {
     this.admin.listarEstudianteActivado().subscribe((data) => {
 
-      const datosFiltrados = data.filter(item => item.codigo !== '0000' );
+      const datosFiltrados = data.filter(item => item.codigo !== '0000');
       this.user = this.loginService.getUser();
 
       this.datosTabla = datosFiltrados.map(item => ({
@@ -73,7 +72,6 @@ export class EstudianteContrasenaComponent implements OnInit {
 
   async getUserInfo() {
     this.user = this.loginService.getUser();
-    const userID = this.user.id;
     const usuarios = this.datosTabla.filter(item => item.id === this.user.id);
     this.xd = usuarios
   }
@@ -93,8 +91,8 @@ export class EstudianteContrasenaComponent implements OnInit {
   }
 
   editar(row: any) {
-    row=row.usuario
-  
+    row = row.usuario
+
     const dialogRef = this.dialog.open(EditContraComponent, {
       width: '550px',
       disableClose: true,
@@ -105,7 +103,7 @@ export class EstudianteContrasenaComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(data => {
-      this.listarProdesor()
+      this.getTeacher()
       this.pageSizeChanged()
     })
   }

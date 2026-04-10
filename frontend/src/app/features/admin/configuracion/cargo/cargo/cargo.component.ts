@@ -30,7 +30,6 @@ export class CargoComponent implements OnInit {
   };
 
   user: any = null;
-  xd: any
   datosTabla: any[] = [];
   pagedData: any[] = [];
   pageSizeOptions: number[] = [5, 10, 25, 100];
@@ -175,9 +174,6 @@ export class CargoComponent implements OnInit {
     });
 
   }
-
-
-
 
   exportarPDF(): void {
 

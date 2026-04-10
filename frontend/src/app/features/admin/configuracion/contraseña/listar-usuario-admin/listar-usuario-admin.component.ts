@@ -6,7 +6,5 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./listar-usuario-admin.component.css']
 })
 export class ListarUsuarioAdminComponent {
-
   activeTab1: number = 0;
-
 }

@@ -9,12 +9,16 @@ import { CargoComponent } from '../cargo/cargo.component';
   styleUrls: ['./visor-cargo.component.css']
 })
 export class VisorCargoComponent implements OnInit {
-  lista: any
+
+  lista: any;  
+  formulario: UntypedFormGroup;
   constructor(
     private dialogRe: MatDialogRef<CargoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private formBuilder: UntypedFormBuilder,) { }
-  formulario: UntypedFormGroup;
+
+
+
   ngOnInit(): void {
     this.lista = this.data
     this.listarEdiciones()

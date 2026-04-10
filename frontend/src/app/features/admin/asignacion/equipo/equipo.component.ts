@@ -12,16 +12,16 @@ import { ModalPerfilComponent } from 'src/app/shared/modal/modal-perfil/modal-pe
   styleUrls: ['./equipo.component.css']
 })
 export class EquipoComponent implements OnInit {
+
+  opcionesEquipo: string[] = [];
   row: any;
-
-
+  equipo: any
   botonesConfigTableEstudiante = {
     ver: true,
   };
 
   botonesConfigTableProfesor = {
     ver: true,
-
   };
 
   columnasEstudiantes = [
@@ -34,8 +34,6 @@ export class EquipoComponent implements OnInit {
     { etiqueta: 'Acciones', clave: 'acciones' }
   ];
 
-
-  equipo: any
 
 
   constructor(
@@ -50,7 +48,6 @@ export class EquipoComponent implements OnInit {
     this.listarEquipo()
     this.listarDevEquipo()
   }
-  opcionesEquipo: string[] = [];
 
   async listarEquipo() {
     this.equipoService.listarActivado().subscribe((data) => {
