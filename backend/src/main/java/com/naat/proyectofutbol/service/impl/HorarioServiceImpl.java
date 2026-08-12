@@ -22,7 +22,6 @@ public class HorarioServiceImpl implements HorarioService {
 
     private final HorarioRepository horarioRepository;
 
-
     @Override
     public String obtenerUltimoCodigo() {
         return horarioRepository.obtenerUltimoCodigo();

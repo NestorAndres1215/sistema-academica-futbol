@@ -1,8 +1,7 @@
 package com.naat.proyectofutbol.model;
 
+import jakarta.persistence.*;
 import lombok.*;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -16,7 +15,7 @@ import java.time.LocalTime;
 public class Estudiante {
 
     @Id
-    @Column(name = "es_codigo")
+    @Column(name = "es_codigo", length = 4, nullable = false)
     private String codigo;
 
     @Column(name="es_primernombre")
@@ -47,7 +46,7 @@ public class Estudiante {
     private  String correo;
 
     @Column(name = "es_edad")
-    private  int edad;
+    private  Integer edad;
 
     @Column(name = "es_tipodocumento")
     private String tipo;
@@ -61,8 +60,8 @@ public class Estudiante {
     @Column(name = "es_estado")
     private Boolean estado;
 
-    @Column(name = "es_perfil")
     @Lob
+    @Column(name = "pr_perfil", columnDefinition = "MEDIUMBLOB")
     private byte[] perfil;
 
     @Column(name = "es_fechacreacion")

@@ -37,7 +37,7 @@ public interface EstudianteRepository extends JpaRepository<Estudiante, String> 
 
     List<Estudiante> findByNacionalidad(String nacionalidad);
 
-    List<Estudiante> findByEdad(String edad);
+    List<Estudiante> findByEdad(Integer edad);
 
     List<Estudiante> findByApellidoPaterno(String apellidoPaterno);
 

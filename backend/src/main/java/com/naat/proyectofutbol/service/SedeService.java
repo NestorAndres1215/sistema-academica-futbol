@@ -18,7 +18,7 @@ public interface SedeService {
 
     List<Sede> findAdminsByEstadoFalse();
 
-    Sede BuscarNombre(String nombre);
+    Sede buscarNombre(String nombre);
 
     Sede desactivarSede(String codigo);
 

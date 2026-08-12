@@ -13,4 +13,6 @@ public interface RolService {
     Rol registrarRol(Rol rol);
 
     Rol actualizarRol(String codigo, Rol rol);
+
+    Rol buscarPorCodigo(String codigo);
 }

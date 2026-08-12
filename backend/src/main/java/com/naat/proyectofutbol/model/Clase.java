@@ -1,8 +1,7 @@
 package com.naat.proyectofutbol.model;
 
+import jakarta.persistence.*;
 import lombok.*;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -17,7 +16,7 @@ import java.time.LocalTime;
 public class Clase {
 
     @Id
-    @Column(name = "cl_codigo")
+    @Column(name = "cl_codigo", length = 4, nullable = false)
     private String codigo;
 
     @Column(name = "cl_nombre")
@@ -61,7 +60,7 @@ public class Clase {
     @Column(name = "cl_fin")
     private LocalDate fin;
 
-    @Column(name = "cl_descripcion")
+    @Column(name = "cl_descripcion", columnDefinition = "TEXT")
     private String descripcion;
 
 

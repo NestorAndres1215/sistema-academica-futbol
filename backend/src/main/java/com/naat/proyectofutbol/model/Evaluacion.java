@@ -2,7 +2,8 @@ package com.naat.proyectofutbol.model;
 
 
 import lombok.*;
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
 @Table(name = "evaluacion")
@@ -14,7 +15,7 @@ import javax.persistence.*;
 public class Evaluacion {
 
     @Id
-    @Column(name = "ev_codigo")
+    @Column(name = "ev_codigo", length = 10)
     private String codigo;
 
     @Column(name = "ev_nota_final")

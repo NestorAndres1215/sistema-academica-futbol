@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -97,7 +97,7 @@ public class EstudianteController {
     }
 
     @GetMapping("/edad/{edad}")
-    public List<Estudiante> buscarPorEdad(@PathVariable String edad) {
+    public List<Estudiante> buscarPorEdad(@PathVariable Integer edad) {
         return estudianteService.findByEdad(edad);
     }
 

@@ -18,7 +18,8 @@ public interface ProfesorService {
 
     List<Profesor> findByNacionalidad(String nacionalidad);
 
-    List<Profesor> findByEdad(String edad);
+
+    List<Profesor> findByEdad(Integer edad);
 
     List<Profesor> findByApellidoPaterno(String apellidoPaterno);
 

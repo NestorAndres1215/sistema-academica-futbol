@@ -1,11 +1,8 @@
 package com.naat.proyectofutbol.security;
 
 import com.naat.proyectofutbol.constants.NotFoundMessages;
-import com.naat.proyectofutbol.exception.ResourceNotFoundException;
 import com.naat.proyectofutbol.model.Login;
-import com.naat.proyectofutbol.model.Usuario;
 import com.naat.proyectofutbol.repository.LoginRepository;
-import com.naat.proyectofutbol.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,14 +21,12 @@ public class AuthConfigService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Login login = Optional.ofNullable(loginRepository.findByUsername(username))
-                .orElseThrow(() -> new UsernameNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO));
+        Login login = loginRepository.findByUsername(username);
 
-        if (!login.getEstado()) {
+        if (login == null || !login.getEstado()) {
             throw new UsernameNotFoundException(NotFoundMessages.USUARIO_NO_ENCONTRADO);
         }
 
         return login;
     }
-
 }

@@ -52,7 +52,7 @@ public class SedeController {
 
     @GetMapping("/listar/nombre/{nombre}")
     public ResponseEntity<Sede> listarPorNombre(@PathVariable String nombre) {
-        return ResponseEntity.ok(sedeService.BuscarNombre(nombre));
+        return ResponseEntity.ok(sedeService.buscarNombre(nombre));
     }
 
 }

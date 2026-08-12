@@ -37,7 +37,6 @@ public class CargoController {
         return ResponseEntity.ok(cargoService.actualizarCargo(cargo));
     }
 
-
     @DeleteMapping("/desactivar/{codigo}")
     public ResponseEntity<Cargo> desactivarPorCodigo(@PathVariable String codigo) {
         return ResponseEntity.ok(cargoService.desactivarCargo(codigo));

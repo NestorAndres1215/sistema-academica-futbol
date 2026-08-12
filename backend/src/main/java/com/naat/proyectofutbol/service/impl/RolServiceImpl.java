@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class RolServiceImpl implements RolService {
@@ -25,26 +24,35 @@ public class RolServiceImpl implements RolService {
 
     @Override
     public Rol findByRol(String nombre) {
-        return rolRepository.findByRol(nombre).orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ROL_NO_ENCONTRADO));
+        return rolRepository.findByRol(nombre)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(NotFoundMessages.ROL_NO_ENCONTRADO));
     }
 
     @Override
     public Rol registrarRol(Rol rol) {
         rol.setFechaCreacion(LocalDate.now());
         rol.setHoraCreacion(LocalTime.now());
+
         return rolRepository.save(rol);
     }
 
     @Override
     public Rol actualizarRol(String codigo, Rol rol) {
 
-        Rol rolDB = rolRepository.findById(codigo)
-                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.ROL_NO_ENCONTRADO));
+        Rol rolActual = buscarPorCodigo(codigo);
 
-        rolDB.setRol(rol.getRol());
-        rolDB.setFechaActualizacion(LocalDate.now());
-        rolDB.setHoraActualizacion(LocalTime.now());
+        rolActual.setRol(rol.getRol());
+        rolActual.setFechaActualizacion(LocalDate.now());
+        rolActual.setHoraActualizacion(LocalTime.now());
 
-        return rolRepository.save(rolDB);
+        return rolRepository.save(rolActual);
+    }
+
+    @Override
+    public Rol buscarPorCodigo(String codigo) {
+        return rolRepository.findById(codigo)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(NotFoundMessages.ROL_NO_ENCONTRADO));
     }
 }

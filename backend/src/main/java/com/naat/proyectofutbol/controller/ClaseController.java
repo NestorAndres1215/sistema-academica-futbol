@@ -6,11 +6,10 @@ import com.naat.proyectofutbol.dto.request.ClaseRequest;
 import com.naat.proyectofutbol.model.Clase;
 import com.naat.proyectofutbol.model.ClaseDev;
 import com.naat.proyectofutbol.service.ClaseService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController

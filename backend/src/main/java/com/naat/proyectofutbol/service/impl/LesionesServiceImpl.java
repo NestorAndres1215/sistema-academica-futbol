@@ -1,7 +1,8 @@
 package com.naat.proyectofutbol.service.impl;
 
 import com.naat.proyectofutbol.constants.NotFoundMessages;
-import com.naat.proyectofutbol.dto.DetalleLesionRequest;
+
+import com.naat.proyectofutbol.dto.request.DetalleLesionRequest;
 import com.naat.proyectofutbol.dto.request.LesionesRequest;
 import com.naat.proyectofutbol.exception.ResourceNotFoundException;
 import com.naat.proyectofutbol.model.EquipoDev;

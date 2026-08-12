@@ -1,19 +1,17 @@
 package com.naat.proyectofutbol.controller;
 
 
-import com.naat.proyectofutbol.dto.DetalleLesionRequest;
+import com.naat.proyectofutbol.dto.request.DetalleLesionRequest;
 import com.naat.proyectofutbol.dto.request.LesionesRequest;
 import com.naat.proyectofutbol.model.Lesiones;
 import com.naat.proyectofutbol.model.LesionesDev;
 
 import com.naat.proyectofutbol.service.LesionesService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;

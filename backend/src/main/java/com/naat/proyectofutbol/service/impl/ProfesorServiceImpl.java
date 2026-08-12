@@ -16,8 +16,9 @@ import com.naat.proyectofutbol.repository.UsuarioRepository;
 import com.naat.proyectofutbol.service.LoginService;
 import com.naat.proyectofutbol.service.ProfesorService;
 import com.naat.proyectofutbol.service.UsuarioService;
-import com.naat.proyectofutbol.util.DocumentoValidator;
+
 import com.naat.proyectofutbol.util.Utilitarios;
+import com.naat.proyectofutbol.util.ValidatorDocument;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,7 +67,7 @@ public class ProfesorServiceImpl implements ProfesorService {
     }
 
     @Override
-    public List<Profesor> findByEdad(String edad) {
+    public List<Profesor> findByEdad(Integer edad) {
         return profesorRepository.findByEdad(edad);
     }
 
@@ -99,7 +100,7 @@ public class ProfesorServiceImpl implements ProfesorService {
     public Profesor guardarProfesor(ProfesorRequest profesorDTO) {
 
         validarProfesor(profesorDTO);
-        DocumentoValidator.validarDocumento(profesorDTO.getTipoDoc(), profesorDTO.getNacionalidad(), profesorDTO.getDni());
+        ValidatorDocument.validarDocumento(profesorDTO.getTipoDoc(), profesorDTO.getNacionalidad(), profesorDTO.getDni());
 
         String ultimoCodigo = obtenerUltimoCodigoProfesor();
         String nuevoCodigoProfesor = Utilitarios.incrementarSecuencia(ultimoCodigo);
@@ -150,7 +151,7 @@ public class ProfesorServiceImpl implements ProfesorService {
         Profesor profesor = profesorRepository.findById(profesorDTO.getCodigoProfesor())
                 .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.PROFESOR_NO_ENCONTRADO));
 
-        DocumentoValidator.validarDocumento(profesorDTO.getTipoDoc(), profesorDTO.getNacionalidad(), profesorDTO.getDni());
+        ValidatorDocument.validarDocumento(profesorDTO.getTipoDoc(), profesorDTO.getNacionalidad(), profesorDTO.getDni());
         validarActualizacionProfesor(profesor, profesorDTO.getTelefono(), profesorDTO.getCorreo(), profesorDTO.getUsername(), profesorDTO.getDni());
 
 
@@ -214,7 +215,7 @@ public class ProfesorServiceImpl implements ProfesorService {
         List<Profesor> profesoresGuardados = new ArrayList<>();
         for (ProfesorRequest profesorDTO : profesorDTOs) {
             validarProfesor(profesorDTO);
-            DocumentoValidator.validarDocumento(profesorDTO.getTipoDoc(), profesorDTO.getNacionalidad(), profesorDTO.getDni());
+            ValidatorDocument.validarDocumento(profesorDTO.getTipoDoc(), profesorDTO.getNacionalidad(), profesorDTO.getDni());
 
             Sede sede = sedeRepository.findById(profesorDTO.getSede())
                     .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));

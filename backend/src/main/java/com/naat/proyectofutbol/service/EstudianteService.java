@@ -19,7 +19,7 @@ public interface EstudianteService {
 
     List<Estudiante> findByNacionalidad(String nacionalidad);
 
-    List<Estudiante> findByEdad(String edad);
+    List<Estudiante> findByEdad(Integer edad);
 
     List<Estudiante> findByApellidoPaterno(String apellidoPaterno);
 

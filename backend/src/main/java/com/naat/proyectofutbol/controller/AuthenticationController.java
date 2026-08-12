@@ -3,7 +3,7 @@ package com.naat.proyectofutbol.controller;
 import java.security.Principal;
 
 import com.naat.proyectofutbol.dto.request.JwtRequest;
-import com.naat.proyectofutbol.security.AuthoryConfigService;
+import com.naat.proyectofutbol.security.AuthConfigService;
 import com.naat.proyectofutbol.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,16 +20,16 @@ public class AuthenticationController {
 
     private final AuthenticationManager authenticationManager;
     private final AuthService authService;
-    private final AuthoryConfigService userDetailsService;
+    private final AuthConfigService userDetailsService;
 
 
     @PostMapping("/generate-token")
-    public ResponseEntity<JwtResponse> generarToken(@RequestBody JwtRequest jwtRequest) throws Exception {
+    public ResponseEntity<JwtResponse> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception {
         return ResponseEntity.ok(authService.generarToken(jwtRequest));
     }
 
     @GetMapping("/actual-usuario")
-    public Login obtenerUsuarioActual(Principal principal) {
+    public Login getCurrentUser(Principal principal) {
         return (Login) this.userDetailsService.loadUserByUsername(principal.getName());
     }
 

@@ -4,13 +4,10 @@ package com.naat.proyectofutbol.dto.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.PastOrPresent;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

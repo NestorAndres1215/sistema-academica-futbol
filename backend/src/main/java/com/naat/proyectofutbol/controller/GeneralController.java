@@ -4,11 +4,10 @@ import com.naat.proyectofutbol.dto.request.GeneralDevRequest;
 import com.naat.proyectofutbol.model.General;
 import com.naat.proyectofutbol.model.GeneralDev;
 import com.naat.proyectofutbol.service.GeneralService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController

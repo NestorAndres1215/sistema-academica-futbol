@@ -36,7 +36,7 @@ public interface ProfesorRepository extends JpaRepository<Profesor, String> {
 
     List<Profesor> findByNacionalidad(String nacionalidad);
 
-    List<Profesor> findByEdad(String edad);
+    List<Profesor> findByEdad(Integer edad);
 
     List<Profesor> findByApellidoPaterno(String apellidoPaterno);
 

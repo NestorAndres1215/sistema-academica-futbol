@@ -1,11 +1,10 @@
 package com.naat.proyectofutbol.model;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -18,7 +17,7 @@ import lombok.*;
 public class Lesiones {
 
     @Id
-    @Column(name = "le_codigo", length = 4)
+    @Column(name = "le_codigo", length = 4, nullable = false)
     private String codigo;
 
 

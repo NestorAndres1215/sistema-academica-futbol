@@ -1,11 +1,7 @@
 package com.naat.proyectofutbol.model;
 
+import jakarta.persistence.*;
 import lombok.*;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -18,7 +14,7 @@ import java.time.LocalTime;
 @Setter
 public class Cargo {
     @Id
-    @Column(name = "cg_codigo")
+    @Column(name = "cg_codigo", length = 4, nullable = false)
     private String codigo; 
     
     @Column(name = "cg_nombre")

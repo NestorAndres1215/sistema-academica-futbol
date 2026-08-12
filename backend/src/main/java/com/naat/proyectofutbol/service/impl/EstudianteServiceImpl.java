@@ -9,7 +9,6 @@ import com.naat.proyectofutbol.dto.request.EstudianteRequest;
 import com.naat.proyectofutbol.exception.BadRequestException;
 import com.naat.proyectofutbol.exception.ResourceAlreadyExistsException;
 import com.naat.proyectofutbol.exception.ResourceNotFoundException;
-import com.naat.proyectofutbol.model.Admin;
 import com.naat.proyectofutbol.model.Estudiante;
 import com.naat.proyectofutbol.model.Sede;
 import com.naat.proyectofutbol.model.Usuario;
@@ -19,8 +18,9 @@ import com.naat.proyectofutbol.repository.UsuarioRepository;
 import com.naat.proyectofutbol.service.EstudianteService;
 import com.naat.proyectofutbol.service.LoginService;
 import com.naat.proyectofutbol.service.UsuarioService;
-import com.naat.proyectofutbol.util.DocumentoValidator;
+
 import com.naat.proyectofutbol.util.Utilitarios;
+import com.naat.proyectofutbol.util.ValidatorDocument;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -67,7 +67,7 @@ public class EstudianteServiceImpl implements EstudianteService {
     }
 
     @Override
-    public List<Estudiante> findByEdad(String edad) {
+    public List<Estudiante> findByEdad(Integer edad) {
         return estudianteRepository.findByEdad(edad);
     }
 
@@ -100,7 +100,7 @@ public class EstudianteServiceImpl implements EstudianteService {
     public Estudiante guardarEstudiante(EstudianteRequest estudianteDTO) {
 
         validarEstudiante(estudianteDTO);
-        DocumentoValidator.validarDocumento(estudianteDTO.getTipoDoc(), estudianteDTO.getNacionalidad(), estudianteDTO.getDni());
+        ValidatorDocument.validarDocumento(estudianteDTO.getTipoDoc(), estudianteDTO.getNacionalidad(), estudianteDTO.getDni());
 
         String ultimoCodigo = obtenerUltimoCodigoEstudiante();
         String nuevoCodigo = Utilitarios.incrementarSecuencia(ultimoCodigo);
@@ -148,7 +148,7 @@ public class EstudianteServiceImpl implements EstudianteService {
         Estudiante estudiante = estudianteRepository.findById(estudianteDTO.getCodigoEstudiante())
                 .orElseThrow(() -> new ResourceNotFoundException( NotFoundMessages.ESTUDIANTE_NO_ENCONTRADO));
 
-        DocumentoValidator.validarDocumento(estudianteDTO.getTipoDoc(), estudianteDTO.getNacionalidad(), estudianteDTO.getDni());
+        ValidatorDocument.validarDocumento(estudianteDTO.getTipoDoc(), estudianteDTO.getNacionalidad(), estudianteDTO.getDni());
         validarActualizacionEstudiante(estudiante, estudianteDTO.getTelefono(), estudianteDTO.getCorreo(), estudianteDTO.getUsername(), estudianteDTO.getDni());
 
 
@@ -193,7 +193,7 @@ public class EstudianteServiceImpl implements EstudianteService {
 
 
         for (EstudianteRequest estudianteDTO : estudianteDTOS) {
-            DocumentoValidator.validarDocumento(estudianteDTO.getTipoDoc(), estudianteDTO.getNacionalidad(), estudianteDTO.getDni());
+            ValidatorDocument.validarDocumento(estudianteDTO.getTipoDoc(), estudianteDTO.getNacionalidad(), estudianteDTO.getDni());
             validarEstudiante(estudianteDTO);
 
             Sede sede = sedeRepository.findById(estudianteDTO.getSede())

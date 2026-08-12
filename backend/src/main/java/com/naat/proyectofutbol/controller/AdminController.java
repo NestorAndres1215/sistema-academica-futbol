@@ -3,12 +3,13 @@ package com.naat.proyectofutbol.controller;
 import com.naat.proyectofutbol.dto.request.AdminRequest;
 import com.naat.proyectofutbol.model.Admin;
 import com.naat.proyectofutbol.service.AdminService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import javax.validation.Valid;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
@@ -19,8 +20,6 @@ import java.util.List;
 public class AdminController {
 
     private final AdminService adminService;
-
-
 
     @GetMapping("/usuario/{usuarioCodigo}")
     public List<Admin> getAdminsByUsuario(@PathVariable String usuarioCodigo) {
@@ -93,16 +92,12 @@ public class AdminController {
 
     @DeleteMapping("/desactivar/{codigo}")
     public ResponseEntity<Admin> desactivarPorCodigo(@PathVariable String codigo) {
-
-            return ResponseEntity.ok(adminService.desactivarUsuario(codigo));
-
+        return ResponseEntity.ok(adminService.desactivarUsuario(codigo));
     }
 
     @DeleteMapping("/activar/{codigo}")
     public ResponseEntity<Admin> activarPorCodigo(@PathVariable String codigo) {
-
-            return ResponseEntity.ok(adminService.activarUsuario(codigo));
-
+        return ResponseEntity.ok(adminService.activarUsuario(codigo));
     }
 }
 

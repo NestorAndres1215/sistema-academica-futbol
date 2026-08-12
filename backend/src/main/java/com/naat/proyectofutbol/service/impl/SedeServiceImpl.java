@@ -33,13 +33,10 @@ public class SedeServiceImpl implements SedeService {
     @Override
     public Sede guardarSede(Sede sede) {
 
-        String ultimoCodigo = obtenerUltimoCodigo();
-        String nuevoCodigo = Utilitarios.incrementarSecuencia(ultimoCodigo);
-
         validarTelefono(sede.getTelefono());
 
-        Sede sedeNueva = Sede.builder()
-                .codigo(nuevoCodigo)
+        Sede nuevaSede = Sede.builder()
+                .codigo(Utilitarios.incrementarSecuencia(sedeRepository.obtenerUltimoCodigo()))
                 .nombre(sede.getNombre())
                 .direccion(sede.getDireccion())
                 .telefono(sede.getTelefono())
@@ -49,25 +46,27 @@ public class SedeServiceImpl implements SedeService {
                 .horaCreacion(LocalTime.now())
                 .build();
 
-        return sedeRepository.save(sedeNueva);
+        return sedeRepository.save(nuevaSede);
     }
+
 
     @Override
     public Sede actualizarSede(Sede sede) {
-        Sede sedeExistente = buscarPorCodigo(sede.getCodigo());
 
-        if (!sede.getTelefono().equals(sedeExistente.getTelefono())) {
+        Sede sedeActual = buscarPorCodigo(sede.getCodigo());
+
+        if (!sedeActual.getTelefono().equals(sede.getTelefono())) {
             validarTelefono(sede.getTelefono());
         }
 
-        sedeExistente.setNombre(sede.getNombre());
-        sedeExistente.setDireccion(sede.getDireccion());
-        sedeExistente.setTelefono(sede.getTelefono());
-        sedeExistente.setUsuarioActualizacion(sede.getUsuarioActualizacion());
-        sedeExistente.setFechaActualizacion(LocalDate.now());
-        sedeExistente.setHoraActualizacion(LocalTime.now());
+        sedeActual.setNombre(sede.getNombre());
+        sedeActual.setDireccion(sede.getDireccion());
+        sedeActual.setTelefono(sede.getTelefono());
+        sedeActual.setUsuarioActualizacion(sede.getUsuarioActualizacion());
+        sedeActual.setFechaActualizacion(LocalDate.now());
+        sedeActual.setHoraActualizacion(LocalTime.now());
 
-        return sedeRepository.save(sedeExistente);
+        return sedeRepository.save(sedeActual);
     }
 
     @Override
@@ -81,35 +80,39 @@ public class SedeServiceImpl implements SedeService {
     }
 
     @Override
-    public Sede BuscarNombre(String nombre) {
+    public Sede buscarNombre(String nombre) {
         return sedeRepository.findByNombre(nombre)
-                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));
     }
 
     @Override
     public Sede buscarPorCodigo(String codigo) {
         return sedeRepository.findById(codigo)
-                .orElseThrow(() -> new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));
-    }
-
-    @Override
-    public Sede desactivarSede(String codigo) {
-        Sede sede = buscarPorCodigo(codigo);
-        sede.setEstado(false);
-        return sedeRepository.save(sede);
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(NotFoundMessages.SEDE_NO_ENCONTRADO));
     }
 
     @Override
     public Sede activarSede(String codigo) {
+        return cambiarEstado(codigo, true);
+    }
+
+    @Override
+    public Sede desactivarSede(String codigo) {
+        return cambiarEstado(codigo, false);
+    }
+
+    private Sede cambiarEstado(String codigo, boolean estado) {
         Sede sede = buscarPorCodigo(codigo);
-        sede.setEstado(true);
+        sede.setEstado(estado);
         return sedeRepository.save(sede);
     }
 
     private void validarTelefono(String telefono) {
         sedeRepository.findByTelefono(telefono)
-                .ifPresent(s -> {
-                    throw new ResourceAlreadyExistsException(NotFoundMessages.SEDE_NO_ENCONTRADO);
+                .ifPresent(sede -> {
+                    throw new ResourceAlreadyExistsException("TELEFONO YA EXISTE");
                 });
     }
 

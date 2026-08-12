@@ -1,12 +1,9 @@
 package com.naat.proyectofutbol.model;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
+import jakarta.persistence.*;
+import lombok.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import lombok.*;
 
 @Entity
 @Table(name = "usuario")

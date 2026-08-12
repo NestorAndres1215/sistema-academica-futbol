@@ -1,10 +1,7 @@
 package com.naat.proyectofutbol.model;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
 import lombok.*;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 

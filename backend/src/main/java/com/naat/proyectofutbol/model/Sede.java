@@ -1,11 +1,7 @@
 package com.naat.proyectofutbol.model;
 
+import jakarta.persistence.*;
 import lombok.*;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -19,8 +15,8 @@ import java.time.LocalTime;
 public class Sede {
 
     @Id
-    @Column(name = "se_codigo")
-    private String codigo; 
+    @Column(name = "se_codigo", length = 4)
+    private String codigo;
 
     @Column(name = "se_nombre")
     private String nombre; 

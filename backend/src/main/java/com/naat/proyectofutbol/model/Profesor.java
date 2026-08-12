@@ -1,11 +1,9 @@
 package com.naat.proyectofutbol.model;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -18,7 +16,7 @@ import lombok.*;
 public class Profesor {
 
     @Id
-    @Column(name = "pr_codigo")
+    @Column(name = "pr_codigo", length = 4, nullable = false)
     private String codigo;
 
     @Column(name = "pr_primernombre")
@@ -52,7 +50,7 @@ public class Profesor {
     private String correo;
 
     @Column(name = "pr_edad")
-    private int edad;
+    private Integer edad;
 
     @Column(name = "pr_fechanacimiento")
     private LocalDate fechaNacimiento;
@@ -63,8 +61,8 @@ public class Profesor {
     @Column(name = "pr_estado")
     private boolean estado;
 
-    @Column(name = "pr_perfil")
     @Lob
+    @Column(name = "pr_perfil", columnDefinition = "MEDIUMBLOB")
     private byte[] perfil;
 
     @Column(name = "pr_fechacreacion")

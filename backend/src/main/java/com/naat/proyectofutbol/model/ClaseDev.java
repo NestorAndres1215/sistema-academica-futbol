@@ -1,8 +1,7 @@
 package com.naat.proyectofutbol.model;
 
+import jakarta.persistence.*;
 import lombok.*;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -19,10 +18,10 @@ public class ClaseDev {
     @Column(name = "cd_codigo")
     private String codigo;
 
-    @Column(name = "cd_descripcion")
+    @Column(name = "cd_descripcion", columnDefinition = "TEXT")
     private String descripcion;
 
-    @Column(name = "cd_objetivo")
+    @Column(name = "cd_objetivo", columnDefinition = "TEXT")
     private String objetivo;
 
     @Column(name = "cd_dia")

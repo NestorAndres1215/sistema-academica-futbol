@@ -1,8 +1,9 @@
 package com.naat.proyectofutbol.model;
 
+import jakarta.persistence.*;
 import lombok.*;
 
-import javax.persistence.*;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -15,7 +16,7 @@ import java.time.LocalTime;
 @Setter
 public class Admin {
     @Id
-    @Column(name = "ad_codigo")
+    @Column(name = "ad_codigo", length = 4, nullable = false)
     private String codigo;
 
     @Column(name = "ad_primernombre")
@@ -53,9 +54,8 @@ public class Admin {
 
     @Column(name = "ad_estado")
     private boolean estado;
-
     @Lob
-    @Column(name = "ad_perfil")
+    @Column(name = "pr_perfil", columnDefinition = "MEDIUMBLOB")
     private byte[] perfil;
 
     @Column(name = "ad_fechacreacion")

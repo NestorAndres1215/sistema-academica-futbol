@@ -1,8 +1,7 @@
 package com.naat.proyectofutbol.model;
 
+import jakarta.persistence.*;
 import lombok.*;
-
-import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -25,7 +24,7 @@ public class Ejercicio {
     @Column(name = "ej_duracion")
     private String duracion;
 
-    @Column(name = "ej_descripcion")
+    @Column(name = "ej_descripcion", columnDefinition = "TEXT")
     private String descripcion;
 
     @Column(name = "ej_tipo")

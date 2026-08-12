@@ -208,18 +208,18 @@ public class AdminServiceImpl implements AdminService {
 
 
         if (!admin.getTelefono().equals(telefono) && ExistePorTelefono(telefono)) {
-            throw new IllegalArgumentException("TELEFONO YA EXISTE");
+            throw new ResourceAlreadyExistsException("TELEFONO YA EXISTE");
         }
         if (!admin.getDni().equals(dni) && ExistePorDNI(dni)) {
-            throw new IllegalArgumentException("DNI YA EXISTE");
+            throw new ResourceAlreadyExistsException("DNI YA EXISTE");
         }
 
         if (!admin.getCorreo().equals(email) && ExistePorEmail(email)) {
-            throw new IllegalArgumentException("CORREO YA EXISTE");
+            throw new ResourceAlreadyExistsException("CORREO YA EXISTE");
         }
         if (!admin.getUsuario().getUsername().equals(username) &&
                 usuarioService.usuarioExistePorUsername(username)) {
-            throw new IllegalArgumentException("USUARIO YA EXISTE");
+            throw new ResourceAlreadyExistsException("USUARIO YA EXISTE");
         }
     }
 

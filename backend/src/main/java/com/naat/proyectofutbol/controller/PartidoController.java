@@ -5,11 +5,10 @@ import com.naat.proyectofutbol.dto.request.PartidoRequest;
 
 import com.naat.proyectofutbol.model.Partido;
 import com.naat.proyectofutbol.service.PartidoService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 import java.util.List;
 
 @RestController

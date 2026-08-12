@@ -5,8 +5,9 @@ import com.naat.proyectofutbol.dto.request.AsignacionEstudianteRequest;
 import com.naat.proyectofutbol.dto.request.EquipoRequest;
 import com.naat.proyectofutbol.model.Equipo;
 import com.naat.proyectofutbol.model.EquipoDev;
+import jakarta.validation.Valid;
 
-import javax.validation.Valid;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,7 @@ public interface EquipoService {
 
     List<EquipoDev> regEquipo(List<AsignacionRequest> asignacionDTOS);
 
-    List<EquipoDev> actualizarEquipoEstudiante(@Valid List<AsignacionEstudianteRequest> asignacionEstudiantes);
+    List<EquipoDev> actualizarEquipoEstudiante( List<AsignacionEstudianteRequest> asignacionEstudiantes);
 
     EquipoDev eliminarEquipo(String usuarioCodigo);
 
